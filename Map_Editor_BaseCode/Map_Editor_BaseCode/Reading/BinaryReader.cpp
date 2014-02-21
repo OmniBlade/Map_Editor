@@ -194,7 +194,7 @@ int BinaryReader::littleToBigInt(int toSwap)
 	return ret;
 }
 
-std::vector<byte> BinaryReader::readByteBlockFromOffset(const std::string& fullFileName, __int32 offset, unsigned int amountOfBytes)
+std::vector<byte> BinaryReader::readByteBlockFromOffset(__int32 offset, unsigned int amountOfBytes)
 {
 	std::cout << "Current offset: " << fileStream.tellg() << std::endl;
 	std::vector<byte> byteBuffer(amountOfBytes);

@@ -36,14 +36,48 @@ public:
 
 	MixFile(MixFile* _parent, const std::string& _mixName, int fileID);
 	MixFile(const std::string& _mixName, MixFile* _parent = nullptr, int fileID = 0);
-	void handleHeader();
-	bool checkFileExistance(__int32 fileID);
-	int getAFileOffset(__int32 fileID);
-	std::vector<byte> getFileByID(__int32 fileID);
-	void determineMixReader();
-	void dumpIndex();
 
+	/*
+		Handles the header of the MIX file
+	*/
+	void handleHeader();
+
+	/*
+		Checks whether a file exists in the MIX
+		@param fileID The ID of the file to look for
+	*/
+	bool checkFileExistance(__int32 fileID);
+	/*
+		@param fileID The ID of the file to look for
+		@return The offset from the file
+	*/
+	int getAFileOffset(__int32 fileID);
+
+	/*
+		Gets a file from the MIX and returns it in a byte vector
+		@param fileID The ID of the file to look for
+		@return The file in bytes
+	*/
+	std::vector<byte> getFileByID(__int32 fileID);
+	/*
+		This is used to determine what mixReader should be used
+		If it is a parent mix (present in the root), its own reader will be used
+		If it is a child mix (present in a parent mix), the reader from the parent will be used
+	*/
+	void determineMixReader();
+	/*
+		Testcode - Dumps the entire index of the MIX file
+	*/
+	void dumpIndex();
+	/*
+		Reads the header as a Tiberian Dawn header, without any encryption
+		@param fileCount The amount of files in the MIX
+	*/
 	void readTDHeader(unsigned short fileCount);
+	/*
+		Reads the header as a Red Alert header, with possible encryption
+		If no encryption is used, the header is read out as a TD header
+	*/
 	void readRAHeader();
 
 	std::vector<t_mix_index_header> mixIndex;

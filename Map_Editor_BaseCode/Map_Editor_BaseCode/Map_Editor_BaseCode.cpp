@@ -9,6 +9,11 @@
 #include <vector>
 #include <string>
 
+/*
+	Main function
+	Mainly has debug and test code to verify MIX reading.
+	GlobalData variables will be read from a settings file lateron.
+*/
 int _tmain(int argc, _TCHAR* argv[])
 {
 	GlobalData::installDir = "D:\\Westwood\\RA2 - kopie";
@@ -27,10 +32,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	mixHandler.extractFileFromMix("rough02.tem");
 	std::cout << "Trying to dump keyboardmd.ini!" << std::endl;
 	mixHandler.extractFileFromMix("keyboardmd.ini");
-	//D:\\HAN\\Semester_1\\Eclipse_Workspace2\\Map_Editor\\Debug\\textmix_2file.mix
-	//D:\\Dropbox\\FinalOmega - BETA\\marble.mix
-	//D:\\Westwood\\RA2 - kopie
-	//D:\Dropbox\Mental Omega LC 9.0
 
 	std::cin.get();
 	return 0;

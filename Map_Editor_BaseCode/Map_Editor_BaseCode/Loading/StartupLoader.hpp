@@ -19,8 +19,9 @@ public:
 	void findExpandMIX(const std::string& expand, const std::string& missionDisk);
 	/* Finds all ecache* and elocal* mixes in the directory */
 	void findEcacheMIX(const std::string& elocal, const std::string& ecache);
-	/*  */
+	/* Testcode - Checks whether the file exists in the root */
 	bool checkFileInRoot(const std::string& fileName);
+	/* Testcode - Checks whether a file exists in any mix */
 	bool findFileInMix(const std::string& fileName);
 
 	/* Trivial */
