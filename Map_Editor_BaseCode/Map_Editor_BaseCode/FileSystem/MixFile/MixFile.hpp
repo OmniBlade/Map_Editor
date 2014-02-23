@@ -28,13 +28,6 @@ public:
 		__int32 size;
 	};
 
-	enum flags : unsigned int 
-	{
-		Checksum = 0x00010000,
-		Encrypted = 0x00020000,
-	};
-
-	MixFile(MixFile* _parent, const std::string& _mixName, int fileID);
 	MixFile(const std::string& _mixName, MixFile* _parent = nullptr, int fileID = 0);
 
 	/*
@@ -71,12 +64,14 @@ public:
 	void dumpIndex();
 	/*
 		Reads the header as a Tiberian Dawn header, without any encryption
+		Part of XCC code
 		@param fileCount The amount of files in the MIX
 	*/
 	void readTDHeader(unsigned short fileCount);
 	/*
 		Reads the header as a Red Alert header, with possible encryption
 		If no encryption is used, the header is read out as a TD header
+		Part of XCC code
 	*/
 	void readRAHeader();
 
@@ -88,6 +83,7 @@ public:
 	BinaryReader* aMixReader;
 	MixFile* parent = nullptr;
 	int startingOffset = 0;
+	int bodyOffset = 0;
 };
 
 #endif /* MIXFILE_HPP_ */

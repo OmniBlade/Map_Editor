@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "Handlers/MixFileHandler.hpp"
+#include "Handlers/INIFileHandler.hpp"
 #include "Loading/StartupLoader.hpp"
 #include "GlobalData.hpp"
 #include <iostream>
@@ -21,14 +22,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	GlobalData::missionDisk = "MD";
 
 	MixFileHandler mixHandler;
+	INIFileHandler iniHandler;
 	StartupLoader startupLoader(&mixHandler);
 	startupLoader.initiateMIX();
-	mixHandler.dumpMIXNames();
 
 	std::cout << "Trying to dump rulesmo.ini!" << std::endl;
 	mixHandler.extractFileFromMix("des.mix");
 	std::cout << "Trying to dump tension.wav!" << std::endl;
-	mixHandler.dumpMIXNames();
 	mixHandler.extractFileFromMix("rough02.tem");
 	std::cout << "Trying to dump keyboardmd.ini!" << std::endl;
 	mixHandler.extractFileFromMix("keyboardmd.ini");

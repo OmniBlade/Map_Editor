@@ -86,8 +86,14 @@
     <ClInclude Include="FileSystem\MixFile\MixFile.hpp" />
     <ClInclude Include="GlobalData.hpp" />
     <ClInclude Include="Handlers\MixFileHandler.hpp" />
+    <ClInclude Include="Handlers\INIFileHandler.hpp" />
     <ClInclude Include="Loading\StartupLoader.hpp" />
     <ClInclude Include="Reading\BinaryReader.hpp" />
+    <ClInclude Include="Reading\CStringHelper.hpp" />
+    <ClInclude Include="Reading\INISection.hpp" />
+    <ClInclude Include="Reading\LineSplitter.hpp" />
+    <ClInclude Include="Reading\INIReader.hpp" />
+    <ClInclude Include="Reading\INISection.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -99,9 +105,14 @@
     <ClCompile Include="FileSystem\MixFile\MixFile.cpp" />
     <ClCompile Include="GlobalData.cpp" />
     <ClCompile Include="Handlers\MixFileHandler.cpp" />
+    <ClCompile Include="Handlers\INIFileHandler.cpp" />
     <ClCompile Include="Loading\StartupLoader.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
     <ClCompile Include="Reading\BinaryReader.cpp" />
+    <ClCompile Include="Reading\INISection.cpp" />
+    <ClCompile Include="Reading\LineSplitter.cpp" />
+    <ClCompile Include="Reading\INIReader.cpp" />
+    <ClCompile Include="Reading\INISection.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

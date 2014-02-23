@@ -41,12 +41,20 @@ void StartupLoader::initiateMIX()
 	}
 	FindClose(hFind);
 	
+	//TODO move to configuration file of user / modder
 	std::string elocal = "ELOCAL";
 	std::string ecache = "ECACHE";
 	std::string expand = "EXPAND";
 	std::string missionDisk = "MD";
 
-	//findExpandMIX(expand, missionDisk);	
+	/*
+		Loading order is very important, it has to be just like in the game, see link for more information:
+		http://modenc.renegadeprojects.com/MIX
+		This explains why the system looks odd
+		TODO: LANGUAGE.MIX and LANGMD.MIX are to be loaded before EXPANDMDxx.MIX
+	*/
+
+	findExpandMIX(expand, missionDisk);	
 	findRootGameMIX(missionDisk);
 	findEcacheMIX(elocal, ecache);
 
@@ -56,7 +64,7 @@ void StartupLoader::initiateMIX()
 		modFileNames.insert(modFileNames.end(), gameFileNames.begin(), gameFileNames.end());
 	if (getEcacheFiles()->size() > 0)
 		modFileNames.insert(modFileNames.end(), ecacheFileNames.begin(), ecacheFileNames.end());
-
+	
 	if (modFileNames.size() > 0)
 	{
 		for (unsigned int i = 0; i < modFileNames.size(); ++i)
@@ -64,6 +72,7 @@ void StartupLoader::initiateMIX()
 			std::cout << "--------------------------------------------------" << std::endl;
 			mixHandler->createVirtualMix(modFileNames[i]);
 		}
+		//When all the essential mixes are handled, the search for the child mixes can begin
 		findSubGameMIX(missionDisk);
 	}
 	else
@@ -74,14 +83,27 @@ void StartupLoader::findRootGameMIX(const std::string missionDisk)
 {
 	for (unsigned int i = 0; i < filenames.size(); ++i)
 	{
-		//Maybe there should be support added for "expandmd01.mix" as it's used for YR 1.001
+		//TODO Maybe there should be support added for "expandmd01.mix" as it's used for YR 1.001
+		//TODO Decide whether vanilla mission maps should be opened through the editor (like in SC 2)
+		/*
+			Files and their usage:
+			- RA2.MIX		-> Holds all important files for RA2
+			- RA2MD.MIX		-> Holds all important files for YR
+			- MAPS01.MIX	-> Holds the Allied missions for RA2
+			- MAPS02.MIX	-> Holds the Soviet missions for RA2
+			- MAPSMD03.MIX	-> Holds all missions for YR
+			- MULTI.MIX		-> Holds all RA2's multiplayer maps
+			- MULTIMD.MIX	-> Holds all YR's multiplayer maps
+			- THEME.MIX		-> Holds RA2's music themes (part of testcode)
+			- LANGUAGE.MIX	-> Holds RA2's stringtable
+			- LANGMD.MIX	-> Holds YR's stringtable
+		*/
 		if (   filenames[i] == "RA2.MIX"							|| filenames[i] == "RA2MD.MIX" 
 			|| filenames[i] == "MAPS01.MIX"							|| filenames[i] == "MAPS02.MIX"
 			|| filenames[i] == "MAPS" + missionDisk + "03.MIX"		|| filenames[i] == "THEME.MIX"
 			|| filenames[i] == "MULTI.MIX"							|| filenames[i] == "MULTI" + missionDisk + ".MIX"
 			|| filenames[i] == "LANGUAGE.MIX"						|| filenames[i] == "LANGMD.MIX")
 		{
-			//std::cout << "Found base game MIX: " << filenames[i] << std::endl;
 			gameFileNames.push_back(filenames[i]);
 		}
 	}
@@ -106,6 +128,7 @@ void StartupLoader::findSubGameMIX(const std::string missionDisk)
 			}
 			else
 			{
+				// CHECKING IN PROCESSED MIX FILES
 				std::string parentMixName = mixHandler->getMixNameOfFile(searchFileName);				
 				if (parentMixName != "")
 				{
@@ -124,6 +147,10 @@ void StartupLoader::findSubGameMIX(const std::string missionDisk)
 	std::cout << "\nDone looping, all mix files processed.\n***************************************************\n\n" << std::endl;
 }
 
+/*
+	Looks for EXPAND(MD)XX.MIX files
+	Codewise it looks from 00 -> 99 but the list ends up as 99 -> 00, just like the game does it
+*/
 void StartupLoader::findExpandMIX(const std::string& expand, const std::string& missionDisk)
 {
 	for (unsigned int i = 0; i < 100; ++i)
@@ -145,6 +172,10 @@ void StartupLoader::findExpandMIX(const std::string& expand, const std::string& 
 	}
 }
 
+/*
+	No specific loading order, this function looks for all ECACHE*.MIX and ELOCAL*.MIX files
+	As specified on ModEnc, there's no real order. The list has the same order as Westwood's had, using FindNextFile
+*/
 void StartupLoader::findEcacheMIX(const std::string& elocal, const std::string& ecache)
 {
 	for (unsigned int i = 0; i < filenames.size(); ++i)
@@ -188,7 +219,7 @@ bool StartupLoader::checkFileInRoot(const std::string& fileName)
 }
 
 /*
-	IMPORTANT:
+	TODO IMPORTANT:
 	- Should core mixes also have the modified mission disk name?
 	- Currently sticking with 'MD' suffix
 */
@@ -238,6 +269,5 @@ std::vector<std::string> StartupLoader::getMixNames(bool missionDisk /* = false 
 		coreMixNames.push_back("URBAN.MIX");
 		coreMixNames.push_back("AUDIO.MIX");
 	}
-
 	return coreMixNames;
 }

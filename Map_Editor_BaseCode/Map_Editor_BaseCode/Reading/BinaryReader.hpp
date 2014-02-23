@@ -16,8 +16,14 @@
 
 class BinaryReader {
 public:
-	BinaryReader(const std::string& fileName);
-	BinaryReader(int _startingOffset);
+	/*
+		Opens the file as a binary file and opens a file stream to it
+		@param _fullFileName The full path to the file
+	*/
+	BinaryReader(const std::string& _fullFileName);
+	/*
+		Upon destruction the reader closes the file too
+	*/
 	~BinaryReader();
 	/*
 		Sets the offset from the filestream to the specified value
@@ -25,25 +31,10 @@ public:
 	*/
 	void setOffset(int _offset);
 	/*
-		Testcode
-		Sets the offset from the filestream to the specified value + current position in the file
-		Used mainly for MIX files inside another MIX
-		@param _offset The offset that will be set
-	*/
-	void setStartingOffset(int _offset);
-	/*
 		Reads and returns the current offset
 		@return The current offset from the file
 	*/
 	int getOffset();
-	/*
-		Restores the offset to the value before setOffset() was called
-	*/
-	void restoreOffset();
-	/*
-		Sets the offset to position 0
-	*/
-	void resetOffset();
 
 	//Integers
 	/*
@@ -96,8 +87,7 @@ public:
 private:
 	bool isOpened = false;
 	std::string fullFileName;
-	int startingOffset = 0;
-	int previousOffset = 0;
+	//int startingOffset = 0;
 	std::ifstream fileStream;
 
 };

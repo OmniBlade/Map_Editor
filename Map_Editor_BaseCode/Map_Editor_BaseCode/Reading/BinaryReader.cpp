@@ -27,12 +27,6 @@ BinaryReader::BinaryReader(const std::string& _fullFileName)
 	}
 }
 
-BinaryReader::BinaryReader(int _startingOffset)
-:startingOffset(_startingOffset)
-{
-	std::cout << "Starting offset: " << _startingOffset << std::endl;
-}
-
 BinaryReader::~BinaryReader()
 {
 	isOpened = false;
@@ -42,39 +36,12 @@ BinaryReader::~BinaryReader()
 void BinaryReader::setOffset(int _offset)
 {
 	std::cout << "Setting offset to: " << _offset << std::endl;
-	previousOffset = fileStream.tellg();
-	fileStream.seekg(_offset); //Removed the current offset addition
-}
-
-void BinaryReader::setStartingOffset(int _offset)
-{
-	std::cout << "Setting initial offset to: " << _offset + fileStream.tellg() << std::endl;
-	previousOffset = fileStream.tellg();
-	fileStream.seekg(_offset + fileStream.tellg());
+	fileStream.seekg(_offset);
 }
 
 int BinaryReader::getOffset()
 {
 	return fileStream.tellg();
-}
-
-void BinaryReader::restoreOffset()
-{
-	if (previousOffset != 0 && previousOffset != fileStream.tellg())
-	{
-		std::cout << "Restoring offset to: " << previousOffset << std::endl;
-		fileStream.seekg(previousOffset);
-		previousOffset = 0;
-	}
-	else
-	{
-		std::cout << "Previous offset is already 0 or equal to current offset, not restoring" << std::endl;
-	}
-}
-
-void BinaryReader::resetOffset()
-{
-	fileStream.seekg(startingOffset);
 }
 
 unsigned int BinaryReader::readUInt(bool isBigEndian /* = false */)
@@ -196,7 +163,6 @@ int BinaryReader::littleToBigInt(int toSwap)
 
 std::vector<byte> BinaryReader::readByteBlockFromOffset(__int32 offset, unsigned int amountOfBytes)
 {
-	std::cout << "Current offset: " << fileStream.tellg() << std::endl;
 	std::vector<byte> byteBuffer(amountOfBytes);
 	fileStream.seekg(offset);
 	fileStream.read(reinterpret_cast<char*>(&byteBuffer[0]), amountOfBytes);
