@@ -94,7 +94,6 @@
     <ClInclude Include="Loading\StartupLoader.hpp" />
     <ClInclude Include="Reading\BinaryReader.hpp" />
     <ClInclude Include="Reading\CStringHelper.hpp" />
-    <ClInclude Include="Reading\INISection.hpp" />
     <ClInclude Include="Reading\LineSplitter.hpp" />
     <ClInclude Include="Reading\INIReader.hpp" />
     <ClInclude Include="Reading\INISection.hpp" />
@@ -118,7 +117,6 @@
     <ClCompile Include="Loading\StartupLoader.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
     <ClCompile Include="Reading\BinaryReader.cpp" />
-    <ClCompile Include="Reading\INISection.cpp" />
     <ClCompile Include="Reading\LineSplitter.cpp" />
     <ClCompile Include="Reading\INIReader.cpp" />
     <ClCompile Include="Reading\INISection.cpp" />
