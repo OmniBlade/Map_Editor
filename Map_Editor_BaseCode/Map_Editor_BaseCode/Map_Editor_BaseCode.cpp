@@ -20,18 +20,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	GlobalData::installDir = "D:\\Westwood\\RA2 - kopie";
 	GlobalData::backSlash = "\\";
 	GlobalData::missionDisk = "MD";
+	GlobalData::expand = "EXPAND";
+	GlobalData::ecache = "ECACHE";
+	GlobalData::elocal = "ELOCAL";
 
 	MixFileHandler mixHandler;
 	INIFileHandler iniHandler;
 	StartupLoader startupLoader(&mixHandler);
 	startupLoader.initiateMIX();
-
-	std::cout << "Trying to dump rulesmo.ini!" << std::endl;
-	mixHandler.extractFileFromMix("des.mix");
-	std::cout << "Trying to dump tension.wav!" << std::endl;
-	mixHandler.extractFileFromMix("rough02.tem");
-	std::cout << "Trying to dump keyboardmd.ini!" << std::endl;
-	mixHandler.extractFileFromMix("keyboardmd.ini");
+	startupLoader.initiateINI();
 
 	std::cin.get();
 	return 0;

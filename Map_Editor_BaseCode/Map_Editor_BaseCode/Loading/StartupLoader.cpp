@@ -41,12 +41,6 @@ void StartupLoader::initiateMIX()
 	}
 	FindClose(hFind);
 	
-	//TODO move to configuration file of user / modder
-	std::string elocal = "ELOCAL";
-	std::string ecache = "ECACHE";
-	std::string expand = "EXPAND";
-	std::string missionDisk = "MD";
-
 	/*
 		Loading order is very important, it has to be just like in the game, see link for more information:
 		http://modenc.renegadeprojects.com/MIX
@@ -54,9 +48,9 @@ void StartupLoader::initiateMIX()
 		TODO: LANGUAGE.MIX and LANGMD.MIX are to be loaded before EXPANDMDxx.MIX
 	*/
 
-	findExpandMIX(expand, missionDisk);	
-	findRootGameMIX(missionDisk);
-	findEcacheMIX(elocal, ecache);
+	findExpandMIX(GlobalData::expand, GlobalData::missionDisk);	
+	findRootGameMIX(GlobalData::missionDisk);
+	findEcacheMIX(GlobalData::elocal, GlobalData::ecache);
 
 	if (expandFileNames.size() > 0)
 		modFileNames.insert(modFileNames.end(), expandFileNames.begin(), expandFileNames.end());
@@ -73,7 +67,7 @@ void StartupLoader::initiateMIX()
 			mixHandler->createVirtualMix(modFileNames[i]);
 		}
 		//When all the essential mixes are handled, the search for the child mixes can begin
-		findSubGameMIX(missionDisk);
+		findSubGameMIX(GlobalData::missionDisk);
 	}
 	else
 		std::cout << "No MIX files found!" << std::endl;
@@ -192,6 +186,13 @@ void StartupLoader::findEcacheMIX(const std::string& elocal, const std::string& 
 		}
 	}
 }
+
+void StartupLoader::initiateINI()
+{
+
+}
+
+
 
 std::vector<std::string>* StartupLoader::getGameFiles() 
 {

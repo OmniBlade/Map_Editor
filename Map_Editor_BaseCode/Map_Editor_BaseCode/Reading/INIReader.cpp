@@ -16,81 +16,68 @@
 #include "INISection.hpp"
 #include "CStringHelper.hpp"
 
-INIFile::INIFile(const std::string &filename)
-:isLoaded(false), filePath(filename)
+INIFile::INIFile(BinaryReader* _iniReader, __int32 offset)
+:isLoaded(false), iniReader(_iniReader)
 {
-	load(filename);
+	iniReader->setOffset(offset);
+	//load(filename);
 }
 
 INIFile::~INIFile() {}
 
 void INIFile::load(const std::string &filename)
 {
-	std::ifstream file(filename);
-
-	if (file.is_open())
+	std::string currentSection;
+	std::string line;
+	while (iniReader->checkEOF())
 	{
-		std::string currentSection;
-		std::string line;
-		while (std::getline(file, line))
+		line = iniReader->readTextLine();
+		auto comment = line.find_first_of(";");
+		if (comment != std::string::npos)
 		{
-
-			auto comment = line.find_first_of(";");
-			if (comment != std::string::npos)
+			line = line.substr(0, comment);
+		}
+					if (line.length())
+		{
+			line = StringHelper::trim(line);
+			if (line.front() == '[' && line.back() == ']')
 			{
-				line = line.substr(0, comment);
+				// section header
+				//Logger::log("\n");
+				//Logger::log(line);
+				std::string lineSub = line.substr(1, line.length() - 2);
+				currentSection = StringHelper::trim(lineSub);
 			}
-
-			if (line.length())
+			else
 			{
-				line = StringHelper::trim(line);
-				if (line.front() == '[' && line.back() == ']')
+				auto split = line.find_first_of('=');
+				if (split != std::string::npos)
 				{
-					// section header
-					//Logger::log("\n");
-					//Logger::log(line);
-					std::string lineSub = line.substr(1, line.length() - 2);
-
-					currentSection = StringHelper::trim(lineSub);
-				}
-				else
-				{
-					auto split = line.find_first_of('=');
-					if (split != std::string::npos)
+					std::string lineSub1 = line.substr(0, split);
+					std::string lineSub2 = line.substr(split + 1);
+					std::string key = StringHelper::trim(lineSub1);
+					std::string value = StringHelper::trim(lineSub2);
+					if(value.size() > 511)
 					{
-						std::string lineSub1 = line.substr(0, split);
-						std::string lineSub2 = line.substr(split + 1);
+						std::string corrValue = value.substr(0, 511);
+						std::string errValue = value.substr(512);
 
-						std::string key = StringHelper::trim(lineSub1);
-						std::string value = StringHelper::trim(lineSub2);
-
-						if(value.size() > 511)
-						{
-							std::string corrValue = value.substr(0, 511);
-							std::string errValue = value.substr(512);
-
-							std::cout << "In section '" << currentSection << "', for key '" << key << "', value is too long, this will be cut off:" <<  std::endl;
-							std::cout << errValue << std::endl;
-							std::cout << "Error in key '" << key << "', too long:" << std::endl;
-							std::cout << "Parsed: " << corrValue << std::endl;
-							std::cout << "Cut-off: " << errValue << std::endl;
-
-							value = corrValue;
-						}
-
-						//Logger::log(key + "->"+ value);
-
-						SetValue(currentSection, key, value);
+						std::cout << "In section '" << currentSection << "', for key '" << key << "', value is too long, this will be cut off:" <<  std::endl;
+						std::cout << errValue << std::endl;
+						std::cout << "Error in key '" << key << "', too long:" << std::endl;
+						std::cout << "Parsed: " << corrValue << std::endl;
+						std::cout << "Cut-off: " << errValue << std::endl;
+						value = corrValue;
 					}
+
+					//Logger::log(key + "->"+ value);
+
+					SetValue(currentSection, key, value);
 				}
 			}
 		}
+	}
 		isLoaded = true;
-	}
-	else
-	{
-		std::cout << "File with path '" << filePath << "' could not be opened." << std::endl;
-	}
 }
 
 void INIFile::SetValue(const std::string &section, const std::string &key, const std::string &value)

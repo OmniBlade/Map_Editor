@@ -11,6 +11,7 @@
 #include "BinaryReader.hpp"
 #include <cstring>
 #include <iostream>
+#include <algorithm>
 
 
 BinaryReader::BinaryReader(const std::string& _fullFileName)
@@ -112,6 +113,23 @@ std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
 	fileStream.read(reinterpret_cast<char*>(&buffer[0]), amountOfBytes);
 	return buffer;
  }
+
+std::string BinaryReader::readTextLine()
+{
+	std::string theLine;
+	if (std::getline(fileStream, theLine))
+		return theLine;
+	else
+		return "";
+}
+
+bool BinaryReader::checkEOF()
+{
+	if (fileStream.eof())
+		return true;
+	else
+		return false;
+}
 
 unsigned short BinaryReader::littleToBigUShort(unsigned short toSwap)
 {

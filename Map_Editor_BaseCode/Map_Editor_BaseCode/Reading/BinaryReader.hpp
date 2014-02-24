@@ -75,6 +75,15 @@ public:
 		@param amountOfBytes The amount of bytes to read out
 	*/
 	std::vector<byte> readByteBlockFromOffset(__int32 offset, unsigned int amountOfBytes);
+	/*
+		Reads a single line until 'new line' character is found, mainly used for text files
+	*/
+	std::string readTextLine();
+	/*
+		Checks whether the file is at eof, returns true if it is, false if it isn't
+	*/
+	bool checkEOF();
+
 	//Endian conversion
 	/*
 		Trivial, these functions convert values from little to big endian and vice versa
@@ -89,7 +98,6 @@ private:
 	std::string fullFileName;
 	//int startingOffset = 0;
 	std::ifstream fileStream;
-
 };
 
 #endif /* BINARYREADER_HPP_ */

@@ -109,7 +109,7 @@ std::string MixFileHandler::getMixNameOfFile(const std::string& fileName)
 	return "";
 }
 
-void MixFileHandler::extractFileFromMix(const std::string fileName)
+void MixFileHandler::extractFileFromMix(const std::string& fileName)
 {
 	std::cout << "******************//////////////////****************" << std::endl;
 	std::vector<byte> fileBytes;
@@ -144,7 +144,17 @@ void MixFileHandler::extractFileFromMix(const std::string fileName)
 	{
 		std::cout << "Too retarded to write..." << std::endl;
 	}
+}
 
+BinaryReader* MixFileHandler::getReaderFromMIX(const std::string& fileName)
+{
+	if (checkFileInMixes(fileName) == true)
+	{
+		MixFile* aMix = getMixByName(getMixNameOfFile(fileName));
+		return aMix->aMixReader;
+	}
+	else
+		return nullptr;
 }
 
 void MixFileHandler::dumpMIXNames()

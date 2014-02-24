@@ -60,7 +60,12 @@ public:
 		Testcode - Extracts a file from the first MIX it is in
 		@param fileName The file to extract
 	*/
-	void extractFileFromMix(const std::string fileName);
+	void extractFileFromMix(const std::string& fileName);
+	/*
+		Returns the BinaryReader instance from the MIX where the file is in
+		@param fileName The name of the file to look for
+	*/
+	BinaryReader* getReaderFromMIX(const std::string& fileName);
 	void dumpMIXNames();
 
 private:

@@ -14,11 +14,12 @@
 #include <string>
 
 #include "INISection.hpp"
+#include "BinaryReader.hpp"
 
 class INIFile {
 public:
 	INIFile():isLoaded(false) {};
-	INIFile(const std::string &filename);
+	INIFile(BinaryReader* iniReader, __int32 offset);
 	virtual ~INIFile();
 
 	void load(const std::string &filename);
@@ -31,6 +32,7 @@ public:
 	bool getLoaded() const;
 
 private:
+	BinaryReader* iniReader;
 	bool isLoaded = false;
 	std::string filePath;
 	std::map<std::string ,std::shared_ptr<INISection>> sectionList;
