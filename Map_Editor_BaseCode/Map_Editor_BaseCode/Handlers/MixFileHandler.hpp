@@ -21,7 +21,8 @@ public:
 
 	/*
 	 * Creates a MixFile instance
-	 * @param pathToMix The path to the mix file
+	 * @param _mixName The name of the MIX file
+	 * @param parentMixName The name of the parent MIX file
 	 */
 	void createVirtualMix(const std::string& _mixName, const std::string& parentMixName = "");
 

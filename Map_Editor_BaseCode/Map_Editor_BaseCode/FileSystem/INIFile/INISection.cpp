@@ -14,6 +14,7 @@
 #include <map>
 #include <memory>
 #include <iostream>
+#include <algorithm>
 
 #include "INISection.hpp"
 
@@ -61,14 +62,63 @@ void INISection::setValue(const std::string &key, const std::string &value)
 	}
 }
 
-std::string INISection::getValue(const std::string &key, const std::string &_default /*= ""*/) const
+std::string INISection::readStringValue(const std::string &key, const std::string &_default /*= ""*/, bool upperCase /* = false */) const
 {
 	auto it = this->keyValue.find(key);
 	if (it != this->keyValue.end())
 	{
-		return it->second;
+		std::string returnString = it->second;
+		if (upperCase)
+			std::transform(returnString.begin(), returnString.end(), returnString.begin(), ::toupper);
+		return returnString;
 	}
 	return _default;
+}
+
+int INISection::readIntValue(const std::string& key, int _default /* = 0 */) const
+{
+	auto it = this->keyValue.find(key);
+	if (it != this->keyValue.end())
+	{
+		int toReturn = atoi(it->second.c_str());
+		return toReturn;
+	}
+	else
+	{
+		return _default;
+	}
+}
+
+float INISection::readFloatValue(const std::string& key, float _default /* = 0.0f */) const
+{
+	auto it = this->keyValue.find(key);
+	if (it != this->keyValue.end())
+	{
+		float toReturn = atof(it->second.c_str());
+		return toReturn;
+	}
+	else
+	{
+		return _default;
+	}
+}
+
+bool INISection::readBoolValue(const std::string& key, bool _default /* = false */) const
+{
+	auto it = this->keyValue.find(key);
+	if (it != this->keyValue.end())
+	{
+		std::string	value = it->second;
+		std::transform(value.begin(), value.end(), value.begin(), ::toupper);
+		if (value.front() == 'Y' || value.front() == 'T' || value.front() == '1')
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		return _default;
+	}
 }
 
 std::string INISection::getKey(const std::string &key, const std::string &_default /*= ""*/) const

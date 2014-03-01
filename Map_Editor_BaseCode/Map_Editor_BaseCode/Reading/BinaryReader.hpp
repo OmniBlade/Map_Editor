@@ -13,6 +13,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <cstdio>
 
 class BinaryReader {
 public:
@@ -20,7 +21,12 @@ public:
 		Opens the file as a binary file and opens a file stream to it
 		@param _fullFileName The full path to the file
 	*/
-	BinaryReader(const std::string& _fullFileName);
+	BinaryReader(const std::string& _fullFileName, __int32 _offset = 0, int size = 0);
+	/*
+		Creates a binary reader with a referenced file stream used by another
+		@param _fileStream The 'file' from a parent that holds the file needed
+	*/
+	BinaryReader(std::ifstream* _fileStream);
 	/*
 		Upon destruction the reader closes the file too
 	*/
@@ -60,6 +66,10 @@ public:
 	*/
 	byte readByte();
 	/*
+	Reads a single signed char from the file
+	*/
+	char readChar();
+	/*
 		Kind of obsolete, skips the amount of bytes given
 		@param amount The amount of bytes to skip
 	*/
@@ -93,8 +103,12 @@ public:
 	unsigned int littleToBigUInt(unsigned int toSwap);
 	int littleToBigInt(int toSwap);
 
+	/* Gets the filestream */
+	//FILE* getFileStream();
+
 private:
-	bool isOpened = false;
+	bool isOpened = false, atEOF = false;
+	int fileSize = 0 , offset = 0;
 	std::string fullFileName;
 	//int startingOffset = 0;
 	std::ifstream fileStream;

@@ -1,0 +1,151 @@
+;-----------------------------------------------------------------------------------------------
+;	CONFIG.INI
+;	Original Author: RP
+;
+;	Configuration file for the map editor
+;-----------------------------------------------------------------------------------------------
+
+;	Notes:
+;	-	Keys are case sensitive!
+;	-	Boolean values (yes, no etc.) can be listed the same way the game has: 1, true, yes and 0, false, no.
+;	-	All these keys and values are default to Yuri's Revenge, overwrite at own risk.
+
+;	********** Main keys **********
+;	The following keys allow you to specify MIX names up to a certain degree.
+;	This does not include the MIX files from RA2.MIX and RA2MD.MIX!
+;	InstallDir = What is the location of the game files (def: ¿registry lookup?)?
+;	ExpandMix, EcacheMix, ElocalMix = What are the names of the mod MIX files (def: expand, ecache, elocal)? Change if you have changed the mod MIX 
+;	names like Mental Omega has (elocal -> emocal, ecache -> emoche).
+;	MissionDisk = What is the suffix used for loading certain MIX files (def: md)? Change this if you have edited the suffix like Mental Omega has (md -> mo).
+;	InGameLighting = Should everything be rendered with the settings from [Lighting] (def: true)?	; This might weigh heavy on low end machines
+;	FA2Mode = Should everything be displayed as in FinalAlert 2 (def: false) Use this if you don't want damaged and shadow frames. Yeah, fuck you Matze
+;	NoobMode = Should the Trigger/Tag/TeamType editors be disabled (def: false)? ; Are we really going for this?
+
+;	Some, maybe lots of options should be added for this!
+
+[Main]
+InstallDir = D:\\Westwood\\RA2 - kopie	;;BIG FAT WARNING: THINK ABOUT THE BACKSLASHES WHEN READING IN AS STRING
+ExpandMix = expand
+EcacheMix = ecache
+ElocalMix = elocal
+MissionDisk = md
+InGameLighting = true
+FA2Mode = false
+
+;	********** INI keys **********
+;	The following keys allow you to overwrite the default INI names if you've hacked them
+;	in the game executable.
+;	Rules = What is the name of the rules file (def: rulesmd.ini)?
+;	Art = What is the name of the art file (def: artmd.ini)?
+;	Sound = What is the name of the sounds file (def: soundmd.ini)?
+;	Eva = What is the name of the speech (EVA) file (def: evamd.ini)?
+;	AI = What is the name of the AI file (def: aimd.ini)?
+;	Battle = What is the name of the file containing all missions (def: battlemd.ini)? 
+;	Modes = What is the name of the game mode file (def: mpmodesmd.ini)?
+;	Coop = What is the name of the file containing all cooperative missions (def: coopcampmd.ini)?
+
+[INI]
+; Main game files
+Rules = rulesmd.ini
+Art = artmd.ini
+Sound = soundmd.ini
+Eva = evamd.ini
+Theme = thememd.ini
+AI = aimd.ini
+; Singleplayer specific
+Battle = battlemd.ini 				; Used solely for "NextScenario" and "AltNextScenario" (and its future Ares extensions). Note: this does NOT point to the gamemode file "mpbattlemd.ini"
+; Multiplayer specific
+Modes = mpmodesmd.ini
+Coop = coopcampmd.ini 		; Note: this does NOT point to the gamemode file "mpcoopmd.ini" 
+
+
+;	********** Theater keys **********
+;	The following sections and keys allow you to specify custom theaters or modified vanilla theaters
+;	Defaults are valid for non-vanilla theaters
+;	Name = What is the name of this theater (def: Sectionname)? 
+;	INIFileName = What is the name of the theater control file (def: NO DEFAULT)?
+;	ININame = What is the name the theater has for the key Theater = in [Map] (def: NO DEFAULT)? 
+;	NewTheaterSuffix = What is the letter used for the NewTheater key (def: G)?
+;	TileExtension = What is the extension name used for loading tiles (def: NO DEFAULT)? Used for loading files like clifx.tem
+;	IsoMix = What is the name used on the * for: ISO*.MIX (def: NO DEFAULT)? Used for loading isotemp.mix ;Ehm, shouldn't this be obsolete since the tiles can fly loose in any mix?
+;	Mix = What is the name of the MIX where the tiles are located (def: NO DEFAULT)? ;Ehm, same as above?
+
+;	Each entry has to exist as a separate section!
+;	Loads only vanilla theaters if Ares = no
+[Theaters]
+0 = Temperate
+1 = Snow
+2 = Urban
+3 = Desert
+4 = NewUrban
+5 = Lunar
+
+[Temperate]
+Name = Temperate
+INIFileName = temperatmd.ini
+ININame = TEMPERATE
+NewTheaterSuffix = T
+TileExtension = TEM
+MarblePrefix = MMT
+IsoMix = ISOTEMP.MIX, ISOTEMMD.MIX
+Mix = TEM.MIX, TEMPERATMD.MIX
+
+[Snow]
+Name = Snow
+INIFileName = snowmd.ini
+ININame = SNOW
+NewTheaterSuffix = A
+TileExtension = SNO
+MarblePrefix = MMS
+IsoMix = ISOSNOW.MIX, ISOSNOMD.MIX
+Mix = SNO.MIX, SNOWMD.MIX
+
+[Urban]
+Name = Urban
+INIFileName = urbanmd.ini
+ININame = URBAN
+NewTheaterSuffix = U
+TileExtension = URB
+MarblePrefix = MMU
+IsoMix = ISOURB.MIX, ISOURBMD.MIX
+Mix = URB.MIX, URBANMD.MIX
+
+[Desert]
+Name = Desert
+INIFileName = desertmd.ini
+ININame = DESET
+NewTheaterSuffix = D
+TileExtension = DES
+MarblePrefix = MMD
+IsoMix = ISODES.MIX, ISODESMD.MIX
+Mix = DES.MIX, DESERTMD.MIX
+
+[NewUrban]
+Name = New Urban
+INIFileName = newurban.ini
+ININame = NEWURBAN
+NewTheaterSuffix = N
+TileExtension = UBN
+MarblePrefix = MMT
+IsoMix = ISOUBN.MIX, ISOUBNMD.MIX
+Mix = UBN.MIX, URBANNMD.MIX
+
+[Lunar]
+Name = Lunar
+INIFileName = lunarmd.ini
+ININame = LUNAR
+NewTheaterSuffix = L
+TileExtension = LUN
+MarblePrefix = MML
+IsoMix = ISOLUN.MIX, ISOLUNMD.MIX
+Mix = LUN.MIX, ISOLUNMD.MIX
+
+;	********** EXE hacks **********
+;	This sections allows you to set whether you are using Ares 
+;	Because we're not all retarded, any version NPatch is NOT supported.
+;	Unlike with Ares, there's no consideration for NPatch's features such as Palette and new Countries/Sides
+;
+
+[GameExtension]
+Ares = true
+HyperPatch = true	;RP: Isn't this supposed to be for TS/FS only?

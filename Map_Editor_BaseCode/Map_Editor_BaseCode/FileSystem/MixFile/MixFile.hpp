@@ -46,6 +46,8 @@ public:
 	*/
 	int getAFileOffset(__int32 fileID);
 
+	int getAFileSize(__int32 fileID);
+
 	/*
 		Gets a file from the MIX and returns it in a byte vector
 		@param fileID The ID of the file to look for
@@ -74,6 +76,13 @@ public:
 		Part of XCC code
 	*/
 	void readRAHeader();
+
+	/*
+		Finds the upper most parent from the MIX and returns it
+		@return The name of the parent's MIX
+	*/
+	std::string getUpperParentName();
+
 
 	std::vector<t_mix_index_header> mixIndex;
 	std::string mixName;

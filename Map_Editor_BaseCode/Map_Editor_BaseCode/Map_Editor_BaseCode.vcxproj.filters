@@ -51,28 +51,10 @@
     <ClInclude Include="FileSystem\MixFile\MixFile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Reading\INIReader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Reading\INISection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Reading\CStringHelper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Reading\INISection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Reading\LineSplitter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Handlers\INIFileHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ObjectTypes\BuildingType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TechType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Loading\MapAssetLoader.hpp">
@@ -82,6 +64,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FileSystem\INIFile\INIParser.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\PaletteFile\PaletteFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\INIFile\CStringHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\INIFile\LineSplitter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\INIFile\INISection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FileSystem\INIFile\INIFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectTypes\TechType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,25 +119,10 @@
     <ClCompile Include="FileSystem\MixFile\MixFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Reading\INIReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Reading\INISection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Reading\INISection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Reading\LineSplitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Handlers\INIFileHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ObjectTypes\BuildingType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TechType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Loading\MapAssetLoader.cpp">
@@ -149,5 +134,23 @@
     <ClCompile Include="FileSystem\INIFile\INIParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FileSystem\PaletteFile\PaletteFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\INIFile\LineSplitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\INIFile\INISection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileSystem\INIFile\INIFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectTypes\TechType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CONFIG" />
   </ItemGroup>
 </Project>

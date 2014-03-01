@@ -12,34 +12,56 @@
 #include <sstream>
 #include <iostream>
 
-#include "INIReader.hpp"
+#include "INIFile.hpp"
 #include "INISection.hpp"
 #include "CStringHelper.hpp"
+#include "../../GlobalData.hpp"
 
-INIFile::INIFile(BinaryReader* _iniReader, __int32 offset)
-:isLoaded(false), iniReader(_iniReader)
+INIFile::INIFile(const std::string& _iniName, const std::string& _parentName, __int32 offset, int size)
+:isLoaded(false), iniName(_iniName), iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _parentName, offset, size)
 {
-	iniReader->setOffset(offset);
-	//load(filename);
+	//iniReader = &BinaryReader(binaryFile);
+	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
+	load();
 }
+
+INIFile::INIFile(const std::string& _iniName, const std::string& _directory)
+:isLoaded(false), iniName(_iniName), iniReader(_directory + GlobalData::MAIN_BackSlash + _iniName)
+{
+	//iniReader = &BinaryReader(binaryFile);
+	//std::cout << "Offset from reader: " << iniReader.getOffset() << std::endl;
+	load();
+}
+
+INIFile::INIFile(const std::string& _iniName)
+:isLoaded(false), iniName(_iniName), iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _iniName)
+{
+	//iniReader = &BinaryReader(binaryFile);
+	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
+	load();
+}
+
 
 INIFile::~INIFile() {}
 
-void INIFile::load(const std::string &filename)
+void INIFile::load()
 {
 	std::string currentSection;
 	std::string line;
-	while (iniReader->checkEOF())
+
+	while (iniReader.checkEOF() == false)
 	{
-		line = iniReader->readTextLine();
+		line = iniReader.readTextLine();
+	
 		auto comment = line.find_first_of(";");
 		if (comment != std::string::npos)
 		{
 			line = line.substr(0, comment);
 		}
-					if (line.length())
+		if (line.length())
 		{
 			line = StringHelper::trim(line);
+			//std::cout << "Line: " << line << std::endl;
 			if (line.front() == '[' && line.back() == ']')
 			{
 				// section header
@@ -47,6 +69,7 @@ void INIFile::load(const std::string &filename)
 				//Logger::log(line);
 				std::string lineSub = line.substr(1, line.length() - 2);
 				currentSection = StringHelper::trim(lineSub);
+				//std::cout << "SECTION : [" << currentSection << "]" << std::endl;
 			}
 			else
 			{
@@ -57,7 +80,10 @@ void INIFile::load(const std::string &filename)
 					std::string lineSub2 = line.substr(split + 1);
 					std::string key = StringHelper::trim(lineSub1);
 					std::string value = StringHelper::trim(lineSub2);
-					if(value.size() > 511)
+					
+					//Ehm, this is no longer needed since only 511 characters are read into the buffer from BinaryReader
+					//But a log line in there for errorish values might be in place
+					/*if(value.size() > 511)
 					{
 						std::string corrValue = value.substr(0, 511);
 						std::string errValue = value.substr(512);
@@ -68,16 +94,20 @@ void INIFile::load(const std::string &filename)
 						std::cout << "Parsed: " << corrValue << std::endl;
 						std::cout << "Cut-off: " << errValue << std::endl;
 						value = corrValue;
-					}
+					}*/
 
-					//Logger::log(key + "->"+ value);
+					//std::cout << key << " = " << value << std::endl;
 
+					//Logger::log(key + "."+ value);
 					SetValue(currentSection, key, value);
 				}
 			}
 		}
 	}
-		isLoaded = true;
+	isLoaded = true;
+	std::cout << "INI: " << iniName << " is loaded!" << std::endl;
+
+	//sectionList[currentSection]->dumpContent();
 }
 
 void INIFile::SetValue(const std::string &section, const std::string &key, const std::string &value)
@@ -138,4 +168,9 @@ bool INIFile::checkSectionExistanceAgain(const std::string &section)
 bool INIFile::getLoaded() const
 {
 	return isLoaded;
+}
+
+std::string& INIFile::getININame()
+{
+	return iniName;
 }

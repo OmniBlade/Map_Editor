@@ -14,15 +14,17 @@
 #include <string>
 
 #include "INISection.hpp"
-#include "BinaryReader.hpp"
+#include "../../Reading/BinaryReader.hpp"
 
 class INIFile {
 public:
-	INIFile():isLoaded(false) {};
-	INIFile(BinaryReader* iniReader, __int32 offset);
+	INIFile(const std::string& _iniName, const std::string& _directory);
+	INIFile(const std::string& _iniName);
+	INIFile(const std::string& _iniName, const std::string& parentName, __int32 offset, int size);
+
 	virtual ~INIFile();
 
-	void load(const std::string &filename);
+	void load();
 	void SetValue(const std::string &section, const std::string &key, const std::string &value);
 	INISection* EnsureSection(const std::string &section);
 	INISection* getSection(const std::string &section);
@@ -30,11 +32,13 @@ public:
 	bool checkSectionExistance(const std::string &section);
 	bool checkSectionExistanceAgain(const std::string &section);
 	bool getLoaded() const;
+	std::string& getININame();
 
 private:
-	BinaryReader* iniReader;
+	BinaryReader iniReader;
+	//__int32 offset = 0;
 	bool isLoaded = false;
-	std::string filePath;
+	std::string iniName, mixName;
 	std::map<std::string ,std::shared_ptr<INISection>> sectionList;
 };
 

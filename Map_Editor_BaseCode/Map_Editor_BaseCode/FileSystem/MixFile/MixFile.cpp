@@ -18,7 +18,7 @@
 
 //PARENT
 MixFile::MixFile(const std::string& _name, MixFile* _parent, int fileID)
-: mixName(_name), mixReader(GlobalData::installDir + GlobalData::backSlash + _name), parent(_parent)
+: mixName(_name), mixReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _name), parent(_parent)
 {
 	std::cout << "MixFile values, Name: " << _name << " Parent: " << _parent << " fileID: " << fileID << std::endl;
 	if (_parent != nullptr)
@@ -118,6 +118,27 @@ void MixFile::readRAHeader()
 	std::cout << "Files: " << files.size() << std::endl;
 }
 
+std::string MixFile::getUpperParentName()
+{
+	if (parent == nullptr)
+	{
+		return mixName;
+	}
+	else
+	{
+		bool upperParentFound = false;
+		MixFile* theMix = this;
+		while (upperParentFound == false)
+		{
+			theMix = theMix->parent;
+			if (theMix->parent == nullptr)
+			{
+				return theMix->mixName;
+			}
+		}
+	}
+}
+
 
 bool MixFile::checkFileExistance(__int32 fileID)
 {
@@ -136,8 +157,19 @@ int MixFile::getAFileOffset(__int32 fileID)
 		if (mixIndex[i].id == fileID)
 			return mixIndex[i].offset + startingOffset + bodyOffset;
 	}
-	std::cout << "File not found!" << std::endl;
-	return mixIndex[0].offset;
+	std::cout << "File not found (no offset returned): " << fileID << std::endl;
+	return mixIndex[0].offset + startingOffset + bodyOffset;
+}
+
+int MixFile::getAFileSize(__int32 fileID)
+{
+	for (unsigned int i = 0; i < mixIndex.size(); ++i)
+	{
+		if (mixIndex[i].id == fileID)
+			return mixIndex[i].size;
+	}
+	std::cout << "File not found (no size returned): " << fileID << std::endl;
+	return mixIndex[0].size;
 }
 
 std::vector<byte> MixFile::getFileByID(__int32 fileID)

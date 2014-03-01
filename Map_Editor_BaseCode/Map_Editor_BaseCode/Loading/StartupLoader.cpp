@@ -6,8 +6,8 @@
 #include <sstream>
 #include <windows.h>
 
-StartupLoader::StartupLoader(MixFileHandler* _mixHandler)
-:mixHandler(_mixHandler)
+StartupLoader::StartupLoader(MixFileHandler* _mixHandler, INIFileHandler* _iniHandler)
+:mixHandler(_mixHandler), iniHandler(_iniHandler)
 {
 
 }
@@ -15,7 +15,7 @@ StartupLoader::StartupLoader(MixFileHandler* _mixHandler)
 void StartupLoader::initiateMIX()
 {
 	WIN32_FIND_DATA ffd;
-	std::string installMix = GlobalData::installDir + GlobalData::backSlash + "*.mix";
+	std::string installMix = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.mix";
 	std::wstring dir(installMix.begin(), installMix.end());
 	const wchar_t* dirChar = dir.c_str();
 
@@ -33,7 +33,7 @@ void StartupLoader::initiateMIX()
 		std::string fileName(wFileName.begin(), wFileName.end());
 		std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::toupper);
 		std::cout << "Found in DIR: " << fileName << std::endl;
-		filenames.push_back(fileName);
+		mixFilenames.push_back(fileName);
 
 		if (!FindNextFile(hFind, &ffd))
 			finished = true;
@@ -48,36 +48,41 @@ void StartupLoader::initiateMIX()
 		TODO: LANGUAGE.MIX and LANGMD.MIX are to be loaded before EXPANDMDxx.MIX
 	*/
 
-	findExpandMIX(GlobalData::expand, GlobalData::missionDisk);	
-	findRootGameMIX(GlobalData::missionDisk);
-	findEcacheMIX(GlobalData::elocal, GlobalData::ecache);
+	std::vector<std::string> _expandFileNames;
+	std::vector<std::string> _gameFileNames;
+	std::vector<std::string> _ecacheFileNames;
 
-	if (expandFileNames.size() > 0)
-		modFileNames.insert(modFileNames.end(), expandFileNames.begin(), expandFileNames.end());
-	if (gameFileNames.size() > 0)
-		modFileNames.insert(modFileNames.end(), gameFileNames.begin(), gameFileNames.end());
-	if (getEcacheFiles()->size() > 0)
-		modFileNames.insert(modFileNames.end(), ecacheFileNames.begin(), ecacheFileNames.end());
+	findExpandMIX(_expandFileNames);	
+	findRootGameMIX(_gameFileNames);
+	findEcacheMIX(_ecacheFileNames);
+
+	if (_expandFileNames.size() > 0)
+		toProcessMixFileNames.insert(toProcessMixFileNames.end(), _expandFileNames.begin(), _expandFileNames.end());
+	if (_gameFileNames.size() > 0)
+		toProcessMixFileNames.insert(toProcessMixFileNames.end(), _gameFileNames.begin(), _gameFileNames.end());
+	if (_ecacheFileNames.size() > 0)
+		toProcessMixFileNames.insert(toProcessMixFileNames.end(), _ecacheFileNames.begin(), _ecacheFileNames.end());
 	
-	if (modFileNames.size() > 0)
+	if (toProcessMixFileNames.size() > 0)
 	{
-		for (unsigned int i = 0; i < modFileNames.size(); ++i)
+		for (unsigned int i = 0; i < toProcessMixFileNames.size(); ++i)
 		{
 			std::cout << "--------------------------------------------------" << std::endl;
-			mixHandler->createVirtualMix(modFileNames[i]);
+			mixHandler->createVirtualMix(toProcessMixFileNames[i]);
 		}
 		//When all the essential mixes are handled, the search for the child mixes can begin
-		findSubGameMIX(GlobalData::missionDisk);
+		findSubGameMIX();
 	}
 	else
 		std::cout << "No MIX files found!" << std::endl;
 }
 
-void StartupLoader::findRootGameMIX(const std::string missionDisk)
+void StartupLoader::findRootGameMIX(std::vector<std::string>& filesVector)
 {
-	for (unsigned int i = 0; i < filenames.size(); ++i)
+	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
 	{
 		//TODO Maybe there should be support added for "expandmd01.mix" as it's used for YR 1.001
+		//TODO Either scratch MissionDisk from MAPSMD03, or give them all entries in the config file
 		//TODO Decide whether vanilla mission maps should be opened through the editor (like in SC 2)
 		/*
 			Files and their usage:
@@ -92,18 +97,19 @@ void StartupLoader::findRootGameMIX(const std::string missionDisk)
 			- LANGUAGE.MIX	-> Holds RA2's stringtable
 			- LANGMD.MIX	-> Holds YR's stringtable
 		*/
-		if (   filenames[i] == "RA2.MIX"							|| filenames[i] == "RA2MD.MIX" 
-			|| filenames[i] == "MAPS01.MIX"							|| filenames[i] == "MAPS02.MIX"
-			|| filenames[i] == "MAPS" + missionDisk + "03.MIX"		|| filenames[i] == "THEME.MIX"
-			|| filenames[i] == "MULTI.MIX"							|| filenames[i] == "MULTI" + missionDisk + ".MIX"
-			|| filenames[i] == "LANGUAGE.MIX"						|| filenames[i] == "LANGMD.MIX")
+		if	  (mixFilenames[i] == "RA2.MIX"			|| mixFilenames[i] == "RA2MD.MIX"
+			|| mixFilenames[i] == "MAPS01.MIX"		|| mixFilenames[i] == "MAPS02.MIX"
+			|| mixFilenames[i] == "MAPS" + GlobalData::MAIN_MissionDisk + "03.MIX"
+			|| mixFilenames[i] == "THEME.MIX"		|| mixFilenames[i] == "THEME" + GlobalData::MAIN_MissionDisk + ".MIX"
+			|| mixFilenames[i] == "MULTI.MIX"		|| mixFilenames[i] == "MULTI" + GlobalData::MAIN_MissionDisk + ".MIX"
+			|| mixFilenames[i] == "LANGUAGE.MIX"	|| mixFilenames[i] == "LANG" + GlobalData::MAIN_MissionDisk + ".MIX")
 		{
-			gameFileNames.push_back(filenames[i]);
+			filesVector.push_back(mixFilenames[i]);
 		}
 	}
 }
 
-void StartupLoader::findSubGameMIX(const std::string missionDisk)
+void StartupLoader::findSubGameMIX()
 {	
 	int suffixLoopInt = 0;
 	bool withMD = false;
@@ -115,7 +121,7 @@ void StartupLoader::findSubGameMIX(const std::string missionDisk)
 			std::string searchFileName = coreMixFileNames[i];
 			// CHECKING IN ROOT
 			std::cout << "\n=========================================================================\nNow looking for: " << searchFileName << std::endl;
-			if (checkFileInRoot(searchFileName) == true)
+			if (checkMixFileInRoot(searchFileName) == true)
 			{
 				std::cout << "Found in root, creating as parent mix.." << std::endl;
 				mixHandler->createVirtualMix(searchFileName);
@@ -145,7 +151,7 @@ void StartupLoader::findSubGameMIX(const std::string missionDisk)
 	Looks for EXPAND(MD)XX.MIX files
 	Codewise it looks from 00 -> 99 but the list ends up as 99 -> 00, just like the game does it
 */
-void StartupLoader::findExpandMIX(const std::string& expand, const std::string& missionDisk)
+void StartupLoader::findExpandMIX(std::vector<std::string>& filesVector)
 {
 	for (unsigned int i = 0; i < 100; ++i)
 	{
@@ -155,12 +161,12 @@ void StartupLoader::findExpandMIX(const std::string& expand, const std::string& 
 		else
 			numberStream << i;
 	
-		for (unsigned int j = 0; j < filenames.size(); ++j)
+		for (unsigned int j = 0; j < mixFilenames.size(); ++j)
 		{
-			if (filenames[j] == expand + missionDisk + numberStream.str() + ".MIX")
+			if (mixFilenames[j] == GlobalData::MAIN_Expand + GlobalData::MAIN_MissionDisk + numberStream.str() + ".MIX")
 			{
 				//std::cout << "Found 'expandmd' MIX file: " << filenames[j] << std::endl;
-				expandFileNames.insert(expandFileNames.begin(), filenames[j]);
+				filesVector.insert(filesVector.begin(), mixFilenames[j]);
 			}
 		}
 	}
@@ -170,50 +176,167 @@ void StartupLoader::findExpandMIX(const std::string& expand, const std::string& 
 	No specific loading order, this function looks for all ECACHE*.MIX and ELOCAL*.MIX files
 	As specified on ModEnc, there's no real order. The list has the same order as Westwood's had, using FindNextFile
 */
-void StartupLoader::findEcacheMIX(const std::string& elocal, const std::string& ecache)
+void StartupLoader::findEcacheMIX(std::vector<std::string>& filesVector)
 {
-	for (unsigned int i = 0; i < filenames.size(); ++i)
+	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
 	{
-		if (filenames[i].substr(0, elocal.size()) == elocal)
+		if (mixFilenames[i].substr(0, GlobalData::MAIN_Elocal.size()) == GlobalData::MAIN_Elocal)
 		{
 			//std::cout << "Found 'elocal' MIX file: " << filenames[i] << std::endl;
-			ecacheFileNames.push_back(filenames[i]);
+			filesVector.push_back(mixFilenames[i]);
 		}
-		else if (filenames[i].substr(0, ecache.size()) == ecache)
+		else if (mixFilenames[i].substr(0, GlobalData::MAIN_Ecache.size()) == GlobalData::MAIN_Ecache)
 		{
 			//std::cout << "Found 'ecache' MIX file: " << filenames[i] << std::endl;
-			ecacheFileNames.push_back(filenames[i]);
+			filesVector.push_back(toProcessMixFileNames[i]);
 		}
 	}
 }
 
 void StartupLoader::initiateINI()
 {
+	WIN32_FIND_DATA ffd;
+	std::string installIni = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.ini";
+	std::wstring dir(installIni.begin(), installIni.end());
+	const wchar_t* dirChar = dir.c_str();
 
-}
-
-
-
-std::vector<std::string>* StartupLoader::getGameFiles() 
-{
-	return &gameFileNames; 
-}
-
-std::vector<std::string>* StartupLoader::getExpandFiles()
-{
-	return &expandFileNames;
-}
-
-std::vector<std::string>* StartupLoader::getEcacheFiles()
-{
-	return &ecacheFileNames;
-}
-
-bool StartupLoader::checkFileInRoot(const std::string& fileName)
-{
-	for (unsigned int i = 0; i < filenames.size(); ++i)
+	HANDLE hFind = FindFirstFile(dirChar, &ffd);
+	if (hFind == INVALID_HANDLE_VALUE)
 	{
-		if (filenames[i] == fileName)
+		std::cout << "Invalid INI file!" << std::endl;
+	}
+
+	bool finished = false;
+	int i = 1;
+	while (!finished)
+	{
+		std::wstring wFileName = ffd.cFileName;
+		std::string fileName(wFileName.begin(), wFileName.end());
+		std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::toupper);
+		std::cout << "Found in DIR: " << fileName << std::endl;
+		iniFilenames.push_back(fileName);
+
+		if (!FindNextFile(hFind, &ffd))
+			finished = true;
+		++i;
+	}
+	FindClose(hFind);
+
+	findINIFiles();
+}
+
+void StartupLoader::findINIFiles()
+{
+	std::vector<std::string> coreIniFiles = getIniNames();
+	for (unsigned int i = 0; i < coreIniFiles.size(); ++i)
+	{
+		std::cout << "\n======= " << coreIniFiles[i] << " =======" << std::endl;
+		__int32 fileOffset = 0;
+		int fileSize = 0;
+		bool inRoot = false;
+		//Found in ROOT
+		if (checkIniInRoot(coreIniFiles[i]))
+		{
+			iniHandler->createVirtualINI(coreIniFiles[i]);
+			inRoot = true;
+			std::cout << "INI (" << coreIniFiles[i] << ") found in root" << std::endl;
+		}
+		else
+		{
+			MixFile* theMix;
+			std::string parentMixName;
+			if (mixHandler->checkFileInMixes(coreIniFiles[i]))
+			{
+				parentMixName = mixHandler->getMixNameOfFile(coreIniFiles[i]);
+				std::cout << "INI (" << coreIniFiles[i] << ") found in: " << parentMixName << std::endl;
+				theMix = mixHandler->getMixByName(parentMixName);
+				parentMixName = theMix->getUpperParentName();
+				fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
+				fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+				
+				std::cout << "Upper most MIX from file is: " << parentMixName << std::endl;
+				iniHandler->createVirtualINI(coreIniFiles[i], parentMixName, fileOffset, fileSize);
+			}
+			else
+			{
+				std::cout << "Unable to find: " << coreIniFiles[i] << " in any MIX!" << std::endl;
+			}
+		}
+		/*//Found in a MIX file
+		else if (mixHandler->checkFileInMixes(coreIniFiles[i]) && inRoot == false)
+		{
+			std::string parentMixName = mixHandler->getMixNameOfFile(coreIniFiles[i]);
+			MixFile* theMix = mixHandler->getMixByName(parentMixName);
+			fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
+			fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+
+		/*	//Check the MIX for a parent
+			if (theMix->parent != nullptr)
+			{
+				//parentMixName = theMix->parent->mixName;
+				fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
+				fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+			}
+			else
+			{
+				fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
+				fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+			}*/
+			
+			
+			
+			
+			/*while (true)
+			{
+				//See if the parent's parent is filled (oh god...)
+				if (theMix->parent != nullptr)
+				{
+					std::cout << "Mix: " << theMix->mixName << " has a parent: " << theMix->parent->mixName << std::endl;
+					theMix = theMix->parent;
+				}
+				else
+				{
+					std::cout << "Getting fileoffset and size from MIX: " << theMix->mixName << std::endl;
+					parentMixName = theMix->mixName;
+					fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
+					fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+					break;
+				}
+			}*/
+
+			/*if (theMix->parent != nullptr)
+			{
+				parentMixName = theMix->parent->mixName;
+				fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
+				fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+			}
+			else
+			{
+				fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
+				fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+			}
+			std::cout << "INI ("<< coreIniFiles[i] << ") found in: " << theMix->mixName << std::endl;
+		}
+		else
+			std::cout << "Unable to locate INI file: " << coreIniFiles[i] << std::endl;*/
+	}
+}
+
+bool StartupLoader::checkMixFileInRoot(const std::string& fileName)
+{
+	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
+	{
+		if (mixFilenames[i] == fileName)
+			return true;
+	}
+	return false;
+}
+
+bool StartupLoader::checkIniInRoot(const std::string& fileName)
+{
+	for (unsigned int i = 0; i < iniFilenames.size(); ++i)
+	{
+		if (iniFilenames[i] == fileName)
 			return true;
 	}
 	return false;
@@ -271,4 +394,36 @@ std::vector<std::string> StartupLoader::getMixNames(bool missionDisk /* = false 
 		coreMixNames.push_back("AUDIO.MIX");
 	}
 	return coreMixNames;
+}
+
+/*
+	Please note: Order is not important here, as it just caches the INI files and later uses them to parse everything
+	TODO: Here again, should mission disk from global data be supported for everything?
+*/
+std::vector<std::string> StartupLoader::getIniNames()
+{
+	std::vector<std::string> coreIniNames;
+	
+	//CORE -- MAIN INIs
+	coreIniNames.push_back(GlobalData::INI_Rules);
+	coreIniNames.push_back(GlobalData::INI_Art);
+	coreIniNames.push_back(GlobalData::INI_Sound);
+	coreIniNames.push_back(GlobalData::INI_Eva);
+	coreIniNames.push_back(GlobalData::INI_Theme);
+	coreIniNames.push_back(GlobalData::INI_AI);
+	//SP/MP specific INIs
+	coreIniNames.push_back(GlobalData::INI_SP_Battle);
+	coreIniNames.push_back(GlobalData::INI_MP_Coop);
+	coreIniNames.push_back(GlobalData::INI_MP_Modes);
+	//coreIniNames.push_back("MAPSEL" +	GlobalData::MIX_missionDisk + ".INI"); // This is no TS!
+	//CORE -- THEATERS
+	//Loaded only on demand (eg. creating / loading a map)
+	//coreIniNames.push_back("SNOW" +		GlobalData::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("TEMPERAT" + GlobalData::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("URBAN" +	GlobalData::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("DESERT" +	GlobalData::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("LUNAR" +	GlobalData::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("URBANN" +	GlobalData::MIX_missionDisk + ".INI");
+
+	return coreIniNames;
 }

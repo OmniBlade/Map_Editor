@@ -38,8 +38,6 @@ void MixFileHandler::createVirtualMix(const std::string& _mixName, const std::st
 				currentMix = new MixFile(_mixName, mixFiles[i], mixID);
 				mixFiles.push_back(currentMix);
 				std::cout << "Mix created with pointer: " << currentMix << std::endl;
-				std::cout << "Index:" << std::endl;
-				currentMix->dumpIndex();
 				break;
 			}
 		}
@@ -48,8 +46,6 @@ void MixFileHandler::createVirtualMix(const std::string& _mixName, const std::st
 	{
 		currentMix = new MixFile(_mixName);
 		std::cout << "Mix created with pointer: " << currentMix << std::endl;
-		std::cout << "Index:" << std::endl;
-		currentMix->dumpIndex();
 		mixFiles.push_back(currentMix);
 	}
 }

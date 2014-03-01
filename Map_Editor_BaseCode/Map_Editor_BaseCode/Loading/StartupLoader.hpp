@@ -3,42 +3,46 @@
 #include <string>
 #include <vector>
 #include "../Handlers/MixFileHandler.hpp"
+#include "../Handlers/INIFileHandler.hpp"
 
 class StartupLoader
 {
 public:
-	StartupLoader(MixFileHandler* _mixHandler);
+	StartupLoader(MixFileHandler* _mixHandler, INIFileHandler* _iniHandler);
 //---- MIX LOADING
 	/* Function to call when initiating MIXes, scoops through the directory for .mix files */
 	void initiateMIX();
 	/* Finds all default game mixes in the directory that should be present (like ra2(md).mix) */
-	void findRootGameMIX(const std::string missionDisk);
+	void findRootGameMIX(std::vector<std::string>& filesVector);
 	/* Finds all default game mixes in the directory or in other mixes (like generic.mix, mix files normally inside ra2(md).mix) */
-	void findSubGameMIX(const std::string missionDisk);
+	void findSubGameMIX();
 	/* Finds all expand mixes in the directory */
-	void findExpandMIX(const std::string& expand, const std::string& missionDisk);
+	void findExpandMIX(std::vector<std::string>& filesVector);
 	/* Finds all ecache* and elocal* mixes in the directory */
-	void findEcacheMIX(const std::string& elocal, const std::string& ecache);
+	void findEcacheMIX(std::vector<std::string>& filesVector);
 	/* Testcode - Checks whether the file exists in the root */
-	bool checkFileInRoot(const std::string& fileName);
+	bool checkMixFileInRoot(const std::string& fileName);
 	/* Testcode - Checks whether a file exists in any mix */
 	bool findFileInMix(const std::string& fileName);
+	/* Returns a list of all sub game mixes (like local.mix) */
+	std::vector<std::string> getMixNames(bool missionDisk = false);
 
-	/* Trivial */
-	std::vector<std::string>* getExpandFiles();
-	std::vector<std::string>* getEcacheFiles();
-	std::vector<std::string>* getGameFiles();
-	std::vector<std::string>  getMixNames(bool missionDisk = false);
 //---- INI LOADING
 	/* Function to call when initiating initial INI files. This excludes map mods (duh) */
 	void initiateINI();
+	/* Looks for all INI files listed and tries to locate them in the root or MIX files */
+	void findINIFiles();
+	/* Returns a list of all Yuri's Revenge INI files */
+	std::vector<std::string> getIniNames();
+
+	bool checkIniInRoot(const std::string& fileName);
 
 private:
-	std::vector<std::string> modFileNames;
-	std::vector<std::string> expandFileNames;
-	std::vector<std::string> ecacheFileNames;
-	std::vector<std::string> gameFileNames;
-	std::vector<std::string> filenames;
+	std::vector<std::string> toProcessINIFileNames;
+	std::vector<std::string> iniFilenames;
+	std::vector<std::string> toProcessMixFileNames;
+	std::vector<std::string> mixFilenames;
 	MixFileHandler* mixHandler;
+	INIFileHandler* iniHandler;
 };
 
