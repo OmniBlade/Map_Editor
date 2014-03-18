@@ -1,22 +1,23 @@
 #include "stdafx.h"
 #include "StartupLoader.hpp"
-#include "../GlobalData.hpp"
+#include "../../GlobalData.hpp"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <windows.h>
 
-StartupLoader::StartupLoader(MixFileHandler* _mixHandler, INIFileHandler* _iniHandler)
-:mixHandler(_mixHandler), iniHandler(_iniHandler)
+StartupLoader::StartupLoader(MIXManager* _mixManager, INIManager* _iniManager)
+:mixManager(_mixManager), iniManager(_iniManager)
 {
 
 }
 
 void StartupLoader::initiateMIX()
 {
+	std::cout << "Initiate MIX" << std::endl;
 	WIN32_FIND_DATA ffd;
-	std::string installMix = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.mix";
-	std::wstring dir(installMix.begin(), installMix.end());
+	std::string installIni = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.mix";
+	std::wstring dir(installIni.begin(), installIni.end());
 	const wchar_t* dirChar = dir.c_str();
 
 	HANDLE hFind = FindFirstFile(dirChar, &ffd);
@@ -27,12 +28,11 @@ void StartupLoader::initiateMIX()
 
 	bool finished = false;
 	int i = 1;
-	while (!finished)
+	while (!finished) 
 	{
 		std::wstring wFileName = ffd.cFileName;
 		std::string fileName(wFileName.begin(), wFileName.end());
 		std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::toupper);
-		std::cout << "Found in DIR: " << fileName << std::endl;
 		mixFilenames.push_back(fileName);
 
 		if (!FindNextFile(hFind, &ffd))
@@ -41,14 +41,22 @@ void StartupLoader::initiateMIX()
 	}
 	FindClose(hFind);
 	
-	/*
-		Loading order is very important, it has to be just like in the game, see link for more information:
-		http://modenc.renegadeprojects.com/MIX
-		This explains why the system looks odd
-		TODO: LANGUAGE.MIX and LANGMD.MIX are to be loaded before EXPANDMDxx.MIX
-	*/
+	std::vector<std::string>& mixList = getExpandMixes();
+	std::vector<std::string>& mainMixes = getMainMixes();
+	std::vector<std::string>& subMixes = getSubMixes();
+	std::vector<std::string>& ecacheMixes = getEcacheMixes();
 
-	std::vector<std::string> _expandFileNames;
+	mixList.insert(mixList.end(), mainMixes.begin(), mainMixes.end());
+	mixList.insert(mixList.end(), ecacheMixes.begin(), ecacheMixes.end());
+	mixList.insert(mixList.end(), subMixes.begin(), subMixes.end());
+
+	for (unsigned int i = 0; i < mixList.size(); ++i)
+	{
+		//std::cout << "Trying to cache: " << mixList[i] << "." << std::endl;
+		mixManager->cache(mixList[i]);
+	}
+	
+/*	std::vector<std::string> _expandFileNames;
 	std::vector<std::string> _gameFileNames;
 	std::vector<std::string> _ecacheFileNames;
 
@@ -68,13 +76,13 @@ void StartupLoader::initiateMIX()
 		for (unsigned int i = 0; i < toProcessMixFileNames.size(); ++i)
 		{
 			std::cout << "--------------------------------------------------" << std::endl;
-			mixHandler->createVirtualMix(toProcessMixFileNames[i]);
+			//mixHandler->createVirtualMix(toProcessMixFileNames[i]);
 		}
 		//When all the essential mixes are handled, the search for the child mixes can begin
 		findSubGameMIX();
 	}
 	else
-		std::cout << "No MIX files found!" << std::endl;
+		std::cout << "No MIX files found!" << std::endl;*/
 }
 
 void StartupLoader::findRootGameMIX(std::vector<std::string>& filesVector)
@@ -109,94 +117,11 @@ void StartupLoader::findRootGameMIX(std::vector<std::string>& filesVector)
 	}
 }
 
-void StartupLoader::findSubGameMIX()
-{	
-	int suffixLoopInt = 0;
-	bool withMD = false;
-	while (suffixLoopInt < 2)
-	{
-		std::vector<std::string> coreMixFileNames = getMixNames(withMD);
-		for (unsigned int i = 0; i < coreMixFileNames.size(); ++i)
-		{
-			std::string searchFileName = coreMixFileNames[i];
-			// CHECKING IN ROOT
-			std::cout << "\n=========================================================================\nNow looking for: " << searchFileName << std::endl;
-			if (checkMixFileInRoot(searchFileName) == true)
-			{
-				std::cout << "Found in root, creating as parent mix.." << std::endl;
-				mixHandler->createVirtualMix(searchFileName);
-			}
-			else
-			{
-				// CHECKING IN PROCESSED MIX FILES
-				std::string parentMixName = mixHandler->getMixNameOfFile(searchFileName);				
-				if (parentMixName != "")
-				{
-					std::cout << "Found in: " << parentMixName << ", creating as child mix..." << std::endl;
-					mixHandler->createVirtualMix(searchFileName, parentMixName);
-				}
-				else
-				{
-					std::cout << "MIX: " << searchFileName << " not found anywhere." << std::endl;
-				}
-			}
-		}
-		suffixLoopInt++;
-		withMD = true;
-	}
-	std::cout << "\nDone looping, all mix files processed.\n***************************************************\n\n" << std::endl;
-}
-
-/*
-	Looks for EXPAND(MD)XX.MIX files
-	Codewise it looks from 00 -> 99 but the list ends up as 99 -> 00, just like the game does it
-*/
-void StartupLoader::findExpandMIX(std::vector<std::string>& filesVector)
-{
-	for (unsigned int i = 0; i < 100; ++i)
-	{
-		std::stringstream numberStream;
-		if (i < 10)
-			numberStream << 0 << i;
-		else
-			numberStream << i;
-	
-		for (unsigned int j = 0; j < mixFilenames.size(); ++j)
-		{
-			if (mixFilenames[j] == GlobalData::MAIN_Expand + GlobalData::MAIN_MissionDisk + numberStream.str() + ".MIX")
-			{
-				//std::cout << "Found 'expandmd' MIX file: " << filenames[j] << std::endl;
-				filesVector.insert(filesVector.begin(), mixFilenames[j]);
-			}
-		}
-	}
-}
-
-/*
-	No specific loading order, this function looks for all ECACHE*.MIX and ELOCAL*.MIX files
-	As specified on ModEnc, there's no real order. The list has the same order as Westwood's had, using FindNextFile
-*/
-void StartupLoader::findEcacheMIX(std::vector<std::string>& filesVector)
-{
-	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
-	{
-		if (mixFilenames[i].substr(0, GlobalData::MAIN_Elocal.size()) == GlobalData::MAIN_Elocal)
-		{
-			//std::cout << "Found 'elocal' MIX file: " << filenames[i] << std::endl;
-			filesVector.push_back(mixFilenames[i]);
-		}
-		else if (mixFilenames[i].substr(0, GlobalData::MAIN_Ecache.size()) == GlobalData::MAIN_Ecache)
-		{
-			//std::cout << "Found 'ecache' MIX file: " << filenames[i] << std::endl;
-			filesVector.push_back(toProcessMixFileNames[i]);
-		}
-	}
-}
 
 void StartupLoader::initiateINI()
 {
 	WIN32_FIND_DATA ffd;
-	std::string installIni = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.ini";
+	std::string installIni = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.MIX";
 	std::wstring dir(installIni.begin(), installIni.end());
 	const wchar_t* dirChar = dir.c_str();
 
@@ -213,7 +138,6 @@ void StartupLoader::initiateINI()
 		std::wstring wFileName = ffd.cFileName;
 		std::string fileName(wFileName.begin(), wFileName.end());
 		std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::toupper);
-		std::cout << "Found in DIR: " << fileName << std::endl;
 		iniFilenames.push_back(fileName);
 
 		if (!FindNextFile(hFind, &ffd))
@@ -222,7 +146,14 @@ void StartupLoader::initiateINI()
 	}
 	FindClose(hFind);
 
-	findINIFiles();
+	std::vector<std::string> iniFiles = getIniNames();
+	for (unsigned int i = 0; i < iniFiles.size(); ++i)
+	{
+		//std::cout << "Trying to cache: " << iniFiles[i] << std::endl;
+		iniManager->cache(iniFiles[i]);
+	}
+
+	//findINIFiles();
 }
 
 void StartupLoader::findINIFiles()
@@ -237,7 +168,7 @@ void StartupLoader::findINIFiles()
 		//Found in ROOT
 		if (checkIniInRoot(coreIniFiles[i]))
 		{
-			iniHandler->createVirtualINI(coreIniFiles[i]);
+			iniManager->cache(coreIniFiles[i]);
 			inRoot = true;
 			std::cout << "INI (" << coreIniFiles[i] << ") found in root" << std::endl;
 		}
@@ -245,17 +176,17 @@ void StartupLoader::findINIFiles()
 		{
 			MixFile* theMix;
 			std::string parentMixName;
-			if (mixHandler->checkFileInMixes(coreIniFiles[i]))
+			if (mixManager->inAMix(coreIniFiles[i]))
 			{
-				parentMixName = mixHandler->getMixNameOfFile(coreIniFiles[i]);
+				parentMixName = mixManager->getName(coreIniFiles[i]);
 				std::cout << "INI (" << coreIniFiles[i] << ") found in: " << parentMixName << std::endl;
-				theMix = mixHandler->getMixByName(parentMixName);
+				theMix = mixManager->get(parentMixName);
 				parentMixName = theMix->getUpperParentName();
-				fileOffset = theMix->getAFileOffset(mixHandler->convertNameToID(coreIniFiles[i]));
-				fileSize = theMix->getAFileSize(mixHandler->convertNameToID(coreIniFiles[i]));
+				fileOffset = theMix->getAFileOffset(mixManager->convertToID(coreIniFiles[i]));
+				fileSize = theMix->getAFileSize(mixManager->convertToID(coreIniFiles[i]));
 				
 				std::cout << "Upper most MIX from file is: " << parentMixName << std::endl;
-				iniHandler->createVirtualINI(coreIniFiles[i], parentMixName, fileOffset, fileSize);
+				iniManager->cache(coreIniFiles[i]);
 			}
 			else
 			{
@@ -342,57 +273,112 @@ bool StartupLoader::checkIniInRoot(const std::string& fileName)
 	return false;
 }
 
+std::vector<std::string> StartupLoader::getMainMixes()
+{
+	std::vector<std::string> mainMixNames;
+	mainMixNames.push_back("LANGMD.MIX");
+	mainMixNames.push_back("LANGUAGE.MIX");
+	mainMixNames.push_back("RA2MD.MIX");
+	mainMixNames.push_back("RA2.MIX");
+	mainMixNames.push_back("CACHEMD.MIX");
+	mainMixNames.push_back("CACHE.MIX");
+	mainMixNames.push_back("LOCALMD.MIX");
+	mainMixNames.push_back("LOCAL.MIX");
+
+
+	/*if (mixFilenames[i] == "RA2.MIX" || mixFilenames[i] == "RA2MD.MIX"
+		|| mixFilenames[i] == "MAPS01.MIX" || mixFilenames[i] == "MAPS02.MIX"
+		|| mixFilenames[i] == "MAPS" + GlobalData::MAIN_MissionDisk + "03.MIX"
+		|| mixFilenames[i] == "THEME.MIX" || mixFilenames[i] == "THEME" + GlobalData::MAIN_MissionDisk + ".MIX"
+		|| mixFilenames[i] == "MULTI.MIX" || mixFilenames[i] == "MULTI" + GlobalData::MAIN_MissionDisk + ".MIX"
+		|| mixFilenames[i] == "LANGUAGE.MIX" || mixFilenames[i] == "LANG" + GlobalData::MAIN_MissionDisk + ".MIX")
+		true;*/
+
+	return mainMixNames;
+}
+
 /*
 	TODO IMPORTANT:
 	- Should core mixes also have the modified mission disk name?
 	- Currently sticking with 'MD' suffix
 */
-std::vector<std::string> StartupLoader::getMixNames(bool missionDisk /* = false */)
+std::vector<std::string> StartupLoader::getSubMixes(bool missionDisk /* = false */)
 {
 	std::vector<std::string> coreMixNames;
-	if (missionDisk)
-	{
-		coreMixNames.push_back("CACHEMD.MIX");
-		coreMixNames.push_back("CONQMD.MIX");
-		coreMixNames.push_back("DES.MIX");
-		coreMixNames.push_back("DESERT.MIX");
-		coreMixNames.push_back("GENERMD.MIX");
-		coreMixNames.push_back("ISODES.MIX");
-		coreMixNames.push_back("ISODESMD.MIX");
-		coreMixNames.push_back("ISOGENMD.MIX");
-		coreMixNames.push_back("ISOLUN.MIX");
-		coreMixNames.push_back("ISOLUNMD.MIX");
-		coreMixNames.push_back("ISOSNOMD.MIX");
-		coreMixNames.push_back("ISOTEMMD.MIX");
-		coreMixNames.push_back("ISOUBN.MIX");
-		coreMixNames.push_back("ISOUBNMD.MIX");
-		coreMixNames.push_back("ISOURBMD.MIX");
-		coreMixNames.push_back("LOCALMD.MIX");
-		coreMixNames.push_back("LUN.MIX");
-		coreMixNames.push_back("LUNAR.MIX");
-		coreMixNames.push_back("SNOWMD.MIX");
-		coreMixNames.push_back("UBN.MIX");
-		coreMixNames.push_back("URBANN.MIX");
-		coreMixNames.push_back("AUDIOMD.MIX");
-	}
-	else
-	{
-		coreMixNames.push_back("CACHE.MIX");
-		coreMixNames.push_back("CONQUER.MIX");
-		coreMixNames.push_back("GENERIC.MIX");
-		coreMixNames.push_back("ISOGEN.MIX");
-		coreMixNames.push_back("ISOSNOW.MIX");
-		coreMixNames.push_back("ISOTEMP.MIX");
-		coreMixNames.push_back("ISOURB.MIX");
-		coreMixNames.push_back("LOCAL.MIX");
-		coreMixNames.push_back("SNO.MIX");
-		coreMixNames.push_back("SNOW.MIX");
-		coreMixNames.push_back("TEM.MIX");
-		coreMixNames.push_back("TEMPERAT.MIX");
-		coreMixNames.push_back("URB.MIX");
-		coreMixNames.push_back("URBAN.MIX");
-		coreMixNames.push_back("AUDIO.MIX");
-	}
+
+	coreMixNames.push_back("CONQMD.MIX");
+	coreMixNames.push_back("GENERMD.MIX");
+	coreMixNames.push_back("GENERIC.MIX");
+	coreMixNames.push_back("ISOGENMD.MIX");
+	coreMixNames.push_back("ISOGEN.MIX");
+	coreMixNames.push_back("CONQUER.MIX");
+	//Theater shit
+	coreMixNames.push_back("TEMPERATMD.MIX");
+	coreMixNames.push_back("TEM.MIX");
+	coreMixNames.push_back("ISOTEMMD.MIX");
+	coreMixNames.push_back("ISOTEMP.MIX");
+
+	coreMixNames.push_back("SNOWMD.MIX");
+	coreMixNames.push_back("SNO.MIX");
+	coreMixNames.push_back("ISOSNOMD.MIX");
+	coreMixNames.push_back("ISOSNOW.MIX");
+
+	coreMixNames.push_back("URBANMD.MIX");
+	coreMixNames.push_back("URB.MIX");
+	coreMixNames.push_back("ISOURBMD.MIX");
+	coreMixNames.push_back("ISOURB.MIX");
+
+	coreMixNames.push_back("DESERTMD.MIX");
+	coreMixNames.push_back("DES.MIX");
+	coreMixNames.push_back("ISODESMD.MIX");
+	coreMixNames.push_back("ISODES.MIX");
+
+	coreMixNames.push_back("URBANNMD.MIX");
+	coreMixNames.push_back("UBN.MIX");
+	coreMixNames.push_back("ISOUBN.MIX");
+	coreMixNames.push_back("ISOUBNMD.MIX");
+
+	coreMixNames.push_back("LUNDARMD.MIX");
+	coreMixNames.push_back("LUN.MIX");
+	coreMixNames.push_back("ISOLUNMD.MIX");
+	coreMixNames.push_back("ISOLUN.MIX");
+
+	/*coreMixNames.push_back("GENERIC.MIX");
+	coreMixNames.push_back("ISOGEN.MIX");
+	
+	coreMixNames.push_back("ISOTEMP.MIX");
+	coreMixNames.push_back("ISOURB.MIX");
+	coreMixNames.push_back("LOCAL.MIX");
+	coreMixNames.push_back("SNO.MIX");
+	coreMixNames.push_back("SNOW.MIX");
+	coreMixNames.push_back("TEM.MIX");
+	coreMixNames.push_back("TEMPERAT.MIX");
+	coreMixNames.push_back("URB.MIX");
+	coreMixNames.push_back("URBAN.MIX");
+	//coreMixNames.push_back("AUDIO.MIX");
+	coreMixNames.push_back("CACHEMD.MIX");
+	coreMixNames.push_back("CONQMD.MIX");
+	coreMixNames.push_back("DES.MIX");
+	coreMixNames.push_back("DESERT.MIX");
+	coreMixNames.push_back("GENERMD.MIX");
+	coreMixNames.push_back("ISODES.MIX");
+	coreMixNames.push_back("ISODESMD.MIX");
+	coreMixNames.push_back("ISOGENMD.MIX");
+	coreMixNames.push_back("ISOLUN.MIX");
+	coreMixNames.push_back("ISOLUNMD.MIX");
+	coreMixNames.push_back("ISOSNOMD.MIX");
+	coreMixNames.push_back("ISOTEMMD.MIX");
+	coreMixNames.push_back("ISOUBN.MIX");
+	coreMixNames.push_back("ISOUBNMD.MIX");
+	coreMixNames.push_back("ISOURBMD.MIX");
+	coreMixNames.push_back("LOCALMD.MIX");
+	coreMixNames.push_back("LUN.MIX");
+	coreMixNames.push_back("LUNAR.MIX");
+	coreMixNames.push_back("SNOWMD.MIX");
+	coreMixNames.push_back("UBN.MIX");
+	coreMixNames.push_back("URBANN.MIX");
+	//coreMixNames.push_back("AUDIOMD.MIX");*/
+
 	return coreMixNames;
 }
 
@@ -426,4 +412,125 @@ std::vector<std::string> StartupLoader::getIniNames()
 	//coreIniNames.push_back("URBANN" +	GlobalData::MIX_missionDisk + ".INI");
 
 	return coreIniNames;
+}
+
+std::vector<std::string> StartupLoader::getExpandMixes()
+{
+	std::vector<std::string> expandMixNames;
+	std::stringstream number;
+
+	for (unsigned int i = 99; i > 0; --i)
+	{
+		if (i < 10)
+			number << "0";
+		number << i;
+		expandMixNames.push_back(GlobalData::MAIN_Expand + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		number.str(std::string());
+	}
+	return expandMixNames;
+
+	for (unsigned int i = 0; i < 99; ++i)
+	{
+		std::stringstream numberStream;
+		if (i < 10)
+			numberStream << 0 << i;
+		else
+			numberStream << i;
+
+		for (unsigned int j = 0; j < mixFilenames.size(); ++j)
+		{
+			if (mixFilenames[j] == GlobalData::MAIN_Expand + GlobalData::MAIN_MissionDisk + numberStream.str() + ".MIX")
+			{
+				//std::cout << "Found 'expandmd' MIX file: " << filenames[j] << std::endl;
+				expandMixNames.insert(expandMixNames.begin(), mixFilenames[j]);
+			}
+		}
+	}
+
+	return expandMixNames;
+	/*
+	std::stringstream number;
+	
+	for (unsigned int i = 99; i > 0; --i)
+	{
+		if (i < 10)
+			number << "0";
+		number << i;
+		expandMixNames.push_back(GlobalData::MAIN_Expand + number.str() + GlobalData::MAIN_MissionDisk + ".MIX");
+		number.str(std::string());
+	}
+	return expandMixNames;*/
+}
+
+std::vector<std::string> StartupLoader::getEcacheMixes()
+{
+	std::vector<std::string> ecacheMixNames;
+	std::stringstream number;
+
+	//Ecache 99-00 loop..
+	for (unsigned int i = 99; i > 0; --i)
+	{
+		if (i < 10)
+			number << "0";
+		number << i;
+
+		ecacheMixNames.push_back(GlobalData::MAIN_Ecache + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		number.str(std::string());
+	}
+
+	//Any ecache* loop...
+	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
+	{
+		if (mixFilenames[i].substr(0, GlobalData::MAIN_Ecache.size()) == GlobalData::MAIN_Elocal)
+		{
+			// Don't want to put stuff in that's already there...
+			if (std::find(ecacheMixNames.begin(), ecacheMixNames.end(), mixFilenames[i]) != ecacheMixNames.end())
+				ecacheMixNames.push_back(toProcessMixFileNames[i]);
+		}
+	}
+
+	//Elocal 99-00 loop...
+	for (unsigned int i = 99; i > 0; --i)
+	{
+		if (i < 10)
+			number << "0";
+		number << i;
+
+		ecacheMixNames.push_back(GlobalData::MAIN_Elocal + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		number.str(std::string());
+	}
+
+	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
+	{
+		if (mixFilenames[i].substr(0, GlobalData::MAIN_Ecache.size()) == GlobalData::MAIN_Ecache)
+		{
+			// Don't want to put stuff in that's already there...
+			if (std::find(ecacheMixNames.begin(), ecacheMixNames.end(), mixFilenames[i]) != ecacheMixNames.end())
+				ecacheMixNames.push_back(toProcessMixFileNames[i]);
+		}
+	}
+
+	return ecacheMixNames;
+	
+	/*std::stringstream number;
+	
+	for (unsigned int i = 99; i > 0; --i)
+	{
+		if (i < 10)
+			number << "0";
+		number << i;
+		ecacheMixNames.push_back(GlobalData::MAIN_Ecache + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		number.str(std::string());
+	}
+
+	for (unsigned int i = 99; i > 0; --i)
+	{
+		if (i < 10)
+			number << "0";
+		number << i;
+		ecacheMixNames.push_back(GlobalData::MAIN_Elocal + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		number.str(std::string());
+	}
+
+	return ecacheMixNames;*/
 }

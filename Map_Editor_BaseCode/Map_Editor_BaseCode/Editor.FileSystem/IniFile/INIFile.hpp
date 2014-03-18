@@ -1,11 +1,3 @@
-/*
- * INIFile.hpp
- *
- *  Created on: 27 nov. 2013
- *      Author: Rik
- *	  Semester: CAR
- */
-
 #ifndef INIFILE_HPP_
 #define INIFILE_HPP_
 
@@ -14,10 +6,13 @@
 #include <string>
 
 #include "INISection.hpp"
-#include "../../Reading/BinaryReader.hpp"
+#include "../FileManager/BinaryReader.hpp"
+
+struct FileProperties;
 
 class INIFile {
 public:
+	INIFile(const FileProperties& props);
 	INIFile(const std::string& _iniName, const std::string& _directory);
 	INIFile(const std::string& _iniName);
 	INIFile(const std::string& _iniName, const std::string& parentName, __int32 offset, int size);
@@ -35,7 +30,8 @@ public:
 	std::string& getININame();
 
 private:
-	BinaryReader iniReader;
+
+	BinaryReader* iniReader;
 	//__int32 offset = 0;
 	bool isLoaded = false;
 	std::string iniName, mixName;

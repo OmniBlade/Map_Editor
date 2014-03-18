@@ -16,9 +16,18 @@
 #include "INISection.hpp"
 #include "CStringHelper.hpp"
 #include "../../GlobalData.hpp"
+#include "../FileManager/FileSystem.hpp"
+
+INIFile::INIFile(const FileProperties& props)
+:iniReader(props.reader)
+{
+	iniReader->setOffset(props.offset);
+	iniReader->setSize(props.size);
+	load();
+}
 
 INIFile::INIFile(const std::string& _iniName, const std::string& _parentName, __int32 offset, int size)
-:isLoaded(false), iniName(_iniName), iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _parentName, offset, size)
+:isLoaded(false), iniName(_iniName)//, iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _parentName)
 {
 	//iniReader = &BinaryReader(binaryFile);
 	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
@@ -26,7 +35,7 @@ INIFile::INIFile(const std::string& _iniName, const std::string& _parentName, __
 }
 
 INIFile::INIFile(const std::string& _iniName, const std::string& _directory)
-:isLoaded(false), iniName(_iniName), iniReader(_directory + GlobalData::MAIN_BackSlash + _iniName)
+:isLoaded(false), iniName(_iniName)//, iniReader(_directory + GlobalData::MAIN_BackSlash + _iniName)
 {
 	//iniReader = &BinaryReader(binaryFile);
 	//std::cout << "Offset from reader: " << iniReader.getOffset() << std::endl;
@@ -34,7 +43,7 @@ INIFile::INIFile(const std::string& _iniName, const std::string& _directory)
 }
 
 INIFile::INIFile(const std::string& _iniName)
-:isLoaded(false), iniName(_iniName), iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _iniName)
+:isLoaded(false), iniName(_iniName)//, iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _iniName)
 {
 	//iniReader = &BinaryReader(binaryFile);
 	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
@@ -49,9 +58,9 @@ void INIFile::load()
 	std::string currentSection;
 	std::string line;
 
-	while (iniReader.checkEOF() == false)
+	while (iniReader->checkEOF() == false)
 	{
-		line = iniReader.readTextLine();
+		line = iniReader->readTextLine();
 	
 		auto comment = line.find_first_of(";");
 		if (comment != std::string::npos)
@@ -105,8 +114,7 @@ void INIFile::load()
 		}
 	}
 	isLoaded = true;
-	std::cout << "INI: " << iniName << " is loaded!" << std::endl;
-
+	//std::cout << "Is loaded!" << std::endl;
 	//sectionList[currentSection]->dumpContent();
 }
 

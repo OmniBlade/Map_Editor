@@ -110,15 +110,22 @@ bool INISection::readBoolValue(const std::string& key, bool _default /* = false 
 	{
 		std::string	value = it->second;
 		std::transform(value.begin(), value.end(), value.begin(), ::toupper);
-		if (value.front() == 'Y' || value.front() == 'T' || value.front() == '1')
+		switch (value.front())
+		{
+		case 'Y':
+		case 'T':
+		case '1':
 			return true;
-		else
+		case 'N':
+		case 'F':
+		case '0':
 			return false;
+		default:
+			return _default;
+		}
 	}
 	else
-	{
 		return _default;
-	}
 }
 
 std::string INISection::getKey(const std::string &key, const std::string &_default /*= ""*/) const
@@ -128,6 +135,22 @@ std::string INISection::getKey(const std::string &key, const std::string &_defau
 	{
 		return it->first;
 	}
+	return _default;
+}
+
+std::string INISection::getNextValue(const std::string& _default)
+{
+	unsigned int localItem = 0;
+	for (std::map< std::string, std::string, std::less< int > >::const_iterator iter = keyValue.begin(); iter != keyValue.end(); ++iter)
+	//for (std::pair<const std::string, std::string>& _section : keyValue)
+	{
+		if (localItem == atItem)
+		{
+			atItem++;
+			return iter->second;
+		}
+	}
+	std::cout << "Looped through entire section, size of section: " << keyValue.size() << ", at item: " << atItem << std::endl;
 	return _default;
 }
 

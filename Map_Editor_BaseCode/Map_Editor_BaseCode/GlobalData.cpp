@@ -1,7 +1,12 @@
 #include "stdafx.h"
 #include "GlobalData.hpp"
 
+// This is FIXED for Red Alert 2 and Yuri's Revenge. Only changed for TS/FS
+unsigned int GlobalData::tileWidth = 60;
+unsigned int GlobalData::tileHeight = 30;
+
 // [MAIN]
+std::string GlobalData::MAIN_EditorRoot = "D:\\Map_Editor_GIT\\Map_Editor\\Map_Editor_BaseCode\\Debug";
 std::string GlobalData::MAIN_InstallDir = "";
 std::string GlobalData::MAIN_BackSlash = "\\";
 std::string GlobalData::MAIN_MissionDisk = "MD";

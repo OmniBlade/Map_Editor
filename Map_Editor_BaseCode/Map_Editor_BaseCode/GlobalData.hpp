@@ -1,10 +1,14 @@
 #pragma once
 
 #include <string>
-#include "FileSystem\INIFile\INISection.hpp"
+#include "Editor.FileSystem\INIFile\INISection.hpp"
 class GlobalData
 {
 public:
+	static unsigned int tileWidth;
+	static unsigned int tileHeight;
+	static std::string MAIN_EditorRoot;
+
 	// [Main]
 	static std::string MAIN_InstallDir;
 	static std::string MAIN_BackSlash;

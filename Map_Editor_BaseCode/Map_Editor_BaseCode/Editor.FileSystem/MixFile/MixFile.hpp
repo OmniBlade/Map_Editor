@@ -8,7 +8,7 @@
 
 #include <string>
 #include <vector>
-#include "../../Reading/BinaryReader.hpp"
+#include "../FileManager/BinaryReader.hpp"
 
 #ifndef MIXFILE_HPP_
 #define MIXFILE_HPP_
@@ -29,6 +29,7 @@ public:
 	};
 
 	MixFile(const std::string& _mixName, MixFile* _parent = nullptr, int fileID = 0);
+	MixFile(BinaryReader* _mixReader, int offset = 0, int size = 0, const std::string& _mixName = "");
 
 	/*
 		Handles the header of the MIX file
@@ -53,7 +54,7 @@ public:
 		@param fileID The ID of the file to look for
 		@return The file in bytes
 	*/
-	std::vector<byte> getFileByID(__int32 fileID);
+	std::vector<byte> getFile(__int32 fileID);
 	/*
 		This is used to determine what mixReader should be used
 		If it is a parent mix (present in the root), its own reader will be used
@@ -83,13 +84,14 @@ public:
 	*/
 	std::string getUpperParentName();
 
+	BinaryReader* getUpperParentMix();
 
 	std::vector<t_mix_index_header> mixIndex;
-	std::string mixName;
+	std::string mixName = "";
 	/* if parent */
-	BinaryReader mixReader;
+	//BinaryReader mixReader;
 	/* if child */
-	BinaryReader* aMixReader;
+	BinaryReader* mixReader;
 	MixFile* parent = nullptr;
 	int startingOffset = 0;
 	int bodyOffset = 0;

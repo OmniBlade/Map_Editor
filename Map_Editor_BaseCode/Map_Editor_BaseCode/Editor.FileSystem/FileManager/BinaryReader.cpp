@@ -7,7 +7,7 @@
  */
 
 #include "stdafx.h"
-#include "../GlobalData.hpp"
+#include "../../GlobalData.hpp"
 #include "BinaryReader.hpp"
 #include <cstring>
 #include <iostream>
@@ -17,23 +17,20 @@
 #include <stdio.h>
 
 
-BinaryReader::BinaryReader(const std::string& _fullFileName, __int32 _offset, int size)
-:fullFileName(_fullFileName), offset(_offset), fileSize(size)
+BinaryReader::BinaryReader(const std::string& _fullFileName)//, __int32 _offset, int size)
+:fullFileName(_fullFileName)
 {
 	fileStream.open(_fullFileName, std::ios::in | std::ios::binary, _SH_DENYNO);
-	fileStream.seekg(offset);
 
-	if (offset == 0)
-	{
-		fileStream.seekg(0, std::ios::end);
-		fileSize = fileStream.tellg();
-		fileStream.seekg(0, std::ios::beg);
-	}
-	std::cout << "Size: " << fileSize << " Offset: " << _offset << std::endl;
+	fileStream.seekg(0, std::ios::end);
+	fileSize = fileStream.tellg();
+	fileStream.seekg(0, std::ios::beg);
+	
+	//std::cout << "Size: " << fileSize << " Offset: " << _offset << std::endl;
 	if (fileStream.is_open())
 	{
 		isOpened = true;
-		std::cout << "File: " << _fullFileName << " is opened." << std::endl;
+		//std::cout << "File: " << _fullFileName << " is opened.\nSize is: " << fileSize << std::endl;
 	}
 	else
 	{
@@ -56,7 +53,7 @@ BinaryReader::~BinaryReader()
 
 void BinaryReader::setOffset(int _offset)
 {
-	std::cout << "Setting offset to: " << _offset << std::endl;
+	//std::cout << "Setting offset to: " << _offset << std::endl;
 	fileStream.seekg(_offset);
 	//fseek(theFile, _offset, SEEK_SET);
 }
@@ -65,6 +62,16 @@ int BinaryReader::getOffset()
 {
 	//return ftell(theFile);
 	return fileStream.tellg();
+}
+
+void BinaryReader::setSize(int _size)
+{
+	fileSize = _size;
+}
+
+int BinaryReader::getFileSize()
+{
+	return fileSize;
 }
 
 unsigned int BinaryReader::readUInt(bool isBigEndian /* = false */)

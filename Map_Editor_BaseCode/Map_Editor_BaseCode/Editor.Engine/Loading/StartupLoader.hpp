@@ -2,13 +2,13 @@
 
 #include <string>
 #include <vector>
-#include "../Handlers/MixFileHandler.hpp"
-#include "../Handlers/INIFileHandler.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/MixManager.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 
 class StartupLoader
 {
 public:
-	StartupLoader(MixFileHandler* _mixHandler, INIFileHandler* _iniHandler);
+	StartupLoader(MIXManager* _mixHandler, INIManager* _iniHandler);
 //---- MIX LOADING
 	/* Function to call when initiating MIXes, scoops through the directory for .mix files */
 	void initiateMIX();
@@ -25,7 +25,10 @@ public:
 	/* Testcode - Checks whether a file exists in any mix */
 	bool findFileInMix(const std::string& fileName);
 	/* Returns a list of all sub game mixes (like local.mix) */
-	std::vector<std::string> getMixNames(bool missionDisk = false);
+	std::vector<std::string> getMainMixes();
+	std::vector<std::string> getSubMixes(bool missionDisk = false);
+	std::vector<std::string> getExpandMixes();
+	std::vector<std::string> getEcacheMixes();
 
 //---- INI LOADING
 	/* Function to call when initiating initial INI files. This excludes map mods (duh) */
@@ -42,7 +45,7 @@ private:
 	std::vector<std::string> iniFilenames;
 	std::vector<std::string> toProcessMixFileNames;
 	std::vector<std::string> mixFilenames;
-	MixFileHandler* mixHandler;
-	INIFileHandler* iniHandler;
+	MIXManager* mixManager;
+	INIManager* iniManager;
 };
 
