@@ -3,6 +3,10 @@
 // Use command above in DEBUG -> Map_Editor_BaseCode Properties... -> Debugging -> Command Arguments
 
 #include "stdafx.h"
+#include <cstdlib>
+#include <Windows.h>
+#include <GL/gl.h>
+#include <gl/freeglut.h>
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
 #include "Editor.FileSystem/FileManager/RawFileSystem.hpp"
 #include "Editor.FileSystem/FileManager/Managers/MixManager.hpp"
@@ -12,47 +16,69 @@
 #include "Editor.FileSystem/FileManager/Managers/SHPManager.hpp"
 #include "Editor.FileSystem/FileManager/Managers/VXLManager.hpp"
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
-#include "Editor.FileSystem/VoxelFile/VPLFile.hpp"
+#include "Editor.FileSystem/SHPFile/SHPFile.hpp"
+#include "Editor.FileSystem/ShpFile/ShpImage.hpp"
 #include "Editor.Engine/Loading/StartupLoader.hpp"		
 #include "Editor.Engine/Map/TheaterCollection.hpp"
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
+#include "Editor.Engine/Map/Theater.hpp"
+#include "Editor.Engine/Map/TileSet.hpp"
 #include "GlobalData.hpp"
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include <string>
 
-/*
-	Main function
-	Mainly has debug and test code to verify MIX reading.
-	GlobalData variables will be read from a settings file lateron.
+void displayMe(void)
+{
+	glClear(GL_COLOR_BUFFER_BIT);
+	glBegin(GL_POLYGON);
+	
+	glVertex3f(0.0, 0.0, 0.0);
+	glVertex3f(1.0, 5.0, 1.0);
+	glVertex3f(0.5, 0.5, -2.0);
+	glVertex3f(0.0, 0.5, 0.0);
+	glEnd();
+	glFlush();
+}
 
-	CURRENT LOADING TIME FOR INIS AND MIXES IS 04.89 seconds!
+/*
+Main function
+Mainly has debug and test code to verify MIX reading.
+GlobalData variables will be read from a settings file lateron.
+
+CURRENT LOADING TIME FOR INIS AND MIXES IS 04.89 seconds!
 */
-int _tmain(int argc, _TCHAR* argv[])
+int _tmain(int argc, char* argv[])
 {
 	std::cout << "Please make sure you have a proper location pointing to the file 'CONFIG' as it is very important!" << std::endl
 		<< "It holds all important settings and is therefore critical to be loaded!" << std::endl;
 
 	//TODO: Rename ambiguous functions
 	RawFileSystem rawSystem;
-	MIXManager mixManager(&rawSystem);
-	FileSystem::getFileSystem()->assignPointers(&rawSystem, &mixManager);
-	INIManager iniManager;
-	TMPManager tmpManager;
-	PALManager palManager;
-	SHPManager shpManager;
-	VXLManager vxlManager;
+	MIXManager::getManager()->assignRawSystem(&rawSystem);
+	FileSystem::getFileSystem()->assignPointers(&rawSystem);
+	INIManager::getManager()->parseConfigFile("CONFIG");
 	rawSystem.locateGameRootFiles();
 
-	StartupLoader bootLoader(&mixManager, &iniManager);
+	StartupLoader bootLoader;
 	std::cout << "========================= MIX =========================" << std::endl;
 	bootLoader.initiateMIX();
 	std::cout << "========================= INI =========================" << std::endl;
 	bootLoader.initiateINI();
 
-	//std::string name = "CNOILD.SHP";
-	//shpManager.cache(name);
+	//glutInit(&argc, argv);
+	//glutInitDisplayMode(GLUT_SINGLE);
+	//glutInitWindowSize(300, 300);
+	//glutInitWindowPosition(100, 100);
+	//glutCreateWindow("Hello world :D");
+	//glutDisplayFunc(displayMe);
+	//glutMainLoop();
+
+	INIFile* temperat = INIManager::getManager()->get("TEMPERAT.INI");
+	Theater derp(temperat);
+	//std::string tileset = "TileSet0014";
+	//TileSet set0010(10, temperat->getSection(tileset));
 
 	//mixManager.cache("RA2.MIX");
 	//mixManager.cache("LOCAL.MIX");

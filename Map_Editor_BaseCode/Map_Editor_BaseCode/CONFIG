@@ -144,7 +144,7 @@ Mix = LUN.MIX, ISOLUNMD.MIX
 ;	This sections allows you to set whether you are using Ares 
 ;	Because we're not all retarded, any version NPatch is NOT supported.
 ;	Unlike with Ares, there's no consideration for NPatch's features such as Palette and new Countries/Sides
-;
+;	Additional checks will be done to ensure Ares' DLL and "inj" file exist in the root
 
 [GameExtension]
 Ares = true

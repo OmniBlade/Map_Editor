@@ -1,20 +1,20 @@
 #include "stdafx.h"
 #include "StartupLoader.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/MixManager.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../GlobalData.hpp"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <windows.h>
 
-StartupLoader::StartupLoader(MIXManager* _mixManager, INIManager* _iniManager)
-:mixManager(_mixManager), iniManager(_iniManager)
+StartupLoader::StartupLoader()
 {
 
 }
 
 void StartupLoader::initiateMIX()
 {
-	std::cout << "Initiate MIX" << std::endl;
 	WIN32_FIND_DATA ffd;
 	std::string installIni = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.mix";
 	std::wstring dir(installIni.begin(), installIni.end());
@@ -53,7 +53,7 @@ void StartupLoader::initiateMIX()
 	for (unsigned int i = 0; i < mixList.size(); ++i)
 	{
 		//std::cout << "Trying to cache: " << mixList[i] << "." << std::endl;
-		mixManager->cache(mixList[i]);
+		MIXManager::getManager()->cache(mixList[i]);
 	}
 	
 /*	std::vector<std::string> _expandFileNames;
@@ -150,7 +150,7 @@ void StartupLoader::initiateINI()
 	for (unsigned int i = 0; i < iniFiles.size(); ++i)
 	{
 		//std::cout << "Trying to cache: " << iniFiles[i] << std::endl;
-		iniManager->cache(iniFiles[i]);
+		INIManager::getManager()->cache(iniFiles[i]);
 	}
 
 	//findINIFiles();
@@ -168,7 +168,7 @@ void StartupLoader::findINIFiles()
 		//Found in ROOT
 		if (checkIniInRoot(coreIniFiles[i]))
 		{
-			iniManager->cache(coreIniFiles[i]);
+			INIManager::getManager()->cache(coreIniFiles[i]);
 			inRoot = true;
 			std::cout << "INI (" << coreIniFiles[i] << ") found in root" << std::endl;
 		}
@@ -176,17 +176,17 @@ void StartupLoader::findINIFiles()
 		{
 			MixFile* theMix;
 			std::string parentMixName;
-			if (mixManager->inAMix(coreIniFiles[i]))
+			if (MIXManager::getManager()->inAMix(coreIniFiles[i]))
 			{
-				parentMixName = mixManager->getName(coreIniFiles[i]);
+				parentMixName = MIXManager::getManager()->getName(coreIniFiles[i]);
 				std::cout << "INI (" << coreIniFiles[i] << ") found in: " << parentMixName << std::endl;
-				theMix = mixManager->get(parentMixName);
+				theMix = MIXManager::getManager()->get(parentMixName);
 				parentMixName = theMix->getUpperParentName();
-				fileOffset = theMix->getAFileOffset(mixManager->convertToID(coreIniFiles[i]));
-				fileSize = theMix->getAFileSize(mixManager->convertToID(coreIniFiles[i]));
+				fileOffset = theMix->getAFileOffset(MIXManager::getManager()->convertToID(coreIniFiles[i]));
+				fileSize = theMix->getAFileSize(MIXManager::getManager()->convertToID(coreIniFiles[i]));
 				
 				std::cout << "Upper most MIX from file is: " << parentMixName << std::endl;
-				iniManager->cache(coreIniFiles[i]);
+				INIManager::getManager()->cache(coreIniFiles[i]);
 			}
 			else
 			{

@@ -2,11 +2,18 @@
 #include "SHPManager.hpp"
 #include "../FileSystem.hpp"
 
-SHPManager::SHPManager()
+/* static */ SHPManager* SHPManager::manager;
+/* static */ SHPManager* SHPManager::getManager()
 {
+	if (manager)
+		return manager;
+	else
+		manager = new SHPManager();
+	return manager;
 }
 
-SHPManager::~SHPManager()
+
+SHPManager::SHPManager()
 {
 }
 

@@ -14,10 +14,24 @@
 #include <iostream>
 #include <sstream>
 
-MIXManager::MIXManager(RawFileSystem* _rawSystem)
-:rawSystem(_rawSystem)
+/* static */ MIXManager* MIXManager::manager;
+/* static */ MIXManager* MIXManager::getManager()
+{
+	if (manager)
+		return manager;
+	else
+		manager = new MIXManager();
+	return manager;
+}
+
+MIXManager::MIXManager()
 {
 
+}
+
+void MIXManager::assignRawSystem(RawFileSystem* _rawSystem)
+{
+	rawSystem = _rawSystem;
 }
 
 void MIXManager::cache(const std::string& _mixName)
@@ -134,7 +148,7 @@ bool MIXManager::inAMix(const std::string& fileName)
 		if (iter.second->checkFileExistance(fileID))
 			return true;
 	}
-	std::cout << "File: " << fileName << " does not exist in any MIX file." << std::endl;
+	//std::cout << "File: " << fileName << " does not exist in any MIX file." << std::endl;
 	return false;
 }
 

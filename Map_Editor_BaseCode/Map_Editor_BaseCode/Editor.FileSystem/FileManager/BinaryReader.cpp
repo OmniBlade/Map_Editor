@@ -155,10 +155,9 @@ std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
 {
 	std::vector<byte> buffer(amountOfBytes);
 	//fgets(reinterpret_cast<char*>(&buffer[0]), amountOfBytes, theFile); 
-	
 	fileStream.read(reinterpret_cast<char*>(&buffer[0]), amountOfBytes);
 	return buffer;
- }
+}
 
 std::string BinaryReader::readTextLine()
 {

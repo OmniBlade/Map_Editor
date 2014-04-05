@@ -2,6 +2,9 @@
 
 #include "../../Editor.FileSystem/INIFile/INIFile.hpp"
 #include "../../Editor.FileSystem/INIFile/INISection.hpp"
+#include "TileSet.hpp"
+#include <vector>
+#include <memory>
 
 class Theater
 {
@@ -10,6 +13,7 @@ public:
 	~Theater();
 
 	void readGeneral();
+	void readTileSets();
 
 	short RampBase;
 	short RampSmooth;
@@ -73,5 +77,6 @@ public:
 
 private:
 	INIFile* controlFile;
+	std::vector<std::unique_ptr<TileSet>> tileSets;
 };
 

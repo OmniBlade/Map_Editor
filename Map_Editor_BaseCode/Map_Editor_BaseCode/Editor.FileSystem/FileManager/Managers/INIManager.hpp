@@ -9,8 +9,7 @@ struct FileProperties;
 class INIManager
 {
 public:
-	INIManager();
-	~INIManager();
+	static INIManager* getManager();
 
 	INIFile* get(const std::string& fileName);
 	INIFile* cache(const std::string& fileName);
@@ -18,6 +17,8 @@ public:
 	void parseConfigFile(const std::string& _configPath);
 
 private:
+	static INIManager* manager;
+	INIManager();
 	std::map<std::string, std::unique_ptr<INIFile>> iniFiles;
 };
 

@@ -92,7 +92,7 @@ void INIFile::load()
 					
 					//Ehm, this is no longer needed since only 511 characters are read into the buffer from BinaryReader
 					//But a log line in there for errorish values might be in place
-					/*if(value.size() > 511)
+					/*if(value.length() > 511)
 					{
 						std::string corrValue = value.substr(0, 511);
 						std::string errValue = value.substr(512);
@@ -108,7 +108,10 @@ void INIFile::load()
 					//std::cout << key << " = " << value << std::endl;
 
 					//Logger::log(key + "."+ value);
-					SetValue(currentSection, key, value);
+					
+					//We don't want empty keys to be parsed
+					if (value.length())
+						SetValue(currentSection, key, value);
 				}
 			}
 		}

@@ -7,13 +7,14 @@
 class TMPManager
 {
 public:
-	TMPManager();
-	~TMPManager();
+	static TMPManager* getManager();
 
 	TMPFile* get(const std::string& fileName);
 	TMPFile* cache(const std::string& fileName);
 
 private:
+	static TMPManager* manager;
+	TMPManager();
 	std::map<std::string, std::unique_ptr<TMPFile>> tmpFiles;
 };
 

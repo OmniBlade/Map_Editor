@@ -3,12 +3,18 @@
 #include "../FileSystem.hpp"
 #include "../../VoxelFile/VPLFile.hpp"
 
-VXLManager::VXLManager()
+/* static */ VXLManager* VXLManager::manager;
+/* static */ VXLManager* VXLManager::getManager()
 {
+	if (manager)
+		return manager;
+	else
+		manager = new VXLManager();
+	return manager;
 }
 
 
-VXLManager::~VXLManager()
+VXLManager::VXLManager()
 {
 }
 

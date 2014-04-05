@@ -11,9 +11,6 @@ struct FileProperties;
 class TMPFile
 {
 public:
-
-	TMPFile(const std::string& _tmpName, const std::string& parentName, __int32 offset, int size);
-	TMPFile(const std::string& _iniName);
 	TMPFile(const FileProperties& props);
 
 	void readHeader();

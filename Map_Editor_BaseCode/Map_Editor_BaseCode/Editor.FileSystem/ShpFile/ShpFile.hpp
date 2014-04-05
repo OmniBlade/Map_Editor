@@ -18,6 +18,7 @@ public:
 
 	void readHeader();
 	void readImages();
+	ShpImage* get(int index);
 
 	short zero;
 	short width;

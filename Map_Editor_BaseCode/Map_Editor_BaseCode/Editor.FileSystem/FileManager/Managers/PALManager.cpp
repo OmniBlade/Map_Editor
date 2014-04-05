@@ -2,12 +2,18 @@
 #include "PALManager.hpp"
 #include "../FileSystem.hpp"
 
-PALManager::PALManager()
+/* static */ PALManager* PALManager::manager;
+/* static */ PALManager* PALManager::getManager()
 {
+	if (manager)
+		return manager;
+	else
+		manager = new PALManager();
+	return manager;
 }
 
 
-PALManager::~PALManager()
+PALManager::PALManager()
 {
 }
 

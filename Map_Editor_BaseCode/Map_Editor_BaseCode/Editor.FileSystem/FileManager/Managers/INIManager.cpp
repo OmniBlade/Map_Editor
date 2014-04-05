@@ -1,17 +1,24 @@
 #include "stdafx.h"
-
 #include "INIManager.hpp"
 #include "../../../GlobalData.hpp"
 #include <iostream>
 #include "../FileSystem.hpp"
+#include "../BinaryReader.hpp"
+
+/* static */ INIManager* INIManager::manager;
+/* static */ INIManager* INIManager::getManager()
+{
+	if (manager)
+		return manager;
+	else
+		manager = new INIManager();
+	
+	return manager;
+}
 
 INIManager::INIManager()
 {
-	parseConfigFile("CONFIG");
-}
 
-INIManager::~INIManager()
-{
 }
 
 INIFile* INIManager::get(const std::string& fileName)
@@ -48,7 +55,23 @@ void INIManager::parseConfigFile(const std::string& _configPath)
 		INISection* mainSection = configINI->getSection("Main");
 		if (mainSection != nullptr)
 		{
-			GlobalData::MAIN_InstallDir = mainSection->readStringValue("InstallDir", "", true);
+			//Temporary uglyness, to support 2 separate directories
+			std::string installDir1 = mainSection->readStringValue("InstallDir", "", true);
+			std::string installDir2 = mainSection->readStringValue("InstallDir2", "", true);
+			std::string installDir3 = mainSection->readStringValue("InstallDir3", "", true);
+
+			BinaryReader dir1(installDir1 + "\\" + "GAMEMD.EXE");
+			BinaryReader dir2(installDir2 + "\\" + "GAMEMD.EXE");
+			BinaryReader dir3(installDir3 + "\\" + "GAMEMD.EXE");
+
+			if (dir1.isOpened)
+				GlobalData::MAIN_InstallDir = installDir1;
+			else if (dir2.isOpened)
+				GlobalData::MAIN_InstallDir = installDir2;
+			else
+				GlobalData::MAIN_InstallDir = installDir3;
+
+			//GlobalData::MAIN_InstallDir = mainSection->readStringValue("InstallDir", "", true);
 			GlobalData::MAIN_MissionDisk = mainSection->readStringValue("MissionDisk", "", true);
 			GlobalData::MAIN_Expand = mainSection->readStringValue("ExpandMix", "", true);
 			GlobalData::MAIN_Ecache = mainSection->readStringValue("EcacheMix", "", true);

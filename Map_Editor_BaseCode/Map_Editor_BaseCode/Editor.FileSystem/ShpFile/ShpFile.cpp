@@ -81,3 +81,8 @@ void ShpFile::readImages()
 		}
 	}
 }
+
+ShpImage* ShpFile::get(int index)
+{
+	return images[index].get();
+}

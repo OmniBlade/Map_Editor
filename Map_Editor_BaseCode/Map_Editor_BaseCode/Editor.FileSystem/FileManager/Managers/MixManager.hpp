@@ -18,7 +18,9 @@
 
 class MIXManager {
 public:
-	MIXManager(RawFileSystem* _rawSystem);
+	static MIXManager* getManager();
+
+	void assignRawSystem(RawFileSystem* _rawSystem);
 
 	void cache(const std::string& _mixName);
 
@@ -41,6 +43,9 @@ public:
 	int getSizeForFile(const std::string& fileName);
 
 private:
+	static MIXManager* manager;
+	MIXManager();
+
 	RawFileSystem* rawSystem;
 	std::map<std::string, std::unique_ptr<MixFile>> mixFiles;
 	

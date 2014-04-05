@@ -2,13 +2,11 @@
 
 #include <string>
 #include <vector>
-#include "../../Editor.FileSystem/FileManager/Managers/MixManager.hpp"
-#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 
 class StartupLoader
 {
 public:
-	StartupLoader(MIXManager* _mixHandler, INIManager* _iniHandler);
+	StartupLoader();
 //---- MIX LOADING
 	/* Function to call when initiating MIXes, scoops through the directory for .mix files */
 	void initiateMIX();
@@ -45,7 +43,5 @@ private:
 	std::vector<std::string> iniFilenames;
 	std::vector<std::string> toProcessMixFileNames;
 	std::vector<std::string> mixFilenames;
-	MIXManager* mixManager;
-	INIManager* iniManager;
 };
 

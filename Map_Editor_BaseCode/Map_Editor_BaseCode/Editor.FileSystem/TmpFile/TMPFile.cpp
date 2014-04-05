@@ -4,20 +4,6 @@
 #include "../FileManager/FileSystem.hpp"
 #include <iostream>
 
-TMPFile::TMPFile(const std::string& _tmpName, const std::string& parentName, __int32 offset, int size)
-:tmpName(_tmpName)//, tmpReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + parentName)
-{
-	//std::cout << "Constructor with offset" << std::endl;
-	readHeader();
-}
-
-TMPFile::TMPFile(const std::string& _tmpName)
-:tmpName(_tmpName)//, tmpReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _tmpName)
-{
-	//std::cout << "Constructor without offset" << std::endl;
-	readHeader();
-}
-
 TMPFile::TMPFile(const FileProperties& props)
 :tmpReader(props.reader)
 {
@@ -48,6 +34,9 @@ void TMPFile::readHeader()
 
 	for (unsigned int i = 0; i < index.size(); ++i) 
 	{
+		if (i == 3)
+			std::cout << "";
+
 		if (index[i] > 0)
 			images.insert(images.end(), std::make_unique<TMPImage>(tmpReader, index[i]));
 		else

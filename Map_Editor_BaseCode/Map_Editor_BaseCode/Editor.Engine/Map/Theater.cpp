@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "Theater.hpp"
 #include <iostream>
+#include <sstream>
 
 Theater::Theater(INIFile* _controlFile)
 :controlFile(_controlFile)
 {
 	readGeneral();
+	readTileSets();
 }
 
 
@@ -45,18 +47,18 @@ void Theater::readGeneral()
 		SlopeSetPieces = general->readIntValue("SlopeSetPieces", -1);
 		SlopeSetPieces2 = general->readIntValue("SlopeSetPieces2", -1);
 		MonorailSlopes = general->readIntValue("MonorailSlopes", -1);
-		Tunnels = general->readIntValue("Tunnels", -1);
-		TrackTunnels = general->readIntValue("TrackTunnels", -1);
-		DirtTunnels = general->readIntValue("DirtTunnels", -1);
-		DirtTrackTunnels = general->readIntValue("DirtTrackTunnels", -1);
-		WaterfallEast = general->readIntValue("WaterfallEast", -1);
-		WaterfallWest = general->readIntValue("WaterfallWest", -1);
-		WaterfallNorth = general->readIntValue("WaterfallNorth", -1);
-		WaterfallSouth = general->readIntValue("WaterfallSouth", -1);
+		Tunnels = general->readIntValue("Tunnels", -1); //Animated
+		TrackTunnels = general->readIntValue("TrackTunnels", -1); //Animated
+		DirtTunnels = general->readIntValue("DirtTunnels", -1); //Animated
+		DirtTrackTunnels = general->readIntValue("DirtTrackTunnels", -1); //Animated
+		WaterfallEast = general->readIntValue("WaterfallEast", -1); //Animated
+		WaterfallWest = general->readIntValue("WaterfallWest", -1); //Animated
+		WaterfallNorth = general->readIntValue("WaterfallNorth", -1); //Animated
+		WaterfallSouth = general->readIntValue("WaterfallSouth", -1); //Animated
 		CliffRamps = general->readIntValue("CliffRamps", -1);
 		PavedRoads = general->readIntValue("PavedRoads", -1);
 		PavedRoadEnds = general->readIntValue("PavedRoadEnds", -1);
-		Medians = general->readIntValue("Medians", -1);
+		Medians = general->readIntValue("Medians", -1);	//Nice word for paved road bits
 		RoughGround = general->readIntValue("RoughGround", -1);
 		DirtRoadJunction = general->readIntValue("DirtRoadJunction", -1);
 		DirtRoadCurve = general->readIntValue("DirtRoadCurve", -1);
@@ -80,4 +82,30 @@ void Theater::readGeneral()
 	}
 	else
 		std::cout << "[General] does not exist in the file!" << std::endl;
+}
+
+void Theater::readTileSets()
+{
+	std::string tileset = "TileSet";
+	std::stringstream setNumber;
+	for (unsigned int i = 0; i < 9999; ++i)
+	{
+		if (i < 10)
+			setNumber << "0";
+		if (i < 100)
+			setNumber << "0";
+		if (i < 1000)
+			setNumber << "0";
+		setNumber << i;
+
+		if (INISection* ret = controlFile->getSection(tileset + setNumber.str()))
+			tileSets.push_back(std::make_unique<TileSet>(i, ret));
+		else
+		{
+			std::cout << "Last tile read: " << i-1 << std::endl;
+			break; //Loop until done
+		}
+
+		setNumber.str(std::string());
+	}
 }

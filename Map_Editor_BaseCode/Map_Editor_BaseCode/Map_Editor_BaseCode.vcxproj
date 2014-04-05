@@ -41,9 +41,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>D:\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -56,6 +60,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -73,6 +78,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -127,6 +133,7 @@
     <ClInclude Include="Editor.Engine\Map\TheaterCollection.hpp" />
     <ClInclude Include="Editor.Engine\Map\Theater.hpp" />
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\TMPManager.hpp" />
+    <ClInclude Include="Editor.Engine\Map\TileSet.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector2D.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector3D.hpp" />
@@ -186,6 +193,7 @@
     <ClCompile Include="Editor.Engine\Map\TheaterCollection.cpp" />
     <ClCompile Include="Editor.Engine\Map\Theater.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\TMPManager.cpp" />
+    <ClCompile Include="Editor.Engine\Map\TileSet.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector2D.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector3D.cpp" />
