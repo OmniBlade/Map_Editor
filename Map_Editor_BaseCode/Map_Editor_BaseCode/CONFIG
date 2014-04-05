@@ -18,18 +18,22 @@
 ;	names like Mental Omega has (elocal -> emocal, ecache -> emoche).
 ;	MissionDisk = What is the suffix used for loading certain MIX files (def: md)? Change this if you have edited the suffix like Mental Omega has (md -> mo).
 ;	InGameLighting = Should everything be rendered with the settings from [Lighting] (def: true)?	; This might weigh heavy on low end machines
-;	FA2Mode = Should everything be displayed as in FinalAlert 2 (def: false) Use this if you don't want damaged and shadow frames. Yeah, fuck you Matze
+;	ObeyInGameRules = Should the editor obey rules like "WaterBound", meaning you cannot place a Shipyard on land?
+;	FA2Mode = Should everything be displayed as in FinalAlert 2 (def: false) Use this if you don't want damaged and shadow frames.
 ;	NoobMode = Should the Trigger/Tag/TeamType editors be disabled (def: false)? ; Are we really going for this?
 
 ;	Some, maybe lots of options should be added for this!
 
 [Main]
-InstallDir = D:\\Westwood\\RA2 - kopie	;;BIG FAT WARNING: THINK ABOUT THE BACKSLASHES WHEN READING IN AS STRING
+InstallDir = D:\Westwood\RA2 - kopie	;RP
+InstallDir2 = D:\Games\RA2 & YR 		;Zeno
+InstallDir3 = D:\ 								;Third guy
 ExpandMix = expand
 EcacheMix = ecache
 ElocalMix = elocal
 MissionDisk = md
 InGameLighting = true
+ObeyInGameRules = true
 FA2Mode = false
 
 ;	********** INI keys **********
@@ -62,23 +66,31 @@ Coop = coopcampmd.ini 		; Note: this does NOT point to the gamemode file "mpcoop
 ;	********** Theater keys **********
 ;	The following sections and keys allow you to specify custom theaters or modified vanilla theaters
 ;	Defaults are valid for non-vanilla theaters
-;	Name = What is the name of this theater (def: Sectionname)? 
+;	Name = What is the name of this theater, cannot contain spaces (def: Sectionname)? 
 ;	INIFileName = What is the name of the theater control file (def: NO DEFAULT)?
 ;	ININame = What is the name the theater has for the key Theater = in [Map] (def: NO DEFAULT)? 
 ;	NewTheaterSuffix = What is the letter used for the NewTheater key (def: G)?
 ;	TileExtension = What is the extension name used for loading tiles (def: NO DEFAULT)? Used for loading files like clifx.tem
 ;	IsoMix = What is the name used on the * for: ISO*.MIX (def: NO DEFAULT)? Used for loading isotemp.mix ;Ehm, shouldn't this be obsolete since the tiles can fly loose in any mix?
 ;	Mix = What is the name of the MIX where the tiles are located (def: NO DEFAULT)? ;Ehm, same as above?
+;	TerrainPalette = What is the full name of the palette used to color the terrain (def: NO DEFAULT)?
+;	UnitPalette = What is the full name of the palette used to color SHPs (def: NO DEFAULT)?
+;	OverlayPalette = What is the full name of the palette used to color overlay (def: NO DEFAULT)?
 
 ;	Each entry has to exist as a separate section!
-;	Loads only vanilla theaters if Ares = no
+;	Loads only vanilla theaters if Ares = no ;Nope, currently loads ONLY vanilla theaters
+;	WARNING:
+;	- As a tribute to Westwood Studios, I made the vanilla theater names hardcoded. This means it will only look for your modified values
+;	if they have the name of a vanilla theater. If you modify Lunar to Indoor, keep the name of the theater Lunar
+;	After all it's still Lunar, you just changed the assets
+;	- Currently ignores [Theaters] since no patch allows custom theaters, only the sections for the theaters themself are read
 [Theaters]
 0 = Temperate
 1 = Snow
 2 = Urban
 3 = Desert
-4 = NewUrban
-5 = Lunar
+4 = Lunar
+5 = NewUrban
 
 [Temperate]
 Name = Temperate
@@ -89,6 +101,9 @@ TileExtension = TEM
 MarblePrefix = MMT
 IsoMix = ISOTEMP.MIX, ISOTEMMD.MIX
 Mix = TEM.MIX, TEMPERATMD.MIX
+TerrainPalette = ISOTEM.PAL
+UnitPalette = UNITTEM.PAL
+OverlayPalette = TEMPERAT.PAL
 
 [Snow]
 Name = Snow
@@ -99,6 +114,9 @@ TileExtension = SNO
 MarblePrefix = MMS
 IsoMix = ISOSNOW.MIX, ISOSNOMD.MIX
 Mix = SNO.MIX, SNOWMD.MIX
+TerrainPalette = ISOSNO.PAL
+UnitPalette = UNITSNO.PAL
+OverlayPalette = SNOW.PAL
 
 [Urban]
 Name = Urban
@@ -109,26 +127,22 @@ TileExtension = URB
 MarblePrefix = MMU
 IsoMix = ISOURB.MIX, ISOURBMD.MIX
 Mix = URB.MIX, URBANMD.MIX
+TerrainPalette = ISOURB.PAL
+UnitPalette = UNITURB.PAL
+OverlayPalette = URBAN.PAL
 
 [Desert]
 Name = Desert
 INIFileName = desertmd.ini
-ININame = DESET
+ININame = DESERT
 NewTheaterSuffix = D
 TileExtension = DES
 MarblePrefix = MMD
 IsoMix = ISODES.MIX, ISODESMD.MIX
 Mix = DES.MIX, DESERTMD.MIX
-
-[NewUrban]
-Name = New Urban
-INIFileName = newurban.ini
-ININame = NEWURBAN
-NewTheaterSuffix = N
-TileExtension = UBN
-MarblePrefix = MMT
-IsoMix = ISOUBN.MIX, ISOUBNMD.MIX
-Mix = UBN.MIX, URBANNMD.MIX
+TerrainPalette = ISODES.PAL
+UnitPalette = UNITDES.PAL
+OverlayPalette = DESERT.PAL
 
 [Lunar]
 Name = Lunar
@@ -139,12 +153,29 @@ TileExtension = LUN
 MarblePrefix = MML
 IsoMix = ISOLUN.MIX, ISOLUNMD.MIX
 Mix = LUN.MIX, ISOLUNMD.MIX
+TerrainPalette = ISOLUN.PAL
+UnitPalette = UNITLUN.PAL
+OverlayPalette = LUNAR.PAL
+
+[NewUrban]
+Name = New Urban
+INIFileName = urbannmd.ini
+ININame = NEWURBAN
+NewTheaterSuffix = N
+TileExtension = UBN
+MarblePrefix = MMT
+IsoMix = ISOUBN.MIX, ISOUBNMD.MIX
+Mix = UBN.MIX, URBANNMD.MIX
+TerrainPalette = ISOUBN.PAL
+UnitPalette = UNITUBN.PAL
+OverlayPalette = URBANN.PAL
+
 
 ;	********** EXE hacks **********
 ;	This sections allows you to set whether you are using Ares 
 ;	Because we're not all retarded, any version NPatch is NOT supported.
 ;	Unlike with Ares, there's no consideration for NPatch's features such as Palette and new Countries/Sides
-;	Additional checks will be done to ensure Ares' DLL and "inj" file exist in the root
+;
 
 [GameExtension]
 Ares = true
