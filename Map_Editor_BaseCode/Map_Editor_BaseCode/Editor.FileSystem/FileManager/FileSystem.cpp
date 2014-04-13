@@ -31,9 +31,17 @@ FileProperties FileSystem::getFile(const std::string& fileName)
 	std::transform(fileNameCaps.begin(), fileNameCaps.end(), fileNameCaps.begin(), ::toupper);
 
 	FileProperties fileProp;
+
 	fileProp.reader = getReaderForFile(fileNameCaps);
 	fileProp.offset = getFileOffset(fileNameCaps);
 	fileProp.size = getFileSize(fileNameCaps);
+	
+	if (rawSystem->fileIsInEditorRoot(fileNameCaps))
+	{
+		fileProp.reader = getReaderForEditorFile(fileNameCaps);
+		fileProp.offset = getEditorFileOffset(fileNameCaps);
+		fileProp.size = getEditorFileSize(fileNameCaps);
+	}	
 
 	return fileProp;
 }

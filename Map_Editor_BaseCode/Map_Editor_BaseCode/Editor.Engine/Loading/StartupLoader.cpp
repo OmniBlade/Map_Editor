@@ -2,7 +2,8 @@
 #include "StartupLoader.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/MixManager.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
-#include "../../GlobalData.hpp"
+#include "../../Config.hpp"
+#include "../../Log.hpp"
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -16,7 +17,7 @@ StartupLoader::StartupLoader()
 void StartupLoader::initiateMIX()
 {
 	WIN32_FIND_DATA ffd;
-	std::string installIni = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.mix";
+	std::string installIni = Config::installDir + Config::backSlash + "*.mix";
 	std::wstring dir(installIni.begin(), installIni.end());
 	const wchar_t* dirChar = dir.c_str();
 
@@ -50,39 +51,13 @@ void StartupLoader::initiateMIX()
 	mixList.insert(mixList.end(), ecacheMixes.begin(), ecacheMixes.end());
 	mixList.insert(mixList.end(), subMixes.begin(), subMixes.end());
 
+	Log::line("Loading MIX files...", Log::INFO);
 	for (unsigned int i = 0; i < mixList.size(); ++i)
 	{
 		//std::cout << "Trying to cache: " << mixList[i] << "." << std::endl;
 		MIXManager::getManager()->cache(mixList[i]);
 	}
-	
-/*	std::vector<std::string> _expandFileNames;
-	std::vector<std::string> _gameFileNames;
-	std::vector<std::string> _ecacheFileNames;
-
-	findExpandMIX(_expandFileNames);	
-	findRootGameMIX(_gameFileNames);
-	findEcacheMIX(_ecacheFileNames);
-
-	if (_expandFileNames.size() > 0)
-		toProcessMixFileNames.insert(toProcessMixFileNames.end(), _expandFileNames.begin(), _expandFileNames.end());
-	if (_gameFileNames.size() > 0)
-		toProcessMixFileNames.insert(toProcessMixFileNames.end(), _gameFileNames.begin(), _gameFileNames.end());
-	if (_ecacheFileNames.size() > 0)
-		toProcessMixFileNames.insert(toProcessMixFileNames.end(), _ecacheFileNames.begin(), _ecacheFileNames.end());
-	
-	if (toProcessMixFileNames.size() > 0)
-	{
-		for (unsigned int i = 0; i < toProcessMixFileNames.size(); ++i)
-		{
-			std::cout << "--------------------------------------------------" << std::endl;
-			//mixHandler->createVirtualMix(toProcessMixFileNames[i]);
-		}
-		//When all the essential mixes are handled, the search for the child mixes can begin
-		findSubGameMIX();
-	}
-	else
-		std::cout << "No MIX files found!" << std::endl;*/
+	Log::line("MIX files loaded!", Log::INFO);
 }
 
 void StartupLoader::findRootGameMIX(std::vector<std::string>& filesVector)
@@ -107,10 +82,10 @@ void StartupLoader::findRootGameMIX(std::vector<std::string>& filesVector)
 		*/
 		if	  (mixFilenames[i] == "RA2.MIX"			|| mixFilenames[i] == "RA2MD.MIX"
 			|| mixFilenames[i] == "MAPS01.MIX"		|| mixFilenames[i] == "MAPS02.MIX"
-			|| mixFilenames[i] == "MAPS" + GlobalData::MAIN_MissionDisk + "03.MIX"
-			|| mixFilenames[i] == "THEME.MIX"		|| mixFilenames[i] == "THEME" + GlobalData::MAIN_MissionDisk + ".MIX"
-			|| mixFilenames[i] == "MULTI.MIX"		|| mixFilenames[i] == "MULTI" + GlobalData::MAIN_MissionDisk + ".MIX"
-			|| mixFilenames[i] == "LANGUAGE.MIX"	|| mixFilenames[i] == "LANG" + GlobalData::MAIN_MissionDisk + ".MIX")
+			|| mixFilenames[i] == "MAPS" + Config::missionDisk + "03.MIX"
+			|| mixFilenames[i] == "THEME.MIX" || mixFilenames[i] == "THEME" + Config::missionDisk + ".MIX"
+			|| mixFilenames[i] == "MULTI.MIX" || mixFilenames[i] == "MULTI" + Config::missionDisk + ".MIX"
+			|| mixFilenames[i] == "LANGUAGE.MIX" || mixFilenames[i] == "LANG" + Config::missionDisk + ".MIX")
 		{
 			filesVector.push_back(mixFilenames[i]);
 		}
@@ -121,7 +96,7 @@ void StartupLoader::findRootGameMIX(std::vector<std::string>& filesVector)
 void StartupLoader::initiateINI()
 {
 	WIN32_FIND_DATA ffd;
-	std::string installIni = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.MIX";
+	std::string installIni = Config::installDir + Config::backSlash + "*.MIX";
 	std::wstring dir(installIni.begin(), installIni.end());
 	const wchar_t* dirChar = dir.c_str();
 
@@ -147,11 +122,14 @@ void StartupLoader::initiateINI()
 	FindClose(hFind);
 
 	std::vector<std::string> iniFiles = getIniNames();
+
+	Log::line("Loading INI files...", Log::INFO);
 	for (unsigned int i = 0; i < iniFiles.size(); ++i)
 	{
 		//std::cout << "Trying to cache: " << iniFiles[i] << std::endl;
 		INIManager::getManager()->cache(iniFiles[i]);
 	}
+	Log::line("INI files loaded!", Log::INFO);
 
 	//findINIFiles();
 }
@@ -170,7 +148,7 @@ void StartupLoader::findINIFiles()
 		{
 			INIManager::getManager()->cache(coreIniFiles[i]);
 			inRoot = true;
-			std::cout << "INI (" << coreIniFiles[i] << ") found in root" << std::endl;
+			Log::line("INI '" + coreIniFiles[i] + "' found in root", Log::DEBUG);
 		}
 		else
 		{
@@ -179,18 +157,17 @@ void StartupLoader::findINIFiles()
 			if (MIXManager::getManager()->inAMix(coreIniFiles[i]))
 			{
 				parentMixName = MIXManager::getManager()->getName(coreIniFiles[i]);
-				std::cout << "INI (" << coreIniFiles[i] << ") found in: " << parentMixName << std::endl;
+				Log::line("INI '" + coreIniFiles[i] + "' found inside MIX '" + parentMixName + "'", Log::DEBUG);
 				theMix = MIXManager::getManager()->get(parentMixName);
 				parentMixName = theMix->getUpperParentName();
 				fileOffset = theMix->getAFileOffset(MIXManager::getManager()->convertToID(coreIniFiles[i]));
 				fileSize = theMix->getAFileSize(MIXManager::getManager()->convertToID(coreIniFiles[i]));
-				
-				std::cout << "Upper most MIX from file is: " << parentMixName << std::endl;
+
 				INIManager::getManager()->cache(coreIniFiles[i]);
 			}
 			else
 			{
-				std::cout << "Unable to find: " << coreIniFiles[i] << " in any MIX!" << std::endl;
+				Log::line("Unable to find: " + coreIniFiles[i] + " in any MIX!", Log::WARNING);
 			}
 		}
 		/*//Found in a MIX file
@@ -288,10 +265,10 @@ std::vector<std::string> StartupLoader::getMainMixes()
 
 	/*if (mixFilenames[i] == "RA2.MIX" || mixFilenames[i] == "RA2MD.MIX"
 		|| mixFilenames[i] == "MAPS01.MIX" || mixFilenames[i] == "MAPS02.MIX"
-		|| mixFilenames[i] == "MAPS" + GlobalData::MAIN_MissionDisk + "03.MIX"
-		|| mixFilenames[i] == "THEME.MIX" || mixFilenames[i] == "THEME" + GlobalData::MAIN_MissionDisk + ".MIX"
-		|| mixFilenames[i] == "MULTI.MIX" || mixFilenames[i] == "MULTI" + GlobalData::MAIN_MissionDisk + ".MIX"
-		|| mixFilenames[i] == "LANGUAGE.MIX" || mixFilenames[i] == "LANG" + GlobalData::MAIN_MissionDisk + ".MIX")
+		|| mixFilenames[i] == "MAPS" + Config::MAIN_MissionDisk + "03.MIX"
+		|| mixFilenames[i] == "THEME.MIX" || mixFilenames[i] == "THEME" + Config::MAIN_MissionDisk + ".MIX"
+		|| mixFilenames[i] == "MULTI.MIX" || mixFilenames[i] == "MULTI" + Config::MAIN_MissionDisk + ".MIX"
+		|| mixFilenames[i] == "LANGUAGE.MIX" || mixFilenames[i] == "LANG" + Config::MAIN_MissionDisk + ".MIX")
 		true;*/
 
 	return mainMixNames;
@@ -391,25 +368,25 @@ std::vector<std::string> StartupLoader::getIniNames()
 	std::vector<std::string> coreIniNames;
 	
 	//CORE -- MAIN INIs
-	coreIniNames.push_back(GlobalData::INI_Rules);
-	coreIniNames.push_back(GlobalData::INI_Art);
-	coreIniNames.push_back(GlobalData::INI_Sound);
-	coreIniNames.push_back(GlobalData::INI_Eva);
-	coreIniNames.push_back(GlobalData::INI_Theme);
-	coreIniNames.push_back(GlobalData::INI_AI);
+	coreIniNames.push_back(Config::rules);
+	coreIniNames.push_back(Config::art);
+	coreIniNames.push_back(Config::sound);
+	coreIniNames.push_back(Config::eva);
+	coreIniNames.push_back(Config::theme);
+	coreIniNames.push_back(Config::AI);
 	//SP/MP specific INIs
-	coreIniNames.push_back(GlobalData::INI_SP_Battle);
-	coreIniNames.push_back(GlobalData::INI_MP_Coop);
-	coreIniNames.push_back(GlobalData::INI_MP_Modes);
-	//coreIniNames.push_back("MAPSEL" +	GlobalData::MIX_missionDisk + ".INI"); // This is no TS!
+	coreIniNames.push_back(Config::battle);
+	coreIniNames.push_back(Config::coop);
+	coreIniNames.push_back(Config::modes);
+	//coreIniNames.push_back("MAPSEL" +	Config::MIX_missionDisk + ".INI"); // This is no TS!
 	//CORE -- THEATERS
 	//Loaded only on demand (eg. creating / loading a map)
-	//coreIniNames.push_back("SNOW" +		GlobalData::MIX_missionDisk + ".INI");
-	//coreIniNames.push_back("TEMPERAT" + GlobalData::MIX_missionDisk + ".INI");
-	//coreIniNames.push_back("URBAN" +	GlobalData::MIX_missionDisk + ".INI");
-	//coreIniNames.push_back("DESERT" +	GlobalData::MIX_missionDisk + ".INI");
-	//coreIniNames.push_back("LUNAR" +	GlobalData::MIX_missionDisk + ".INI");
-	//coreIniNames.push_back("URBANN" +	GlobalData::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("SNOW" +		Config::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("TEMPERAT" + Config::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("URBAN" +	Config::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("DESERT" +	Config::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("LUNAR" +	Config::MIX_missionDisk + ".INI");
+	//coreIniNames.push_back("URBANN" +	Config::MIX_missionDisk + ".INI");
 
 	return coreIniNames;
 }
@@ -422,9 +399,9 @@ std::vector<std::string> StartupLoader::getExpandMixes()
 	for (unsigned int i = 99; i > 0; --i)
 	{
 		if (i < 10)
-			number << "0";
+			number << '0';
 		number << i;
-		expandMixNames.push_back(GlobalData::MAIN_Expand + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		expandMixNames.push_back(Config::expand + Config::missionDisk + number.str() + ".MIX");
 		number.str(std::string());
 	}
 	return expandMixNames;
@@ -439,7 +416,7 @@ std::vector<std::string> StartupLoader::getExpandMixes()
 
 		for (unsigned int j = 0; j < mixFilenames.size(); ++j)
 		{
-			if (mixFilenames[j] == GlobalData::MAIN_Expand + GlobalData::MAIN_MissionDisk + numberStream.str() + ".MIX")
+			if (mixFilenames[j] == Config::expand + Config::missionDisk + numberStream.str() + ".MIX")
 			{
 				//std::cout << "Found 'expandmd' MIX file: " << filenames[j] << std::endl;
 				expandMixNames.insert(expandMixNames.begin(), mixFilenames[j]);
@@ -456,7 +433,7 @@ std::vector<std::string> StartupLoader::getExpandMixes()
 		if (i < 10)
 			number << "0";
 		number << i;
-		expandMixNames.push_back(GlobalData::MAIN_Expand + number.str() + GlobalData::MAIN_MissionDisk + ".MIX");
+		expandMixNames.push_back(Config::MAIN_Expand + number.str() + Config::MAIN_MissionDisk + ".MIX");
 		number.str(std::string());
 	}
 	return expandMixNames;*/
@@ -465,23 +442,26 @@ std::vector<std::string> StartupLoader::getExpandMixes()
 std::vector<std::string> StartupLoader::getEcacheMixes()
 {
 	std::vector<std::string> ecacheMixNames;
-	std::stringstream number;
+
+	// NOTE: Following code to load ecacheXX.mix files only applies to Tiberian Sun!
+
+	/*std::stringstream number;
 
 	//Ecache 99-00 loop..
 	for (unsigned int i = 99; i > 0; --i)
 	{
 		if (i < 10)
-			number << "0";
+			number << '0';
 		number << i;
 
-		ecacheMixNames.push_back(GlobalData::MAIN_Ecache + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		ecacheMixNames.push_back(Config::ecache + Config::missionDisk + number.str() + ".MIX");
 		number.str(std::string());
-	}
+	}*/
 
 	//Any ecache* loop...
 	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
 	{
-		if (mixFilenames[i].substr(0, GlobalData::MAIN_Ecache.size()) == GlobalData::MAIN_Elocal)
+		if (mixFilenames[i].substr(0, Config::ecache.size()) == Config::elocal)
 		{
 			// Don't want to put stuff in that's already there...
 			if (std::find(ecacheMixNames.begin(), ecacheMixNames.end(), mixFilenames[i]) != ecacheMixNames.end())
@@ -489,20 +469,22 @@ std::vector<std::string> StartupLoader::getEcacheMixes()
 		}
 	}
 
+	// NOTE: The following code to load elocalXX.mix files only applies to Tiberian Sun!
+
 	//Elocal 99-00 loop...
-	for (unsigned int i = 99; i > 0; --i)
+	/*for (unsigned int i = 99; i > 0; --i)
 	{
 		if (i < 10)
-			number << "0";
+			number << '0';
 		number << i;
 
-		ecacheMixNames.push_back(GlobalData::MAIN_Elocal + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		ecacheMixNames.push_back(Config::elocal + Config::missionDisk + number.str() + ".MIX");
 		number.str(std::string());
-	}
+	}*/
 
 	for (unsigned int i = 0; i < mixFilenames.size(); ++i)
 	{
-		if (mixFilenames[i].substr(0, GlobalData::MAIN_Ecache.size()) == GlobalData::MAIN_Ecache)
+		if (mixFilenames[i].substr(0, Config::ecache.size()) == Config::ecache)
 		{
 			// Don't want to put stuff in that's already there...
 			if (std::find(ecacheMixNames.begin(), ecacheMixNames.end(), mixFilenames[i]) != ecacheMixNames.end())
@@ -519,7 +501,7 @@ std::vector<std::string> StartupLoader::getEcacheMixes()
 		if (i < 10)
 			number << "0";
 		number << i;
-		ecacheMixNames.push_back(GlobalData::MAIN_Ecache + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		ecacheMixNames.push_back(Config::MAIN_Ecache + Config::MAIN_MissionDisk + number.str() + ".MIX");
 		number.str(std::string());
 	}
 
@@ -528,7 +510,7 @@ std::vector<std::string> StartupLoader::getEcacheMixes()
 		if (i < 10)
 			number << "0";
 		number << i;
-		ecacheMixNames.push_back(GlobalData::MAIN_Elocal + GlobalData::MAIN_MissionDisk + number.str() + ".MIX");
+		ecacheMixNames.push_back(Config::MAIN_Elocal + Config::MAIN_MissionDisk + number.str() + ".MIX");
 		number.str(std::string());
 	}
 

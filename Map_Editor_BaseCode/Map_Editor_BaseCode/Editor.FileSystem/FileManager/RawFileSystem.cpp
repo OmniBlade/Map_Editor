@@ -3,7 +3,8 @@
 #include <algorithm>
 #include <windows.h>
 #include <iostream>
-#include "../../GlobalData.hpp"
+#include "../../Config.hpp"
+#include "../../Log.hpp"
 
 RawFileSystem::RawFileSystem()
 {
@@ -56,7 +57,7 @@ BinaryReader* RawFileSystem::createReader(const std::string& fileName)
 	if (!fileIsInGameRoot(fileName))
 		return nullptr;
 
-	readerList[fileName] = std::make_unique<BinaryReader>(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + fileName);
+	readerList[fileName] = std::make_unique<BinaryReader>(Config::installDir + Config::backSlash + fileName);
 	if (readerList[fileName].get()->isOpened == true)
 		return readerList[fileName].get();
 	else
@@ -72,7 +73,7 @@ BinaryReader* RawFileSystem::createEditorRootReader(const std::string& fileName)
 	if (!fileIsInEditorRoot(fileName))
 		return nullptr;
 
-	std::string filePath = GlobalData::MAIN_EditorRoot + GlobalData::MAIN_BackSlash + fileName;
+	std::string filePath = Config::editorRoot + Config::backSlash + fileName;
 	readerList[fileName] = std::make_unique<BinaryReader>(filePath);
 
 	if (readerList[fileName].get()->isOpened == true)
@@ -115,9 +116,9 @@ bool RawFileSystem::fileIsInEditorRoot(const std::string& fileName)
 
 void RawFileSystem::locateGameRootFiles()
 {
-	std::cout << "Install directory is: " << GlobalData::MAIN_InstallDir << std::endl;
+	Log::line("Install directory is: " + Config::installDir, Log::INFO);
 	WIN32_FIND_DATA ffd;
-	std::string rootFile = GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + "*.*";
+	std::string rootFile = Config::installDir + Config::backSlash + "*.*";
 	std::wstring dir(rootFile.begin(), rootFile.end());
 	const wchar_t* dirChar = dir.c_str();
 
@@ -147,9 +148,9 @@ void RawFileSystem::locateGameRootFiles()
 
 void RawFileSystem::locateEditorRootFiles()
 {
-	std::cout << "Editor root is: " << GlobalData::MAIN_EditorRoot << std::endl;
+	//Log::line("Editor root is: " + Config::editorRoot, Log::INFO);
 	WIN32_FIND_DATA ffd;
-	std::string rootFile = GlobalData::MAIN_EditorRoot + GlobalData::MAIN_BackSlash + "*.*";
+	std::string rootFile = Config::editorRoot + Config::backSlash + "*.*";
 	std::wstring dir(rootFile.begin(), rootFile.end());
 	const wchar_t* dirChar = dir.c_str();
 

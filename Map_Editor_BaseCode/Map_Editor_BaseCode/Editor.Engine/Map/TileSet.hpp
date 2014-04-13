@@ -37,7 +37,7 @@ public:
 	bool Morphable;				// Whether the tileset can be changed with the tool to raise/lower terrain (like normal grass becoming a ramp
 	bool ShadowCaster;			// Whether the tileset (CLIFF specifically) casts a shadow. Only works if in [General]->CliffSet is set to its ID
 	bool AllowToPlace;			// Defines whether the tiles in this tileset can be placed (in editor)
-	bool AllowTiberium;			// Whether tiberium can be placed on this (Tiberium on ramps causes Internal Errors :D)
+	bool AllowTiberium;			// Whether tiberium can be placed on this (Tiberium on ramps causes Internal ERRORSs :D)
 
 private:
 	INISection* section;

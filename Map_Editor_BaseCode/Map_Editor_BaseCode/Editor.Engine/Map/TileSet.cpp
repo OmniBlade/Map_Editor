@@ -2,6 +2,7 @@
 #include "TileSet.hpp"
 #include <iostream>
 #include <sstream>
+#include "../Map/TheaterCollection.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/TMPManager.hpp"
 /*
 	NOTE: Not sure where to place this yet, it's just working ahead really...
@@ -10,7 +11,8 @@
 TileSet::TileSet(int _ID, INISection* _section)
 :ID(_ID), section(_section)
 {
-	std::cout << "---------------------------------------------\nParsing tileset with ID: " << ID << " Memory: " << section << std::endl;
+	std::cout << "---------------------------------------------\nParsing tileset with ID: " << ID << std::endl;
+	//std::cout << "Name: " << section->sectionName << " current theater extension: " << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
 	parse();
 	collectTiles();
 }
@@ -58,31 +60,30 @@ void TileSet::parse()
 */
 void TileSet::collectTiles()
 {
+	std::string& extension = TheaterCollection::getInstance()->getCurrent()->TileExtension;
 	std::stringstream number;
 	for (unsigned int i = 1; i <= TilesInSet; ++i)
 	{
 		if (i < 10)
-			number << "0";
-		
+			number << '0';
 		number << i;
 
-		if (TMPManager::getManager()->get(FileName + number.str() + ".TEM")) //lol, hardcoding for testing
+		if (TMPManager::getManager()->get(FileName + number.str() + '.' + extension)) //lol, hardcoding for testing
 		{
-			std::cout << "Now parsing: " << FileName << number.str() << ".TEM" << std::endl;
+			//std::cout << "Now parsing: " << FileName << number.str() << '.' << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
 			//Search for a-b-c-d-e-f-g
 			for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
 			{
-				
-				if (!TMPManager::getManager()->get(FileName + number.str() + (char)i + ".TEM"))
+				if (!TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension))
 					break;
-				else
-					std::cout << "Now parsing: " << FileName << number.str() << (char)i << ".TEM" << std::endl;
+				//else
+					//std::cout << "Now parsing: " << FileName << number.str() << (char)i << '.' << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
 			}
 		}
 		else
-			break; 
+			break;
 
 		number.str(std::string());
 	}
-	std::cout << "Tiles collected for set: " << SetName << " (" << FileName << ")" << std::endl;
+	//std::cout << "Tiles collected for set: " << SetName << " (" << FileName << ")" << std::endl;
 }

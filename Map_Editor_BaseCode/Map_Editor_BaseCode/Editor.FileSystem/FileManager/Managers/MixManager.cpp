@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+#include "../../../Log.hpp"
 
 /* static */ MIXManager* MIXManager::manager;
 /* static */ MIXManager* MIXManager::getManager()
@@ -77,7 +78,7 @@ void MIXManager::cache(const std::string& _mixName)
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(parentName), offset, size));
 	}
 
-	std::cout << "MIX: " << mixName << " successfully cached." << std::endl;
+	Log::line("MIX: " + mixName + " succesfully cached.", Log::DEBUG);
 }
 
 		/*

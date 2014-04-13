@@ -9,7 +9,9 @@
 class TheaterCollection
 {
 public:
-	TheaterCollection(INIFile* configFile = nullptr);
+	static TheaterCollection* getInstance();
+	void initiate(INIFile* _configFile);
+	
 	~TheaterCollection();
 
 	void parseTheaters();
@@ -18,7 +20,13 @@ public:
 	void validateTheaterPresence();
 	std::vector<std::string> getDefaultValues(const std::string& _theaterName);
 
+	TheaterDefinition* getCurrent();
+	void setCurrent(const std::string& theaterName);
+
 private:
+	static TheaterCollection* instance;
+	TheaterCollection();
+	TheaterDefinition* currentTheater = nullptr;
 	std::vector<std::string> defTheaterNames;
 	std::vector<std::unique_ptr<TheaterDefinition>> theaters;
 	INIFile* configFile;

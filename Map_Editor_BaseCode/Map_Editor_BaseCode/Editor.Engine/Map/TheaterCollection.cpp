@@ -2,11 +2,23 @@
 #include "TheaterCollection.hpp"
 #include <iostream>
 #include "../../Editor.FileSystem/INIFile/INISection.hpp"
+#include "../../Log.hpp"
 #include <algorithm>
 
-TheaterCollection::TheaterCollection(INIFile* _configFile)
-:configFile(_configFile)
+/* static */ TheaterCollection* TheaterCollection::instance;
+/* static */ TheaterCollection* TheaterCollection::getInstance()
 {
+	if (instance)
+		return instance;
+	else
+		instance = new TheaterCollection();
+
+	return instance;
+}
+
+void TheaterCollection::initiate(INIFile* _configFile)
+{
+	configFile = _configFile;
 	defTheaterNames.push_back("Temperate");
 	defTheaterNames.push_back("Snow");
 	defTheaterNames.push_back("Urban");
@@ -16,10 +28,12 @@ TheaterCollection::TheaterCollection(INIFile* _configFile)
 	parseTheaters();
 }
 
+TheaterCollection::TheaterCollection()
+{
+}
 
 TheaterCollection::~TheaterCollection()
 {
-
 }
 
 bool TheaterCollection::checkTheaterExistance(const std::string& _theaterName)
@@ -103,9 +117,11 @@ void TheaterCollection::validateTheaterPresence()
 			}
 		}
 		if (!theaterFound)
-			std::cout << "Unable to locate default theater with name: " << defTheaterNames[i] << std::endl;
+			Log::line("Unable to locate default theater with name '" + defTheaterNames[i] + "'.", Log::CRITICAL);
+		//std::cout << "Unable to locate default theater with name: " << defTheaterNames[i] << std::endl;
 		else
-			std::cout << "Theater with name: " << defTheaterNames[i] << " succesfully parsed and located!" << std::endl;
+			Log::line("Theater with name: '" + defTheaterNames[i] + "' succesfully located and parsed!", Log::INFO);
+		//std::cout << "Theater with name: " << defTheaterNames[i] << " succesfully parsed and located!" << std::endl;
 	}
 }
 
@@ -192,6 +208,20 @@ std::vector<std::string> TheaterCollection::getDefaultValues(const std::string& 
 		defaultValues.push_back("UNITUBN.PAL");
 		defaultValues.push_back("URBANN.PAL");
 	}
-	std::cout << "Size of default values: " << defaultValues.size() << std::endl;
+	//std::cout << "Size of default values: " << defaultValues.size() << std::endl;
 	return defaultValues;
+}
+
+TheaterDefinition* TheaterCollection::getCurrent()
+{
+	return currentTheater;
+}
+
+void TheaterCollection::setCurrent(const std::string& theaterName)
+{
+	for (unsigned int i = 0; i < theaters.size(); ++i)
+	{
+		if (theaters[i]->ININame == theaterName)
+			currentTheater = theaters[i].get();
+	}
 }

@@ -7,8 +7,9 @@
  */
 
 #include "stdafx.h"
-#include "../../GlobalData.hpp"
+#include "../../Config.hpp"
 #include "BinaryReader.hpp"
+#include "../../Log.hpp"
 #include <cstring>
 #include <iostream>
 #include <algorithm>
@@ -23,7 +24,7 @@ BinaryReader::BinaryReader(const std::string& _fullFileName)//, __int32 _offset,
 	fileStream.open(_fullFileName, std::ios::in | std::ios::binary, _SH_DENYNO);
 
 	fileStream.seekg(0, std::ios::end);
-	fileSize = fileStream.tellg();
+	fileSize = (int) fileStream.tellg();
 	fileStream.seekg(0, std::ios::beg);
 	
 	//std::cout << "Size: " << fileSize << " Offset: " << _offset << std::endl;
@@ -34,7 +35,7 @@ BinaryReader::BinaryReader(const std::string& _fullFileName)//, __int32 _offset,
 	}
 	else
 	{
-		std::cout << "Unable to open file with path: " << _fullFileName << std::endl;
+		Log::line("Unable to open file with path: " + _fullFileName, Log::WARNING);
 	}
 }
 
@@ -55,13 +56,14 @@ void BinaryReader::setOffset(int _offset)
 {
 	//std::cout << "Setting offset to: " << _offset << std::endl;
 	fileStream.seekg(_offset);
+	offset = _offset;
 	//fseek(theFile, _offset, SEEK_SET);
 }
 
 int BinaryReader::getOffset()
 {
 	//return ftell(theFile);
-	return fileStream.tellg();
+	return (int) fileStream.tellg();
 }
 
 void BinaryReader::setSize(int _size)
@@ -154,6 +156,8 @@ void BinaryReader::discardBytes(unsigned int amount)
 std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
 {
 	std::vector<byte> buffer(amountOfBytes);
+	if (amountOfBytes == 0)
+		return buffer;
 	//fgets(reinterpret_cast<char*>(&buffer[0]), amountOfBytes, theFile); 
 	fileStream.read(reinterpret_cast<char*>(&buffer[0]), amountOfBytes);
 	return buffer;
@@ -181,7 +185,7 @@ std::string BinaryReader::readTextLine()
 			return line;
 		}*/
 	}
-	std::cout << "ERROR - The read line is longer than 511 characters, everything else will be discarded." << std::endl;
+	Log::line("The read line is longer than 511 characters, everything else will be discarded.", Log::ERRORS);
 	//std::cout << "The line: " << line << std::endl;
 	//auto isEnd = [](byte value) { return value == '\0' || value == '\n' || value == EOF; };
 
@@ -259,10 +263,13 @@ int BinaryReader::littleToBigInt(int toSwap)
 	return ret;
 }
 
-std::vector<byte> BinaryReader::readByteBlockFromOffset(__int32 offset, unsigned int amountOfBytes)
+std::vector<byte> BinaryReader::readByteBlockFromOffset(__int32 _offset, unsigned int amountOfBytes)
 {
 	std::vector<byte> byteBuffer(amountOfBytes);
-	fileStream.seekg(offset);
+	if (amountOfBytes == 0)
+		return byteBuffer;
+
+	fileStream.seekg(_offset);
 	fileStream.read(reinterpret_cast<char*>(&byteBuffer[0]), amountOfBytes);
 
 	return byteBuffer;

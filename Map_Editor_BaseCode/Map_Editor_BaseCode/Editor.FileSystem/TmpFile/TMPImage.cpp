@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TMPImage.hpp"
-#include "../../GlobalData.hpp"
+#include "../../Config.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -17,12 +17,12 @@ void TMPImage::readImage()
 	Y = tmpReader->readUInt();
 	_extraDataOffset = tmpReader->readUInt();
 	_zDataOffset = tmpReader->readUInt();
-	_extraZDataOffset = tmpReader->readUInt();//20 bytes
+	_extraZDataOffset = tmpReader->readUInt();
 	ExtraX = tmpReader->readUInt();
 	ExtraY = tmpReader->readUInt();
 	ExtraWidth = tmpReader->readUInt();
 	ExtraHeight = tmpReader->readUInt();
-	_dataPrecencyFlags = (DataPrecencyFlags) tmpReader->readUInt(); //40
+	_dataPrecencyFlags = (DataPrecencyFlags) tmpReader->readUInt();
 	Height = tmpReader->readByte();
 	TerrainType = tmpReader->readByte();
 	RampType = tmpReader->readByte();
@@ -32,31 +32,28 @@ void TMPImage::readImage()
 	RadarRedRight = tmpReader->readByte();
 	RadarGreenRight = tmpReader->readByte();
 	RadarBlueRight = tmpReader->readByte();
-	tmpReader->discardBytes(3); // discard padding 52 bytes
-	TileData = tmpReader->readByteBlock(GlobalData::tileWidth * GlobalData::tileHeight / 2);
-	
-	//-if tileoffset+tilesize+extragraphicsize > end of file (e.g. last tile has incorrect header and thus would be bigger than the filesize) 
-	//-if tileoffset + tilesize + extragraphicsize > following tile offset
+	tmpReader->discardBytes(3); // discard padding
+	TileData = tmpReader->readByteBlock(Config::tileWidth * Config::tileHeight / 2);
+
 	if (HasZData())
-		ZData = tmpReader->readByteBlock(GlobalData::tileWidth * GlobalData::tileHeight / 2);
+		ZData = tmpReader->readByteBlock(Config::tileWidth * Config::tileHeight / 2);
 	if (HasExtraData() 
 		&& _extraDataOffset < std::abs(ExtraWidth * ExtraHeight)
-		&& offset + GlobalData::tileWidth * GlobalData::tileHeight + ExtraWidth * ExtraHeight < tmpReader->getFileSize()
+		&& offset + Config::tileWidth * Config::tileHeight + ExtraWidth * ExtraHeight < tmpReader->getFileSize()
 		)
-		ExtraData = tmpReader->readByteBlock(std::abs(ExtraWidth * ExtraHeight));
+		ExtraData = tmpReader->readByteBlock(std::abs(ExtraWidth * ExtraHeight)); // Crash here
 	if (HasZData() 
-		&& HasExtraData() 
-		&& 0 < _extraZDataOffset 
+		&& HasExtraData()
+		&& 0 < _extraZDataOffset
 		&& _extraZDataOffset < tmpReader->getFileSize()
 		&& _extraDataOffset < std::abs(ExtraWidth * ExtraHeight)
-		&& offset + GlobalData::tileWidth * GlobalData::tileHeight + ExtraWidth * ExtraHeight < tmpReader->getFileSize()
+		&& offset + Config::tileWidth * Config::tileHeight + ExtraWidth * ExtraHeight < tmpReader->getFileSize() // See if offset is greater than file size
 		)
 		ExtraZData = tmpReader->readByteBlock(std::abs(ExtraWidth * ExtraHeight));
 }
 
 bool TMPImage::HasExtraData()
 {
-	/* Check to see if the extra data > actual file size; if so: discard operation and ignore extra data */
 	return (_dataPrecencyFlags & DataPrecencyFlags::enumExtraData) == DataPrecencyFlags::enumExtraData;
 }
 

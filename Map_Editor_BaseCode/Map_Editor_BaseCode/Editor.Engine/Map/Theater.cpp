@@ -90,6 +90,9 @@ void Theater::readTileSets()
 	std::stringstream setNumber;
 	for (unsigned int i = 0; i < 9999; ++i)
 	{
+		//if (i == 19)
+//			std::cout << "";
+
 		if (i < 10)
 			setNumber << "0";
 		if (i < 100)

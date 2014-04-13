@@ -24,12 +24,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractLoader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GlobalData.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -72,49 +66,10 @@
     <ClInclude Include="Editor.FileSystem\TmpFile\TMPImage.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\AbstractType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\AircraftType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Animation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\BuildingType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Foundation.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\InfantryType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\ObjectType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\OverlayType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\SmudgeType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\TechnoType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\TerrainType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Tiberium.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Vector2D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Vector3D.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\VehicleType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Loading\MapAssetLoader.hpp">
@@ -186,18 +141,60 @@
     <ClInclude Include="Editor.Engine\Map\Theater.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\AbstractType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\AircraftType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\Animation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\BuildingType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\Foundation.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\InfantryType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\ObjectType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\OverlayType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\SmudgeType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\TechnoType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\TerrainType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\Tiberium.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Types\VehicleType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Managers\List.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Map_Editor_BaseCode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AbstractLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GlobalData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
@@ -239,49 +236,10 @@
     <ClCompile Include="Editor.FileSystem\TmpFile\TMPImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\AbstractType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\AircraftType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\Animation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\BuildingType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\Foundation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\InfantryType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\ObjectType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\OverlayType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\SmudgeType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\TechnoType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\TerrainType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\Tiberium.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\Vector3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\VehicleType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Loading\MapAssetLoader.cpp">
@@ -351,6 +309,54 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Map\Theater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\AbstractType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\AircraftType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\BuildingType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\Foundation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\InfantryType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\ObjectType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\OverlayType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\SmudgeType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\TechnoType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\TerrainType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\Tiberium.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Types\VehicleType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\Managers\List.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,7 +11,7 @@
 #include "KeyCalculator.hpp"
 #include "Blowfish.hpp"
 #include "Ccrc.hpp"
-#include "../../GlobalData.hpp"
+#include "../../Config.hpp"
 #include <cstring>
 #include <algorithm>
 #include <iostream>

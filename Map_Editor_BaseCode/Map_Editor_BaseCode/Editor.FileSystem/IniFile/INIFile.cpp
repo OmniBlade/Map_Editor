@@ -15,7 +15,7 @@
 #include "INIFile.hpp"
 #include "INISection.hpp"
 #include "CStringHelper.hpp"
-#include "../../GlobalData.hpp"
+#include "../../Config.hpp"
 #include "../FileManager/FileSystem.hpp"
 
 INIFile::INIFile(const FileProperties& props)
@@ -27,7 +27,7 @@ INIFile::INIFile(const FileProperties& props)
 }
 
 INIFile::INIFile(const std::string& _iniName, const std::string& _parentName, __int32 offset, int size)
-:isLoaded(false), iniName(_iniName)//, iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _parentName)
+:isLoaded(false), iniName(_iniName)//, iniReader(Config::MAIN_InstallDir + Config::MAIN_BackSlash + _parentName)
 {
 	//iniReader = &BinaryReader(binaryFile);
 	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
@@ -35,7 +35,7 @@ INIFile::INIFile(const std::string& _iniName, const std::string& _parentName, __
 }
 
 INIFile::INIFile(const std::string& _iniName, const std::string& _directory)
-:isLoaded(false), iniName(_iniName)//, iniReader(_directory + GlobalData::MAIN_BackSlash + _iniName)
+:isLoaded(false), iniName(_iniName)//, iniReader(_directory + Config::MAIN_BackSlash + _iniName)
 {
 	//iniReader = &BinaryReader(binaryFile);
 	//std::cout << "Offset from reader: " << iniReader.getOffset() << std::endl;
@@ -43,7 +43,7 @@ INIFile::INIFile(const std::string& _iniName, const std::string& _directory)
 }
 
 INIFile::INIFile(const std::string& _iniName)
-:isLoaded(false), iniName(_iniName)//, iniReader(GlobalData::MAIN_InstallDir + GlobalData::MAIN_BackSlash + _iniName)
+:isLoaded(false), iniName(_iniName)//, iniReader(Config::MAIN_InstallDir + Config::MAIN_BackSlash + _iniName)
 {
 	//iniReader = &BinaryReader(binaryFile);
 	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
@@ -91,7 +91,7 @@ void INIFile::load()
 					std::string value = StringHelper::trim(lineSub2);
 					
 					//Ehm, this is no longer needed since only 511 characters are read into the buffer from BinaryReader
-					//But a log line in there for errorish values might be in place
+					//But a log line in there for ERRORS values might be in place
 					/*if(value.length() > 511)
 					{
 						std::string corrValue = value.substr(0, 511);
@@ -99,7 +99,7 @@ void INIFile::load()
 
 						std::cout << "In section '" << currentSection << "', for key '" << key << "', value is too long, this will be cut off:" <<  std::endl;
 						std::cout << errValue << std::endl;
-						std::cout << "Error in key '" << key << "', too long:" << std::endl;
+						std::cout << "ERRORS in key '" << key << "', too long:" << std::endl;
 						std::cout << "Parsed: " << corrValue << std::endl;
 						std::cout << "Cut-off: " << errValue << std::endl;
 						value = corrValue;

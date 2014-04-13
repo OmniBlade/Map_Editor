@@ -1,6 +1,4 @@
 // ConsoleApplication1.cpp : Defines the entry point for the console application.
-// Map_Editor_BaseCode.exe >> processLog.txt
-// Use command above in DEBUG -> Map_Editor_BaseCode Properties... -> Debugging -> Command Arguments
 
 #include "stdafx.h"
 #include <cstdlib>
@@ -23,11 +21,13 @@
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
 #include "Editor.Engine/Map/Theater.hpp"
 #include "Editor.Engine/Map/TileSet.hpp"
-#include "GlobalData.hpp"
+#include "Editor.Objects.Westwood/Types/OverlayType.hpp"
+#include "Config.hpp"
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Log.hpp"
 
 void displayMe(void)
 {
@@ -44,27 +44,33 @@ void displayMe(void)
 
 /*
 Main function
-Mainly has debug and test code to verify MIX reading.
-GlobalData variables will be read from a settings file lateron.
-
-CURRENT LOADING TIME FOR INIS AND MIXES IS 04.89 seconds!
+Config variables will be read from a settings file.
 */
-int _tmain(int argc, char* argv[])
+int _tmain(int argc, _TCHAR* argv[])
 {
-	std::cout << "Please make sure you have a proper location pointing to the file 'CONFIG' as it is very important!" << std::endl
-		<< "It holds all important settings and is therefore critical to be loaded!" << std::endl;
+	std::wstring pathW = argv[0];
+	std::string pathS(pathW.begin(), pathW.end());
+	//Remove the executable
+	pathS.erase(pathS.find_last_of('\\'), pathS.length());
+	Config::editorRoot = pathS;
+
+	Log::open();
+	Log::line("Please make sure your CONFIG file is in the root of the executable!", Log::WARNING);
+	Log::line("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
 
 	//TODO: Rename ambiguous functions
 	RawFileSystem rawSystem;
 	MIXManager::getManager()->assignRawSystem(&rawSystem);
 	FileSystem::getFileSystem()->assignPointers(&rawSystem);
-	INIManager::getManager()->parseConfigFile("CONFIG");
+	Config::parse();
 	rawSystem.locateGameRootFiles();
 
 	StartupLoader bootLoader;
-	std::cout << "========================= MIX =========================" << std::endl;
+	Log::line("", Log::D_EMPTY);
+	Log::line("Loading MIX files:", Log::DEBUG);
 	bootLoader.initiateMIX();
-	std::cout << "========================= INI =========================" << std::endl;
+	Log::line("", Log::D_EMPTY);
+	Log::line("Loading INI files:", Log::DEBUG);
 	bootLoader.initiateINI();
 
 	//glutInit(&argc, argv);
@@ -75,8 +81,14 @@ int _tmain(int argc, char* argv[])
 	//glutDisplayFunc(displayMe);
 	//glutMainLoop();
 
-	INIFile* temperat = INIManager::getManager()->get("TEMPERAT.INI");
-	Theater derp(temperat);
+	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get("CONFIG"));
+	TheaterCollection::getInstance()->setCurrent("NEWURBAN");
+
+	INIFile* temperat = INIManager::getManager()->get("urbannmd.ini");
+	INIFile* rules = INIManager::getManager()->get("rulesmd.ini");
+	INIFile* art = INIManager::getManager()->get("artmd.ini");
+	//Theater derp(temperat);
+
 	//std::string tileset = "TileSet0014";
 	//TileSet set0010(10, temperat->getSection(tileset));
 
@@ -103,8 +115,15 @@ int _tmain(int argc, char* argv[])
 	//std::string mapfile = "all01t.map";
 	//iniHandler.createVirtualINI(mapfile);
 	
+	Log::line("", Log::EMPTY);
+	Log::line("", Log::D_EMPTY);
+	Log::line("Ending a succesful session, duration: " + Log::getSessionTime() , Log::DEBUG);
+	Log::line("Total session time is: " + Log::getSessionTime(), Log::INFO);
+	Log::line("Shutting down, thank you.", Log::INFO);
 	std::cout << "\n------------------------------------------------------------\nPress Enter to finish." << std::endl;
-	//std::cin.get();
+	Log::close();
+	std::cin.get();
+
 	return 0;
 }
 

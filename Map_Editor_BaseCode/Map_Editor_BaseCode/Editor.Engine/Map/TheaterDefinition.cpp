@@ -8,9 +8,9 @@ TheaterDefinition::TheaterDefinition(const std::vector<std::string>& _defaultThe
 	if (_defaultTheater.size() >= 10)
 		parseTheaterValues(_defaultTheater);
 	else
-		std::cout << "ERROR - Default theater values does not have 9 values, unable to parse!" << std::endl;
+		std::cout << "ERRORS - Default theater values does not have 9 values, unable to parse!" << std::endl;
 
-	dumpContent();
+	//dumpContent();
 }
 
 /*Theater::Theater(const std::vector<std::string>* _defaultTheater)

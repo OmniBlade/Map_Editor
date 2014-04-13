@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "TMPFile.hpp"
-#include "../../GlobalData.hpp"
+#include "../../Config.hpp"
 #include "../FileManager/FileSystem.hpp"
 #include <iostream>
 
@@ -34,8 +34,8 @@ void TMPFile::readHeader()
 
 	for (unsigned int i = 0; i < index.size(); ++i) 
 	{
-		if (i == 3)
-			std::cout << "";
+ 		//if (i == 6)
+//			std::cout << "";
 
 		if (index[i] > 0)
 			images.insert(images.end(), std::make_unique<TMPImage>(tmpReader, index[i]));

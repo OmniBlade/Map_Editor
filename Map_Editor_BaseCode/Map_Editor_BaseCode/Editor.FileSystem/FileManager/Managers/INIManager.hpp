@@ -13,8 +13,6 @@ public:
 
 	INIFile* get(const std::string& fileName);
 	INIFile* cache(const std::string& fileName);
-	
-	void parseConfigFile(const std::string& _configPath);
 
 private:
 	static INIManager* manager;
