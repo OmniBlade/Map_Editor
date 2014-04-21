@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PALManager.hpp"
+#include <algorithm>
 #include "../FileSystem.hpp"
 
 /* static */ PALManager* PALManager::manager;
@@ -19,10 +20,13 @@ PALManager::PALManager()
 
 PaletteFile* PALManager::get(const std::string& fileName)
 {
-	if (paletteFiles[fileName])
-		return paletteFiles[fileName].get();
+	std::string capsName = fileName;
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	if (paletteFiles[capsName])
+		return paletteFiles[capsName].get();
 	else
-		return cache(fileName);
+		return cache(capsName);
 }
 
 PaletteFile* PALManager::cache(const std::string& fileName)

@@ -19,9 +19,10 @@
 #include "Editor.Engine/Loading/StartupLoader.hpp"		
 #include "Editor.Engine/Map/TheaterCollection.hpp"
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
-#include "Editor.Engine/Map/Theater.hpp"
+#include "Editor.FileSystem\IniFile\INISection.hpp"
+#include "Editor.Engine/Game/Theater.hpp"
 #include "Editor.Engine/Map/TileSet.hpp"
-#include "Editor.Objects.Westwood/Types/OverlayType.hpp"
+#include "Editor.Engine\Loading\MapLoader.hpp"
 #include "Config.hpp"
 #include <sstream>
 #include <iostream>
@@ -43,8 +44,8 @@ void displayMe(void)
 }
 
 /*
-Main function
-Config variables will be read from a settings file.
+	Main function
+	Config variables will be read from a settings file.
 */
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -55,8 +56,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Config::editorRoot = pathS;
 
 	Log::open();
-	Log::line("Please make sure your CONFIG file is in the root of the executable!", Log::WARNING);
-	Log::line("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
+	Log::note("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
 
 	//TODO: Rename ambiguous functions
 	RawFileSystem rawSystem;
@@ -66,11 +66,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	rawSystem.locateGameRootFiles();
 
 	StartupLoader bootLoader;
-	Log::line("", Log::D_EMPTY);
-	Log::line("Loading MIX files:", Log::DEBUG);
+	Log::note();
+	Log::note("Loading MIX files:", Log::DEBUG);
 	bootLoader.initiateMIX();
-	Log::line("", Log::D_EMPTY);
-	Log::line("Loading INI files:", Log::DEBUG);
+	Log::note();
+	Log::note("Loading INI files:", Log::DEBUG);
 	bootLoader.initiateINI();
 
 	//glutInit(&argc, argv);
@@ -84,9 +84,17 @@ int _tmain(int argc, _TCHAR* argv[])
 	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get("CONFIG"));
 	TheaterCollection::getInstance()->setCurrent("NEWURBAN");
 
-	INIFile* temperat = INIManager::getManager()->get("urbannmd.ini");
+	INIFile* urbann = INIManager::getManager()->get("urbannmd.ini");
+	INIFile* temperat = INIManager::getManager()->get("temperatmd.ini");
 	INIFile* rules = INIManager::getManager()->get("rulesmd.ini");
 	INIFile* art = INIManager::getManager()->get("artmd.ini");
+
+	INISection* overlay = rules->getSection("OverlayTypes");
+	MapLoader mapLoader;
+
+	mapLoader.allocateMainRules(rules, art);
+	mapLoader.loadAll(rules, art);
+
 	//Theater derp(temperat);
 
 	//std::string tileset = "TileSet0014";
@@ -115,11 +123,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	//std::string mapfile = "all01t.map";
 	//iniHandler.createVirtualINI(mapfile);
 	
-	Log::line("", Log::EMPTY);
-	Log::line("", Log::D_EMPTY);
-	Log::line("Ending a succesful session, duration: " + Log::getSessionTime() , Log::DEBUG);
-	Log::line("Total session time is: " + Log::getSessionTime(), Log::INFO);
-	Log::line("Shutting down, thank you.", Log::INFO);
+	Log::note();
+	Log::note("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------\nPress Enter to finish." << std::endl;
 	Log::close();
 	std::cin.get();

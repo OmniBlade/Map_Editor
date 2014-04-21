@@ -1,27 +1,38 @@
 #include "stdafx.h"
 #include "TerrainType.hpp"
+#include "../../Log.hpp"
 
+/* static */ List<TerrainType> TerrainType::Array;
 
-TerrainType::TerrainType(INISection* _rulesSection, INISection* _artSection)
-:ObjectType(_rulesSection, _artSection), artSection(_artSection), rulesSection(_rulesSection)
+TerrainType::TerrainType(const std::string& id)
+:ObjectType(id)
 {
-
 }
 
-void TerrainType::loadRules()
+void TerrainType::loadRules(INIFile* rules)
 {
-	IsVeinhole = rulesSection->readBoolValue("IsVeinHole", false);
-	WaterBound = rulesSection->readBoolValue("WaterBound", false);
-	SpawnsTiberium = rulesSection->readBoolValue("SpawnsTiberium", false);
-	RadarColor = rulesSection->readStringValue("IsVeinHole", "0,0,0");
-	IsAnimated = rulesSection->readBoolValue("IsAnimated", false);
-	AnimationRate = rulesSection->readIntValue("AnimationRate", 0);
-	AnimationProbability = rulesSection->readFloatValue("AnimationProbability", 0.0);
-	TemperateOccupationBits = rulesSection->readIntValue("TemperateOccupationBits", 7);
-	SnowOccupationBits = rulesSection->readIntValue("SnowOccupationBits", 7);
+	INISection* rulesSection = rules->getSection(ID);
+	if (!rulesSection) return;
+
+	ObjectType::loadRules(rules);
+
+	IsVeinhole = rulesSection->readBoolValue("IsVeinHole", IsVeinhole);
+	WaterBound = rulesSection->readBoolValue("WaterBound", WaterBound);
+	SpawnsTiberium = rulesSection->readBoolValue("SpawnsTiberium", SpawnsTiberium);
+	RadarColor = rulesSection->readStringValue("RadarColor", RadarColor);
+	IsAnimated = rulesSection->readBoolValue("IsAnimated", IsAnimated);
+	AnimationRate = rulesSection->readIntValue("AnimationRate", AnimationRate);
+	AnimationProbability = rulesSection->readFloatValue("AnimationProbability", AnimationProbability);
+	TemperateOccupationBits = rulesSection->readIntValue("TemperateOccupationBits", TemperateOccupationBits);
+	SnowOccupationBits = rulesSection->readIntValue("SnowOccupationBits", SnowOccupationBits);
 }
 
-void TerrainType::loadArt()
+void TerrainType::loadArt(INIFile* art)
 {
+	INISection* artSection = art->getSection(ID);
+	if (!artSection) return;
+
+	ObjectType::loadArt(art);
+
 	Foundation = artSection->readStringValue("Foundation", "1x1");
 }

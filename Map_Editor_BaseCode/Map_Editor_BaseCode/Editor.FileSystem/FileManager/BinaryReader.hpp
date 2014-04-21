@@ -21,7 +21,7 @@ public:
 		Opens the file as a binary file and opens a file stream to it
 		@param _fullFileName The full path to the file
 	*/
-	BinaryReader(const std::string& _fullFileName);// , __int32 _offset = 0, int size = 0);
+	BinaryReader(const std::string& _fullFileName, bool logError = true);// , __int32 _offset = 0, int size = 0);
 	/*
 		Creates a binary reader with a referenced file stream used by another
 		@param _fileStream The 'file' from a parent that holds the file needed

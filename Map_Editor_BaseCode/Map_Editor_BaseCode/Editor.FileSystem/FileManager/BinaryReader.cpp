@@ -18,7 +18,7 @@
 #include <stdio.h>
 
 
-BinaryReader::BinaryReader(const std::string& _fullFileName)//, __int32 _offset, int size)
+BinaryReader::BinaryReader(const std::string& _fullFileName, bool logError /* = true */ )//, __int32 _offset, int size)
 :fullFileName(_fullFileName)
 {
 	fileStream.open(_fullFileName, std::ios::in | std::ios::binary, _SH_DENYNO);
@@ -33,9 +33,9 @@ BinaryReader::BinaryReader(const std::string& _fullFileName)//, __int32 _offset,
 		isOpened = true;
 		//std::cout << "File: " << _fullFileName << " is opened.\nSize is: " << fileSize << std::endl;
 	}
-	else
+	else if (logError)
 	{
-		Log::line("Unable to open file with path: " + _fullFileName, Log::WARNING);
+		Log::note("Unable to open file with path: " + _fullFileName, Log::DEBUG);
 	}
 }
 
@@ -165,18 +165,18 @@ std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
 
 std::string BinaryReader::readTextLine()
 {
-	char line [512] = "";
+	char line[2048] = "";
 
-	for (unsigned int i = 0; i < 510; ++i)
+	for (unsigned int i = 0; i < sizeof(line); ++i)
 	{
-		char reatByte = readChar();
-		line[i] = reatByte;
+		//char reatByte = readChar();
+		line[i] = readChar();
 		if (line[i] == '\n' || line[i] == '\0' || line[i] == '\r')
 		{
 			line[i] = '\0';
-		//	std::cout << "N, 0 or R!" << std::endl;
 			return line;
 		}
+
 		/*else if (line[i] == EOF)
 		{
 			atEOF = true;
@@ -185,7 +185,6 @@ std::string BinaryReader::readTextLine()
 			return line;
 		}*/
 	}
-	Log::line("The read line is longer than 511 characters, everything else will be discarded.", Log::ERRORS);
 	//std::cout << "The line: " << line << std::endl;
 	//auto isEnd = [](byte value) { return value == '\0' || value == '\n' || value == EOF; };
 

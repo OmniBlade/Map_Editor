@@ -2,20 +2,28 @@
 #include "Tiberium.hpp"
 
 
-Tiberium::Tiberium(INISection* _rulesSection, INISection* _artSection)
-:ObjectType(_rulesSection, _artSection), artSection(_artSection), rulesSection(_rulesSection)
+Tiberium::Tiberium(const std::string& id)
+:ObjectType(id)
 {
 }
 
-void Tiberium::loadRules()
+void Tiberium::loadRules(INIFile* rules)
 {
-	Value = rulesSection->readIntValue("Value", 0);
-	Power = rulesSection->readIntValue("Power", 0);
-	Color = rulesSection->readStringValue("Color", "");
-	Image = rulesSection->readIntValue("Image", 0);
+	INISection* rulesSection = rules->getSection(ID);
+	if (!rulesSection) return;
+
+	ObjectType::loadRules(rules);
+
+	Value = rulesSection->readIntValue("Value", Value);
+	Power = rulesSection->readIntValue("Power", Power);
+	Color = rulesSection->readStringValue("Color", Color);
+	Image = rulesSection->readIntValue("Image", Image);
 }
 
-void Tiberium::loadArt()
+void Tiberium::loadArt(INIFile* art)
 {
+	INISection* artSection = art->getSection(ID);
+	if (!artSection) return;
 
+	ObjectType::loadArt(art);
 }

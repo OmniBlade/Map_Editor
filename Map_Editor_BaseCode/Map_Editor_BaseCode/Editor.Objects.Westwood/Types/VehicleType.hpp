@@ -1,26 +1,22 @@
 #pragma once
 
 #include "TechnoType.hpp"
+#include "../Managers/List.hpp"
 
 class VehicleType : public TechnoType
 {
 public:
-	VehicleType(INISection* _rulesSection, INISection* _artSection);
+	static List<VehicleType> Array;
+	VehicleType(const std::string& id);
 
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* rules) override;
 
-	bool Harvester;
-	bool Weeder;
-	bool UseTurretShadow;
+	bool Harvester = false;
+	bool Weeder = false;
+	bool UseTurretShadow = false;
 
 	//Art
 	int StandingFrames;
 	int Facings;
-
-
-protected:
-	INISection* rulesSection = nullptr;
-	INISection* artSection = nullptr;
 };
-

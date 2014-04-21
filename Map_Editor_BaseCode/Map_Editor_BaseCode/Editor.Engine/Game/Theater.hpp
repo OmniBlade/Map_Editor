@@ -2,7 +2,7 @@
 
 #include "../../Editor.FileSystem/INIFile/INIFile.hpp"
 #include "../../Editor.FileSystem/INIFile/INISection.hpp"
-#include "TileSet.hpp"
+#include "../Map/TileSet.hpp"
 #include <vector>
 #include <memory>
 

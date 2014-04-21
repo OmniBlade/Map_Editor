@@ -51,13 +51,11 @@ void StartupLoader::initiateMIX()
 	mixList.insert(mixList.end(), ecacheMixes.begin(), ecacheMixes.end());
 	mixList.insert(mixList.end(), subMixes.begin(), subMixes.end());
 
-	Log::line("Loading MIX files...", Log::INFO);
 	for (unsigned int i = 0; i < mixList.size(); ++i)
 	{
 		//std::cout << "Trying to cache: " << mixList[i] << "." << std::endl;
 		MIXManager::getManager()->cache(mixList[i]);
 	}
-	Log::line("MIX files loaded!", Log::INFO);
 }
 
 void StartupLoader::findRootGameMIX(std::vector<std::string>& filesVector)
@@ -123,13 +121,11 @@ void StartupLoader::initiateINI()
 
 	std::vector<std::string> iniFiles = getIniNames();
 
-	Log::line("Loading INI files...", Log::INFO);
 	for (unsigned int i = 0; i < iniFiles.size(); ++i)
 	{
 		//std::cout << "Trying to cache: " << iniFiles[i] << std::endl;
 		INIManager::getManager()->cache(iniFiles[i]);
 	}
-	Log::line("INI files loaded!", Log::INFO);
 
 	//findINIFiles();
 }
@@ -148,7 +144,7 @@ void StartupLoader::findINIFiles()
 		{
 			INIManager::getManager()->cache(coreIniFiles[i]);
 			inRoot = true;
-			Log::line("INI '" + coreIniFiles[i] + "' found in root", Log::DEBUG);
+			Log::note("INI '" + coreIniFiles[i] + "' found in root", Log::DEBUG);
 		}
 		else
 		{
@@ -157,7 +153,7 @@ void StartupLoader::findINIFiles()
 			if (MIXManager::getManager()->inAMix(coreIniFiles[i]))
 			{
 				parentMixName = MIXManager::getManager()->getName(coreIniFiles[i]);
-				Log::line("INI '" + coreIniFiles[i] + "' found inside MIX '" + parentMixName + "'", Log::DEBUG);
+				Log::note("INI '" + coreIniFiles[i] + "' found inside MIX '" + parentMixName + "'", Log::DEBUG);
 				theMix = MIXManager::getManager()->get(parentMixName);
 				parentMixName = theMix->getUpperParentName();
 				fileOffset = theMix->getAFileOffset(MIXManager::getManager()->convertToID(coreIniFiles[i]));
@@ -167,7 +163,7 @@ void StartupLoader::findINIFiles()
 			}
 			else
 			{
-				Log::line("Unable to find: " + coreIniFiles[i] + " in any MIX!", Log::WARNING);
+				Log::note("Unable to find: " + coreIniFiles[i] + " in any MIX!", Log::DEBUG);
 			}
 		}
 		/*//Found in a MIX file

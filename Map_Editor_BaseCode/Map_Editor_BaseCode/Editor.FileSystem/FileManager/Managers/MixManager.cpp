@@ -78,7 +78,7 @@ void MIXManager::cache(const std::string& _mixName)
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(parentName), offset, size));
 	}
 
-	Log::line("MIX: " + mixName + " succesfully cached.", Log::DEBUG);
+	Log::note("MIX: " + mixName + " succesfully cached.", Log::DEBUG);
 }
 
 		/*
@@ -134,8 +134,11 @@ int MIXManager::convertToID(std::string name)
 
 MixFile* MIXManager::get(const std::string& _mixName)
 {
-	if (mixFiles[_mixName])
-		return mixFiles[_mixName].get();
+	std::string mixName = _mixName;
+	std::transform(mixName.begin(), mixName.end(), mixName.begin(), ::toupper);
+
+	if (mixFiles[mixName])
+		return mixFiles[mixName].get();
 
 	return nullptr;
 }

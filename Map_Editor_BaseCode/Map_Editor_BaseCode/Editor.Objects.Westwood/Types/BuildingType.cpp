@@ -1,82 +1,112 @@
 #include "stdafx.h"
 #include "BuildingType.hpp"
+#include <iostream>
+#include "../../Log.hpp"
 #include "../../Editor.FileSystem/INIFile/LineSplitter.hpp"
+#include "VehicleType.hpp"
+#include "InfantryType.hpp"
+#include "OverlayType.hpp"
 
+/* static */ List<BuildingType> BuildingType::Array;
 
-BuildingType::BuildingType(INISection* _rulesSection, INISection* _artSection)
-:TechnoType(_rulesSection, _artSection), artSection(_artSection), rulesSection(_rulesSection)
+BuildingType::BuildingType(const std::string& id)
+:TechnoType(id)
 {
-	loadRules();
-	loadArt();
 }
 
-void BuildingType::loadRules()
+void BuildingType::loadRules(INIFile* rules)
 {
-	ToTile = rulesSection->readStringValue("ToTile", "");
-	HasSpotlight = rulesSection->readBoolValue("HasSpotlight", false);
+	INISection* rulesSection = rules->getSection(ID);
+	if (!rulesSection) return;
 
-	LineSplitter split(rulesSection->readStringValue("HalfDamageSmokeLocation1", "0,0,0"));
+	TechnoType::loadRules(rules);
+
+	ToTile = rulesSection->readStringValue("ToTile", ToTile);
+	HasSpotlight = rulesSection->readBoolValue("HasSpotlight", HasSpotlight);
+
+	HalfDamageSmokeLocation1_str = rulesSection->readStringValue("HalfDamageSmokeLocation1", HalfDamageSmokeLocation1_str);
+	LineSplitter split(HalfDamageSmokeLocation1_str);
 	HalfDamageSmokeLocation1.x = split.pop_int();
 	HalfDamageSmokeLocation1.y = split.pop_int();
 	HalfDamageSmokeLocation1.z = split.pop_int();
-	LineSplitter split2(rulesSection->readStringValue("HalfDamageSmokeLocation2", "0,0,0"));
+
+	HalfDamageSmokeLocation2_str = rulesSection->readStringValue("HalfDamageSmokeLocation2", HalfDamageSmokeLocation2_str);
+	LineSplitter split2(HalfDamageSmokeLocation2_str);
 	HalfDamageSmokeLocation2.x = split2.pop_int();
 	HalfDamageSmokeLocation2.y = split2.pop_int();
 	HalfDamageSmokeLocation2.z = split2.pop_int();
 
-	WaterBound = rulesSection->readBoolValue("WaterBound", false);
-	Powered = rulesSection->readBoolValue("Powered", false);
-	RefinerySmokeFrames = rulesSection->readIntValue("RefinerySmokeFrames", 25);
-	Wall = rulesSection->readBoolValue("Wall", false);
-	IsPlug = rulesSection->readBoolValue("IsPlug", false);
-	Gate = rulesSection->readBoolValue("Gate", false);
-	LaserFencePost = rulesSection->readBoolValue("LaserFencePost", false);
-	LaserFence = rulesSection->readBoolValue("LaserFence", false);
-	FirestormWall = rulesSection->readBoolValue("FirestormWall", false);
-	PowersUpBuilding = rulesSection->readStringValue("PowersUpBuilding", "");
-	PowersUpToLevel = rulesSection->readIntValue("PowersUpToLevel", -1);
-	Power = rulesSection->readIntValue("Power", 0);
-	ExtraPower = rulesSection->readIntValue("ExtraPower", 0);
+	WaterBound = rulesSection->readBoolValue("WaterBound", WaterBound);
+	Powered = rulesSection->readBoolValue("Powered", Powered);
+	RefinerySmokeFrames = rulesSection->readIntValue("RefinerySmokeFrames", RefinerySmokeFrames);
+	Wall = rulesSection->readBoolValue("Wall", Wall);
 
-	TurretAnim = rulesSection->readStringValue("TurretAnim", "");
-	TurretAnimDamaged = rulesSection->readStringValue("TurretAnimDamaged", "");
-	TurretAnimGarrisoned = rulesSection->readStringValue("TurretAnimGarrisoned", "");
-	TurretAnimX = rulesSection->readIntValue("TurretAnimX", 0);
-	TurretAnimY = rulesSection->readIntValue("TurretAnimY", 0);
-	TurretAnimZAdjust = rulesSection->readIntValue("TurretAnimZAdjust", 0);
-	TurretAnimYSort = rulesSection->readIntValue("TurretAnimYSort", 0);
-	TurretAnimPowered = rulesSection->readBoolValue("TurretAnimPowered", false);
-	TurretAnimPoweredLight = rulesSection->readBoolValue("TurretAnimPoweredLight", false);
-	TurretAnimPoweredEffect = rulesSection->readBoolValue("TurretAnimPoweredEffect", false);
-	TurretAnimPoweredSpecial = rulesSection->readBoolValue("TurretAnimPoweredSpecial", false);
-	TurretAnimIsVoxel = rulesSection->readBoolValue("TurretAnimIsVoxel", false);
-	VoxelBarrelFile = rulesSection->readStringValue("VoxelBarrelFile", "");
+	VehicleType::Array.findOrAllocate(rulesSection->readStringValue("FreeUnit"));
+	IsPlug = rulesSection->readBoolValue("IsPlug", IsPlug);
+	InfantryType::Array.findOrAllocate(rulesSection->readStringValue("SecretInfantry"));
+	VehicleType::Array.findOrAllocate(rulesSection->readStringValue("SecretUnit"));
+	BuildingType::Array.findOrAllocate(rulesSection->readStringValue("SecretBuilding"));
 
-	LineSplitter split3(rulesSection->readStringValue("VoxelBarrelOffsetToRotatePivotPoint", "0,0,0"));
+	Gate = rulesSection->readBoolValue("Gate", Gate);
+	LaserFencePost = rulesSection->readBoolValue("LaserFencePost", LaserFencePost);
+	LaserFence = rulesSection->readBoolValue("LaserFence", LaserFence);
+	FirestormWall = rulesSection->readBoolValue("FirestormWall", FirestormWall);
+	PowersUpBuilding = rulesSection->readStringValue("PowersUpBuilding", PowersUpBuilding);
+	PowersUpToLevel = rulesSection->readIntValue("PowersUpToLevel", PowersUpToLevel);
+	Power = rulesSection->readIntValue("Power", Power);
+	ExtraPower = rulesSection->readIntValue("ExtraPower", ExtraPower);
+
+	TurretAnim = rulesSection->readStringValue("TurretAnim", TurretAnim);
+	TurretAnimDamaged = rulesSection->readStringValue("TurretAnimDamaged", TurretAnimDamaged);
+	TurretAnimGarrisoned = rulesSection->readStringValue("TurretAnimGarrisoned", TurretAnimGarrisoned);
+	TurretAnimX = rulesSection->readIntValue("TurretAnimX", TurretAnimX);
+	TurretAnimY = rulesSection->readIntValue("TurretAnimY", TurretAnimY);
+	TurretAnimZAdjust = rulesSection->readIntValue("TurretAnimZAdjust", TurretAnimZAdjust);
+	TurretAnimYSort = rulesSection->readIntValue("TurretAnimYSort", TurretAnimYSort);
+	TurretAnimPowered = rulesSection->readBoolValue("TurretAnimPowered", TurretAnimPowered);
+	TurretAnimPoweredLight = rulesSection->readBoolValue("TurretAnimPoweredLight", TurretAnimPoweredLight);
+	TurretAnimPoweredEffect = rulesSection->readBoolValue("TurretAnimPoweredEffect", TurretAnimPoweredEffect);
+	TurretAnimPoweredSpecial = rulesSection->readBoolValue("TurretAnimPoweredSpecial", TurretAnimPoweredSpecial);
+	TurretAnimIsVoxel = rulesSection->readBoolValue("TurretAnimIsVoxel", TurretAnimIsVoxel);
+	VoxelBarrelFile = rulesSection->readStringValue("VoxelBarrelFile", VoxelBarrelFile);
+
+	VoxelBarrelOffsetToRotatePivotPoint_str = rulesSection->readStringValue("VoxelBarrelOffsetToRotatePivotPoint", VoxelBarrelOffsetToRotatePivotPoint_str);
+	LineSplitter split3(VoxelBarrelOffsetToRotatePivotPoint_str);
 	VoxelBarrelOffsetToRotatePivotPoint.x = split3.pop_int();
 	VoxelBarrelOffsetToRotatePivotPoint.y = split3.pop_int();
 	VoxelBarrelOffsetToRotatePivotPoint.z = split3.pop_int();
-	LineSplitter split4(rulesSection->readStringValue("VoxelBarrelOffsetToBuildingPivotPoint", "0,0,0"));
+
+	VoxelBarrelOffsetToBuildingPivotPoint_str = rulesSection->readStringValue("VoxelBarrelOffsetToBuildingPivotPoint", VoxelBarrelOffsetToBuildingPivotPoint_str);
+	LineSplitter split4(VoxelBarrelOffsetToBuildingPivotPoint_str);
 	VoxelBarrelOffsetToBuildingPivotPoint.x = split4.pop_int();
 	VoxelBarrelOffsetToBuildingPivotPoint.y = split4.pop_int();
 	VoxelBarrelOffsetToBuildingPivotPoint.z = split4.pop_int();
-	LineSplitter split5(rulesSection->readStringValue("VoxelBarrelOffsetToPitchPivotPoint", "0,0,0"));
+
+	VoxelBarrelOffsetToPitchPivotPoint_str = rulesSection->readStringValue("VoxelBarrelOffsetToPitchPivotPoint", VoxelBarrelOffsetToPitchPivotPoint_str);
+	LineSplitter split5(VoxelBarrelOffsetToPitchPivotPoint_str);
 	VoxelBarrelOffsetToPitchPivotPoint.x = split5.pop_int();
 	VoxelBarrelOffsetToPitchPivotPoint.y = split5.pop_int();
 	VoxelBarrelOffsetToPitchPivotPoint.z = split5.pop_int();
-	LineSplitter split6(rulesSection->readStringValue("VoxelBarrelOffsetToBarrelEnd", "0,0,0"));
+
+	VoxelBarrelOffsetToBarrelEnd_str = rulesSection->readStringValue("VoxelBarrelOffsetToBarrelEnd", VoxelBarrelOffsetToBarrelEnd_str);
+	LineSplitter split6(VoxelBarrelOffsetToBarrelEnd_str);
 	VoxelBarrelOffsetToBarrelEnd.x = split6.pop_int();
 	VoxelBarrelOffsetToBarrelEnd.y = split6.pop_int();
 	VoxelBarrelOffsetToBarrelEnd.z = split6.pop_int();
 	
-	Upgrades = rulesSection->readIntValue("Upgrades", 0);
+	Upgrades = rulesSection->readIntValue("Upgrades", Upgrades);
 }
 
-void BuildingType::loadArt()
+void BuildingType::loadArt(INIFile* art)
 {
+	INISection* artSection = art->getSection(ID);
+	if (!artSection) return;
+
+	TechnoType::loadArt(art);
+
 	Height = artSection->readIntValue("Height", 2);
 	OccupyHeight = artSection->readIntValue("OccupyHeight", 2);
-	ToOverlay = artSection->readStringValue("ToOverlay", "0");
+	OverlayType::Array.findOrAllocate(artSection->readStringValue("ToOverlay"));
 	Foundation; //TODO: implement foundations
 	TerrainPalette = artSection->readBoolValue("TerrainPalette", false);
 	//Active Anim1

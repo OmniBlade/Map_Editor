@@ -5,18 +5,14 @@
 class Tiberium : public ObjectType
 {
 public:
-	Tiberium(INISection* _rulesSection, INISection* _artSection);
+	Tiberium(const std::string& id);
 
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* art) override;
 
-	int Value;
-	int Power;
-	std::string Color;
-	int Image;
-
-protected:
-	INISection* rulesSection = nullptr;
-	INISection* artSection = nullptr;
+	int Value = 0;
+	int Power = 0;
+	std::string Color = "";
+	int Image = 0;
 };
 

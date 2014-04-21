@@ -7,24 +7,38 @@
 class TechnoType : public ObjectType
 {
 public:
-	TechnoType(INISection* _rulesSection, INISection* _artSection);
+	TechnoType(const std::string& id);
 	
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* art) override;
+	void loadWeaponTypes(INISection* section);
 
-	bool IsTrain;
-	int Passengers;
-	float Size;
-	float SizeLimit;
+	bool IsTrain = false;
+	int Passengers = 0;
+	float Size = 1.0f;
+	float SizeLimit = 0.0f;
+	int WeaponCount = 0;
+	int TurretCount = 0;
 	//Weapons need to be added here! Gotta love Action #42
-	bool Turret;
-	int TechLevel;
-	int AIBasePlanningSide;
-	bool NoShadow;
-	int ZFudgeCliff;
-	int ZFudgeColumn;
-	int ZFudgeTunnel;
-	int ZFudgeBridge;
+
+	std::string DeathWeapon = "";
+	std::string Primary = "";
+	std::string Secondary = "";
+	std::string ElitePrimary = "";
+	std::string EliteSecondary = "";
+	std::vector<std::string> WeaponX;
+	std::vector<std::string> EliteWeaponX;
+
+	bool Turret = false;
+	int TechLevel = 255;
+	int AIBasePlanningSide = -1;
+	bool NoShadow = false;
+	int ZFudgeCliff = 10;
+	int ZFudgeColumn = 5;
+	int ZFudgeTunnel = 10;
+	int ZFudgeBridge = 0;
+	
+	// Art
 	std::string Palette;
 	Vector3D TurretOffset; //TODO: Rework this in 3DVector class
 	bool Remapable;	//This would work for TS though...
@@ -48,9 +62,5 @@ public:
 	//bool ConsideredAircraft; // This could be useful for something, until it is leave it commented out
 	
 	bool IsTrain; // This should be used for 'Follows ID' on trains and wagons*/
-
-protected:
-	INISection* rulesSection = nullptr;
-	INISection* artSection = nullptr;
 };
 

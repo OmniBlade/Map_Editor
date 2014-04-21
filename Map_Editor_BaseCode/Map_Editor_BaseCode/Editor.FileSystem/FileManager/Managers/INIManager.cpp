@@ -2,6 +2,7 @@
 #include "INIManager.hpp"
 #include "../../../Config.hpp"
 #include <iostream>
+#include <algorithm>
 #include "../FileSystem.hpp"
 #include "../BinaryReader.hpp"
 #include "../../../Log.hpp"
@@ -24,10 +25,13 @@ INIManager::INIManager()
 
 INIFile* INIManager::get(const std::string& fileName)
 {
-	if (iniFiles[fileName])
-		return iniFiles[fileName].get();
+	std::string capsName = fileName;
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+	
+	if (iniFiles[capsName])
+		return iniFiles[capsName].get();
 	else
-		return cache(fileName);
+		return cache(capsName);
 }
 
 INIFile* INIManager::cache(const std::string& fileName)
@@ -36,7 +40,7 @@ INIFile* INIManager::cache(const std::string& fileName)
 	if (props.reader)
 	{
 		iniFiles[fileName] = std::make_unique<INIFile>(props);
-		Log::line("INI: " + fileName + " succesfully cached.", Log::DEBUG);
+		Log::note("INI: " + fileName + " succesfully cached.", Log::DEBUG);
 		return iniFiles[fileName].get();
 	}
 	else

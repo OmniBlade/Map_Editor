@@ -1,23 +1,22 @@
 #pragma once
 
 #include "TechnoType.hpp"
-
+#include "../Managers/List.hpp"
 #include <string>
 
 
 class AircraftType : public TechnoType
 {
 public:
-	AircraftType(INISection* _rulesSection, INISection* _artSection);
+	static List<AircraftType> Array;
+	AircraftType(const std::string& id);
 
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* art) override;
 
-	bool Fighter;
-	bool CarryAll;
+	bool Fighter = false;
+	bool CarryAll = false;
 
 protected:
-	INISection* rulesSection = nullptr;
-	INISection* artSection = nullptr;
 };
 

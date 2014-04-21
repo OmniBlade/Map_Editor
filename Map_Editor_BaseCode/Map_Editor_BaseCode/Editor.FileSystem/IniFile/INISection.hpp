@@ -9,7 +9,7 @@
 #ifndef INISECTION_HPP_
 #define INISECTION_HPP_
 
-#include <map>
+#include <vector>
 
 class INISection {
 public:
@@ -17,9 +17,8 @@ public:
 
 	int size() const;
 	const std::string& getSectionName() const;
-	std::map<std::string, std::string> getMap() const;
-	std::map<std::string, std::string>::const_iterator begin() const;
-	std::map<std::string, std::string>::const_iterator end() const;
+	std::vector<std::pair<std::string, std::string>>::const_iterator begin() const;
+	std::vector<std::pair<std::string, std::string>>::const_iterator end() const;
 	void setValue(const std::string &key, const std::string &value);
 //READING
 	/* 
@@ -27,29 +26,32 @@ public:
 		@param key The key to return a string from
 		@param _default The default value to return if the read value is incorrect
 	*/
-	std::string readStringValue(const std::string &key, const std::string &_default = "", bool upperCase = false) const;
+	std::string readStringValue(const std::string &key, const std::string &_default = "", bool upperCase = false);
 	/*
 		Reads an integer from a key
 		@param key The key to return an int from
 		@param _default The default value to return if the read value is incorrect
 	*/
-	int readIntValue(const std::string& key, int _default = 0) const;
+	int readIntValue(const std::string& key, int _default = 0);
 	/*
 		Reads a float value from a key
 		@param key The key to return a float from
 		@param _default The default value to return if the read value is incorrect
 
 	*/
-	float readFloatValue(const std::string& key, float _default = 0.0f) const;
+	float readFloatValue(const std::string& key, float _default = 0.0f);
 	/*
 		Reads a bool value for a key, looks at the first character and tells whether it is T(rue), Y(es), 1 or F(alse), N(o) or 0
 		@param key The key to return a bool from
 		@param _default The default value to return if the read value is incorrect
 	*/
-	bool readBoolValue(const std::string& key, bool _default = false) const;
+	bool readBoolValue(const std::string& key, bool _default = false);
 
 	/* Dunno, probably obsolete by now (see checkKeyExistance) */
-	std::string getKey(const std::string &key, const std::string &_default = "") const;
+	std::string getKey(const std::string &key, const std::string &_default = "");
+
+	/* */
+	std::string getValue(const std::string& key, const std::string& _default = "");
 
 	/* Gets the next item in the list, perfect for not relying on the key */
 	std::string getNextValue(const std::string& _default = "");
@@ -58,9 +60,11 @@ public:
 	bool checkValueExistance(const std::string& _key);
 	void dumpContent();
 
+private:
 	unsigned int atItem = 0;
 	std::string sectionName;
-	std::map<std::string, std::string> keyValue;
+	std::vector<std::pair<std::string, std::string>> keyValue;
+	std::vector<std::pair<std::string, std::string>>::iterator getIter(const std::string& key);
 };
 
 #endif /* INISECTION_HPP_ */

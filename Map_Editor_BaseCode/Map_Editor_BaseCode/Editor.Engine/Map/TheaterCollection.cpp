@@ -106,7 +106,6 @@ void TheaterCollection::validateTheaterPresence()
 	std::cout << std::endl;
 	for (unsigned int i = 0; i < defTheaterNames.size(); ++i)
 	{
-		std::cout << "Looking for: " << defTheaterNames[i] << std::endl;
 		bool theaterFound = false;
 		for (unsigned int j = 0; j < theaters.size(); ++j)
 		{
@@ -117,11 +116,7 @@ void TheaterCollection::validateTheaterPresence()
 			}
 		}
 		if (!theaterFound)
-			Log::line("Unable to locate default theater with name '" + defTheaterNames[i] + "'.", Log::CRITICAL);
-		//std::cout << "Unable to locate default theater with name: " << defTheaterNames[i] << std::endl;
-		else
-			Log::line("Theater with name: '" + defTheaterNames[i] + "' succesfully located and parsed!", Log::INFO);
-		//std::cout << "Theater with name: " << defTheaterNames[i] << " succesfully parsed and located!" << std::endl;
+			Log::note("Unable to locate default theater with name '" + defTheaterNames[i] + "'.", Log::DEBUG);
 	}
 }
 

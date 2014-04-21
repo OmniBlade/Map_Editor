@@ -1,21 +1,42 @@
 #include "stdafx.h"
 #include "InfantryType.hpp"
+#include "../../Log.hpp"
+#include "WeaponType.hpp"
 
+/* static */ List<InfantryType> InfantryType::Array;
 
-InfantryType::InfantryType(INISection* _rulesSection, INISection* _artSection)
-:TechnoType(_rulesSection, _artSection), artSection(_artSection), rulesSection(_rulesSection)
+InfantryType::InfantryType(const std::string& id)
+:TechnoType(id)
 {
 }
 
-void InfantryType::loadRules()
+void InfantryType::loadRules(INIFile* rules)
 {
-	Cyborg = rulesSection->readBoolValue("Cyborg", false);
-	NotHuman = rulesSection->readBoolValue("NotHuman", false);
-	Occupier = rulesSection->readBoolValue("Occupier", false);
-	Civilian = rulesSection->readBoolValue("Civilian", false);
+
+	INISection* rulesSection = rules->getSection(ID);
+	if (!rulesSection) return;
+
+	TechnoType::loadRules(rules);
+
+	OccupyWeapon = rulesSection->readStringValue("OccupyWeapon", OccupyWeapon);
+	EliteOccupyWeapon = rulesSection->readStringValue("EliteOccupyWeapon", EliteOccupyWeapon);
+
+	if (OccupyWeapon != "")
+		WeaponType::Array.findOrAllocate(OccupyWeapon);
+	if (EliteOccupyWeapon != "")
+		WeaponType::Array.findOrAllocate(EliteOccupyWeapon);
+	
+	Cyborg = rulesSection->readBoolValue("Cyborg", Cyborg);
+	NotHuman = rulesSection->readBoolValue("NotHuman", NotHuman);
+	Occupier = rulesSection->readBoolValue("Occupier", Occupier);
+	Civilian = rulesSection->readBoolValue("Civilian", Civilian);
 }
 
-void InfantryType::loadArt()
+void InfantryType::loadArt(INIFile* art)
 {
+	INISection* artSection = art->getSection(ID);
+	if (!artSection) return;
+
+	TechnoType::loadArt(art);
 
 }

@@ -116,7 +116,7 @@ bool RawFileSystem::fileIsInEditorRoot(const std::string& fileName)
 
 void RawFileSystem::locateGameRootFiles()
 {
-	Log::line("Install directory is: " + Config::installDir, Log::INFO);
+	Log::note("Install directory is: " + Config::installDir, Log::DEBUG);
 	WIN32_FIND_DATA ffd;
 	std::string rootFile = Config::installDir + Config::backSlash + "*.*";
 	std::wstring dir(rootFile.begin(), rootFile.end());

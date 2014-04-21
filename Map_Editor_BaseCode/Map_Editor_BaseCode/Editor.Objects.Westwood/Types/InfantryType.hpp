@@ -1,24 +1,24 @@
 #pragma once
 
 #include <string>
-#include "../../Editor.FileSystem/INIFile/INISection.hpp"
+#include "../Managers/List.hpp"
 #include "TechnoType.hpp"
 
 class InfantryType : public TechnoType
 {
 public:
-	InfantryType(INISection* _rulesSection, INISection* _artSection);
+	static List<InfantryType> Array;
+	InfantryType(const std::string& id);
 
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* art) override;
 
-	bool Cyborg;
-	bool NotHuman;
-	bool Occupier;
-	bool Civilian;
+	std::string OccupyWeapon = "";
+	std::string EliteOccupyWeapon = "";
 
-protected:
-	INISection* rulesSection;
-	INISection* artSection;
+	bool Cyborg = false;
+	bool NotHuman = false;
+	bool Occupier = false;
+	bool Civilian = false;
 };
 

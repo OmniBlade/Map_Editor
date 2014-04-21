@@ -20,10 +20,13 @@ TMPManager::TMPManager()
 
 TMPFile* TMPManager::get(const std::string& fileName)
 {
-	if (tmpFiles[fileName])
-		return tmpFiles[fileName].get();
+	std::string capsName = fileName;
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	if (tmpFiles[capsName])
+		return tmpFiles[capsName].get();
 	else
-		return cache(fileName);
+		return cache(capsName);
 }
 
 TMPFile* TMPManager::cache(const std::string& fileName)

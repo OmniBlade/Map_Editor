@@ -7,6 +7,7 @@
 // This is FIXED for Red Alert 2 and Yuri's Revenge. Only changed for TS/FS
 unsigned int Config::tileWidth = 60;
 unsigned int Config::tileHeight = 30;
+bool Config::enableDebug = true; // Hi there! Please set this to false when the argument -DEBUG is finally implemented
 
 // [MAIN]
 std::string Config::editorRoot = "";
@@ -32,7 +33,7 @@ std::string Config::coop	= "COOPCAMPMD.INI";
 
 void Config::parse()
 {
-	Log::line("Parsing CONFIG file...", Log::INFO);
+	Log::note("Parsing CONFIG file...", Log::DEBUG);
 	
 	std::string CONFIG = "CONFIG";
 	INIFile* configINI = INIManager::getManager()->get(CONFIG);
@@ -47,16 +48,18 @@ void Config::parse()
 			std::string installDir2 = mainSection->readStringValue("InstallDir2", "", true);
 			std::string installDir3 = mainSection->readStringValue("InstallDir3", "", true);
 
-			BinaryReader dir1(installDir1 + "\\" + "GAMEMD.EXE");
-			BinaryReader dir2(installDir2 + "\\" + "GAMEMD.EXE");
-			BinaryReader dir3(installDir3 + "\\" + "GAMEMD.EXE");
+			BinaryReader dir1(installDir1 + "\\" + "GAMEMD.EXE", false);
+			BinaryReader dir2(installDir2 + "\\" + "GAMEMD.EXE", false);
+			BinaryReader dir3(installDir3 + "\\" + "GAMEMD.EXE", false);
 
 			if (dir1.isOpened)
 				Config::installDir = installDir1;
 			else if (dir2.isOpened)
 				Config::installDir = installDir2;
-			else
+			else if (dir3.isOpened)
 				Config::installDir = installDir3;
+			else
+				Log::note("Unable to open any of the given install directories!", Log::DEBUG);
 
 			//Config::MAIN_InstallDir = mainSection->readStringValue("InstallDir", "", true);
 			Config::missionDisk = mainSection->readStringValue("MissionDisk", "", true);
@@ -67,7 +70,7 @@ void Config::parse()
 			Config::FA2Mode = mainSection->readBoolValue("FA2Mode", false);
 		}
 		else
-			Log::line("Section [Main] could not be found!", Log::CRITICAL);
+			Log::note("Section [Main] could not be found!", Log::DEBUG);
 
 		INISection* iniSection = configINI->getSection("INI");
 		if (iniSection != nullptr)
@@ -83,8 +86,8 @@ void Config::parse()
 			Config::coop = iniSection->readStringValue("Coop", "COOPCAMPMD.INI", true);
 		}
 		else
-			Log::line("Section [INI] could not be found!", Log::ERRORS);
+			Log::note("Section [INI] could not be found!", Log::DEBUG);
 	}
 	else
-		Log::line("CONFIG could not be found in the editor root!", Log::CRITICAL);
+		Log::note("CONFIG could not be found in the editor root!", Log::DEBUG);
 }

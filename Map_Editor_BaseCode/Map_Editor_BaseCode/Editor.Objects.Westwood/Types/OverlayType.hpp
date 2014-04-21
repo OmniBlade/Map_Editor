@@ -1,33 +1,30 @@
 #pragma once
 
 #include "ObjectType.hpp"
-#include "../../Editor.FileSystem/INIFile/INISection.hpp"
+#include "../Managers/List.hpp"
 #include <string>
 
 class OverlayType : public ObjectType
 {
 public:
-	OverlayType(INISection* _rulesSection, INISection* _artSection);
+	static List<OverlayType> Array;
+	OverlayType(const std::string& id);
 
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* art) override;
 
-	bool Wall;
-	bool Tiberium;
-	bool Crate;
-	bool CrateTrigger;
-	bool Overrides;
-	std::string CellAnim;
-	int DamageLevels;
-	std::string RadarColor;
-	bool NoUseLandTileType;
-	bool IsVeinholeMonster;
-	bool IsVeins;
-	bool DrawFlat;
-	bool IsRubble;
-
-protected:
-	INISection* rulesSection;
-	INISection* artSection;
+	bool Wall = false;
+	bool Tiberium = false;
+	bool Crate = false;
+	bool CrateTrigger = false;
+	bool Overrides = false;
+	std::string CellAnim = "";
+	int DamageLevels = 1;
+	std::string RadarColor = "";
+	bool NoUseLandTileType = true;
+	bool IsVeinholeMonster = false;
+	bool IsVeins = false;
+	bool DrawFlat = true;
+	bool IsRubble = false;
 };
 

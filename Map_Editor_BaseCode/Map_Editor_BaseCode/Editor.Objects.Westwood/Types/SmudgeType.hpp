@@ -1,22 +1,21 @@
 #pragma once
 
+#include "../Managers/List.hpp"
 #include "ObjectType.hpp"
 
 class SmudgeType : public ObjectType
 {
 public:
-	SmudgeType(INISection* _rulesSection, INISection* _artSection);
+	static List<SmudgeType> Array;
 
-	void loadRules() override;
-	void loadArt() override;
+	SmudgeType(const std::string& id);
 
-	bool Crater;
-	bool Smudge;
-	int Width;
-	int Height;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* art) override;
 
-protected: 
-	INISection* rulesSection = nullptr;
-	INISection* artSection = nullptr;
+	bool Crater = false;
+	bool Smudge = false;
+	int Width = 1;
+	int Height = 1;
 };
 

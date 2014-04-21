@@ -17,6 +17,7 @@
 #include "CStringHelper.hpp"
 #include "../../Config.hpp"
 #include "../FileManager/FileSystem.hpp"
+#include "../../Log.hpp"
 
 INIFile::INIFile(const FileProperties& props)
 :iniReader(props.reader)
@@ -92,23 +93,16 @@ void INIFile::load()
 					
 					//Ehm, this is no longer needed since only 511 characters are read into the buffer from BinaryReader
 					//But a log line in there for ERRORS values might be in place
-					/*if(value.length() > 511)
+					if(value.length() > 511)
 					{
-						std::string corrValue = value.substr(0, 511);
-						std::string errValue = value.substr(512);
+						std::string& corrValue = value.substr(0, 511);
+						std::string& errValue = value.substr(512);
 
-						std::cout << "In section '" << currentSection << "', for key '" << key << "', value is too long, this will be cut off:" <<  std::endl;
-						std::cout << errValue << std::endl;
-						std::cout << "ERRORS in key '" << key << "', too long:" << std::endl;
-						std::cout << "Parsed: " << corrValue << std::endl;
-						std::cout << "Cut-off: " << errValue << std::endl;
+						Log::note("Key '" + key + "' in section '" + currentSection + "' is too long (longer than 512 characters):", Log::DEBUG);
+						Log::note("Parsed: " + corrValue, Log::EXTRA);
+						Log::note("Cut-off: " + errValue, Log::EXTRA);
 						value = corrValue;
-					}*/
-
-					//std::cout << key << " = " << value << std::endl;
-
-					//Logger::log(key + "."+ value);
-					
+					}
 					//We don't want empty keys to be parsed
 					if (value.length())
 						SetValue(currentSection, key, value);

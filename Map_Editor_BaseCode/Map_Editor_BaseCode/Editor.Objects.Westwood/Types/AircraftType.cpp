@@ -1,19 +1,29 @@
 #include "stdafx.h"
 #include "AircraftType.hpp"
+#include "../../Log.hpp"
 
+/* static */ List<AircraftType> AircraftType::Array;
 
-AircraftType::AircraftType(INISection* _rulesSection, INISection* _artSection)
-:TechnoType(_rulesSection, _artSection), artSection(_artSection), rulesSection(_rulesSection)
+AircraftType::AircraftType(const std::string& id)
+:TechnoType(id)
 {
 }
 
-void AircraftType::loadRules()
+void AircraftType::loadRules(INIFile* rules)
 {
-	Fighter = rulesSection->readBoolValue("Fighter", false);
-	CarryAll = rulesSection->readBoolValue("CarryAll", false);
+	INISection* rulesSection = rules->getSection(ID);
+	if (!rulesSection) return;
+
+	TechnoType::loadRules(rules);
+	
+	Fighter = rulesSection->readBoolValue("Fighter", Fighter);
+	CarryAll = rulesSection->readBoolValue("CarryAll", CarryAll);
 }
 
-void AircraftType::loadArt()
+void AircraftType::loadArt(INIFile* art)
 {
+	INISection* artSection = art->getSection(ID);
+	if (!artSection) return;
 
+	TechnoType::loadArt(art);
 }

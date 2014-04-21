@@ -1,33 +1,41 @@
 #include "stdafx.h"
 #include "OverlayType.hpp"
+#include "../../Log.hpp"
 
+/* static */ List<OverlayType> OverlayType::Array;
 
-OverlayType::OverlayType(INISection* _rulesSection, INISection* _artSection)
-:ObjectType(_rulesSection, _artSection), artSection(_artSection), rulesSection(_rulesSection)
+OverlayType::OverlayType(const std::string& id)
+:ObjectType(id)
 {
-	loadRules();
 }
 
 
-void OverlayType::loadRules()
+void OverlayType::loadRules(INIFile* rules)
 {
+	INISection* rulesSection = rules->getSection(ID);
+	if (!rulesSection) return;
 
-	Wall = rulesSection->readBoolValue("Wall", false);
-	Tiberium = rulesSection->readBoolValue("Tiberium", false);
-	Crate = rulesSection->readBoolValue("Crate", false);
-	CrateTrigger = rulesSection->readBoolValue("CrateTrigger", false);
-	Overrides = rulesSection->readBoolValue("Overrides", false);
-	CellAnim = rulesSection->readStringValue("CellAnim", "");
-	DamageLevels = rulesSection->readIntValue("DamageLevels", 1);
-	RadarColor = rulesSection->readStringValue("RadarColor", ""); //TODO: Implement RGB color
-	NoUseLandTileType = rulesSection->readBoolValue("NoUseLandTileType", true);
-	IsVeinholeMonster = rulesSection->readBoolValue("IsVeinholeMonster", false);
-	IsVeins = rulesSection->readBoolValue("IsVeins", false);
-	DrawFlat = rulesSection->readBoolValue("DrawFlat", true);
-	IsRubble = rulesSection->readBoolValue("IsRubble", false);
+	ObjectType::loadRules(rules);
+
+	Wall = rulesSection->readBoolValue("Wall", Wall);
+	Tiberium = rulesSection->readBoolValue("Tiberium", Tiberium);
+	Crate = rulesSection->readBoolValue("Crate", Crate);
+	CrateTrigger = rulesSection->readBoolValue("CrateTrigger", CrateTrigger);
+	Overrides = rulesSection->readBoolValue("Overrides", Overrides);
+	CellAnim = rulesSection->readStringValue("CellAnim", CellAnim);
+	DamageLevels = rulesSection->readIntValue("DamageLevels", DamageLevels);
+	RadarColor = rulesSection->readStringValue("RadarColor", RadarColor); //TODO: Implement RGB color
+	NoUseLandTileType = rulesSection->readBoolValue("NoUseLandTileType", NoUseLandTileType);
+	IsVeinholeMonster = rulesSection->readBoolValue("IsVeinholeMonster", IsVeinholeMonster);
+	IsVeins = rulesSection->readBoolValue("IsVeins", IsVeins);
+	DrawFlat = rulesSection->readBoolValue("DrawFlat", DrawFlat);
+	IsRubble = rulesSection->readBoolValue("IsRubble", IsRubble);
 }
 
-void OverlayType::loadArt()
+void OverlayType::loadArt(INIFile* art)
 {
+	INISection* artSection = art->getSection(ID);
+	if (!artSection) return;
 
+	ObjectType::loadArt(art);
 }

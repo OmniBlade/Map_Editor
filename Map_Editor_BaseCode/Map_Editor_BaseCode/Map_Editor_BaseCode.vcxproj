@@ -85,14 +85,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor.Engine\Types\Aircraft.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Types\Country.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\General\CombatDamage.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\General\AudioVisual.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\General\AI.hpp" />
+    <ClInclude Include="Editor.Engine\Loading\MapLoaderHelpers.hpp" />
     <ClInclude Include="Editor.Engine\Map\Map.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\General\EntryHelper.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Managers\ListHelpers.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\Animation.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\AircraftType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\InfantryType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\Foundation.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\AbstractType.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp" />
-    <ClInclude Include="Editor.FileSystem\INIFile\INIParser.hpp" />
     <ClInclude Include="Editor.FileSystem\PaletteFile\PaletteFile.hpp" />
     <ClInclude Include="Editor.Engine\Loading\MapAssetLoader.hpp" />
     <ClInclude Include="Editor.Engine\Loading\MapLoader.hpp" />
@@ -122,8 +129,16 @@
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\SHPManager.hpp" />
     <ClInclude Include="Editor.FileSystem\HvaFile\HVAFile.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Managers\List.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\General\General.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Infantry.hpp" />
     <ClInclude Include="Log.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Types\ParticleType.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\General\SpecialWeapon.hpp" />
+    <ClInclude Include="Editor.Map.Validator\ObjectValidator.hpp" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Structure.hpp" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\TechnoType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\TerrainType.hpp" />
@@ -132,9 +147,12 @@
     <ClInclude Include="Editor.FileSystem\TmpFile\TMPImage.hpp" />
     <ClInclude Include="Editor.Engine\Map\TheaterDefinition.hpp" />
     <ClInclude Include="Editor.Engine\Map\TheaterCollection.hpp" />
-    <ClInclude Include="Editor.Engine\Map\Theater.hpp" />
+    <ClInclude Include="Editor.Engine\Game\Theater.hpp" />
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\TMPManager.hpp" />
     <ClInclude Include="Editor.Engine\Map\TileSet.hpp" />
+    <ClInclude Include="Editor.Map.Validator\TeamValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\TriggerValidator.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Unit.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector2D.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector3D.hpp" />
@@ -142,8 +160,16 @@
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\VXLManager.hpp" />
     <ClInclude Include="Editor.FileSystem\VoxelFile\VXLFile.hpp" />
     <ClInclude Include="Editor.FileSystem\VoxelFile\VPLFile.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Types\VoxelAnimType.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Types\WeaponType.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Types\WarheadType.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.Engine\Types\Aircraft.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Types\Country.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\General\CombatDamage.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\General\AudioVisual.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\General\AI.cpp" />
     <ClCompile Include="Editor.Engine\Map\Map.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\Animation.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\AircraftType.cpp" />
@@ -151,7 +177,6 @@
     <ClCompile Include="Editor.Objects.Westwood\Types\Foundation.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\AbstractType.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp" />
-    <ClCompile Include="Editor.FileSystem\INIFile\INIParser.cpp" />
     <ClCompile Include="Editor.FileSystem\PaletteFile\PaletteFile.cpp" />
     <ClCompile Include="Editor.Engine\Loading\MapAssetLoader.cpp" />
     <ClCompile Include="Editor.Engine\Loading\MapLoader.cpp" />
@@ -168,7 +193,8 @@
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\INIManager.cpp" />
     <ClCompile Include="Editor.Engine\Loading\StartupLoader.cpp" />
     <ClCompile Include="Editor.FileSystem\HvaFile\HVAFile.cpp" />
-    <ClCompile Include="Editor.Objects.Westwood\Managers\List.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\General\General.cpp" />
+    <ClCompile Include="Editor.Engine\Types\Infantry.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\OverlayType.cpp" />
@@ -182,6 +208,10 @@
     <ClCompile Include="Editor.FileSystem\ShpFile\ShpFile.cpp" />
     <ClCompile Include="Editor.FileSystem\ShpFile\ShpImage.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\SHPManager.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Types\ParticleType.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Types\ProjectileType.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\General\SpecialWeapon.cpp" />
+    <ClCompile Include="Editor.Map.Validator\ObjectValidator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -193,9 +223,14 @@
     <ClCompile Include="Editor.FileSystem\TmpFile\TMPImage.cpp" />
     <ClCompile Include="Editor.Engine\Map\TheaterDefinition.cpp" />
     <ClCompile Include="Editor.Engine\Map\TheaterCollection.cpp" />
-    <ClCompile Include="Editor.Engine\Map\Theater.cpp" />
+    <ClCompile Include="Editor.Engine\Game\Theater.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\TMPManager.cpp" />
     <ClCompile Include="Editor.Engine\Map\TileSet.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Types\SuperWeaponType.cpp" />
+    <ClCompile Include="Editor.Map.Validator\TeamValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\TriggerValidator.cpp" />
+    <ClCompile Include="Editor.Engine\Types\Structure.cpp" />
+    <ClCompile Include="Editor.Engine\Types\Unit.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector2D.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector3D.cpp" />
@@ -203,6 +238,9 @@
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\VXLManager.cpp" />
     <ClCompile Include="Editor.FileSystem\VoxelFile\VXLFile.cpp" />
     <ClCompile Include="Editor.FileSystem\VoxelFile\VPLFile.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Types\VoxelAnimType.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Types\WeaponType.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Types\WarheadType.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CONFIG" />

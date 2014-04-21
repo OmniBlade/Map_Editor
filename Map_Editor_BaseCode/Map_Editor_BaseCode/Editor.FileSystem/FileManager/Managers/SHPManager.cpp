@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SHPManager.hpp"
+#include <algorithm>
 #include "../FileSystem.hpp"
 
 /* static */ SHPManager* SHPManager::manager;
@@ -19,10 +20,13 @@ SHPManager::SHPManager()
 
 ShpFile* SHPManager::get(const std::string& fileName)
 {
-	if (shpFiles[fileName])
-		return shpFiles[fileName].get();
+	std::string capsName = fileName;
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	if (shpFiles[capsName])
+		return shpFiles[capsName].get();
 	else
-		return cache(fileName);
+		return cache(capsName);
 }
 
 ShpFile* SHPManager::cache(const std::string& fileName)

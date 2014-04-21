@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "VXLManager.hpp"
+#include <algorithm>
 #include "../FileSystem.hpp"
 #include "../../VoxelFile/VPLFile.hpp"
 
@@ -20,10 +21,13 @@ VXLManager::VXLManager()
 
 VXLFile* VXLManager::get(const std::string& fileName)
 {
-	if (vxlFiles[fileName])
-		return vxlFiles[fileName].get();
+	std::string capsName = fileName;
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	if (vxlFiles[capsName])
+		return vxlFiles[capsName].get();
 	else
-		return cache(fileName);
+		return cache(capsName);
 }
 
 VXLFile* VXLManager::cache(const std::string& fileName)

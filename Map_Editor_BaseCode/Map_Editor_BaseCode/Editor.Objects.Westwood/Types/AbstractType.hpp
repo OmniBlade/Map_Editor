@@ -1,22 +1,19 @@
 #pragma once
 
 #include <string>
-#include "../../Editor.FileSystem/INIFile/INISection.hpp"
+#include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 class AbstractType
 {
 public:
-	AbstractType(INISection* _rulesSection, INISection* _artSection);
+	AbstractType(const std::string& id);
 
-	virtual void loadRules();
-	virtual void loadArt();
+	virtual void loadRules(INIFile* rules);
+	virtual void loadArt(INIFile* art);
 
-	std::string ID;
-	std::string Name;
-	std::string UIName;
-
-protected:
-	INISection* rulesSection = nullptr;
-	INISection* artSection = nullptr;
+	std::string ID = "";
+	std::string Name = "MISSING Name";
+	std::string UIName = "MISSING UIName";
+	bool valid;
 };
 

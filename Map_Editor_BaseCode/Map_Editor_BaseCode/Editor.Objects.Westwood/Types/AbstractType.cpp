@@ -1,20 +1,22 @@
 #include "stdafx.h"
 #include "AbstractType.hpp"
+#include "../../Editor.FileSystem/INIFile/INISection.hpp"
 
-
-AbstractType::AbstractType(INISection* _rulesSection, INISection* _artSection)
-:rulesSection(_rulesSection), artSection(_artSection)
+AbstractType::AbstractType(const std::string& id)
+:ID(id), valid(false)
 {
-	ID = rulesSection->getSectionName();
 }
 
-void AbstractType::loadRules()
+void AbstractType::loadRules(INIFile* rules)
 {
-	Name = rulesSection->readStringValue("Name", "MISSING Name");
-	UIName = "TODO: UIName - " + rulesSection->readStringValue("UIName", "MISSING UIName");
+	INISection* rulesSection = rules->getSection(ID);
+
+	Name = rulesSection->readStringValue("Name", Name);
+	UIName = "TODO: UIName - " + rulesSection->readStringValue("UIName", UIName);
+	valid = true;
 }
 
-void AbstractType::loadArt()
+void AbstractType::loadArt(INIFile* art)
 {
-
+	//Nothing
 }

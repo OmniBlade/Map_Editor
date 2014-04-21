@@ -1,32 +1,30 @@
 #pragma once
 
 #include "ObjectType.hpp"
+#include "../Managers/List.hpp"
 
 class TerrainType : public ObjectType
 {
 public:
-	TerrainType(INISection* _rulesSection, INISection* _artSection);
+	static List<TerrainType> Array;
+	TerrainType(const std::string& id);
 
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* rules) override;
 
 //Rules
-	bool IsVeinhole;
-	bool WaterBound;
-	bool SpawnsTiberium;
-	bool IsFlammable;
-	std::string RadarColor;
-	bool IsAnimated;
-	int AnimationRate;
-	float AnimationProbability;
-	int TemperateOccupationBits;
-	int SnowOccupationBits;
+	bool IsVeinhole = false;
+	bool WaterBound = false;
+	bool SpawnsTiberium = false;
+	bool IsFlammable = false;
+	std::string RadarColor = "0,0,0";
+	bool IsAnimated = false;
+	int AnimationRate = 0;
+	float AnimationProbability = 0.0f;
+	int TemperateOccupationBits = 7;
+	int SnowOccupationBits = 7;
 
 //Art
 	std::string Foundation;
-
-protected:
-	INISection* rulesSection;
-	INISection* artSection;
 };
 

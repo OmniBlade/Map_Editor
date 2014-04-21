@@ -9,16 +9,22 @@ class Log
 public:
 	static enum LogType
 	{
-		DEBUG = 0,		// Information line for debug, prefix "[HH:MM:SS] - "
-		INFO = 1,		// Information line, prefix "INFO - "
-		WARNING = 2,	// Warning line, prefix "WARNING - "
-		ERRORS = 3,		// ERRORS line, prefix "ERRORS - "
-		CRITICAL = 4,	// Critical line, prefix "CRITICAL - "
-		UNKNOWN = 5,	// Default/unknown line, prefix "UNKNOWN - "
-		EMPTY = 6,		// Empty line, no prefix, used for spacing
-		D_EMPTY = 7,	// Empty line for in debug, no prefix, used for spacing
+		INFO = 0,		// Information line, prefix "INFO - "
+		WARNING = 1,	// Warning line, prefix "WARNING - "
+		ERRORS = 2,		// ERRORS line, prefix "ERRORS - "
+		CRITICAL = 3,	// Critical line, prefix "CRITICAL - "
+		UNKNOWN = 4,	// Default/unknown line, prefix "UNKNOWN - "
+		EMPTY = 5,		// Empty line, no prefix, used for spacing
 	};
-	Log::LogType types;
+	Log::LogType outputTypes;
+
+	static enum DebugType
+	{
+		DEBUG = 0,		// Information for debug, prefix "[HH:MM:SS] - "
+		EXTRA = 1,		// New line without the prefix but with spacing to match up
+		EMPTY_D = 2,	// Default, adds an empty line
+	};
+	Log::DebugType debugTypes;
 
 	/*
 		Simply ships the line given to line() to console out
@@ -27,11 +33,18 @@ public:
 	static void cout(const std::string& line);
 
 	/*
-		Logs a line with the given type
+		Logs a line with the given type, used primarily for the validation of a map!
 		@param line The line to log
-		@param type The type of log message (default UNKNOWN, see LogType enum)
+		@param type The type of log message (default EMPTY, see LogType enum)
 	*/
-	static void line(const std::string& line, LogType type = UNKNOWN);
+	static void line(const std::string& line = "", LogType type = EMPTY);
+
+	/*
+		Logs a debug line with the given type, used primarily for logging the process of the editor!
+		@param line The line to log
+		@param type The type of debug message (default EMPTY_D, see DebugType enum)
+	*/
+	static void note(const std::string& line = "", DebugType type = EMPTY_D);
 
 	/*
 		Converts the passed argument to a string and returns it
@@ -101,7 +114,7 @@ public:
 	static std::string debugName;
 	static std::string logFolder;
 
-	static std::ofstream logFile, debugFile;
+	static std::ofstream logFile, debugFile, debugTimeFile;
 	static std::vector<std::string> debugLines;
 	static std::vector<std::string> logLines;
 };

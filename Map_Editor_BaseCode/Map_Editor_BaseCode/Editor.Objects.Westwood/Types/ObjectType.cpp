@@ -2,20 +2,24 @@
 #include "ObjectType.hpp"
 
 
-ObjectType::ObjectType(INISection* _rulesSection, INISection* _artSection)
-:AbstractType(_rulesSection, _artSection), artSection(_artSection), rulesSection(_rulesSection)
+ObjectType::ObjectType(const std::string& id)
+:AbstractType(id)
 {
-	
+
 }
 
-void ObjectType::loadRules()
+void ObjectType::loadRules(INIFile* rules)
 {
-	Image = rulesSection->readStringValue("Image", "");
-	AlphaImage = rulesSection->readStringValue("AlphaImage", "");
+	AbstractType::loadRules(rules);
+	INISection* rulesSection = rules->getSection(ID);
+	Image = rulesSection->readStringValue("Image", Image);
+	AlphaImage = rulesSection->readStringValue("AlphaImage", AlphaImage);
 }
 
-void ObjectType::loadArt()
+void ObjectType::loadArt(INIFile* art)
 {
+	AbstractType::loadArt(art);
+	INISection* artSection = art->getSection(ID);
 	Theater = artSection->readBoolValue("Theater", false);
 	NewTheater = artSection->readBoolValue("NewTheater", false);
 	Voxel = artSection->readBoolValue("Voxel", false);

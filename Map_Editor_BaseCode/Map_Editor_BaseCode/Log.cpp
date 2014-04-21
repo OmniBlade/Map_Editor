@@ -16,10 +16,12 @@
 /* static */ std::vector<std::string> Log::logLines;
 /* static */ std::ofstream Log::logFile;
 /* static */ std::ofstream Log::debugFile;
+/* static */ std::ofstream Log::debugTimeFile;
 /* static */ int Log::atLogLine = 0;
 /* static */ int Log::atDebugLine = 0;
 /* static */ bool Log::dumpInConsole = true;
-/* static */ Log::LogType types = Log::LogType::UNKNOWN;
+/* static */ Log::LogType types = Log::LogType::EMPTY;
+/* static */ Log::DebugType typesDebug = Log::DebugType::EMPTY_D;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::startTime;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::timer;
 /* static */ std::string Log::outputName = "output";
@@ -31,13 +33,10 @@
 	std::cout << line << std::endl;
 }
 
-/* static */ void Log::line(const std::string& line, LogType type /* = UNKNOWN */)
+/* static */ void Log::line(const std::string& line /* = "" */, LogType type /* = EMPTY */)
 {
 	switch (type)
 	{
-	case DEBUG:
-		debugLines.push_back("[" + getFormalTime() + "] - " + line);
-		break;
 	case INFO:
 		logLines.push_back("INFO     - " + line);
 		break;
@@ -56,13 +55,30 @@
 	case EMPTY:
 		logLines.push_back("");
 		break;
-	case D_EMPTY:
-		logLines.push_back("");
+	}
+	write(); // Make sure shit ends up in the log file inb4 crash
+}
+
+/*static */ void Log::note(const std::string& line /* = "" */, DebugType type /* = EMPTY_D */)
+{
+	if (!Config::enableDebug) return; //GTFO out of my debug function
+
+	switch (type)
+	{
+	case DEBUG:
+		debugLines.push_back("[" + getFormalTime() + "] - " + line);
+		break;
+	case EXTRA:
+		debugLines.push_back("             " + line);
+		break;
+	default:
+	case EMPTY_D:
+		debugLines.push_back("");
 		break;
 	}
-	if (dumpInConsole && type == DEBUG)
-		cout(line);
-	write(); // Make sure shit ends up in the log file inb4 crash
+	if (dumpInConsole)
+		cout(debugLines.back());
+	write();
 }
 
 /* static */ std::string Log::toString(int value)
@@ -176,11 +192,11 @@ std::string Log::getTimerValue()
 	std::string dirName = Config::editorRoot + Config::backSlash + "Logging";
 	std::wstring dirNameW(dirName.begin(), dirName.end());
 	DWORD ftyp = GetFileAttributesA(dirName.c_str());
-	if (!ftyp & FILE_ATTRIBUTE_DIRECTORY || ftyp == INVALID_FILE_ATTRIBUTES)
+	if (ftyp & FILE_ATTRIBUTE_DIRECTORY == 0 || ftyp == INVALID_FILE_ATTRIBUTES)
 	{
 		std::cout << "Logging directory doesn't exist, creating now..." << std::endl;
 		if (CreateDirectory(dirNameW.c_str(), NULL))
-			line("Creating 'Logging' directory successful!", DEBUG);
+			note("Creating 'Logging' directory successful!", DEBUG);
 		else
 			std::cout << "Creating 'Logging' directory in editor root failed, are you running this as administrator?" << std::endl;
 	}
@@ -190,22 +206,17 @@ std::string Log::getTimerValue()
 	startTime = std::chrono::system_clock::now();
 	std::string& dateTime = getDateTimeForFile();
 	std::string outputName = Config::editorRoot + logFolder + Config::backSlash + "output.log";
-	std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + ".log";
+	//std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + ".log";
+
+	logFile.open(outputName);
+
+	if (!Config::enableDebug) return;
+
 	std::string debugName = Config::editorRoot + logFolder + Config::backSlash + "debug.log";
 	std::string debugNameNew = Config::editorRoot + logFolder + Config::backSlash + "debug." + dateTime + ".log";
 
-	std::wstring outputNameW(outputName.begin(), outputName.end());
-	std::wstring outputNameNewW(outputNameNew.begin(), outputNameNew.end());
-	if (CopyFile(outputNameW.c_str(), outputNameNewW.c_str(), true) == 0)
-		std::cout << "Copying failed, perhaps the file 'output.log' doesn't exist?" << std::endl;
-
-	std::wstring debugNameW(debugName.begin(), debugName.end());
-	std::wstring debugNameNewW(debugNameNew.begin(), debugNameNew.end());
-	if (CopyFile(debugNameW.c_str(), debugNameNewW.c_str(), true) == 0)
-		std::cout << "Copying failed, perhaps the file 'debug.log' doesn't exist?" << std::endl;
-
-	logFile.open(outputName);
 	debugFile.open(debugName);
+	debugTimeFile.open(debugNameNew);
 }
 
 /* static */ void Log::write()
@@ -218,17 +229,37 @@ std::string Log::getTimerValue()
 	for (unsigned int i = atDebugLine; i < debugLines.size(); ++i)
 	{
 		debugFile << debugLines[i] << '\n';
+		debugTimeFile << debugLines[i] << '\n'; // I so want to get shot in the head by some person now that I'm doing this
 	}
 
 	logFile.flush();
-	debugFile.flush();
-
 	atLogLine = logLines.size();
+
+	if (!Config::enableDebug) return;
+
+	debugFile.flush();
+	debugTimeFile.flush();
 	atDebugLine = debugLines.size();
 }
 
 /* static */ void Log::close()
 {
 	logFile.close();
+
+	if (!Config::enableDebug) return;
 	debugFile.close();
+	debugTimeFile.close();
 }
+
+//Backup for the CopyFile stuff which is probably obsolete now
+/*
+std::wstring outputNameW(outputName.begin(), outputName.end());
+std::wstring outputNameNewW(outputNameNew.begin(), outputNameNew.end());
+if (CopyFile(outputNameW.c_str(), outputNameNewW.c_str(), true) == 0)
+std::cout << "Copying failed, perhaps the file 'output.log' doesn't exist?" << std::endl;
+
+std::wstring debugNameW(debugName.begin(), debugName.end());
+std::wstring debugNameNewW(debugNameNew.begin(), debugNameNew.end());
+if (CopyFile(debugNameW.c_str(), debugNameNewW.c_str(), true) == 0)
+std::cout << "Copying failed, perhaps the file 'debug.log' doesn't exist?" << std::endl;
+*/

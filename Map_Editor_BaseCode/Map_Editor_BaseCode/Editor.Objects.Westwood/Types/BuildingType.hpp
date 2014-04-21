@@ -5,7 +5,6 @@
 #include "../Vector3D.hpp"
 #include "Foundation.hpp"
 #include "TechnoType.hpp"
-#include "../../Editor.FileSystem/INIFile/INISection.hpp"
 #include "../Managers/List.hpp"
 
 class BuildingType : public TechnoType
@@ -13,52 +12,57 @@ class BuildingType : public TechnoType
 public:
 	static List<BuildingType> Array;
 
-	BuildingType(INISection* _rulesSection, INISection* _artSection);
+	BuildingType(const std::string& id);
 
-	void loadRules() override;
-	void loadArt() override;
+	void loadRules(INIFile* rules) override;
+	void loadArt(INIFile* art) override;
 
 //--Rules flags
-	std::string ToTile;
-	bool HasSpotlight;
+	std::string ToTile = "";
+	bool HasSpotlight = false;
+	std::string HalfDamageSmokeLocation1_str = "0,0,0";
+	std::string HalfDamageSmokeLocation2_str = "0,0,0";
 	Vector3D HalfDamageSmokeLocation1; //TODO: Gotta rework that in 3DVector
 	Vector3D HalfDamageSmokeLocation2; //TODO: Gotta rework that in 3DVector
-	bool WaterBound;
-	bool Powered;
-	int RefinerySmokeFrames;
-	bool Wall;
-	bool IsPlug;
-	bool Gate;
-	bool LaserFencePost;
-	bool LaserFence;
-	bool FirestormWall;
-	std::string PowersUpBuilding;
-	int PowersUpToLevel;
-	int Power;
-	int ExtraPower;
-	std::string TurretAnim;
-	std::string TurretAnimDamaged;
-	std::string TurretAnimGarrisoned;
-	int TurretAnimX;
-	int TurretAnimY;
-	int TurretAnimZAdjust;
-	int TurretAnimYSort;
-	bool TurretAnimPowered;
-	bool TurretAnimPoweredLight;
-	bool TurretAnimPoweredEffect;
-	bool TurretAnimPoweredSpecial;
-	bool TurretAnimIsVoxel;
-	std::string VoxelBarrelFile;
+	bool WaterBound = false;
+	bool Powered = false;
+	int RefinerySmokeFrames = 25;
+	bool Wall = false;
+	bool IsPlug = false;
+	bool Gate = false;
+	bool LaserFencePost = false;
+	bool LaserFence = false;
+	bool FirestormWall = false;
+	std::string PowersUpBuilding = "";
+	int PowersUpToLevel = -1;
+	int Power = 0;
+	int ExtraPower = 0;
+	std::string TurretAnim = "";
+	std::string TurretAnimDamaged = "";
+	std::string TurretAnimGarrisoned = "";
+	int TurretAnimX = 0;
+	int TurretAnimY = 0;
+	int TurretAnimZAdjust = 0;
+	int TurretAnimYSort = 0;
+	bool TurretAnimPowered = false;
+	bool TurretAnimPoweredLight = false;
+	bool TurretAnimPoweredEffect = false;
+	bool TurretAnimPoweredSpecial = false;
+	bool TurretAnimIsVoxel = false;
+	std::string VoxelBarrelFile = "";
+	std::string VoxelBarrelOffsetToPitchPivotPoint_str = "0,0,0";
+	std::string VoxelBarrelOffsetToRotatePivotPoint_str = "0,0,0";
+	std::string VoxelBarrelOffsetToBuildingPivotPoint_str = "0,0,0";
+	std::string VoxelBarrelOffsetToBarrelEnd_str = "0,0,0";
 	Vector3D VoxelBarrelOffsetToPitchPivotPoint;
 	Vector3D VoxelBarrelOffsetToRotatePivotPoint;
 	Vector3D VoxelBarrelOffsetToBuildingPivotPoint;
 	Vector3D VoxelBarrelOffsetToBarrelEnd;
-	int Upgrades;
+	int Upgrades = 0;
 
 //--Art flags
 	int Height;
 	int OccupyHeight;
-	std::string ToOverlay;
 	Foundation Foundation;
 	bool TerrainPalette;
 	std::string ActiveAnim;
@@ -108,9 +112,5 @@ public:
 	std::string Rubble;
 	std::string BibShape;
 	std::string ArtImage;
-
-protected:
-	INISection* rulesSection = nullptr;
-	INISection* artSection = nullptr;
 };
 
