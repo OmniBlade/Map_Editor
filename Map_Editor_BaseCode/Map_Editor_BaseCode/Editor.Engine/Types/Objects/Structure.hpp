@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include "../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "../../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "../../../Editor.Objects.Westwood/Types/BuildingType.hpp"
 
 class Structure
 {
@@ -14,8 +15,14 @@ public:
 	*/
 	std::string asString() const;
 
+	/*
+
+	*/
+	void setBuildingType();
+
 	std::string owner = "";
 	std::string buildingType = "";
+	BuildingType* pBuilding = nullptr;
 	unsigned int health = 256;
 	Vector2D loc;
 	unsigned int direction = 0;

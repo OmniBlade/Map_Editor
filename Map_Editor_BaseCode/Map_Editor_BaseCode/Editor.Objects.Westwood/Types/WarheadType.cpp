@@ -18,8 +18,11 @@ void WarheadType::loadRules(INIFile* file)
 
 	AbstractType::loadRules(file);
 
-	allocateList(Animation::Array, section->readStringValue("AnimList"));
-	allocateList(VoxelAnimType::Array, section->readStringValue("DebrisTypes"));
+	section->readStringValue("AnimList", AnimList);
+	section->readStringValue("DebrisTypes", DebrisTypes);
+
+	allocateList(Animation::Array, AnimList);
+	allocateList(VoxelAnimType::Array, DebrisTypes);
 }
 
 void WarheadType::loadArt(INIFile* file)

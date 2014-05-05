@@ -18,5 +18,5 @@ public:
 
 	//Art
 	int StandingFrames;
-	int Facings;
+	int Facings = 8;
 };

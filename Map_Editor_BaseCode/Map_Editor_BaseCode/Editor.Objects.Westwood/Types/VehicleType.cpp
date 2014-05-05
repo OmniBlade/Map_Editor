@@ -16,9 +16,9 @@ void VehicleType::loadRules(INIFile* rules)
 
 	TechnoType::loadRules(rules);
 	
-	Harvester = rulesSection->readBoolValue("Harvester", Harvester);
-	Weeder = rulesSection->readBoolValue("Weeder", Weeder);
-	UseTurretShadow = rulesSection->readBoolValue("UseTurretShadow", UseTurretShadow);
+	rulesSection->readBoolValue("Harvester", Harvester);
+	rulesSection->readBoolValue("Weeder", Weeder);
+	rulesSection->readBoolValue("UseTurretShadow", UseTurretShadow);
 }
 
 void VehicleType::loadArt(INIFile* art)
@@ -28,7 +28,7 @@ void VehicleType::loadArt(INIFile* art)
 	
 	TechnoType::loadArt(art);
 	
-	StandingFrames = artSection->readIntValue("StandingFrames", 0);
-	Facings = artSection->readIntValue("Facings", 8);
+	artSection->readIntValue("StandingFrames", StandingFrames);
+	artSection->readIntValue("Facings", Facings);
 
 }

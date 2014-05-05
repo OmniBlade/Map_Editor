@@ -15,3 +15,8 @@ std::string Unit::asString() const
 
 	return unitStream.str();
 }
+
+void Unit::setVehicleType()
+{
+	pVehicle = VehicleType::Array.find(vehicleType);
+}

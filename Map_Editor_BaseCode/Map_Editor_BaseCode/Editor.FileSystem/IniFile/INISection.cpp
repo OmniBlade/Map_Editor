@@ -49,6 +49,8 @@ void INISection::setValue(const std::string &key, const std::string &value)
 		auto it = getIter(key);
 		if (it == keyValue.end())
 			keyValue.emplace_back(key, value);
+		else
+			it->second = value;
 	}
 	else
 	{
@@ -60,69 +62,58 @@ void INISection::setValue(const std::string &key, const std::string &value)
 	}
 }
 
-std::string INISection::readStringValue(const std::string &key, const std::string &_default /*= ""*/, bool upperCase /* = false */)
+void INISection::readStringValue(const std::string &key, std::string& varToFill, const std::string &default_ /*= ""*/, bool upperCase /* = false */)
 {
-	std::string returnString = getValue(key, _default);
+	std::string& returnString = getValue(key, default_);
 
 	if (upperCase)
 		std::transform(returnString.begin(), returnString.end(), returnString.begin(), ::toupper);
-	return returnString;
+	if (!returnString.empty())
+		varToFill = returnString;
 }
 
-int INISection::readIntValue(const std::string& key, int _default /* = 0 */)
+void INISection::readIntValue(const std::string& key, int& varToFill, int default_ /* = -1 */)
 {
-	std::string returnValue = getValue(key);
-	if (returnValue != "")
-	{
-		int toReturn = atoi(returnValue.c_str());
-		return toReturn;
-	}
-	else
-	{
-		return _default;
-	}
+	std::string& returnValue = getValue(key);
+
+	if (!returnValue.empty())
+		varToFill = atoi(returnValue.c_str());
 }
 
-float INISection::readFloatValue(const std::string& key, float _default /* = 0.0f */)
+void INISection::readFloatValue(const std::string& key, float& varToFill, float default_ /* = 1.0f */)
 {
-	std::string returnValue = getValue(key);
-	if (returnValue != "")
-	{
-		float toReturn = atof(returnValue.c_str());
-		return toReturn;
-	}
-	else
-	{
-		return _default;
-	}
+	std::string& returnValue = getValue(key);
+
+	if (!returnValue.empty())
+		varToFill = atof(returnValue.c_str());
 }
 
-bool INISection::readBoolValue(const std::string& key, bool _default /* = false */)
+void INISection::readBoolValue(const std::string& key, bool& varToFill, bool default_ /* = false */)
 {
-	std::string defaultValue = "true";
-	if (!_default)
-		defaultValue = "false";
+	std::string boolStr = "false";
+	if (default_)
+		boolStr = "true";
 
-	std::string	value = getValue(key, defaultValue);
+	std::string& value = getValue(key, boolStr);
 	std::transform(value.begin(), value.end(), value.begin(), ::toupper);
 	switch (value.front())
 	{
 	case 'Y':
 	case 'T':
 	case '1':
-		return true;
+			varToFill = true;
+			return;
 	case 'N':
 	case 'F':
 	case '0':
-		return false;
-	default:
-		return _default;
+			varToFill = false;
+			return;
 	}
 }
 
 std::string INISection::getKey(const std::string &key, const std::string &_default /*= ""*/)
 {
-	auto it = getIter(key);
+	auto& it = getIter(key);
 
 	if (it != this->keyValue.end())
 	{
@@ -133,7 +124,7 @@ std::string INISection::getKey(const std::string &key, const std::string &_defau
 
 std::string INISection::getValue(const std::string& key, const std::string& default_ /* = ""*/)
 {
-	auto it = getIter(key);
+	auto& it = getIter(key);
 
 	if (it != keyValue.end())
 	{
@@ -161,7 +152,7 @@ std::string INISection::getNextValue(const std::string& _default)
 
 bool INISection::checkKeyExistance(const std::string& key)
 {
-	auto it = std::find_if(keyValue.begin(), keyValue.end(), [key](std::pair<std::string, std::string>& item)
+	auto& it = std::find_if(keyValue.begin(), keyValue.end(), [key](std::pair<std::string, std::string>& item)
 	{
 		return item.first == key;
 	});
@@ -174,7 +165,7 @@ bool INISection::checkKeyExistance(const std::string& key)
 
 bool INISection::checkValueExistance(const std::string& key)
 {
-	auto it = getIter(key);
+	auto& it = getIter(key);
 
 	if (it != keyValue.end())
 	{
@@ -188,7 +179,14 @@ bool INISection::checkValueExistance(const std::string& key)
 void INISection::dumpContent()
 {
 	//std::cout << "\n\n [" << sectionName << "]" << std::endl;
+	Log::note();
 	Log::note("[" + sectionName + "]", Log::DEBUG);
+	for (const auto& iter : keyValue)
+	{
+		Log::note(iter.first + " = " + iter.second, Log::DEBUG);
+	}
+	Log::note();
+	
 	//for (std::pair<const std::string,std::string>& _section: keyValue)
 	//{
 //		Log::note("Key: " + _section.first + " | Value: " + _section.second, Log::DEBUG);

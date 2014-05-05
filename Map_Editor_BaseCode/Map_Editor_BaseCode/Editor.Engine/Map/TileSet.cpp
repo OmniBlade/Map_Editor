@@ -26,20 +26,20 @@ void TileSet::parse()
 {
 	if (section)
 	{
-		FileName = section->readStringValue("FileName", "");
-		SetName = section->readStringValue("SetName", "");
-		TilesInSet = section->readIntValue("TilesInSet", 0);
-		MarbleMadnessTile = section->readIntValue("MarbleMadness", -1);
-		NonMarbleMadnessTile = section->readIntValue("NonMarbleMadness", -1);
-		TileAnimIndex = section->readIntValue("TileAnimIndex", -1);
-		TileXOffset = section->readIntValue("TileXOffset", 0);
-		TileYOffset = section->readIntValue("TileYOffset", 0);
-		TileAttachesTo = section->readIntValue("TileAttachesTo", 0);
-		TileZAdjust = section->readIntValue("TileZAdjust", 0);
-		Morphable = section->readBoolValue("Morphable", false);
-		ShadowCaster = section->readBoolValue("ShadowCaster", false);
-		AllowToPlace = section->readBoolValue("AllowToPlace", true);
-		AllowTiberium = section->readBoolValue("AllowTiberium", false);
+		section->readStringValue("FileName", FileName);
+		section->readStringValue("SetName", SetName);
+		section->readIntValue("TilesInSet", TilesInSet);
+		section->readIntValue("MarbleMadness", MarbleMadnessTile);
+		section->readIntValue("NonMarbleMadness", NonMarbleMadnessTile);
+		section->readIntValue("TileAnimIndex", TileAnimIndex);
+		section->readIntValue("TileXOffset", TileXOffset);
+		section->readIntValue("TileYOffset", TileYOffset);
+		section->readIntValue("TileAttachesTo", TileAttachesTo);
+		section->readIntValue("TileZAdjust", TileZAdjust);
+		section->readBoolValue("Morphable", Morphable);
+		section->readBoolValue("ShadowCaster", ShadowCaster);
+		section->readBoolValue("AllowToPlace", AllowToPlace);
+		section->readBoolValue("AllowTiberium", AllowTiberium);
 	}
 	else
 		std::cout << "Tileset with ID " << ID << " does not exist!" << std::endl;	

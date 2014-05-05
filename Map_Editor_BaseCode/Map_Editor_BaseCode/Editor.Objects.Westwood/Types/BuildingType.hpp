@@ -18,6 +18,9 @@ public:
 	void loadArt(INIFile* art) override;
 
 //--Rules flags
+	std::string FreeUnit, SecretInfantry, SecretUnit, SecretBuilding;
+
+
 	std::string ToTile = "";
 	bool HasSpotlight = false;
 	std::string HalfDamageSmokeLocation1_str = "0,0,0";
@@ -61,9 +64,10 @@ public:
 	int Upgrades = 0;
 
 //--Art flags
-	int Height;
-	int OccupyHeight;
+	int Height = 2;
+	int OccupyHeight = 2;
 	Foundation Foundation;
+	std::string ToOverlay;
 	bool TerrainPalette;
 	std::string ActiveAnim;
 	std::string ActiveAnimDamaged;

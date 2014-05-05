@@ -13,25 +13,47 @@ void AI::loadRules(INIFile* file)
 	INISection* section = file->getSection("AI");
 	if (!section) return;
 
-	allocateList(BuildingType::Array, section->readStringValue("BuildConst", BuildConst));
-	allocateList(BuildingType::Array, section->readStringValue("BuildPower", BuildPower));
-	allocateList(BuildingType::Array, section->readStringValue("BuildRefinery", BuildRefinery));
-	allocateList(BuildingType::Array, section->readStringValue("BuildBarracks", BuildBarracks));
-	allocateList(BuildingType::Array, section->readStringValue("BuildTech", BuildTech));
-	allocateList(BuildingType::Array, section->readStringValue("BuildWeapons", BuildWeapons));
-	allocateList(BuildingType::Array, section->readStringValue("AlliedBaseDefenses", AlliedBaseDefenses));
-	allocateList(BuildingType::Array, section->readStringValue("SovietBaseDefenses", SovietBaseDefenses));
-	allocateList(BuildingType::Array, section->readStringValue("ThirdBaseDefenses", ThirdBaseDefenses));
-	allocateList(BuildingType::Array, section->readStringValue("BuildDefense", BuildDefense));
-	allocateList(BuildingType::Array, section->readStringValue("BuildPDefense", BuildPDefense));
-	allocateList(BuildingType::Array, section->readStringValue("BuildAA", BuildAA));
-	allocateList(BuildingType::Array, section->readStringValue("BuildHelipad", BuildHelipad));
-	allocateList(BuildingType::Array, section->readStringValue("BuildRadar", BuildRadar));
-	allocateList(BuildingType::Array, section->readStringValue("ConcreteWalls", ConcreteWalls));
-	allocateList(BuildingType::Array, section->readStringValue("NSGates", NSGates));
-	allocateList(BuildingType::Array, section->readStringValue("EWGates", EWGates));
-	allocateList(BuildingType::Array, section->readStringValue("BuildNavalYard", BuildNavalYard));
-	allocateList(BuildingType::Array, section->readStringValue("BuildDummy", BuildDummy));
-	allocateList(BuildingType::Array, section->readStringValue("NeutralTechBuildings", NeutralTechBuildings));
+	section->readStringValue("BuildConst", BuildConst);
+	section->readStringValue("BuildPower", BuildPower);
+	section->readStringValue("BuildRefinery", BuildRefinery);
+	section->readStringValue("BuildBarracks", BuildBarracks);
+	section->readStringValue("BuildTech", BuildTech);
+	section->readStringValue("BuildWeapons", BuildWeapons);
+	section->readStringValue("AlliedBaseDefenses", AlliedBaseDefenses);
+	section->readStringValue("SovietBaseDefenses", SovietBaseDefenses);
+	section->readStringValue("ThirdBaseDefenses", ThirdBaseDefenses);
+	section->readStringValue("BuildDefense", BuildDefense);
+	section->readStringValue("BuildPDefense", BuildPDefense);
+	section->readStringValue("BuildAA", BuildAA);
+	section->readStringValue("BuildHelipad", BuildHelipad);
+	section->readStringValue("BuildRadar", BuildRadar);
+	section->readStringValue("ConcreteWalls", ConcreteWalls);
+	section->readStringValue("NSGates", NSGates);
+	section->readStringValue("EWGates", EWGates);
+	section->readStringValue("BuildNavalYard", BuildNavalYard);
+	section->readStringValue("BuildDummy", BuildDummy);
+	section->readStringValue("NeutralTechBuildings", NeutralTechBuildings);
+
+
+	allocateList(BuildingType::Array, BuildConst);
+	allocateList(BuildingType::Array, BuildPower);
+	allocateList(BuildingType::Array, BuildRefinery);
+	allocateList(BuildingType::Array, BuildBarracks);
+	allocateList(BuildingType::Array, BuildTech);
+	allocateList(BuildingType::Array, BuildWeapons);
+	allocateList(BuildingType::Array, AlliedBaseDefenses);
+	allocateList(BuildingType::Array, SovietBaseDefenses);
+	allocateList(BuildingType::Array, ThirdBaseDefenses);
+	allocateList(BuildingType::Array, BuildDefense);
+	allocateList(BuildingType::Array, BuildPDefense);
+	allocateList(BuildingType::Array, BuildAA);
+	allocateList(BuildingType::Array, BuildHelipad);
+	allocateList(BuildingType::Array, BuildRadar);
+	allocateList(BuildingType::Array, ConcreteWalls);
+	allocateList(BuildingType::Array, NSGates);
+	allocateList(BuildingType::Array, EWGates);
+	allocateList(BuildingType::Array, BuildNavalYard);
+	allocateList(BuildingType::Array, BuildDummy);
+	allocateList(BuildingType::Array, NeutralTechBuildings);
 
 }

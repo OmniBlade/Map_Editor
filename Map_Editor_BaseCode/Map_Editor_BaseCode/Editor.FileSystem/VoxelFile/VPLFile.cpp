@@ -3,6 +3,7 @@
 #include <iostream>
 #include "VPLFile.hpp"
 #include "../FileManager/FileSystem.hpp"
+#include "../FileManager/BinaryReader.hpp"
 
 
 /* static */ VPLFile* VPLFile::vplFile;

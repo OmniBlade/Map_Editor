@@ -17,7 +17,8 @@ void VoxelAnimType::loadRules(INIFile* rules)
 	if (!rulesSection) return;
 
 	ObjectType::loadRules(rules);
-	WarheadType::Array.findOrAllocate(rulesSection->readStringValue("Warhead"));
+	rulesSection->readStringValue("Warhead", Warhead);
+	WarheadType::Array.findOrAllocate(Warhead);
 }
 
 void VoxelAnimType::loadArt(INIFile* art)

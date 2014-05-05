@@ -116,7 +116,6 @@ bool RawFileSystem::fileIsInEditorRoot(const std::string& fileName)
 
 void RawFileSystem::locateGameRootFiles()
 {
-	Log::note("Install directory is: " + Config::installDir, Log::DEBUG);
 	WIN32_FIND_DATA ffd;
 	std::string rootFile = Config::installDir + Config::backSlash + "*.*";
 	std::wstring dir(rootFile.begin(), rootFile.end());
@@ -148,7 +147,7 @@ void RawFileSystem::locateGameRootFiles()
 
 void RawFileSystem::locateEditorRootFiles()
 {
-	//Log::line("Editor root is: " + Config::editorRoot, Log::INFO);
+	Log::note("Editor root is: " + Config::editorRoot, Log::DEBUG);
 	WIN32_FIND_DATA ffd;
 	std::string rootFile = Config::editorRoot + Config::backSlash + "*.*";
 	std::wstring dir(rootFile.begin(), rootFile.end());
@@ -160,6 +159,8 @@ void RawFileSystem::locateEditorRootFiles()
 		std::cout << "Invalid file!" << std::endl;
 	}
 
+	//Log::note("==========================", Log::EXTRA);
+	//Log::note("Files in editor root are:", Log::DEBUG);
 	bool finished = false;
 	int i = 1;
 	while (!finished)
@@ -169,11 +170,16 @@ void RawFileSystem::locateEditorRootFiles()
 		std::transform(fileName.begin(), fileName.end(), fileName.begin(), ::toupper);
 		//std::cout << "Found EDITOR ROOT: " << fileName << std::endl;
 		//std::cout << "Found in DIR: " << fileName << std::endl;
-		editorRootFileNames.push_back(fileName);
+		if (fileName != "." && fileName != "..")
+		{
+			editorRootFileNames.push_back(fileName);
+		//	Log::note(fileName, Log::DEBUG);
+		}
 
 		if (!FindNextFile(hFind, &ffd))
 			finished = true;
 		++i;
 	}
+	//Log::note("==========================", Log::EXTRA);
 	FindClose(hFind);
 }

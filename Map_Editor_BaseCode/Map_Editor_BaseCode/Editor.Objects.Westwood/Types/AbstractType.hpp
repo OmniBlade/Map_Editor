@@ -13,7 +13,8 @@ public:
 
 	std::string ID = "";
 	std::string Name = "MISSING Name";
-	std::string UIName = "MISSING UIName";
+	std::string UIName;
+	std::wstring WUIName;
 	bool valid;
 };
 

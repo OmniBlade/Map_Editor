@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include "../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "../../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
 
 class Infantry
 {
@@ -14,8 +15,14 @@ public:
 	*/
 	std::string asString() const;
 
+	/*
+
+	*/
+	void setInfantryType();
+
 	std::string owner = "";
 	std::string infantryType = "";
+	InfantryType* pInfantry = nullptr;
 	unsigned int health = 256;
 	Vector2D loc;
 	unsigned int subCell = 0;

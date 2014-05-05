@@ -16,6 +16,13 @@
 #include <cstdio>
 
 class BinaryReader {
+private:
+	bool atEOF = false;
+	int fileSize = 0, offset = 0;
+	std::string fullFileName;
+	//int startingOffset = 0;
+	std::ifstream fileStream;
+
 public:
 	/*
 		Opens the file as a binary file and opens a file stream to it
@@ -73,9 +80,19 @@ public:
 	*/
 	byte readByte();
 	/*
+		Reads an amount of byte from the file
+	*/
+	void readBlock(void* ptr, size_t length) { fileStream.read(reinterpret_cast<char*>(ptr), length); }
+	/*
 	Reads a single signed char from the file
 	*/
-	char readChar();
+	char readChar()
+	{
+		char aChar = 0;
+		fileStream.read(reinterpret_cast<char*>(&aChar), sizeof(char));
+
+		return aChar;
+	};
 	/*
 		Kind of obsolete, skips the amount of bytes given
 		@param amount The amount of bytes to skip
@@ -95,7 +112,13 @@ public:
 	/*
 		Reads a single line until 'new line' character is found, mainly used for text files
 	*/
-	std::string readTextLine();
+	std::string readTextLine(int length = -1, bool zeroTerminated = true);
+
+	/*
+		Reads a single wstring line
+	*/
+	std::wstring readWTextLine(int length) { std::wstring ret; ret.resize(length*2);  readBlock(&ret[0], length*2); return ret; };
+
 	/*
 		Checks whether the file is at eof, returns true if it is, false if it isn't
 	*/
@@ -114,13 +137,6 @@ public:
 	//int getFileSize();
 
 	bool isOpened = false;
-
-private:
-	bool atEOF = false;
-	int fileSize = 0 , offset = 0;
-	std::string fullFileName;
-	//int startingOffset = 0;
-	std::ifstream fileStream;
 };
 
 #endif /* BINARYREADER_HPP_ */

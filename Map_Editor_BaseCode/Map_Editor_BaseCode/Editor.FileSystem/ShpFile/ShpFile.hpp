@@ -3,9 +3,8 @@
 #include "ShpImage.hpp"
 #include <vector>
 #include <memory>
-#include "../FileManager/BinaryReader.hpp"
-//#include "../FileManager/FileSystem.hpp"
 
+class BinaryReader;
 struct FileProperties;
 
 class ShpFile

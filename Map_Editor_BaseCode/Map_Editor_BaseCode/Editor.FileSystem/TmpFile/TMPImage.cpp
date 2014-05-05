@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TMPImage.hpp"
 #include "../../Config.hpp"
+#include "../FileManager/BinaryReader.hpp"
 #include <cmath>
 #include <iostream>
 

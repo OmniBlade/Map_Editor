@@ -16,10 +16,10 @@ void  SmudgeType::loadRules(INIFile* rules)
 
 	ObjectType::loadRules(rules);
 
-	Crater = rulesSection->readBoolValue("Crater", Crater);
-	Smudge = rulesSection->readBoolValue("Smudge", Smudge);
-	Width = rulesSection->readIntValue("Width", Width);
-	Height = rulesSection->readIntValue("Height", Height);
+	rulesSection->readBoolValue("Crater", Crater);
+	rulesSection->readBoolValue("Smudge", Smudge);
+	rulesSection->readIntValue("Width", Width);
+	rulesSection->readIntValue("Height", Height);
 }
 
 void SmudgeType::loadArt(INIFile* art)

@@ -14,3 +14,8 @@ std::string Aircraft::asString() const
 
 	return aircraftStream.str();
 }
+
+void Aircraft::setAircraftType()
+{
+	pAircraft = AircraftType::Array.find(aircraftType);
+}

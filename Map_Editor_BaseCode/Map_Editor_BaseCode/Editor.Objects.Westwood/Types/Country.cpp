@@ -16,40 +16,40 @@ void Country::loadRules(INIFile* file)
 
 	AbstractType::loadRules(file);
 
-	Suffix = rulesSection->readStringValue("Suffix", Suffix);
-	Prefix = rulesSection->readStringValue("Prefix", Prefix);
-	Color = rulesSection->readStringValue("Color", Color);
-	Multiplay = rulesSection->readBoolValue("Multiplay", Multiplay);
-	MultiplayPassive = rulesSection->readBoolValue("MultiplayPassive", MultiplayPassive);
-	Side = rulesSection->readStringValue("Side", Side);
-	SmartAI = rulesSection->readBoolValue("SmartAI", SmartAI);
-	VeteranAircraft = rulesSection->readStringValue("VeteranAircraft", VeteranAircraft);
-	VeteranUnits = rulesSection->readStringValue("VeteranUnits", VeteranUnits);
-	VeteranInfantry = rulesSection->readStringValue("VeteranInfantry", VeteranInfantry);
+	rulesSection->readStringValue("Suffix", Suffix);
+	rulesSection->readStringValue("Prefix", Prefix);
+	rulesSection->readStringValue("Color", Color);
+	rulesSection->readBoolValue("Multiplay", Multiplay);
+	rulesSection->readBoolValue("MultiplayPassive", MultiplayPassive);
+	rulesSection->readStringValue("Side", Side);
+	rulesSection->readBoolValue("SmartAI", SmartAI);
+	rulesSection->readStringValue("VeteranAircraft", VeteranAircraft);
+	rulesSection->readStringValue("VeteranUnits", VeteranUnits);
+	rulesSection->readStringValue("VeteranInfantry", VeteranInfantry);
 	
-	ArmorAircraftMult = rulesSection->readFloatValue("ArmorAircraftMult", ArmorAircraftMult);
-	ArmorUnitsMult = rulesSection->readFloatValue("ArmorUnitsMult", ArmorUnitsMult);
-	ArmorInfantryMult = rulesSection->readFloatValue("ArmorInfantryMult", ArmorInfantryMult);
-	ArmorBuildingsMult = rulesSection->readFloatValue("ArmorBuildingsMult", ArmorBuildingsMult);
-	ArmorDefensesMult = rulesSection->readFloatValue("ArmorDefensesMult", ArmorDefensesMult);
-	CostAircraftMult = rulesSection->readFloatValue("CostAircraftMult", CostAircraftMult);
-	CostUnitsMult = rulesSection->readFloatValue("CostUnitsMult", CostUnitsMult);
-	CostInfantryMult = rulesSection->readFloatValue("CostInfantryMult", CostInfantryMult);
-	CostBuildingsMult = rulesSection->readFloatValue("CostBuildingsMult", CostBuildingsMult);
-	CostDefensesMult = rulesSection->readFloatValue("CostDefensesMult", CostDefensesMult);
-	SpeedAircraftMult = rulesSection->readFloatValue("SpeedAircraftMult", SpeedAircraftMult);
-	SpeedUnitsMult = rulesSection->readFloatValue("SpeedUnitsMult", SpeedUnitsMult);
-	SpeedInfantryMult = rulesSection->readFloatValue("SpeedInfantryMult", SpeedInfantryMult);
+	rulesSection->readFloatValue("ArmorAircraftMult", ArmorAircraftMult);
+	rulesSection->readFloatValue("ArmorUnitsMult", ArmorUnitsMult);
+	rulesSection->readFloatValue("ArmorInfantryMult", ArmorInfantryMult);
+	rulesSection->readFloatValue("ArmorBuildingsMult", ArmorBuildingsMult);
+	rulesSection->readFloatValue("ArmorDefensesMult", ArmorDefensesMult);
+	rulesSection->readFloatValue("CostAircraftMult", CostAircraftMult);
+	rulesSection->readFloatValue("CostUnitsMult", CostUnitsMult);
+	rulesSection->readFloatValue("CostInfantryMult", CostInfantryMult);
+	rulesSection->readFloatValue("CostBuildingsMult", CostBuildingsMult);
+	rulesSection->readFloatValue("CostDefensesMult", CostDefensesMult);
+	rulesSection->readFloatValue("SpeedAircraftMult", SpeedAircraftMult);
+	rulesSection->readFloatValue("SpeedUnitsMult", SpeedUnitsMult);
+	rulesSection->readFloatValue("SpeedInfantryMult", SpeedInfantryMult);
 
-	BuildTimeAircraftMult = rulesSection->readFloatValue("BuildTimeAircraftMult", BuildTimeAircraftMult);
-	BuildTimeUnitsMult = rulesSection->readFloatValue("BuildTimeUnitsMult", BuildTimeUnitsMult);
-	BuildTimeInfantryMult = rulesSection->readFloatValue("BuildTimeInfantryMult", BuildTimeInfantryMult);
-	BuildTimeBuildingsMult = rulesSection->readFloatValue("BuildTimeBuildingsMult", BuildTimeBuildingsMult);
-	BuildTimeDefensesMult = rulesSection->readFloatValue("BuildTimeDefensesMult", BuildTimeDefensesMult);
+	rulesSection->readFloatValue("BuildTimeAircraftMult", BuildTimeAircraftMult);
+	rulesSection->readFloatValue("BuildTimeUnitsMult", BuildTimeUnitsMult);
+	rulesSection->readFloatValue("BuildTimeInfantryMult", BuildTimeInfantryMult);
+	rulesSection->readFloatValue("BuildTimeBuildingsMult", BuildTimeBuildingsMult);
+	rulesSection->readFloatValue("BuildTimeDefensesMult", BuildTimeDefensesMult);
 
-	IncomeMult = rulesSection->readFloatValue("IncomeMult", IncomeMult);
-	Firepower = rulesSection->readFloatValue("Firepower", Firepower);
-	ROF = rulesSection->readFloatValue("ROF", ROF);
+	rulesSection->readFloatValue("IncomeMult", IncomeMult);
+	rulesSection->readFloatValue("Firepower", Firepower);
+	rulesSection->readFloatValue("ROF", ROF);
 
 }
 

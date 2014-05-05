@@ -8,10 +8,12 @@
 
 #include <string>
 #include <vector>
-#include "../FileManager/BinaryReader.hpp"
+
 
 #ifndef MIXFILE_HPP_
 #define MIXFILE_HPP_
+
+class BinaryReader;
 
 class MixFile {
 public:

@@ -2,12 +2,15 @@
 #include "Config.hpp"
 #include "Log.hpp"
 #include "Editor.FileSystem\FileManager\Managers\INIManager.hpp"
-#include "Editor.FileSystem\IniFile\INIFile.hpp"
+#include "Editor.FileSystem\IniFile\INISection.hpp"
 
 // This is FIXED for Red Alert 2 and Yuri's Revenge. Only changed for TS/FS
 unsigned int Config::tileWidth = 60;
 unsigned int Config::tileHeight = 30;
-bool Config::enableDebug = true; // Hi there! Please set this to false when the argument -DEBUG is finally implemented
+int Config::language = -1;
+std::string Config::configName = "";
+bool Config::enableDebug = false;
+bool Config::dumpTypes = false;
 
 // [MAIN]
 std::string Config::editorRoot = "";
@@ -31,43 +34,33 @@ std::string Config::battle	= "BATTLEMD.INI";
 std::string Config::modes	= "MPMODESMD.INI";
 std::string Config::coop	= "COOPCAMPMD.INI";
 
-void Config::parse()
-{
-	Log::note("Parsing CONFIG file...", Log::DEBUG);
-	
-	std::string CONFIG = "CONFIG";
-	INIFile* configINI = INIManager::getManager()->get(CONFIG);
+// [GameExtension]
+bool Config::hasAres = false;
 
+void Config::parse(INIFile* configINI, const std::string& name)
+{
+	Log::note();
+	Log::note("Showing configuration file flags below:", Log::DEBUG);
+	configName = name;
 	if (configINI != nullptr)
 	{
 		INISection* mainSection = configINI->getSection("Main");
 		if (mainSection != nullptr)
 		{
-			//Temporary uglyness, to support 3 separate directories
-			std::string installDir1 = mainSection->readStringValue("InstallDir", "", true);
-			std::string installDir2 = mainSection->readStringValue("InstallDir2", "", true);
-			std::string installDir3 = mainSection->readStringValue("InstallDir3", "", true);
-
-			BinaryReader dir1(installDir1 + "\\" + "GAMEMD.EXE", false);
-			BinaryReader dir2(installDir2 + "\\" + "GAMEMD.EXE", false);
-			BinaryReader dir3(installDir3 + "\\" + "GAMEMD.EXE", false);
-
-			if (dir1.isOpened)
-				Config::installDir = installDir1;
-			else if (dir2.isOpened)
-				Config::installDir = installDir2;
-			else if (dir3.isOpened)
-				Config::installDir = installDir3;
-			else
-				Log::note("Unable to open any of the given install directories!", Log::DEBUG);
-
-			//Config::MAIN_InstallDir = mainSection->readStringValue("InstallDir", "", true);
-			Config::missionDisk = mainSection->readStringValue("MissionDisk", "", true);
-			Config::expand = mainSection->readStringValue("ExpandMix", "", true);
-			Config::ecache = mainSection->readStringValue("EcacheMix", "", true);
-			Config::elocal = mainSection->readStringValue("ElocalMix", "", true);
-			Config::inGameLighting = mainSection->readBoolValue("InGameLighting", true);
-			Config::FA2Mode = mainSection->readBoolValue("FA2Mode", false);
+			mainSection->readStringValue("InstallDir", Config::installDir, "", true);
+			Log::note("Install directory: " + installDir, Log::DEBUG);
+			mainSection->readStringValue("MissionDisk", Config::missionDisk, "MD", true);
+			Log::note("Mission disk: " + missionDisk, Log::DEBUG);
+			mainSection->readStringValue("ExpandMix", Config::expand, "EXPAND", true);
+			Log::note("Expand: " + expand, Log::DEBUG);
+			mainSection->readStringValue("EcacheMix", Config::ecache, "ECACHE", true);
+			Log::note("Ecache: " + ecache, Log::DEBUG);
+			mainSection->readStringValue("ElocalMix", Config::elocal, "ELOCAL", true);
+			Log::note("Elocal: " + elocal, Log::DEBUG);
+			mainSection->readBoolValue("InGameLighting", Config::inGameLighting, true);
+			Log::note("In-game lighting: " + Log::toString(inGameLighting), Log::DEBUG);
+			mainSection->readBoolValue("FA2Mode", Config::FA2Mode, false);
+			Log::note("FA2 mode: " + Log::toString(FA2Mode), Log::DEBUG);
 		}
 		else
 			Log::note("Section [Main] could not be found!", Log::DEBUG);
@@ -75,19 +68,39 @@ void Config::parse()
 		INISection* iniSection = configINI->getSection("INI");
 		if (iniSection != nullptr)
 		{
-			Config::rules = iniSection->readStringValue("Rules", "RULESMD.INI", true);
-			Config::art = iniSection->readStringValue("Art", "ARTMD.INI", true);
-			Config::sound = iniSection->readStringValue("Sound", "SOUNDMD.INI", true);
-			Config::eva = iniSection->readStringValue("Eva", "EVAMD.INI", true);
-			Config::theme = iniSection->readStringValue("Theme", "THEMEMD.INI", true);
-			Config::AI = iniSection->readStringValue("AI", "AIDMD.INI", true);
-			Config::battle = iniSection->readStringValue("Battle", "BATTLEMD.INI", true);
-			Config::modes = iniSection->readStringValue("Modes", "MPMODESMD.INI", true);
-			Config::coop = iniSection->readStringValue("Coop", "COOPCAMPMD.INI", true);
+			iniSection->readStringValue("Rules", Config::rules, "RULESMD.INI", true);
+			Log::note("Rules: " + rules, Log::DEBUG);
+			iniSection->readStringValue("Art", Config::art, "ARTMD.INI", true);
+			Log::note("Art: " + art, Log::DEBUG);
+			iniSection->readStringValue("Sound", Config::sound, "SOUNDMD.INI", true);
+			Log::note("Sound: " + sound, Log::DEBUG);
+			iniSection->readStringValue("Eva", Config::eva, "EVAMD.INI", true);
+			Log::note("Eva: " + eva, Log::DEBUG);
+			iniSection->readStringValue("Theme", Config::theme, "THEMEMD.INI", true);
+			Log::note("Theme: " + theme, Log::DEBUG);
+			iniSection->readStringValue("AI", Config::AI, "AIDMD.INI", true);
+			Log::note("AI: " + AI, Log::DEBUG);
+			iniSection->readStringValue("Battle", Config::battle, "BATTLEMD.INI", true);
+			Log::note("Battle: " + battle, Log::DEBUG);
+			iniSection->readStringValue("Modes", Config::modes, "MPMODESMD.INI", true);
+			Log::note("Modes: " + modes, Log::DEBUG);
+			iniSection->readStringValue("Coop", Config::coop, "COOPCAMPMD.INI", true);
+			Log::note("Coop: " + coop, Log::DEBUG);
 		}
 		else
 			Log::note("Section [INI] could not be found!", Log::DEBUG);
+
+		INISection* extensionSection = configINI->getSection("GameExtension");
+		if (extensionSection != nullptr)
+		{
+			extensionSection->readBoolValue("Ares", Config::hasAres);
+			Log::note("Ares: " + Log::toString(hasAres), Log::DEBUG);
+		}
+		else
+			Log::note("Section [GameExtension] could not be found!", Log::DEBUG);
 	}
 	else
-		Log::note("CONFIG could not be found in the editor root!", Log::DEBUG);
+		Log::note(name + " could not be found in the editor root!", Log::DEBUG);
+
+	Log::note("End of configuration file flags.", Log::DEBUG);
 }

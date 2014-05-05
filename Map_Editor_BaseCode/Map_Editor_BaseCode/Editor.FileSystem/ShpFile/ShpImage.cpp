@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ShpImage.hpp"
+#include "../FileManager/BinaryReader.hpp"
 #include <iostream>
 
 ShpImage::ShpImage()

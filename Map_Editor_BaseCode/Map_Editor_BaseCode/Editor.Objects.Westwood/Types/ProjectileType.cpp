@@ -18,14 +18,12 @@ void ProjectileType::loadRules(INIFile* rules)
 	if (!rulesSection) return;
 
 	AbstractType::loadRules(rules);
-	Image = rulesSection->readStringValue("Image", ID);
-	AirburstWeapon = rulesSection->readStringValue("AirburstWeapon", AirburstWeapon);
-	ShrapnelWeapon = rulesSection->readStringValue("ShrapnelWeapon", ShrapnelWeapon);
+	rulesSection->readStringValue("Image", Image, ID);
+	rulesSection->readStringValue("AirburstWeapon", AirburstWeapon);
+	rulesSection->readStringValue("ShrapnelWeapon", ShrapnelWeapon);
 
-	if (AirburstWeapon != "")
-		WeaponType::Array.findOrAllocate(AirburstWeapon);
-	if (ShrapnelWeapon != "")
-		WeaponType::Array.findOrAllocate(ShrapnelWeapon);
+	WeaponType::Array.findOrAllocate(AirburstWeapon);
+	WeaponType::Array.findOrAllocate(ShrapnelWeapon);
 }
 
 void ProjectileType::loadArt(INIFile* art)
@@ -34,5 +32,6 @@ void ProjectileType::loadArt(INIFile* art)
 	if (!artSection) return;
 
 	AbstractType::loadArt(art);
-	Animation::Array.findOrAllocate(artSection->readStringValue("Trailer"));
+	artSection->readStringValue("Trailer", Trailer);
+	Animation::Array.findOrAllocate(Trailer);
 }

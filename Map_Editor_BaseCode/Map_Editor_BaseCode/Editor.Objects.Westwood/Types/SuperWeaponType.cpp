@@ -3,6 +3,7 @@
 #include "BuildingType.hpp"
 #include "../../Log.hpp"
 #include "WeaponType.hpp"
+#include "../../Config.hpp"
 
 /* static */ List<SuperWeaponType> SuperWeaponType::Array;
 
@@ -19,24 +20,29 @@ void SuperWeaponType::loadRules(INIFile* rules)
 
 	AbstractType::loadRules(rules);
 
-	WeaponType = rulesSection->readStringValue("WeaponType", WeaponType);
-	if (WeaponType != "")
-		WeaponType::Array.findOrAllocate(WeaponType);
+	rulesSection->readStringValue("WeaponType", WeaponType);
+	WeaponType::Array.findOrAllocate(WeaponType);
 
-	AuxBuilding = rulesSection->readStringValue("AuxBuilding", AuxBuilding);
-	if (AuxBuilding != "")
-		BuildingType::Array.findOrAllocate(AuxBuilding);
+	rulesSection->readStringValue("AuxBuilding", AuxBuilding);
+	BuildingType::Array.findOrAllocate(AuxBuilding);
 
-	IsPowered = rulesSection->readBoolValue("IsPowered", IsPowered);
-	DisableableFromShell = rulesSection->readBoolValue("DisableFromShell", DisableableFromShell);
-	SidebarFlashTabFrames = rulesSection->readIntValue("SidebarFlashTabFrames", SidebarFlashTabFrames);
-	ShowTimer = rulesSection->readBoolValue("ShowTimer", ShowTimer);
-	Range = rulesSection->readFloatValue("Range", Range);
-	LineMultiplier = rulesSection->readIntValue("LineMultiplier", LineMultiplier);
-	UseChargeDrain = rulesSection->readBoolValue("UseChargeDrain", UseChargeDrain);
-	ManualControl = rulesSection->readBoolValue("ManualControl", ManualControl);
-	RechargeTime = rulesSection->readFloatValue("RechargeTime", RechargeTime);
-	SidebarImage = rulesSection->readStringValue("SidebarImage", SidebarImage);
+	if (Config::hasAres)
+	{
+		rulesSection->readStringValue("Nuke.Payload", Payload);
+		WeaponType::Array.findOrAllocate(Payload);
+	}
+
+	rulesSection->readBoolValue("IsPowered", IsPowered);
+	rulesSection->readBoolValue("DisableFromShell", DisableableFromShell);
+	rulesSection->readIntValue("SidebarFlashTabFrames", SidebarFlashTabFrames);
+	rulesSection->readBoolValue("ShowTimer", ShowTimer);
+	rulesSection->readFloatValue("Range", Range);
+	rulesSection->readIntValue("LineMultiplier", LineMultiplier);
+	rulesSection->readBoolValue("UseChargeDrain", UseChargeDrain);
+	rulesSection->readBoolValue("ManualControl", ManualControl);
+	rulesSection->readFloatValue("RechargeTime", RechargeTime);
+	rulesSection->readStringValue("SidebarImage", SidebarImage);
+
 }
 
 void SuperWeaponType::loadArt(INIFile* art)

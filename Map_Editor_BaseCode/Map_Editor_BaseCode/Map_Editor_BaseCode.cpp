@@ -3,8 +3,6 @@
 #include "stdafx.h"
 #include <cstdlib>
 #include <Windows.h>
-#include <GL/gl.h>
-#include <gl/freeglut.h>
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
 #include "Editor.FileSystem/FileManager/RawFileSystem.hpp"
 #include "Editor.FileSystem/FileManager/Managers/MixManager.hpp"
@@ -13,6 +11,7 @@
 #include "Editor.FileSystem/FileManager/Managers/PALManager.hpp"
 #include "Editor.FileSystem/FileManager/Managers/SHPManager.hpp"
 #include "Editor.FileSystem/FileManager/Managers/VXLManager.hpp"
+#include "Editor.FileSystem\FileManager\Managers\CSFManager.hpp"
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
 #include "Editor.FileSystem/SHPFile/SHPFile.hpp"
 #include "Editor.FileSystem/ShpFile/ShpImage.hpp"
@@ -20,28 +19,18 @@
 #include "Editor.Engine/Map/TheaterCollection.hpp"
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
 #include "Editor.FileSystem\IniFile\INISection.hpp"
+#include "Editor.FileSystem\CsfFile\CSFFile.hpp"
 #include "Editor.Engine/Game/Theater.hpp"
 #include "Editor.Engine/Map/TileSet.hpp"
 #include "Editor.Engine\Loading\MapLoader.hpp"
+#include "Editor.Configuration\ConfigLoader.hpp"
 #include "Config.hpp"
+#include "Arguments.hpp"
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include <string>
 #include "Log.hpp"
-
-void displayMe(void)
-{
-	glClear(GL_COLOR_BUFFER_BIT);
-	glBegin(GL_POLYGON);
-	
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(1.0, 5.0, 1.0);
-	glVertex3f(0.5, 0.5, -2.0);
-	glVertex3f(0.0, 0.5, 0.0);
-	glEnd();
-	glFlush();
-}
 
 /*
 	Main function
@@ -54,6 +43,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//Remove the executable
 	pathS.erase(pathS.find_last_of('\\'), pathS.length());
 	Config::editorRoot = pathS;
+	handleArguments(argc, argv);
 
 	Log::open();
 	Log::note("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
@@ -62,7 +52,22 @@ int _tmain(int argc, _TCHAR* argv[])
 	RawFileSystem rawSystem;
 	MIXManager::getManager()->assignRawSystem(&rawSystem);
 	FileSystem::getFileSystem()->assignPointers(&rawSystem);
-	Config::parse();
+
+	ConfigLoader configLoader;
+	if (!configLoader.chooseConfig())
+	{
+		Log::close();
+		std::cin.get();
+		return 0;
+	}
+
+	if (Config::installDir.empty())
+	{
+		Log::note("Unable to determine install directory, terminating now...", Log::DEBUG);
+		Log::close();
+		std::cin.get();
+		return 0;
+	}
 	rawSystem.locateGameRootFiles();
 
 	StartupLoader bootLoader;
@@ -72,28 +77,34 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::note();
 	Log::note("Loading INI files:", Log::DEBUG);
 	bootLoader.initiateINI();
+	Log::note();
+	Log::note("Loading CSF files:", Log::DEBUG);
+	bootLoader.initiateCSF();
 
-	//glutInit(&argc, argv);
-	//glutInitDisplayMode(GLUT_SINGLE);
-	//glutInitWindowSize(300, 300);
-	//glutInitWindowPosition(100, 100);
-	//glutCreateWindow("Hello world :D");
-	//glutDisplayFunc(displayMe);
-	//glutMainLoop();
+	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get(Config::configName));
+	TheaterCollection::getInstance()->setCurrent("NEWURBAN");		//Test code to check Tileset loading for NEWURBAN
 
-	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get("CONFIG"));
-	TheaterCollection::getInstance()->setCurrent("NEWURBAN");
-
-	INIFile* urbann = INIManager::getManager()->get("urbannmd.ini");
-	INIFile* temperat = INIManager::getManager()->get("temperatmd.ini");
-	INIFile* rules = INIManager::getManager()->get("rulesmd.ini");
-	INIFile* art = INIManager::getManager()->get("artmd.ini");
-
-	INISection* overlay = rules->getSection("OverlayTypes");
+	INIFile* rules = INIManager::getManager()->get(Config::rules);
+	ShpFile* shp = SHPManager::getManager()->get("dipshit.SHP");	//Test for missing items
+	INIFile* map = INIManager::getManager()->get("sov01umd.map");	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
 	MapLoader mapLoader;
 
-	mapLoader.allocateMainRules(rules, art);
-	mapLoader.loadAll(rules, art);
+	Log::timerStart();
+
+	/*
+		Little side information:
+		Tiberian Sun's Firestorm expansion pack will load exactly like below
+		Basically firestrm.ini is an INI file that is loaded between rules.ini and <some_map>.map,
+		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
+		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
+	*/
+	mapLoader.allocateMainRules(rules);
+	mapLoader.loadAll(rules);
+	mapLoader.allocateMainRules(map);
+	mapLoader.loadAll(map);
+
+	Log::note("Parsing all ObjectTypes from rules and map took: " + Log::getTimerValue(), Log::DEBUG);
+	mapLoader.dumpLists();
 
 	//Theater derp(temperat);
 
@@ -125,9 +136,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	Log::note();
 	Log::note("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
-	std::cout << "\n------------------------------------------------------------\nPress Enter to finish." << std::endl;
+	std::cout << "\n------------------------------------------------------------" << std::endl;
 	Log::close();
-	std::cin.get();
+	system("pause");
 
 	return 0;
 }

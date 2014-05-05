@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../FileManager/BinaryReader.hpp"
 #include <vector>
+
+class BinaryReader;
 
 class ShpImage
 {

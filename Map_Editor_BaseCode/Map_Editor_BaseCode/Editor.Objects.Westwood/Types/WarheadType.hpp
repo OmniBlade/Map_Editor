@@ -12,6 +12,7 @@ public:
 	void loadRules(INIFile* file) override;
 	void loadArt(INIFile* file) override;
 
+	std::string AnimList, DebrisTypes;
 
 
 };

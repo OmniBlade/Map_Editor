@@ -8,6 +8,7 @@
 
 #include "stdafx.h"
 #include "MixFile.hpp"
+#include "../FileManager/BinaryReader.hpp"
 #include "KeyCalculator.hpp"
 #include "Blowfish.hpp"
 #include "Ccrc.hpp"

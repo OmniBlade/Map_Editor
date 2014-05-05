@@ -37,15 +37,15 @@ void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defa
 	{
 		sectionName = theaterSection->getSectionName();
 
-		Name = theaterSection->readStringValue("Name", _defaultTheater[0]);
-		INIFile = theaterSection->readStringValue("INIFileName", _defaultTheater[1]);
-		ININame = theaterSection->readStringValue("ININame", _defaultTheater[2]);
-		NewTheaterSuffix = theaterSection->readStringValue("NewTheaterSuffix", _defaultTheater[3]);
-		TileExtension = theaterSection->readStringValue("TileExtension", _defaultTheater[4]);
-		MarblePrefix = theaterSection->readStringValue("MarblePrefix", _defaultTheater[5]);
-		TerrainPalette = theaterSection->readStringValue("TerrainPalette", _defaultTheater[6]);
-		UnitPalette = theaterSection->readStringValue("UnitPalette", _defaultTheater[7]);
-		OverlayPalette = theaterSection->readStringValue("OverlayPalette", _defaultTheater[8]);
+		theaterSection->readStringValue("Name", Name, _defaultTheater[0]);
+		theaterSection->readStringValue("INIFileName", INIFile, _defaultTheater[1]);
+		theaterSection->readStringValue("ININame", ININame, _defaultTheater[2]);
+		theaterSection->readStringValue("NewTheaterSuffix", NewTheaterSuffix, _defaultTheater[3]);
+		theaterSection->readStringValue("TileExtension", TileExtension, _defaultTheater[4]);
+		theaterSection->readStringValue("MarblePrefix", MarblePrefix, _defaultTheater[5]);
+		theaterSection->readStringValue("TerrainPalette", TerrainPalette, _defaultTheater[6]);
+		theaterSection->readStringValue("UnitPalette", UnitPalette, _defaultTheater[7]);
+		theaterSection->readStringValue("OverlayPalette", OverlayPalette, _defaultTheater[8]);
 	}
 }
 

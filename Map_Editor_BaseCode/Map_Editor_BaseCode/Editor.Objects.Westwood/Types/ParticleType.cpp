@@ -16,7 +16,8 @@ void ParticleType::loadRules(INIFile* rules)
 	if (!rulesSection) return;
 
 	ObjectType::loadRules(rules);
-	WarheadType::Array.findOrAllocate(rulesSection->readStringValue("Warhead"));
+	rulesSection->readStringValue("Warhead", Warhead);
+	WarheadType::Array.findOrAllocate(Warhead);
 }
 
 void ParticleType::loadArt(INIFile* art)

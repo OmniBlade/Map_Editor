@@ -7,16 +7,11 @@
  */
 
 #include "stdafx.h"
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-
-#include "INIFile.hpp"
-#include "INISection.hpp"
 #include "CStringHelper.hpp"
 #include "../../Config.hpp"
 #include "../FileManager/FileSystem.hpp"
+#include "../FileManager/BinaryReader.hpp"
+#include "../FileManager/Managers/INIManager.hpp"
 #include "../../Log.hpp"
 
 INIFile::INIFile(const FileProperties& props)
@@ -24,37 +19,18 @@ INIFile::INIFile(const FileProperties& props)
 {
 	iniReader->setOffset(props.offset);
 	iniReader->setSize(props.size);
-	load();
+	load(this);
 }
 
-INIFile::INIFile(const std::string& _iniName, const std::string& _parentName, __int32 offset, int size)
-:isLoaded(false), iniName(_iniName)//, iniReader(Config::MAIN_InstallDir + Config::MAIN_BackSlash + _parentName)
+INIFile::INIFile(const FileProperties& props, INIFile* parentINI)
+:iniReader(props.reader)
 {
-	//iniReader = &BinaryReader(binaryFile);
-	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
-	load();
+	iniReader->setOffset(props.offset);
+	iniReader->setSize(props.size);
+	load(parentINI);
 }
 
-INIFile::INIFile(const std::string& _iniName, const std::string& _directory)
-:isLoaded(false), iniName(_iniName)//, iniReader(_directory + Config::MAIN_BackSlash + _iniName)
-{
-	//iniReader = &BinaryReader(binaryFile);
-	//std::cout << "Offset from reader: " << iniReader.getOffset() << std::endl;
-	load();
-}
-
-INIFile::INIFile(const std::string& _iniName)
-:isLoaded(false), iniName(_iniName)//, iniReader(Config::MAIN_InstallDir + Config::MAIN_BackSlash + _iniName)
-{
-	//iniReader = &BinaryReader(binaryFile);
-	//std::cout << "Offset from reader: " << iniReader->getOffset() << std::endl;
-	load();
-}
-
-
-INIFile::~INIFile() {}
-
-void INIFile::load()
+void INIFile::load(INIFile* parentINI)
 {
 	std::string currentSection;
 	std::string line;
@@ -74,10 +50,18 @@ void INIFile::load()
 			//std::cout << "Line: " << line << std::endl;
 			if (line.front() == '[' && line.back() == ']')
 			{
+				//Fuck INI inheritance!
+				std::string& preLineSub = line;
+				std::size_t found = line.find_first_of("]");
+				if (found != std::string::npos)
+				{
+					preLineSub = line.substr(0, found + 1);
+				}
+
 				// section header
 				//Logger::log("\n");
 				//Logger::log(line);
-				std::string lineSub = line.substr(1, line.length() - 2);
+				std::string lineSub = preLineSub.substr(1, preLineSub.length() - 2);
 				currentSection = StringHelper::trim(lineSub);
 				//std::cout << "SECTION : [" << currentSection << "]" << std::endl;
 			}
@@ -105,7 +89,16 @@ void INIFile::load()
 					}
 					//We don't want empty keys to be parsed
 					if (value.length())
-						SetValue(currentSection, key, value);
+					{
+						if (Config::hasAres == 0xFF && currentSection == "#include")
+						{
+							INIFile* file = INIManager::getManager()->get(value, includeINIs, parentINI);							
+						}
+						else
+						{
+							parentINI->SetValue(currentSection, key, value);
+						}
+					}
 				}
 			}
 		}
@@ -160,16 +153,6 @@ bool INIFile::checkSectionExistance(const std::string &section)
 	return false;
 }
 
-bool INIFile::checkSectionExistanceAgain(const std::string &section)
-{
-	if (getSection(section) != nullptr)
-	{
-		return true;
-	}
-	std::cout << "\nFATAL - Section '" << section << "' does not exist!" << std::endl;
-	return false;
-}
-
 bool INIFile::getLoaded() const
 {
 	return isLoaded;
@@ -178,4 +161,14 @@ bool INIFile::getLoaded() const
 std::string& INIFile::getININame()
 {
 	return iniName;
+}
+
+void INIFile::dumpContent()
+{
+	std::map<std::string, std::shared_ptr<INISection>>::iterator iter;
+
+	for (iter = sectionList.begin(); iter != sectionList.end(); ++iter)
+	{
+		iter->second->dumpContent();
+	}
 }

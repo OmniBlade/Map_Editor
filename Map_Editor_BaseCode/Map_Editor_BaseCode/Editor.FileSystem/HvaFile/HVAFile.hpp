@@ -1,5 +1,6 @@
 #pragma once
-#include "../FileManager/BinaryReader.hpp"
+
+class BinaryReader;
 
 struct FileProperties;
 

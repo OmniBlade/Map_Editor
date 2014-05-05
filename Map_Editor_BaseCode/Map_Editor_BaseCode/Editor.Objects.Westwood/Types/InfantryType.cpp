@@ -18,18 +18,16 @@ void InfantryType::loadRules(INIFile* rules)
 
 	TechnoType::loadRules(rules);
 
-	OccupyWeapon = rulesSection->readStringValue("OccupyWeapon", OccupyWeapon);
-	EliteOccupyWeapon = rulesSection->readStringValue("EliteOccupyWeapon", EliteOccupyWeapon);
+	rulesSection->readStringValue("OccupyWeapon", OccupyWeapon);
+	rulesSection->readStringValue("EliteOccupyWeapon", EliteOccupyWeapon);
 
-	if (OccupyWeapon != "")
-		WeaponType::Array.findOrAllocate(OccupyWeapon);
-	if (EliteOccupyWeapon != "")
-		WeaponType::Array.findOrAllocate(EliteOccupyWeapon);
+	WeaponType::Array.findOrAllocate(OccupyWeapon);
+	WeaponType::Array.findOrAllocate(EliteOccupyWeapon);
 	
-	Cyborg = rulesSection->readBoolValue("Cyborg", Cyborg);
-	NotHuman = rulesSection->readBoolValue("NotHuman", NotHuman);
-	Occupier = rulesSection->readBoolValue("Occupier", Occupier);
-	Civilian = rulesSection->readBoolValue("Civilian", Civilian);
+	rulesSection->readBoolValue("Cyborg", Cyborg);
+	rulesSection->readBoolValue("NotHuman", NotHuman);
+	rulesSection->readBoolValue("Occupier", Occupier);
+	rulesSection->readBoolValue("Civilian", Civilian);
 }
 
 void InfantryType::loadArt(INIFile* art)

@@ -16,3 +16,8 @@ std::string Structure::asString() const
 
 	return structureStream.str();
 }
+
+void Structure::setBuildingType()
+{
+	pBuilding = BuildingType::Array.find(buildingType);
+}

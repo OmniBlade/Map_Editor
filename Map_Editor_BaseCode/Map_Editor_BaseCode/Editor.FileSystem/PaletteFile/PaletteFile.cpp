@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PaletteFile.hpp"
 #include "../FileManager/FileSystem.hpp"
+#include "../FileManager/BinaryReader.hpp"
 #include <iostream>
 
 PaletteFile::PaletteFile(const FileProperties& props)

@@ -17,7 +17,6 @@
 #include <share.h>
 #include <stdio.h>
 
-
 BinaryReader::BinaryReader(const std::string& _fullFileName, bool logError /* = true */ )//, __int32 _offset, int size)
 :fullFileName(_fullFileName)
 {
@@ -133,14 +132,13 @@ byte BinaryReader::readByte()
 	return aByte;
 }
 
-char BinaryReader::readChar()
+/*char BinaryReader::readChar()
 {
 	char aChar = 0;
-	//fgets(reinterpret_cast<char*>(&aByte), sizeof(byte), theFile);
 	fileStream.read(reinterpret_cast<char*>(&aChar), sizeof(char));
 
 	return aChar;
-}
+}*/
 
 void BinaryReader::discardBytes(unsigned int amount)
 {
@@ -163,14 +161,17 @@ std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
 	return buffer;
 }
 
-std::string BinaryReader::readTextLine()
+std::string BinaryReader::readTextLine(int length /* -1 */, bool zeroTerminated /* = true */)
 {
 	char line[2048] = "";
 
-	for (unsigned int i = 0; i < sizeof(line); ++i)
+	if (length == -1)
+		length = 2048;
+
+	for (unsigned int i = 0; i < length; ++i)
 	{
 		//char reatByte = readChar();
-		line[i] = readChar();
+		readBlock(&line[i], 1);
 		if (line[i] == '\n' || line[i] == '\0' || line[i] == '\r')
 		{
 			line[i] = '\0';
@@ -187,6 +188,11 @@ std::string BinaryReader::readTextLine()
 	}
 	//std::cout << "The line: " << line << std::endl;
 	//auto isEnd = [](byte value) { return value == '\0' || value == '\n' || value == EOF; };
+
+	if (!zeroTerminated)
+	{
+		return line;
+	}
 
 	bool endReached = false;
 	while (endReached == false)

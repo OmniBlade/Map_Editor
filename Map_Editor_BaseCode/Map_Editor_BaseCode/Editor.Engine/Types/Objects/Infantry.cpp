@@ -15,3 +15,8 @@ std::string Infantry::asString() const
 
 	return infantryStream.str();
 }
+
+void ::Infantry::setInfantryType()
+{
+	pInfantry = InfantryType::Array.find(infantryType);
+}

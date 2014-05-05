@@ -14,11 +14,27 @@ void SpecialWeapon::loadRules(INIFile* file)
 	INISection* section = file->getSection("SpecialWeapons");
 	if (!section) return;
 
-	allocateList(WarheadType::Array, section->readStringValue("NukeWarhead"));
-	allocateList(ProjectileType::Array, section->readStringValue("NukeProjectile"));
-	allocateList(ProjectileType::Array, section->readStringValue("NukeDown"));
-	allocateList(WarheadType::Array, section->readStringValue("MutateWarhead"));
-	allocateList(WarheadType::Array, section->readStringValue("MutateExplosionWarhead"));
-	allocateList(WarheadType::Array, section->readStringValue("EMPulseWarhead"));
-	allocateList(ProjectileType::Array, section->readStringValue("EMPulseProjectile"));
+	NukeWarhead;
+	NukeProjectile;
+	NukeDown;
+	MutateWarhead;
+	MutateExplosionWarhead;
+	EMPulseWarhead;
+	EMPulseProjectile;
+
+	section->readStringValue("NukeWarhead", NukeWarhead);
+	section->readStringValue("NukeProjectile", NukeProjectile);
+	section->readStringValue("NukeDown", NukeDown);
+	section->readStringValue("MutateWarhead", MutateWarhead);
+	section->readStringValue("MutateExplosionWarhead", MutateExplosionWarhead);
+	section->readStringValue("EMPulseWarhead", EMPulseWarhead);
+	section->readStringValue("EMPulseProjectile", EMPulseProjectile);
+
+	WarheadType::Array.findOrAllocate(NukeWarhead);
+	ProjectileType::Array.findOrAllocate(NukeProjectile);
+	ProjectileType::Array.findOrAllocate(NukeDown);
+	WarheadType::Array.findOrAllocate(MutateWarhead);
+	WarheadType::Array.findOrAllocate(MutateExplosionWarhead);
+	WarheadType::Array.findOrAllocate(EMPulseWarhead);
+	ProjectileType::Array.findOrAllocate(EMPulseProjectile);
 }

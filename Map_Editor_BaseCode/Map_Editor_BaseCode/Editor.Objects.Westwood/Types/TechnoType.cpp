@@ -24,36 +24,49 @@ void TechnoType::loadRules(INIFile* rules)
 
 	loadWeaponTypes(rulesSection);
 
-	allocateList(BuildingType::Array, rulesSection->readStringValue("Dock"));
-	BuildingType::Array.findOrAllocate(rulesSection->readStringValue("DeploysInto"));
-	VehicleType::Array.findOrAllocate(rulesSection->readStringValue("UndeploysInto"));
-	VehicleType::Array.findOrAllocate(rulesSection->readStringValue("PowersUnit"));
+	rulesSection->readStringValue("Dock", Dock);
+	rulesSection->readStringValue("DeploysInto", DeploysInto);
+	rulesSection->readStringValue("UndeploysInto", UndeploysInto);
+	rulesSection->readStringValue("PowersUnit", PowersUnit);
+	rulesSection->readStringValue("Explosion", Explosion);
+	rulesSection->readStringValue("DestroyAnim", DestroyAnim);
+	rulesSection->readStringValue("AirstrikeTeamType", AirstrikeTeamType);
+	rulesSection->readStringValue("EliteAirstrikeTeamType", EliteAirstrikeTeamType);
+	rulesSection->readStringValue("UnloadingClass", UnloadingClass);
+	rulesSection->readStringValue("DeployingAnim", DeployingAnim);
+	rulesSection->readStringValue("Enslaves", Enslaves);
+	rulesSection->readStringValue("Spawns", Spawns);
+
+	allocateList(BuildingType::Array, Dock);
+	BuildingType::Array.findOrAllocate(DeploysInto);
+	VehicleType::Array.findOrAllocate(UndeploysInto);
+	VehicleType::Array.findOrAllocate(PowersUnit);
 
 
-	allocateList(Animation::Array, rulesSection->readStringValue("Explosion"));
-	allocateList(Animation::Array, rulesSection->readStringValue("DestroyAnim"));
-	AircraftType::Array.findOrAllocate(rulesSection->readStringValue("AirstrikeTeamType"));
-	AircraftType::Array.findOrAllocate(rulesSection->readStringValue("EliteAirstrikeTeamType"));
-	VehicleType::Array.findOrAllocate(rulesSection->readStringValue("UnloadingClass"));
-	Animation::Array.findOrAllocate(rulesSection->readStringValue("DeployingAnim"));
-	InfantryType::Array.findOrAllocate(rulesSection->readStringValue("Enslaves"));
-	AircraftType::Array.findOrAllocate(rulesSection->readStringValue("Spawns"));
+	allocateList(Animation::Array, Explosion);
+	allocateList(Animation::Array, DestroyAnim);
+	AircraftType::Array.findOrAllocate(AirstrikeTeamType);
+	AircraftType::Array.findOrAllocate(EliteAirstrikeTeamType);
+	VehicleType::Array.findOrAllocate(UnloadingClass);
+	Animation::Array.findOrAllocate(DeployingAnim);
+	InfantryType::Array.findOrAllocate(Enslaves);
+	AircraftType::Array.findOrAllocate(Spawns);
 
-	Turret = rulesSection->readBoolValue("Turret", Turret);
+	 rulesSection->readBoolValue("Turret", Turret);
 
-	IsTrain = rulesSection->readBoolValue("IsTrain", IsTrain);
-	Passengers = rulesSection->readIntValue("Passengers", Passengers);
-	Size = rulesSection->readFloatValue("Size", Size);
-	SizeLimit = rulesSection->readFloatValue("SizeLimit", SizeLimit);
+	rulesSection->readBoolValue("IsTrain", IsTrain);
+	rulesSection->readIntValue("Passengers", Passengers);
+	rulesSection->readFloatValue("Size", Size);
+	rulesSection->readFloatValue("SizeLimit", SizeLimit);
 
-	TechLevel = rulesSection->readIntValue("TechLevel", TechLevel);
-	AIBasePlanningSide = rulesSection->readIntValue("AIBasePlanningSide", AIBasePlanningSide);
+	rulesSection->readIntValue("TechLevel", TechLevel);
+	rulesSection->readIntValue("AIBasePlanningSide", AIBasePlanningSide);
 
-	NoShadow = rulesSection->readBoolValue("NoShadow", NoShadow);
-	ZFudgeCliff = rulesSection->readIntValue("ZFudgeCliff", ZFudgeCliff);
-	ZFudgeColumn = rulesSection->readIntValue("ZFudgeColumn", ZFudgeColumn);
-	ZFudgeTunnel = rulesSection->readIntValue("ZFudgeTunnel", ZFudgeTunnel);
-	ZFudgeBridge = rulesSection->readIntValue("ZFudgeBridge", ZFudgeBridge);
+	rulesSection->readBoolValue("NoShadow", NoShadow);
+	rulesSection->readIntValue("ZFudgeCliff", ZFudgeCliff);
+	rulesSection->readIntValue("ZFudgeColumn", ZFudgeColumn);
+	rulesSection->readIntValue("ZFudgeTunnel", ZFudgeTunnel);
+	rulesSection->readIntValue("ZFudgeBridge", ZFudgeBridge);
 }
 
 void TechnoType::loadArt(INIFile* art)
@@ -61,10 +74,11 @@ void TechnoType::loadArt(INIFile* art)
 	ObjectType::loadArt(art);
 	INISection* artSection = art->getSection(ID);
 
-	Remapable = artSection->readBoolValue("Remapable", false);
-	Palette = artSection->readStringValue("Palette", "");
+	artSection->readBoolValue("Remapable", Remapable);
+	artSection->readStringValue("Palette", Palette);
 
-	LineSplitter split(artSection->readStringValue("TurretOffset", "0,0,0"));
+	artSection->readStringValue("TurretOffset", TurretOffsetStr);
+	LineSplitter split(TurretOffsetStr);
 	TurretOffset.x = split.pop_int();
 	TurretOffset.y = split.pop_int();
 	TurretOffset.z = split.pop_int();
@@ -72,21 +86,24 @@ void TechnoType::loadArt(INIFile* art)
 
 void TechnoType::loadWeaponTypes(INISection* rulesSection)
 {
-	DeathWeapon = rulesSection->readStringValue("DeathWeapon", DeathWeapon);
-	
-	Primary = rulesSection->readStringValue("Primary", Primary);
-	Secondary = rulesSection->readStringValue("Secondary", Secondary);
-	ElitePrimary = rulesSection->readStringValue("ElitePrimary", ElitePrimary);
-	EliteSecondary = rulesSection->readStringValue("EliteSecondary", EliteSecondary);
+	rulesSection->readStringValue("DeathWeapon", DeathWeapon);
+	rulesSection->readBoolValue("Gattling.Cycle", GattlingCycle);
+	rulesSection->readStringValue("Primary", Primary);
+	rulesSection->readStringValue("Secondary", Secondary);
+	rulesSection->readStringValue("ElitePrimary", ElitePrimary);
+	rulesSection->readStringValue("EliteSecondary", EliteSecondary);
 
 	WeaponType::Array.findOrAllocate(DeathWeapon);
-	WeaponType::Array.findOrAllocate(Primary);
-	WeaponType::Array.findOrAllocate(Secondary);
-	WeaponType::Array.findOrAllocate(ElitePrimary);
-	WeaponType::Array.findOrAllocate(EliteSecondary);
+	if (!GattlingCycle)
+	{
+		WeaponType::Array.findOrAllocate(Primary);
+		WeaponType::Array.findOrAllocate(Secondary);
+		WeaponType::Array.findOrAllocate(ElitePrimary);
+		WeaponType::Array.findOrAllocate(EliteSecondary);
+	}
 	
-	TurretCount = rulesSection->readIntValue("TurretCount", TurretCount);
-	WeaponCount = rulesSection->readIntValue("WeaponCount", WeaponCount);
+	rulesSection->readIntValue("TurretCount", TurretCount);
+	rulesSection->readIntValue("WeaponCount", WeaponCount);
 
 	if (TurretCount <= 0 && WeaponCount <= 0) return; //No gatling means no reading of multiple WeaponTypes!
 
@@ -99,8 +116,9 @@ void TechnoType::loadWeaponTypes(INISection* rulesSection)
 	{
 		std::stringstream number;
 		number << i+1;
-		std::string weapon = rulesSection->readStringValue("Weapon" + number.str(), WeaponX[i]);
-		std::string eWeapon = rulesSection->readStringValue("EliteWeapon" + number.str(), EliteWeaponX[i]);
+		std::string weapon, eWeapon;
+		rulesSection->readStringValue("Weapon" + number.str(), weapon, WeaponX[i]);
+		rulesSection->readStringValue("EliteWeapon" + number.str(), eWeapon, EliteWeaponX[i]);
 
 		if (weapon != "")
 			WeaponX[i] = weapon;

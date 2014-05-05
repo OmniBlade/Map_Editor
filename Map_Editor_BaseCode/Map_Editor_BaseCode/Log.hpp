@@ -15,6 +15,7 @@ public:
 		CRITICAL = 3,	// Critical line, prefix "CRITICAL - "
 		UNKNOWN = 4,	// Default/unknown line, prefix "UNKNOWN - "
 		EMPTY = 5,		// Empty line, no prefix, used for spacing
+		EXTRAS = 6,
 	};
 	Log::LogType outputTypes;
 
@@ -50,7 +51,7 @@ public:
 		Converts the passed argument to a string and returns it
 		@param value The value to convert to a string
 	*/
-	static std::string toString(int value);
+	//static std::string toString(int value);
 	static std::string toString(float value);
 
 	/*

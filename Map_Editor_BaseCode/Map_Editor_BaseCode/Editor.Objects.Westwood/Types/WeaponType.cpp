@@ -11,6 +11,7 @@
 WeaponType::WeaponType(const std::string& id)
 :AbstractType(id)
 {
+
 }
 
 void WeaponType::loadRules(INIFile* rules)
@@ -20,10 +21,13 @@ void WeaponType::loadRules(INIFile* rules)
 
 	AbstractType::loadRules(rules);
 
-	Projectile = rulesSection->readStringValue("Projectile", Projectile);
+	rulesSection->readStringValue("Projectile", Projectile);
+	rulesSection->readStringValue("Warhead", Warhead);
+	rulesSection->readStringValue("Anim", Anim);
+
 	ProjectileType::Array.findOrAllocate(Projectile);
-	WarheadType::Array.findOrAllocate(rulesSection->readStringValue("Warhead"));
-	allocateList(Animation::Array, rulesSection->readStringValue("Anim"));
+	WarheadType::Array.findOrAllocate(Warhead);
+	allocateList(Animation::Array, Anim);
 }
 
 void WeaponType::loadArt(INIFile* art)

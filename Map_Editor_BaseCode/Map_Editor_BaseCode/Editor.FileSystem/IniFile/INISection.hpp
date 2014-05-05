@@ -26,26 +26,26 @@ public:
 		@param key The key to return a string from
 		@param _default The default value to return if the read value is incorrect
 	*/
-	std::string readStringValue(const std::string &key, const std::string &_default = "", bool upperCase = false);
+	void readStringValue(const std::string &key, std::string& variableToFill, const std::string &_default = "", bool upperCase = false);
 	/*
 		Reads an integer from a key
 		@param key The key to return an int from
 		@param _default The default value to return if the read value is incorrect
 	*/
-	int readIntValue(const std::string& key, int _default = 0);
+	void readIntValue(const std::string& key, int& variableToFill, int _default = -1);
 	/*
 		Reads a float value from a key
 		@param key The key to return a float from
 		@param _default The default value to return if the read value is incorrect
 
 	*/
-	float readFloatValue(const std::string& key, float _default = 0.0f);
+	void readFloatValue(const std::string& key, float& variableToFill, float _default = 1.0f);
 	/*
 		Reads a bool value for a key, looks at the first character and tells whether it is T(rue), Y(es), 1 or F(alse), N(o) or 0
 		@param key The key to return a bool from
 		@param _default The default value to return if the read value is incorrect
 	*/
-	bool readBoolValue(const std::string& key, bool _default = false);
+	void readBoolValue(const std::string& key, bool& variableToFill, bool _default = false);
 
 	/* Dunno, probably obsolete by now (see checkKeyExistance) */
 	std::string getKey(const std::string &key, const std::string &_default = "");

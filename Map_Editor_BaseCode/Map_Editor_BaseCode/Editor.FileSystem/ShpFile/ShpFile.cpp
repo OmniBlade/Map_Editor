@@ -2,6 +2,7 @@
 #include "ShpFile.hpp"
 #include "Format3.hpp"
 #include "../FileManager/FileSystem.hpp"
+#include "../FileManager/BinaryReader.hpp"
 
 #include <iostream>
 
@@ -12,6 +13,7 @@ ShpFile::ShpFile()
 ShpFile::ShpFile(const FileProperties& props)
 :shpReader(props.reader), fileSize(props.size)
 {
+	if (!props.reader) return;
 	shpReader->setOffset(props.offset);
 	shpReader->setSize(props.size);
 	readHeader();

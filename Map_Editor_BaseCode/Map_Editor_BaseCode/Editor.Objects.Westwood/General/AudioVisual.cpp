@@ -13,15 +13,24 @@ void AudioVisual::loadRules(INIFile* file)
 	INISection* section = file->getSection("AudioVisual");
 	if (!section) return;
 
-	Animation::Array.findOrAllocate(section->readStringValue("DropPodPuff"));
-	Animation::Array.findOrAllocate(section->readStringValue("VeinAttack"));
-	Animation::Array.findOrAllocate(section->readStringValue("Dig"));
-	Animation::Array.findOrAllocate(section->readStringValue("AtmosphereEntry"));
+	section->readStringValue("DropPodPuff", DropPodPuff);
+	section->readStringValue("VeinAttack", VeinAttack);
+	section->readStringValue("Dig", Dig);
+	section->readStringValue("AtmosphereEntry", AtmosphereEntry);
+	section->readStringValue("TreeFire", TreeFire);
+	section->readStringValue("OnFire", OnFire);
+	section->readStringValue("Smoke", Smoke);
+	section->readStringValue("SmallFire", SmallFire);
+	section->readStringValue("LargeFire", LargeFire);
 
-	allocateList(Animation::Array, section->readStringValue("TreeFire"));
-	allocateList(Animation::Array, section->readStringValue("OnFire"));
 
-	Animation::Array.findOrAllocate(section->readStringValue("Smoke"));
-	Animation::Array.findOrAllocate(section->readStringValue("SmallFire"));
-	Animation::Array.findOrAllocate(section->readStringValue("LargeFire"));
+	Animation::Array.findOrAllocate(DropPodPuff);
+	Animation::Array.findOrAllocate(VeinAttack);
+	Animation::Array.findOrAllocate(Dig);
+	Animation::Array.findOrAllocate(AtmosphereEntry);
+	allocateList(Animation::Array, TreeFire);
+	allocateList(Animation::Array, OnFire);
+	Animation::Array.findOrAllocate(Smoke);
+	Animation::Array.findOrAllocate(SmallFire);
+	Animation::Array.findOrAllocate(LargeFire);
 }

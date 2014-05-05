@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include "Managers\MixManager.hpp"
+#include "../../Log.hpp"
 
 /* static */ FileSystem* FileSystem::system;
 /* static */ FileSystem* FileSystem::getFileSystem()
@@ -27,21 +28,21 @@ void FileSystem::assignPointers(RawFileSystem* _rawSystem)
 
 FileProperties FileSystem::getFile(const std::string& fileName)
 {
-	std::string fileNameCaps = fileName;
-	std::transform(fileNameCaps.begin(), fileNameCaps.end(), fileNameCaps.begin(), ::toupper);
-
 	FileProperties fileProp;
 
-	fileProp.reader = getReaderForFile(fileNameCaps);
-	fileProp.offset = getFileOffset(fileNameCaps);
-	fileProp.size = getFileSize(fileNameCaps);
+	fileProp.reader = getReaderForFile(fileName);
+	fileProp.offset = getFileOffset(fileName);
+	fileProp.size = getFileSize(fileName);
 	
-	if (rawSystem->fileIsInEditorRoot(fileNameCaps))
+	if (rawSystem->fileIsInEditorRoot(fileName))
 	{
-		fileProp.reader = getReaderForEditorFile(fileNameCaps);
-		fileProp.offset = getEditorFileOffset(fileNameCaps);
-		fileProp.size = getEditorFileSize(fileNameCaps);
+		fileProp.reader = getReaderForEditorFile(fileName);
+		fileProp.offset = getEditorFileOffset(fileName);
+		fileProp.size = getEditorFileSize(fileName);
 	}	
+
+	if (!fileProp.reader)
+		Log::note("Requested file '" + fileName + "' is unlocatable (misspelled name?).", Log::DEBUG);
 
 	return fileProp;
 }

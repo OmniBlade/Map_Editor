@@ -9,13 +9,12 @@ public:
 	static List<ProjectileType> Array;
 	ProjectileType(const std::string& id);
 
-	std::string AirburstWeapon = "";
-	std::string ShrapnelWeapon = "";
-	std::string Image = "";
-
 	void loadRules(INIFile* rules) override;
 	void loadArt(INIFile* art) override;
-	void loadWeaponTypes(INISection* section);
 
+	std::string AirburstWeapon;
+	std::string ShrapnelWeapon;
+	std::string Image;
+	std::string Trailer;
 };
 

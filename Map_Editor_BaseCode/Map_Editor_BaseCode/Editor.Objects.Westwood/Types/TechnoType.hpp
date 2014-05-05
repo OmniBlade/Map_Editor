@@ -13,6 +13,19 @@ public:
 	void loadArt(INIFile* art) override;
 	void loadWeaponTypes(INISection* section);
 
+	std::string Dock;
+	std::string DeploysInto;
+	std::string UndeploysInto;
+	std::string PowersUnit;
+	std::string Explosion;
+	std::string DestroyAnim;
+	std::string AirstrikeTeamType;
+	std::string EliteAirstrikeTeamType;
+	std::string UnloadingClass;
+	std::string DeployingAnim;
+	std::string Enslaves;
+	std::string Spawns;
+
 	bool IsTrain = false;
 	int Passengers = 0;
 	float Size = 1.0f;
@@ -21,15 +34,16 @@ public:
 	int TurretCount = 0;
 	//Weapons need to be added here! Gotta love Action #42
 
-	std::string DeathWeapon = "";
-	std::string Primary = "";
-	std::string Secondary = "";
-	std::string ElitePrimary = "";
-	std::string EliteSecondary = "";
+	std::string DeathWeapon;
+	std::string Primary;
+	std::string Secondary;
+	std::string ElitePrimary;
+	std::string EliteSecondary;
 	std::vector<std::string> WeaponX;
 	std::vector<std::string> EliteWeaponX;
 
 	bool Turret = false;
+	bool GattlingCycle = false;
 	int TechLevel = 255;
 	int AIBasePlanningSide = -1;
 	bool NoShadow = false;
@@ -40,6 +54,7 @@ public:
 	
 	// Art
 	std::string Palette;
+	std::string TurretOffsetStr = "0,0,0";
 	Vector3D TurretOffset; //TODO: Rework this in 3DVector class
 	bool Remapable;	//This would work for TS though...
 	//TODO: Weapon stuff gotta be added here too, right? "WeaponXBarrelLength" etc

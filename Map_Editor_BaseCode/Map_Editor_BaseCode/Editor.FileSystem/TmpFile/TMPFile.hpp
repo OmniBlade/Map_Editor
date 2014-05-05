@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../FileManager/BinaryReader.hpp"
 #include "TMPImage.hpp"
 #include <string>
 #include <vector>
 #include <memory>
 
+class BinaryReader;
 struct FileProperties;
 
 class TMPFile

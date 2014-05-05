@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <vector>
 #include <memory>
 #include "../../INIFile/INIFile.hpp"
 
@@ -12,7 +13,9 @@ public:
 	static INIManager* getManager();
 
 	INIFile* get(const std::string& fileName);
+	INIFile* get(const std::string& fileName, std::vector<std::string>& includes, INIFile* parent);
 	INIFile* cache(const std::string& fileName);
+	INIFile* cacheIncluded(const std::string& fileName, INIFile* parent);
 
 private:
 	static INIManager* manager;

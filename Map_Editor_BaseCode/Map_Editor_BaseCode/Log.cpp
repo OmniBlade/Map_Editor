@@ -52,6 +52,9 @@
 	case UNKNOWN:
 		logLines.push_back("UNKNOWN  - " + line);
 		break;
+	case EXTRAS:
+		logLines.push_back("           " + line);
+		break;
 	case EMPTY:
 		logLines.push_back("");
 		break;
@@ -81,13 +84,13 @@
 	write();
 }
 
-/* static */ std::string Log::toString(int value)
+/* static */ /*std::string Log::toString(int value)
 {
 	std::stringstream number;
 	number << value;
 
 	return number.str();
-}
+}*/
 
 /* static */ std::string Log::toString(float value)
 {
@@ -154,11 +157,14 @@ std::string Log::getTimerValue()
 {
 	std::chrono::time_point<std::chrono::system_clock> now = std::chrono::system_clock::now();
 	std::chrono::duration<float> elapsed_seconds = now - timer;
+	
 	int seconds_int = (int)elapsed_seconds.count();
+	int milliseconds_int = (int)std::chrono::duration_cast<std::chrono::milliseconds>(now - timer).count();
 
 	long hours = (seconds_int / 60 / 60) % 24;
 	long minutes = (seconds_int / 60) % 60;
 	long seconds = seconds_int % 60;
+	long milliseconds = milliseconds_int % 1000;
 
 	std::stringstream ss;
 	ss << hours << ':';
@@ -169,7 +175,11 @@ std::string Log::getTimerValue()
 
 	if (seconds < 10)
 		ss << '0';
-	ss << seconds;
+	ss << seconds << ':';
+
+	if (milliseconds < 10)
+		ss << '0';
+	ss << milliseconds;
 
 	return ss.str();
 }

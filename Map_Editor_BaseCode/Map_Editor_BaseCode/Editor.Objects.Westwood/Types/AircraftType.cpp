@@ -16,8 +16,8 @@ void AircraftType::loadRules(INIFile* rules)
 
 	TechnoType::loadRules(rules);
 	
-	Fighter = rulesSection->readBoolValue("Fighter", Fighter);
-	CarryAll = rulesSection->readBoolValue("CarryAll", CarryAll);
+	rulesSection->readBoolValue("Fighter", Fighter, Fighter);
+	rulesSection->readBoolValue("CarryAll", CarryAll, CarryAll);
 }
 
 void AircraftType::loadArt(INIFile* art)

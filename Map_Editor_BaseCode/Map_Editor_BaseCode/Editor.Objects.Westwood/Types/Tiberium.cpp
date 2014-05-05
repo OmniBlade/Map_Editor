@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Tiberium.hpp"
 
+/* static */ List<Tiberium> Tiberium::Array;
 
 Tiberium::Tiberium(const std::string& id)
 :ObjectType(id)
@@ -14,10 +15,10 @@ void Tiberium::loadRules(INIFile* rules)
 
 	ObjectType::loadRules(rules);
 
-	Value = rulesSection->readIntValue("Value", Value);
-	Power = rulesSection->readIntValue("Power", Power);
-	Color = rulesSection->readStringValue("Color", Color);
-	Image = rulesSection->readIntValue("Image", Image);
+	rulesSection->readIntValue("Value", Value);
+	rulesSection->readIntValue("Power", Power);
+	rulesSection->readStringValue("Color", Color);
+	rulesSection->readIntValue("Image", Image);
 }
 
 void Tiberium::loadArt(INIFile* art)

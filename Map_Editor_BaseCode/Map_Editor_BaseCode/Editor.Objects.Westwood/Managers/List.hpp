@@ -58,10 +58,20 @@ public:
 		for (unsigned int i = 0; i < typeList.size(); ++i)
 		{
 			if (typeList[i]->valid)
-				Log::note(typeList[i]->ID + " - valid", Log::DEBUG);
+				Log::line("V - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
 			else
-				Log::note(typeList[i]->ID + " - invalid", Log::DEBUG);
+				Log::line("X - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
 		}
+	}
+
+	bool exists(const std::string& ID)
+	{
+		for (unsigned int i = 0; i < typeList.size(); ++i)
+		{
+			if (typeList[i].get()->ID == ID)
+				return true;
+		}
+		return false;
 	}
 
 	std::vector<std::unique_ptr<T>> typeList;

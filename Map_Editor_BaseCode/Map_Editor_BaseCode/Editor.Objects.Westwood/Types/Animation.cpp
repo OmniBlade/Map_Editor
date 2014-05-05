@@ -27,41 +27,57 @@ void Animation::loadArt(INIFile* art)
 
 	ObjectType::loadArt(art);
 
-	Animation::Array.findOrAllocate(artSection->readStringValue("Next"));
-	Animation::Array.findOrAllocate(artSection->readStringValue("Spawns"));
-	OverlayType::Array.findOrAllocate(artSection->readStringValue("TiberiumSpawnType"));
-	Animation::Array.findOrAllocate(artSection->readStringValue("BounceAnim"));
-	Animation::Array.findOrAllocate(artSection->readStringValue("ExpireAnim"));
-	Animation::Array.findOrAllocate(artSection->readStringValue("TrailerAnim"));
-	WarheadType::Array.findOrAllocate(artSection->readStringValue("Warhead"));
-	ParticleType::Array.findOrAllocate(artSection->readStringValue("SpawnsParticle"));
+	/*
+		Could be considered hacky, but animations are a special case, they don't exist in rules but only in art
+		Thus it would render them invalid though valid when only existing in art
+		Mind you that this only applies here (in Animation)
+	*/
+	AbstractType::valid = true;
 
-	Shadow = artSection->readBoolValue("Shadow", Shadow);
-	AltPalette = artSection->readBoolValue("AltPalette", AltPalette);
-	Flat = artSection->readBoolValue("Flat", Flat);
-	Normalized = artSection->readBoolValue("Normalized", Normalized);
-	Translucent = artSection->readBoolValue("Translucent", Translucent);
-	Scorch = artSection->readBoolValue("Scorch", Scorch);
-	Crater = artSection->readBoolValue("Crater", Crater);
-	ForceBigCraters = artSection->readBoolValue("ForceBigCraters", ForceBigCraters);
-	Start = artSection->readIntValue("Start", Start);
-	End = artSection->readIntValue("End", End);
-	LoopStart = artSection->readIntValue("LoopStart", LoopStart);
-	LoopEnd = artSection->readIntValue("LoopEnd", LoopEnd);
-	LoopCount = artSection->readIntValue("LoopCount", LoopCount);
-	Next = artSection->readStringValue("Next", Next);
-	Translucency = artSection->readIntValue("Translucency", Translucency); //0,25,50,75
-	IsTiberium = artSection->readBoolValue("IsTiberium", IsTiberium);
-	YSortAdjust = artSection->readIntValue("YSortAdjust", YSortAdjust);
-	Elasticity = artSection->readFloatValue("Elasticity", Elasticity);
-	MaxXYVel = artSection->readFloatValue("MaxXYVel", MaxXYVel);
-	MinZVel = artSection->readFloatValue("MinZVel", MinZVel);
-	IsMeteor = artSection->readBoolValue("IsMeteor", IsMeteor);
-	IsVeins = artSection->readBoolValue("IsVeins", IsVeins);
-	IsAnimatedTiberium = artSection->readBoolValue("IsAnimatedTiberium", IsAnimatedTiberium);
-	YDrawOffset = artSection->readIntValue("YDrawOffset", YDrawOffset);
-	ZAdjust = artSection->readIntValue("ZAdjust", ZAdjust);
-	Tiled = artSection->readBoolValue("Tiled", Tiled);
-	ShouldUseCellDrawer = artSection->readBoolValue("ShouldUseCellDrawer", ShouldUseCellDrawer);
-	UseNormalLight = artSection->readBoolValue("UseNormalLigt", UseNormalLight);
+	artSection->readStringValue("Next", Next);
+	artSection->readStringValue("Spawns", Spawns);
+	artSection->readStringValue("TiberiumSpawnType", TiberiumSpawnType);
+	artSection->readStringValue("BounceAnim", BounceAnim);
+	artSection->readStringValue("ExpireAnim", ExpireAnim);
+	artSection->readStringValue("TrailerAnim", TrailerAnim);
+	artSection->readStringValue("Warhead", Warhead);
+	artSection->readStringValue("SpawnsParticle", SpawnsParticle);
+
+	Animation::Array.findOrAllocate(Next);
+	Animation::Array.findOrAllocate(Spawns);
+	OverlayType::Array.findOrAllocate(TiberiumSpawnType);
+	Animation::Array.findOrAllocate(BounceAnim);
+	Animation::Array.findOrAllocate(ExpireAnim);
+	Animation::Array.findOrAllocate(TrailerAnim);
+	WarheadType::Array.findOrAllocate(Warhead);
+	ParticleType::Array.findOrAllocate(SpawnsParticle);
+
+	artSection->readBoolValue("Shadow", Shadow);
+	artSection->readBoolValue("AltPalette", AltPalette);
+	artSection->readBoolValue("Flat", Flat);
+	artSection->readBoolValue("Normalized", Normalized);
+	artSection->readBoolValue("Translucent", Translucent);
+	artSection->readBoolValue("Scorch", Scorch);
+	artSection->readBoolValue("Crater", Crater);
+	artSection->readBoolValue("ForceBigCraters", ForceBigCraters);
+	artSection->readIntValue("Start", Start);
+	artSection->readIntValue("End", End);
+	artSection->readIntValue("LoopStart", LoopStart);
+	artSection->readIntValue("LoopEnd", LoopEnd);
+	artSection->readIntValue("LoopCount", LoopCount);
+	artSection->readStringValue("Next", Next);
+	artSection->readIntValue("Translucency", Translucency); //0,25,50,75
+	artSection->readBoolValue("IsTiberium", IsTiberium);
+	artSection->readIntValue("YSortAdjust", YSortAdjust);
+	artSection->readFloatValue("Elasticity", Elasticity);
+	artSection->readFloatValue("MaxXYVel", MaxXYVel);
+	artSection->readFloatValue("MinZVel", MinZVel);
+	artSection->readBoolValue("IsMeteor", IsMeteor);
+	artSection->readBoolValue("IsVeins", IsVeins);
+	artSection->readBoolValue("IsAnimatedTiberium", IsAnimatedTiberium);
+	artSection->readIntValue("YDrawOffset", YDrawOffset);
+	artSection->readIntValue("ZAdjust", ZAdjust);
+	artSection->readBoolValue("Tiled", Tiled);
+	artSection->readBoolValue("ShouldUseCellDrawer", ShouldUseCellDrawer);
+	artSection->readBoolValue("UseNormalLigt", UseNormalLight);
 }

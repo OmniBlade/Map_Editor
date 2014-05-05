@@ -9,9 +9,9 @@ public:
 	static List<WeaponType> Array;
 	WeaponType(const std::string& id);
 	
-	std::string Projectile = "";
-
 	void loadRules(INIFile* rules) override;
 	void loadArt(INIFile* art) override;
+
+	std::string Projectile, Warhead, Anim;
 };
 

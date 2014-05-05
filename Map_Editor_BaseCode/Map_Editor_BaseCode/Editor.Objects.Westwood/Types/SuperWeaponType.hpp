@@ -15,6 +15,7 @@ public:
 
 	// rules
 	std::string WeaponType = "";
+	std::string Payload = ""; //Ares only!
 	//Action Action;
 	bool IsPowered = true;
 	bool DisableableFromShell = true;

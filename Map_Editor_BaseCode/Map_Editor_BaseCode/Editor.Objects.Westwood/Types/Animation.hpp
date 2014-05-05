@@ -13,6 +13,16 @@ public:
 	void loadRules(INIFile* rules) override;
 	void loadArt(INIFile* art) override;
 
+	std::string Next;
+	std::string Spawns;
+	std::string TiberiumSpawnType;
+	std::string BounceAnim;
+	std::string ExpireAnim;
+	std::string TrailerAnim;
+	std::string Warhead;
+	std::string SpawnsParticle;
+
+
 	bool Shadow = false;
 	bool AltPalette = false;
 	bool Flat = false;
@@ -26,7 +36,6 @@ public:
 	int LoopStart = 0;
 	int LoopEnd = 0;
 	int LoopCount = 0;
-	std::string Next = "";
 	int Translucency; //0,25,50,75
 	bool IsTiberium = false;
 	int YSortAdjust = 0;

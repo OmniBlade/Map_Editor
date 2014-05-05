@@ -2,6 +2,7 @@
 #include "TMPFile.hpp"
 #include "../../Config.hpp"
 #include "../FileManager/FileSystem.hpp"
+#include "../FileManager/BinaryReader.hpp"
 #include <iostream>
 
 TMPFile::TMPFile(const FileProperties& props)

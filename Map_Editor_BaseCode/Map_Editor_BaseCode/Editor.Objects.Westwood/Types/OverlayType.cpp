@@ -17,19 +17,19 @@ void OverlayType::loadRules(INIFile* rules)
 
 	ObjectType::loadRules(rules);
 
-	Wall = rulesSection->readBoolValue("Wall", Wall);
-	Tiberium = rulesSection->readBoolValue("Tiberium", Tiberium);
-	Crate = rulesSection->readBoolValue("Crate", Crate);
-	CrateTrigger = rulesSection->readBoolValue("CrateTrigger", CrateTrigger);
-	Overrides = rulesSection->readBoolValue("Overrides", Overrides);
-	CellAnim = rulesSection->readStringValue("CellAnim", CellAnim);
-	DamageLevels = rulesSection->readIntValue("DamageLevels", DamageLevels);
-	RadarColor = rulesSection->readStringValue("RadarColor", RadarColor); //TODO: Implement RGB color
-	NoUseLandTileType = rulesSection->readBoolValue("NoUseLandTileType", NoUseLandTileType);
-	IsVeinholeMonster = rulesSection->readBoolValue("IsVeinholeMonster", IsVeinholeMonster);
-	IsVeins = rulesSection->readBoolValue("IsVeins", IsVeins);
-	DrawFlat = rulesSection->readBoolValue("DrawFlat", DrawFlat);
-	IsRubble = rulesSection->readBoolValue("IsRubble", IsRubble);
+	rulesSection->readBoolValue("Wall", Wall);
+	rulesSection->readBoolValue("Tiberium", Tiberium);
+	rulesSection->readBoolValue("Crate", Crate);
+	rulesSection->readBoolValue("CrateTrigger", CrateTrigger);
+	rulesSection->readBoolValue("Overrides", Overrides);
+	rulesSection->readStringValue("CellAnim", CellAnim);
+	rulesSection->readIntValue("DamageLevels", DamageLevels);
+	rulesSection->readStringValue("RadarColor", RadarColor); //TODO: Implement RGB color
+	rulesSection->readBoolValue("NoUseLandTileType", NoUseLandTileType);
+	rulesSection->readBoolValue("IsVeinholeMonster", IsVeinholeMonster);
+	rulesSection->readBoolValue("IsVeins", IsVeins);
+	rulesSection->readBoolValue("DrawFlat", DrawFlat);
+	rulesSection->readBoolValue("IsRubble", IsRubble);
 }
 
 void OverlayType::loadArt(INIFile* art)

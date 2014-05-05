@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../FileManager/BinaryReader.hpp"
 #include <vector>
 #include <string>
 
+class BinaryReader;
 struct FileProperties;
 
 class PaletteFile

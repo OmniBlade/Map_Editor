@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Editor.FileSystem\IniFile\INIFile.hpp"
 #include <string>
 
 class Config
@@ -9,13 +10,17 @@ public:
 		Parses the configuration file and puts the values in their respective variables
 		Note: Some variables are not read from the file, but kept here for the sake of consistency
 		They might be set through a command line
+		@param file The config file to load
 	*/
-	static void parse();
+	static void parse(INIFile* file, const std::string& name);
 
 	static unsigned int tileWidth;			// 
 	static unsigned int tileHeight;			//
+	static int language;					// Language of the game / text files
 	static std::string editorRoot;			//
+	static std::string configName;
 	static bool enableDebug;				// Can we please get a debug file?
+	static bool dumpTypes;
 
 	// [Main]
 	static std::string installDir;			// Install directory of the game
@@ -37,4 +42,7 @@ public:
 	static std::string battle;
 	static std::string modes;
 	static std::string coop;
+
+	// [GameExtension]
+	static bool hasAres;
 };

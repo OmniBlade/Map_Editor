@@ -16,15 +16,15 @@ void TerrainType::loadRules(INIFile* rules)
 
 	ObjectType::loadRules(rules);
 
-	IsVeinhole = rulesSection->readBoolValue("IsVeinHole", IsVeinhole);
-	WaterBound = rulesSection->readBoolValue("WaterBound", WaterBound);
-	SpawnsTiberium = rulesSection->readBoolValue("SpawnsTiberium", SpawnsTiberium);
-	RadarColor = rulesSection->readStringValue("RadarColor", RadarColor);
-	IsAnimated = rulesSection->readBoolValue("IsAnimated", IsAnimated);
-	AnimationRate = rulesSection->readIntValue("AnimationRate", AnimationRate);
-	AnimationProbability = rulesSection->readFloatValue("AnimationProbability", AnimationProbability);
-	TemperateOccupationBits = rulesSection->readIntValue("TemperateOccupationBits", TemperateOccupationBits);
-	SnowOccupationBits = rulesSection->readIntValue("SnowOccupationBits", SnowOccupationBits);
+	rulesSection->readBoolValue("IsVeinHole", IsVeinhole);
+	rulesSection->readBoolValue("WaterBound", WaterBound);
+	rulesSection->readBoolValue("SpawnsTiberium", SpawnsTiberium);
+	rulesSection->readStringValue("RadarColor", RadarColor);
+	rulesSection->readBoolValue("IsAnimated", IsAnimated);
+	rulesSection->readIntValue("AnimationRate", AnimationRate);
+	rulesSection->readFloatValue("AnimationProbability", AnimationProbability);
+	rulesSection->readIntValue("TemperateOccupationBits", TemperateOccupationBits);
+	rulesSection->readIntValue("SnowOccupationBits", SnowOccupationBits);
 }
 
 void TerrainType::loadArt(INIFile* art)
@@ -34,5 +34,5 @@ void TerrainType::loadArt(INIFile* art)
 
 	ObjectType::loadArt(art);
 
-	Foundation = artSection->readStringValue("Foundation", "1x1");
+	artSection->readStringValue("Foundation", Foundation);
 }
