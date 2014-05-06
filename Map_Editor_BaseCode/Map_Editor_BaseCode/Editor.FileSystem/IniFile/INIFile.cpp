@@ -90,7 +90,7 @@ void INIFile::load(INIFile* parentINI)
 					//We don't want empty keys to be parsed
 					if (value.length())
 					{
-						if (Config::hasAres == 0xFF && currentSection == "#include")
+						if (Config::hasAres && currentSection == "#include")
 						{
 							INIFile* file = INIManager::getManager()->get(value, includeINIs, parentINI);							
 						}

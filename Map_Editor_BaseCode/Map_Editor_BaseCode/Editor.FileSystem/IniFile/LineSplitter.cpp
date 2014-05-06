@@ -174,7 +174,7 @@ double LineSplitter::peekFromIndex_double(unsigned int index)
 		return atof(this->paramVector[paramVector.size()-1].c_str());
 }
 
-int LineSplitter::size() const
+unsigned int LineSplitter::size() const
 {
 	return paramVector.size() - index;
 }

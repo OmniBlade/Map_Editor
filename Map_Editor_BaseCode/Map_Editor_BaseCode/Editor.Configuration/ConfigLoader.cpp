@@ -60,14 +60,12 @@ bool ConfigLoader::chooseConfig()
 		{
 			std::cout << i << ": " << configFiles[i]->Name << std::endl;
 		}
-		int index = -1;
-		std::cout << "Please enter the number of the game you want to load:" << std::endl;
-		std::cin >> index;
+		unsigned int index = 666;
+		std::cout << "Please enter the number of the game you want to load:\n0 - LOL :')\n" << std::endl;
+		//std::cin >> index;
 
-		if (index < 0)
-			index = 0;
 		if (index >= configFiles.size())
-			index = configFiles.size() - 1;
+			index = 0;
 		
 		Config::parse(INIManager::getManager()->get(configFiles[index].get()->Path), configFiles[index].get()->Path);
 		return true;

@@ -76,6 +76,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	bootLoader.initiateMIX();
 	Log::note();
 	Log::note("Loading INI files:", Log::DEBUG);
+	Log::timerStart();
 	bootLoader.initiateINI();
 	Log::note();
 	Log::note("Loading CSF files:", Log::DEBUG);
@@ -89,7 +90,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	INIFile* map = INIManager::getManager()->get("sov01umd.map");	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
 	MapLoader mapLoader;
 
-	Log::timerStart();
+	//Log::timerStart();
 
 	/*
 		Little side information:
@@ -103,7 +104,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	mapLoader.allocateMainRules(map);
 	mapLoader.loadAll(map);
 
-	Log::note("Parsing all ObjectTypes from rules and map took: " + Log::getTimerValue(), Log::DEBUG);
+	Log::note("Loading everything took: " + Log::getTimerValue(), Log::DEBUG);
 	mapLoader.dumpLists();
 
 	//Theater derp(temperat);

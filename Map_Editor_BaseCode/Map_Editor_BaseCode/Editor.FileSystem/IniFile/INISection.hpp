@@ -10,15 +10,16 @@
 #define INISECTION_HPP_
 
 #include <vector>
+#include <map>
 
 class INISection {
 public:
 	INISection(const std::string &id);
 
-	int size() const;
+	unsigned int size() const;
 	const std::string& getSectionName() const;
-	std::vector<std::pair<std::string, std::string>>::const_iterator begin() const;
-	std::vector<std::pair<std::string, std::string>>::const_iterator end() const;
+	std::vector<std::string>::const_iterator begin() const;
+	std::vector<std::string>::const_iterator end() const;
 	void setValue(const std::string &key, const std::string &value);
 //READING
 	/* 
@@ -51,10 +52,10 @@ public:
 	std::string getKey(const std::string &key, const std::string &_default = "");
 
 	/* */
-	std::string getValue(const std::string& key, const std::string& _default = "");
+	std::string& getValue(const std::string& key);
 
 	/* Gets the next item in the list, perfect for not relying on the key */
-	std::string getNextValue(const std::string& _default = "");
+	//std::string getNextValue(const std::string& _default = "");
 
 	bool checkKeyExistance(const std::string& _key);
 	bool checkValueExistance(const std::string& _key);
@@ -63,8 +64,12 @@ public:
 private:
 	unsigned int atItem = 0;
 	std::string sectionName;
-	std::vector<std::pair<std::string, std::string>> keyValue;
-	std::vector<std::pair<std::string, std::string>>::iterator getIter(const std::string& key);
+	std::map<std::string, std::string> keyValueMap;
+	std::vector<std::string> keys;
+
+	//To be removed :D
+	//std::vector<std::pair<std::string, std::string>> keyValue;
+	std::map<std::string, std::string>::iterator getIter(const std::string& key);
 };
 
 #endif /* INISECTION_HPP_ */

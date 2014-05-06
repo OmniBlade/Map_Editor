@@ -46,7 +46,7 @@ void House::loadNodes(INISection* section)
 {
 	std::string node;
 	std::stringstream number;
-	for (unsigned int i = 0; i < NodeCount; ++i)
+	for (int i = 0; i < NodeCount; ++i)
 	{
 		if (i < 10)
 			number << '0';

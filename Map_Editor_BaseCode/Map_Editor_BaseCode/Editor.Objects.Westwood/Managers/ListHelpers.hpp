@@ -10,7 +10,7 @@ void findOrAllocateAll(List<T>& list, INISection& section)
 	//Log::note("Now in findOrAllocateAll()", Log::DEBUG);
 	for (const auto& it : section)
 	{
-		list.findOrAllocate(it.second);
+		list.findOrAllocate(section.getValue(it));
 	}
 }
 

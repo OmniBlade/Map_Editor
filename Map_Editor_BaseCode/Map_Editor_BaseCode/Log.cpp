@@ -2,7 +2,6 @@
 #include "Log.hpp"
 #include "Config.hpp"
 #include <iostream>
-#include <sstream>
 #include <fstream>
 #include <ctime>   // localtime
 #include <sstream> // stringstream
@@ -92,13 +91,13 @@
 	return number.str();
 }*/
 
-/* static */ std::string Log::toString(float value)
+/* static / std::string Log::toString(float value)
 {
 	std::stringstream number;
 	number << value;
 
 	return number.str();
-}
+} */
 
 /* static */ std::string Log::getFormalDateTime()
 {
@@ -175,7 +174,7 @@ std::string Log::getTimerValue()
 
 	if (seconds < 10)
 		ss << '0';
-	ss << seconds << ':';
+	ss << seconds << '.';
 
 	if (milliseconds < 10)
 		ss << '0';

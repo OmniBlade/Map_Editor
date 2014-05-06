@@ -32,13 +32,13 @@ public:
 	double peek_double();
 	double peekFromIndex_double(unsigned int index);
 
-	int size() const;
+	unsigned int size() const;
 	bool empty() const;
 	std::vector<std::string> getParamVector() const;
 	void dumpContent();
 
 private:
-	int index;
+	unsigned int index;
 	std::vector<std::string> paramVector;	// paramVector = the vector of all parameters splitted
 };
 

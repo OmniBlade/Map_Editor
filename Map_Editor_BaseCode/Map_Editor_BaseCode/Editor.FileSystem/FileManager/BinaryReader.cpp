@@ -168,7 +168,7 @@ std::string BinaryReader::readTextLine(int length /* -1 */, bool zeroTerminated 
 	if (length == -1)
 		length = 2048;
 
-	for (unsigned int i = 0; i < length; ++i)
+	for (int i = 0; i < length; ++i)
 	{
 		//char reatByte = readChar();
 		readBlock(&line[i], 1);

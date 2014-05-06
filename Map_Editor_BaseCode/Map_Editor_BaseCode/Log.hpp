@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <chrono>
+#include <sstream>
 
 class Log
 {
@@ -51,8 +52,12 @@ public:
 		Converts the passed argument to a string and returns it
 		@param value The value to convert to a string
 	*/
-	//static std::string toString(int value);
-	static std::string toString(float value);
+	template<typename T>
+	static std::string toString(T number)
+	{
+		std::stringstream numberStream(number);
+		return numberStream.str();
+	}
 
 	/*
 		Get the date and time in a formal way like YYYY-mm-dd - HH:MM:SS 
