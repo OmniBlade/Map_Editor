@@ -17,7 +17,7 @@ class FileSystem
 public:
 	static FileSystem* getFileSystem();
 
-	void assignPointers(RawFileSystem* _rawSystem);
+	void assign(RawFileSystem* _rawSystem);
 	FileProperties getFile(const std::string& fileName);
 	FileProperties getRootFile(const std::string& fileName);
 

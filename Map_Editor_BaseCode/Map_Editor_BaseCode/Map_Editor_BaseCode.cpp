@@ -1,36 +1,32 @@
 // ConsoleApplication1.cpp : Defines the entry point for the console application.
 
 #include "stdafx.h"
-#include <cstdlib>
-#include <Windows.h>
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
 #include "Editor.FileSystem/FileManager/RawFileSystem.hpp"
-#include "Editor.FileSystem/FileManager/Managers/MixManager.hpp"
 #include "Editor.FileSystem/FileManager/Managers/INIManager.hpp"	
-#include "Editor.FileSystem/FileManager/Managers/TMPManager.hpp"
-#include "Editor.FileSystem/FileManager/Managers/PALManager.hpp"
-#include "Editor.FileSystem/FileManager/Managers/SHPManager.hpp"
-#include "Editor.FileSystem/FileManager/Managers/VXLManager.hpp"
-#include "Editor.FileSystem\FileManager\Managers\CSFManager.hpp"
+#include "Editor.FileSystem/FileManager/Managers/MIXmanager.hpp"	
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
 #include "Editor.FileSystem/SHPFile/SHPFile.hpp"
 #include "Editor.FileSystem/ShpFile/ShpImage.hpp"
 #include "Editor.Engine/Loading/StartupLoader.hpp"		
 #include "Editor.Engine/Map/TheaterCollection.hpp"
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
-#include "Editor.FileSystem\IniFile\INISection.hpp"
-#include "Editor.FileSystem\CsfFile\CSFFile.hpp"
+#include "Editor.FileSystem/IniFile/INISection.hpp"
+#include "Editor.FileSystem/CsfFile/CSFFile.hpp"
 #include "Editor.Engine/Game/Theater.hpp"
 #include "Editor.Engine/Map/TileSet.hpp"
-#include "Editor.Engine\Loading\MapLoader.hpp"
-#include "Editor.Configuration\ConfigLoader.hpp"
+#include "Editor.Engine/Loading/MapLoader.hpp"
+#include "Editor.Configuration/ConfigLoader.hpp"
+#include "Editor.Engine\Game\GameModeCollection.hpp"
 #include "Config.hpp"
 #include "Arguments.hpp"
+#include "Log.hpp"
+#include <cstdlib>
+#include <Windows.h>
 #include <sstream>
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Log.hpp"
 
 /*
 	Main function
@@ -50,8 +46,8 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//TODO: Rename ambiguous functions
 	RawFileSystem rawSystem;
-	MIXManager::getManager()->assignRawSystem(&rawSystem);
-	FileSystem::getFileSystem()->assignPointers(&rawSystem);
+	MIXManager::getManager()->assign(&rawSystem);
+	FileSystem::getFileSystem()->assign(&rawSystem);
 
 	ConfigLoader configLoader;
 	if (!configLoader.chooseConfig())
@@ -82,12 +78,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::note("Loading CSF files:", Log::DEBUG);
 	bootLoader.initiateCSF();
 
+	GameModeCollection::getInstance()->parse();
 	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get(Config::configName));
 	TheaterCollection::getInstance()->setCurrent("NEWURBAN");		//Test code to check Tileset loading for NEWURBAN
 
 	INIFile* rules = INIManager::getManager()->get(Config::rules);
-	ShpFile* shp = SHPManager::getManager()->get("dipshit.SHP");	//Test for missing items
 	INIFile* map = INIManager::getManager()->get("sov01umd.map");	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
+	GameModeCollection::getInstance()->setCurrent("standard");
 	MapLoader mapLoader;
 
 	//Log::timerStart();
@@ -99,10 +96,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
 		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
 	*/
-	mapLoader.allocateMainRules(rules);
-	mapLoader.loadAll(rules);
-	mapLoader.allocateMainRules(map);
-	mapLoader.loadAll(map);
+	Log::timerStart();
+	mapLoader.load(rules);
+	mapLoader.load(INIManager::getManager()->get(GameModeCollection::getInstance()->getCurrent()->fileName));
+	mapLoader.load(map);
 
 	Log::note("Loading everything took: " + Log::getTimerValue(), Log::DEBUG);
 	mapLoader.dumpLists();
@@ -143,6 +140,3 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	return 0;
 }
-
-
-

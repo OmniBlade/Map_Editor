@@ -32,19 +32,15 @@ INIFile* INIManager::get(const std::string& fileName)
 		return cache(capsName);
 }
 
-INIFile* INIManager::get(const std::string& fileName, std::vector<std::string>& includes, INIFile* parent)
+void INIManager::loadIncludeINI(const std::string& fileName, std::vector<std::string>& includes, INIFile* parent)
 {
 	auto result = std::find(includes.begin(), includes.end(), fileName);
-	if (result != includes.end())
-	{
-		return nullptr; //File already exists in the parsed list, so no reloading and looping
-	}
-	else
+	if (result == includes.end())
 	{
 		includes.push_back(fileName);
 		std::string capsName = fileName;
 		std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
-		return cacheIncluded(capsName, parent);
+		cacheIncluded(capsName, parent);
 	}
 }
 
@@ -63,17 +59,14 @@ INIFile* INIManager::cache(const std::string& fileName)
 	return nullptr;
 }
 
-INIFile* INIManager::cacheIncluded(const std::string& fileName, INIFile* parent)
+void INIManager::cacheIncluded(const std::string& fileName, INIFile* parent)
 {
 	FileProperties props = FileSystem::getFileSystem()->getFile(fileName);
 	if (props.reader)
 	{
 		iniFiles[fileName] = std::make_unique<INIFile>(props, parent);
 		Log::note("INI: " + fileName + " (include) succesfully cached.", Log::DEBUG);
-		return iniFiles[fileName].get();
 	}
 	else
 		iniFiles[fileName] = nullptr;
-
-	return nullptr;
 }

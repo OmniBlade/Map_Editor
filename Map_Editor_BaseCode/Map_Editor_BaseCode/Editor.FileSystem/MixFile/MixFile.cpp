@@ -136,9 +136,8 @@ std::string MixFile::getUpperParentName()
 	}
 	else
 	{
-		bool upperParentFound = false;
 		MixFile* theMix = this;
-		while (upperParentFound == false)
+		while (true)
 		{
 			theMix = theMix->parent;
 			if (theMix->parent == nullptr)
@@ -147,6 +146,7 @@ std::string MixFile::getUpperParentName()
 			}
 		}
 	}
+	return "";
 }
 
 
@@ -185,17 +185,11 @@ int MixFile::getAFileSize(__int32 fileID)
 std::vector<byte> MixFile::getFile(__int32 fileID)
 {
 	std::vector<byte> fileBytes;
-	std::cout << "Index size: " << mixIndex.size() << std::endl;
 	for (unsigned int i = 0; i < mixIndex.size(); ++i)
 	{
 		if (mixIndex[i].id == fileID)
 		{
 			fileBytes = mixReader->readByteBlockFromOffset(mixIndex[i].offset + startingOffset + bodyOffset, mixIndex[i].size);
-
-			std::cout << "Theoretical ID: " << mixIndex[i].id << ", real ID: " << fileID << std::endl;
-			std::cout << "Theoretical offset: " << mixIndex[i].offset + startingOffset + bodyOffset << std::endl;
-			std::cout << "Theoretical size in bytes: " << mixIndex[i].size << std::endl;
-
 			return fileBytes;
 		}
 	}

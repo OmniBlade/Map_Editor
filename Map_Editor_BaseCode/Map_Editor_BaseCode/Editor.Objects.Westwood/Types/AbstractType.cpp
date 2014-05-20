@@ -19,15 +19,7 @@ void AbstractType::loadRules(INIFile* rules)
 
 	if (!UIName.empty())
 	{
-		if (Config::hasAres && UIName.substr(0, 6) == "NOSTR:")
-		{
-			std::string& UINameNOSTR = UIName.substr(6);
-			WUIName.assign(UINameNOSTR.begin(), UINameNOSTR.end());
-		}
-		else
-		{
-			WUIName = CSFManager::getManager()->getValue(UIName);
-		}
+		WUIName = CSFManager::getManager()->getValue(UIName);
 	}
 	valid = true;
 }

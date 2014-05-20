@@ -113,20 +113,23 @@ bool LineSplitter::pop(bool& out)
 
 bool LineSplitter::pop_bool()
 {
-	auto ret = this->peek_int();
+	auto ret = this->peek_bool();
 	this->discard();
 	return ret;
 }
 
 bool LineSplitter::peek_bool()
 {
-	if (index >= paramVector.size())
+	std::string sub = paramVector[index].substr(0, 1);
+
+	int ret1 = _strcmpi(sub.c_str(), "t");
+	int ret2 = _strcmpi(sub.c_str(), "y");
+	int ret3 = _strcmpi(sub.c_str(), "1");
+
+	if (index >= paramVector.size() || ret1 != 0 && ret2 != 0 && ret3 != 0)
 		return false;
 
-	if(paramVector[index] == "1")
-		return true;
-
-	return false;
+	return true;
 }
 
 bool LineSplitter::peekFromIndex_bool(unsigned int index)
@@ -136,8 +139,7 @@ bool LineSplitter::peekFromIndex_bool(unsigned int index)
 		if(paramVector[index] == "1")
 			return true;
 	}
-	else
-		return false;
+	return false;
 }
 
 bool LineSplitter::pop(double out)

@@ -30,11 +30,6 @@ public:
 	*/
 	BinaryReader(const std::string& _fullFileName, bool logError = true);// , __int32 _offset = 0, int size = 0);
 	/*
-		Creates a binary reader with a referenced file stream used by another
-		@param _fileStream The 'file' from a parent that holds the file needed
-	*/
-	BinaryReader(std::ifstream* _fileStream);
-	/*
 		Upon destruction the reader closes the file too
 	*/
 	~BinaryReader();
@@ -112,7 +107,7 @@ public:
 	/*
 		Reads a single line until 'new line' character is found, mainly used for text files
 	*/
-	std::string readTextLine(int length = -1, bool zeroTerminated = true);
+	std::string readTextLine(const int length = 2048, bool zeroTerminated = true);
 
 	/*
 		Reads a single wstring line

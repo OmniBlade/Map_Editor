@@ -9,11 +9,12 @@
 #include "stdafx.h"
 #include "MixManager.hpp"
 #include "../../MixFile/Ccrc.hpp"
+#include "../../../Log.hpp"
+#include "../../../Config.hpp"
 #include <cstring>
 #include <algorithm>
 #include <iostream>
 #include <sstream>
-#include "../../../Log.hpp"
 
 /* static */ MIXManager* MIXManager::manager;
 /* static */ MIXManager* MIXManager::getManager()
@@ -30,7 +31,7 @@ MIXManager::MIXManager()
 
 }
 
-void MIXManager::assignRawSystem(RawFileSystem* _rawSystem)
+void MIXManager::assign(RawFileSystem* _rawSystem)
 {
 	rawSystem = _rawSystem;
 }
@@ -47,10 +48,10 @@ void MIXManager::cache(const std::string& _mixName)
 		-> NO: Find the upper parent and have RawManager return it
 		*/
 	if (rawSystem->fileIsInGameRoot(mixName))
-		mixFiles[mixName] = std::make_unique<MixFile>(rawSystem->getReaderOfFile(mixName), 0, 0, mixName);
+		mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(mixName), 0, 0, mixName));
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(mixName), 0, 0, mixName));
 	else if (rawSystem->fileIsInEditorRoot(mixName))
-		mixFiles[mixName] = std::make_unique<MixFile>(rawSystem->getReaderOfEditorFile(mixName), 0, 0, mixName);
+		mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfEditorFile(mixName), 0, 0, mixName));
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfEditorFile(mixName), 0, 0, mixName));
 	else
 	{
@@ -74,7 +75,7 @@ void MIXManager::cache(const std::string& _mixName)
 		MixFile* parentMix = get(parentName);
 
 		/* Creates the MIX and puts it in the list */
-		mixFiles[mixName] = std::make_unique<MixFile>(parentMix->mixReader, offset, size, mixName);
+		mixFiles.push_back(std::make_unique<MixFile>(parentMix->mixReader, offset, size, mixName));
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(parentName), offset, size));
 	}
 
@@ -108,12 +109,6 @@ void MIXManager::cache(const std::string& _mixName)
 	}
 }*/
 
-std::vector<std::unique_ptr<MixFile>>* MIXManager::getMixFiles()
-{
-	//return &mixFiles;
-	return nullptr;
-}
-
 int MIXManager::convertToID(std::string name)
 {
 	std::transform(name.begin(), name.end(), name.begin(), ::toupper);
@@ -137,9 +132,13 @@ MixFile* MIXManager::get(const std::string& _mixName)
 	std::string mixName = _mixName;
 	std::transform(mixName.begin(), mixName.end(), mixName.begin(), ::toupper);
 
-	if (mixFiles[mixName])
-		return mixFiles[mixName].get();
-
+	for (const auto &iter : mixFiles)
+	{
+		if (iter->mixName == mixName)
+		{
+			return iter.get();
+		}
+	}
 	return nullptr;
 }
 
@@ -149,10 +148,9 @@ bool MIXManager::inAMix(const std::string& fileName)
 
 	for (const auto &iter : mixFiles)
 	{
-		if (iter.second->checkFileExistance(fileID))
+		if (iter->checkFileExistance(fileID))
 			return true;
 	}
-	//std::cout << "File: " << fileName << " does not exist in any MIX file." << std::endl;
 	return false;
 }
 
@@ -162,8 +160,8 @@ std::string MIXManager::getName(const std::string& fileName)
 
 	for (const auto &iter : mixFiles)
 	{
-		if (iter.second->checkFileExistance(fileID))
-			return iter.second->getUpperParentName();
+		if (iter->checkFileExistance(fileID))
+			return iter->getUpperParentName();
 	}
 	return "";
 }
@@ -184,8 +182,8 @@ __int32 MIXManager::getOffsetForFile(const std::string& fileName)
 	__int32 id = convertToID(fileName);
 	for (const auto &iter : mixFiles)
 	{
-		if (iter.second->checkFileExistance(id))
-			return iter.second->getAFileOffset(id);
+		if (iter->checkFileExistance(id))
+			return iter->getAFileOffset(id);
 	}
 
 	return -1;
@@ -196,35 +194,66 @@ int MIXManager::getSizeForFile(const std::string& fileName)
 	__int32 id = convertToID(fileName);
 	for (const auto &iter : mixFiles)
 	{
-		if (iter.second->checkFileExistance(id))
-			return iter.second->getAFileSize(id);
+		if (iter->checkFileExistance(id))
+			return iter->getAFileSize(id);
 	}
 
 	return 0;
 }
 
-/*void MixManager::extractFileFromMix(const std::string& fileName)
+void MIXManager::extract(const std::string& fileName, const std::string& mixName /* = "" */)
 {
-	std::cout << "******************-//////////////////****************" << std::endl;
-	std::vector<byte> fileBytes;
-	int id = convertNameToID(fileName);
-	std::string parentMixName = getMixNameOfFile(fileName);
-	MixFile* theMix = getMixByName(parentMixName);
-	fileBytes = theMix->getFileByID(id);
-
-	std::ofstream dicks(fileName, std::ios::out | std::ios::binary);
-	if (dicks.is_open())
+	if (rawSystem->fileIsInGameRoot(fileName))
 	{
-		for (unsigned int i = 0; i < fileBytes.size(); ++i)
-		{
-			dicks << fileBytes[i];
-			//std::cout << fileBytes[i] << "|";
-		}
-		std::cout << "File: " << fileName << " written!" << std::endl;
-		dicks.close();
+		Log::note("File with name '" + fileName + "' already exists in the game's root!", Log::DEBUG);
+		return;
+	}
+	else if (rawSystem->fileIsInEditorRoot(fileName))
+	{
+		Log::note("File with name '" + fileName + "' already exists in the editor's root!", Log::DEBUG);
+		return;
+	}
+	
+	std::vector<byte> fileBytes;
+	int id = convertToID(fileName);
+	std::string parentMixName;
+	
+	if (mixName.empty())
+	{
+		parentMixName = getName(fileName);
 	}
 	else
 	{
-		std::cout << "Too retarded to write..." << std::endl;
+		parentMixName = mixName;
 	}
-}*/
+	
+	MixFile* theMix = get(parentMixName);
+
+	if (!theMix)
+	{
+		Log::note("MIX with name '" + parentMixName + "' does not exist, aborting extraction.", Log::DEBUG);
+		return;
+	}
+
+	fileBytes = theMix->getFile(id);
+
+	std::ofstream dicks(Config::editorRoot + Config::backSlash + fileName, std::ios::out | std::ios::binary);
+	if (dicks.is_open() && fileBytes.size() > 0)
+	{
+		//Log::note("Extracting following file from: " + parentMixName, Log::DEBUG);
+		for (unsigned int i = 0; i < fileBytes.size(); ++i)
+		{
+			dicks << fileBytes[i];
+		}
+		Log::note("File with name '" + fileName + "' has been written to the root of the editor.", Log::DEBUG);
+		dicks.close();
+	}
+	else if (mixName.empty())
+	{
+		Log::note("Unable to write file '" + fileName + "'.", Log::DEBUG);
+	}
+	else
+	{
+		Log::note("Unable to write file '" + fileName + "' from MIX with name '" + mixName + "'.", Log::DEBUG);
+	}
+}

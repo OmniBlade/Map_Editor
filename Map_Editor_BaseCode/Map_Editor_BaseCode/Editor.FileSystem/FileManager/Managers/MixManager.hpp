@@ -20,11 +20,9 @@ class MIXManager {
 public:
 	static MIXManager* getManager();
 
-	void assignRawSystem(RawFileSystem* _rawSystem);
+	void assign(RawFileSystem* _rawSystem);
 
 	void cache(const std::string& _mixName);
-
-	std::vector<std::unique_ptr<MixFile>>* getMixFiles();
 
 	int convertToID(std::string fileName);
 
@@ -34,7 +32,11 @@ public:
 
 	std::string getName(const std::string& fileName);
 
-	//void extractFileFromMix(const std::string& fileName);
+	/*
+		@param fileName The name of the file to extract
+		@param mixName If given, the name of the mix to extract the file from
+	*/
+	void extract(const std::string& fileName, const std::string& mixName = "");
 
 //=====================================
 
@@ -47,7 +49,8 @@ private:
 	MIXManager();
 
 	RawFileSystem* rawSystem;
-	std::map<std::string, std::unique_ptr<MixFile>> mixFiles;
+	//std::map<std::string, std::unique_ptr<MixFile>> mixFiles;
+	std::vector<std::unique_ptr<MixFile>> mixFiles;
 	
 };
 

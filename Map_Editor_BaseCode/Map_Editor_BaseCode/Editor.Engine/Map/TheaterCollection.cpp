@@ -217,6 +217,9 @@ void TheaterCollection::setCurrent(const std::string& theaterName)
 	for (unsigned int i = 0; i < theaters.size(); ++i)
 	{
 		if (theaters[i]->ININame == theaterName)
+		{
 			currentTheater = theaters[i].get();
+			break;
+		}
 	}
 }

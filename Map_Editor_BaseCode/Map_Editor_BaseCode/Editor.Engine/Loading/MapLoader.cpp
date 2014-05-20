@@ -35,6 +35,12 @@ MapLoader::MapLoader()
 	iq = new IQ();
 }
 
+void MapLoader::load(INIFile* file)
+{
+	allocateMainRules(file);
+	loadAll(file);
+}
+
 void MapLoader::allocateMainRules(INIFile* file)
 {
 	if (!file)
@@ -73,7 +79,6 @@ void MapLoader::loadAll(INIFile* file)
 {
 	if (!file)
 	{
-		Log::note("Unable to allocate main rules, file doesn't exist!", Log::DEBUG);
 		return;
 	}
 	INIFile* art = INIManager::getManager()->get(Config::art);

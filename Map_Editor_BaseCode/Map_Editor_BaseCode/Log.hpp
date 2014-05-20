@@ -55,7 +55,8 @@ public:
 	template<typename T>
 	static std::string toString(T number)
 	{
-		std::stringstream numberStream(number);
+		std::stringstream numberStream;
+		numberStream << number;
 		return numberStream.str();
 	}
 

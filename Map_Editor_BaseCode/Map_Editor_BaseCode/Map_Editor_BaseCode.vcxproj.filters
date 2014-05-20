@@ -324,6 +324,12 @@
     <ClInclude Include="Editor.FileSystem\CsfFile\CSFEntry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.Engine\Game\GameModeCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Game\GameMode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -612,6 +618,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\CsfFile\CSFEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Game\GameMode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Game\GameModeCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

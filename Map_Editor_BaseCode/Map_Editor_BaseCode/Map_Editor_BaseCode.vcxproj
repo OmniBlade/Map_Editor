@@ -143,6 +143,8 @@
     <ClInclude Include="Editor.Engine\Types\House.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\IQ.hpp" />
     <ClInclude Include="Editor.Engine\Types\Triggers\Event.hpp" />
+    <ClInclude Include="Editor.Engine\Game\GameMode.hpp" />
+    <ClInclude Include="Editor.Engine\Game\GameModeCollection.hpp" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ParticleType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp" />
@@ -230,6 +232,8 @@
     <ClCompile Include="Editor.Engine\Types\House.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\General\IQ.cpp" />
     <ClCompile Include="Editor.Engine\Types\Triggers\Event.cpp" />
+    <ClCompile Include="Editor.Engine\Game\GameMode.cpp" />
+    <ClCompile Include="Editor.Engine\Game\GameModeCollection.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\OverlayType.cpp" />

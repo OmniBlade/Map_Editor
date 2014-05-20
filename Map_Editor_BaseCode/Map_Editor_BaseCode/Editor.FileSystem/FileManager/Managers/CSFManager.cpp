@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "../FileSystem.hpp"
 #include "../../../Log.hpp"
+#include "../../../Config.hpp"
 
 /* static */ CSFManager* CSFManager::manager;
 /* static */ CSFManager* CSFManager::getManager()
@@ -50,6 +51,12 @@ CSFFile* CSFManager::cache(const std::string& fileName)
 std::wstring CSFManager::getValue(const std::string& name)
 {
 	std::wstring value;
+	if (Config::hasAres && name.substr(0, 6) == "NOSTR:")
+	{
+		std::string& UINameNOSTR = name.substr(6);
+		value.assign(UINameNOSTR.begin(), UINameNOSTR.end());
+		return value;
+	}
 
 	for (const auto& file : csfFiles) 
 	{

@@ -35,6 +35,8 @@ void INIFile::load(INIFile* parentINI)
 	std::string currentSection;
 	std::string line;
 
+	Log::timerStart();
+
 	while (iniReader->checkEOF() == false)
 	{
 		line = iniReader->readTextLine();
@@ -59,11 +61,8 @@ void INIFile::load(INIFile* parentINI)
 				}
 
 				// section header
-				//Logger::log("\n");
-				//Logger::log(line);
 				std::string lineSub = preLineSub.substr(1, preLineSub.length() - 2);
 				currentSection = StringHelper::trim(lineSub);
-				//std::cout << "SECTION : [" << currentSection << "]" << std::endl;
 			}
 			else
 			{
@@ -75,24 +74,23 @@ void INIFile::load(INIFile* parentINI)
 					std::string key = StringHelper::trim(lineSub1);
 					std::string value = StringHelper::trim(lineSub2);
 					
-					//Ehm, this is no longer needed since only 511 characters are read into the buffer from BinaryReader
-					//But a log line in there for ERRORS values might be in place
 					if(value.length() > 511)
 					{
-						std::string& corrValue = value.substr(0, 511);
-						std::string& errValue = value.substr(512);
+						std::string corrValue = value.substr(0, 511);
+						std::string errValue = value.substr(512);
 
 						Log::note("Key '" + key + "' in section '" + currentSection + "' is too long (longer than 512 characters):", Log::DEBUG);
 						Log::note("Parsed: " + corrValue, Log::EXTRA);
 						Log::note("Cut-off: " + errValue, Log::EXTRA);
 						value = corrValue;
 					}
+					
 					//We don't want empty keys to be parsed
 					if (value.length())
 					{
 						if (Config::hasAres && currentSection == "#include")
 						{
-							INIFile* file = INIManager::getManager()->get(value, includeINIs, parentINI);							
+							INIManager::getManager()->loadIncludeINI(value, includeINIs, parentINI);							
 						}
 						else
 						{
@@ -103,9 +101,8 @@ void INIFile::load(INIFile* parentINI)
 			}
 		}
 	}
+	Log::note("Loading of file (name below this line) took: " + Log::getTimerValue(), Log::DEBUG);
 	isLoaded = true;
-	//std::cout << "Is loaded!" << std::endl;
-	//sectionList[currentSection]->dumpContent();
 }
 
 void INIFile::SetValue(const std::string &section, const std::string &key, const std::string &value)
@@ -125,7 +122,7 @@ INISection* INIFile::EnsureSection(const std::string &section)
 
 	auto &ret = sectionList[section];
 
-	ret = std::make_shared<INISection>(section);
+	ret = std::make_unique<INISection>(section);
 	return ret.get();
 }
 
@@ -137,11 +134,6 @@ INISection* INIFile::getSection(const std::string &section)
 		return it->second.get();
 	}
 	return nullptr;
-}
-
-std::map<std::string, std::shared_ptr<INISection>>* INIFile::getSectionMap()
-{
-	return &sectionList;
 }
 
 bool INIFile::checkSectionExistance(const std::string &section)
@@ -165,7 +157,7 @@ std::string& INIFile::getININame()
 
 void INIFile::dumpContent()
 {
-	std::map<std::string, std::shared_ptr<INISection>>::iterator iter;
+	std::map<std::string, std::unique_ptr<INISection>>::iterator iter;
 
 	for (iter = sectionList.begin(); iter != sectionList.end(); ++iter)
 	{

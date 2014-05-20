@@ -56,9 +56,9 @@ std::string Waypoint::getLetterIndex()
 	}
 	else
 	{
-		float divided = index / 26;
-		int letter1 = divided - 1;
-		int letter2 = index - 26 * divided;
+		float divided = (float) index / 26;
+		int letter1 = (int) divided - 1;
+		int letter2 = index - 26 * (int) divided;
 		char chX = 'A' + letter2;
 		char chY = 'A' + letter1;
 

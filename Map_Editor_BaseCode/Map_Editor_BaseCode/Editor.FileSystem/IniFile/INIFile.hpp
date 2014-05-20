@@ -21,7 +21,6 @@ public:
 	void SetValue(const std::string &section, const std::string &key, const std::string &value);
 	INISection* EnsureSection(const std::string &section);
 	INISection* getSection(const std::string &section);
-	std::map<std::string, std::shared_ptr<INISection>>* getSectionMap();
 	bool checkSectionExistance(const std::string &section);
 	bool getLoaded() const;
 	std::string& getININame();
@@ -31,10 +30,9 @@ public:
 private:
 
 	BinaryReader* iniReader;
-	//__int32 offset = 0;
 	bool isLoaded = false;
 	std::string iniName, mixName;
-	std::map<std::string ,std::shared_ptr<INISection>> sectionList;
+	std::map<std::string, std::unique_ptr<INISection>> sectionList;
 	std::vector<std::string> includeINIs;
 };
 

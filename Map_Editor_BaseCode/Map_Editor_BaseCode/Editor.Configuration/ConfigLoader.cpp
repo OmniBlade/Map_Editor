@@ -62,7 +62,7 @@ bool ConfigLoader::chooseConfig()
 		}
 		unsigned int index = 666;
 		std::cout << "Please enter the number of the game you want to load:\n0 - LOL :')\n" << std::endl;
-		//std::cin >> index;
+		std::cin >> index;
 
 		if (index >= configFiles.size())
 			index = 0;

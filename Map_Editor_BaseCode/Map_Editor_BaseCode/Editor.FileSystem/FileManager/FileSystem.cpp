@@ -21,7 +21,7 @@ FileSystem::FileSystem()
 {
 }
 
-void FileSystem::assignPointers(RawFileSystem* _rawSystem)
+void FileSystem::assign(RawFileSystem* _rawSystem)
 {
 	rawSystem = _rawSystem;
 }

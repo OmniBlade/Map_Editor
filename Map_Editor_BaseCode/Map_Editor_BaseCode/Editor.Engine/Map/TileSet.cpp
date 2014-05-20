@@ -62,7 +62,7 @@ void TileSet::collectTiles()
 {
 	std::string& extension = TheaterCollection::getInstance()->getCurrent()->TileExtension;
 	std::stringstream number;
-	for (unsigned int i = 1; i <= TilesInSet; ++i)
+	for (int i = 1; i <= TilesInSet; ++i)
 	{
 		if (i < 10)
 			number << '0';

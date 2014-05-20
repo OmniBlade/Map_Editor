@@ -13,7 +13,7 @@ class MapLoader
 {
 public:
 	MapLoader();
-	
+	void load(INIFile* file);
 	/*
 		Allocates the main rules data as presented by DCoder (used to create proper lists)
 		@param file The rules / map file to parse

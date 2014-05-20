@@ -17,7 +17,7 @@
 #include <share.h>
 #include <stdio.h>
 
-BinaryReader::BinaryReader(const std::string& _fullFileName, bool logError /* = true */ )//, __int32 _offset, int size)
+BinaryReader::BinaryReader(const std::string& _fullFileName, bool logError /* = true */ )
 :fullFileName(_fullFileName)
 {
 	fileStream.open(_fullFileName, std::ios::in | std::ios::binary, _SH_DENYNO);
@@ -26,11 +26,9 @@ BinaryReader::BinaryReader(const std::string& _fullFileName, bool logError /* = 
 	fileSize = (int) fileStream.tellg();
 	fileStream.seekg(0, std::ios::beg);
 	
-	//std::cout << "Size: " << fileSize << " Offset: " << _offset << std::endl;
 	if (fileStream.is_open())
 	{
 		isOpened = true;
-		//std::cout << "File: " << _fullFileName << " is opened.\nSize is: " << fileSize << std::endl;
 	}
 	else if (logError)
 	{
@@ -38,30 +36,20 @@ BinaryReader::BinaryReader(const std::string& _fullFileName, bool logError /* = 
 	}
 }
 
-
-BinaryReader::BinaryReader(std::ifstream* _fileStream)
-{
-	//fileStream = _fileStream;
-}
-
 BinaryReader::~BinaryReader()
 {
 	isOpened = false;
-	//fclose(theFile);
 	fileStream.close();
 }
 
 void BinaryReader::setOffset(int _offset)
 {
-	//std::cout << "Setting offset to: " << _offset << std::endl;
 	fileStream.seekg(_offset);
 	offset = _offset;
-	//fseek(theFile, _offset, SEEK_SET);
 }
 
 int BinaryReader::getOffset()
 {
-	//return ftell(theFile);
 	return (int) fileStream.tellg();
 }
 
@@ -78,7 +66,6 @@ int BinaryReader::getFileSize()
 unsigned int BinaryReader::readUInt(bool isBigEndian /* = false */)
 {
 	unsigned int theInt = 0;
-	//fgets(reinterpret_cast<char*>(&theInt), sizeof(int), theFile);
 	fileStream.read(reinterpret_cast<char*>(&theInt), sizeof(unsigned int));
 
 	if(isBigEndian)
@@ -90,7 +77,6 @@ unsigned int BinaryReader::readUInt(bool isBigEndian /* = false */)
 int BinaryReader::readInt(bool isBigEndian /* = false */)
 {
 	int theInt = 0;
-	//fgets(reinterpret_cast<char*>(&theInt), sizeof(int), theFile);
 	fileStream.read(reinterpret_cast<char*>(&theInt), sizeof(int));
 
 	if(isBigEndian)
@@ -102,7 +88,6 @@ int BinaryReader::readInt(bool isBigEndian /* = false */)
 unsigned short BinaryReader::readUShort(bool isBigEndian /* = false */)
 {
 	unsigned short theShort = 0;
-	//fgets(reinterpret_cast<char*>(&theShort), sizeof(short), theFile);
 	fileStream.read(reinterpret_cast<char*>(&theShort), sizeof(unsigned short));
 
 	if(isBigEndian)
@@ -114,7 +99,6 @@ unsigned short BinaryReader::readUShort(bool isBigEndian /* = false */)
 short BinaryReader::readShort(bool isBigEndian /* = false */)
 {
 	short theShort = 0;
-	//fgets(reinterpret_cast<char*>(&theShort), sizeof(short), theFile);
 	fileStream.read(reinterpret_cast<char*>(&theShort), sizeof(short));
 
 	if(isBigEndian)
@@ -126,19 +110,10 @@ short BinaryReader::readShort(bool isBigEndian /* = false */)
 byte BinaryReader::readByte()
 {
 	byte aByte;
-	//fgets(reinterpret_cast<char*>(&aByte), sizeof(byte), theFile);
 	fileStream.read(reinterpret_cast<char*>(&aByte), sizeof(char));
 
 	return aByte;
 }
-
-/*char BinaryReader::readChar()
-{
-	char aChar = 0;
-	fileStream.read(reinterpret_cast<char*>(&aChar), sizeof(char));
-
-	return aChar;
-}*/
 
 void BinaryReader::discardBytes(unsigned int amount)
 {
@@ -146,7 +121,6 @@ void BinaryReader::discardBytes(unsigned int amount)
 	for(unsigned int i = 0; i < amount; ++i)
 	{
 		byte aByte;
-		//fgets(reinterpret_cast<char*>(&aByte), sizeof(byte), theFile);
 		fileStream.read(reinterpret_cast<char*>(&aByte), sizeof(char));
 	}
 }
@@ -156,41 +130,33 @@ std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
 	std::vector<byte> buffer(amountOfBytes);
 	if (amountOfBytes == 0)
 		return buffer;
-	//fgets(reinterpret_cast<char*>(&buffer[0]), amountOfBytes, theFile); 
 	fileStream.read(reinterpret_cast<char*>(&buffer[0]), amountOfBytes);
 	return buffer;
 }
 
-std::string BinaryReader::readTextLine(int length /* -1 */, bool zeroTerminated /* = true */)
+std::string BinaryReader::readTextLine(const int length /* 2048 */, bool zeroTerminated /* = true */)
 {
-	char line[2048] = "";
-
-	if (length == -1)
-		length = 2048;
+	char line[2048];
 
 	for (int i = 0; i < length; ++i)
 	{
-		//char reatByte = readChar();
 		readBlock(&line[i], 1);
-		if (line[i] == '\n' || line[i] == '\0' || line[i] == '\r')
+
+		if (sizeof(line) > 1 && line[i-1] == '\r' && line[i] == '\n') //This check saves an additional call to this function by INIFile
+		{
+			line[i-1] = '\0';
+			return line;
+		}
+		else if (line[i] == '\n' || line[i] == '\0')
 		{
 			line[i] = '\0';
 			return line;
 		}
-
-		/*else if (line[i] == EOF)
-		{
-			atEOF = true;
-		//	std::cout << "EOF!" << std::endl;
-			line[i] = '\0';
-			return line;
-		}*/
 	}
-	//std::cout << "The line: " << line << std::endl;
-	//auto isEnd = [](byte value) { return value == '\0' || value == '\n' || value == EOF; };
 
 	if (!zeroTerminated)
 	{
+		line[length] = '\0';
 		return line;
 	}
 
