@@ -6,15 +6,10 @@
 #include "Editor.FileSystem/FileManager/Managers/INIManager.hpp"	
 #include "Editor.FileSystem/FileManager/Managers/MIXmanager.hpp"	
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
-#include "Editor.FileSystem/SHPFile/SHPFile.hpp"
-#include "Editor.FileSystem/ShpFile/ShpImage.hpp"
 #include "Editor.Engine/Loading/StartupLoader.hpp"		
 #include "Editor.Engine/Map/TheaterCollection.hpp"
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
 #include "Editor.FileSystem/IniFile/INISection.hpp"
-#include "Editor.FileSystem/CsfFile/CSFFile.hpp"
-#include "Editor.Engine/Game/Theater.hpp"
-#include "Editor.Engine/Map/TileSet.hpp"
 #include "Editor.Engine/Loading/MapLoader.hpp"
 #include "Editor.Configuration/ConfigLoader.hpp"
 #include "Editor.Engine\Game\GameModeCollection.hpp"
@@ -78,14 +73,34 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::note("Loading CSF files:", Log::DEBUG);
 	bootLoader.initiateCSF();
 
-	GameModeCollection::getInstance()->parse();
+ 	GameModeCollection::getInstance()->parse();
 	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get(Config::configName));
-	TheaterCollection::getInstance()->setCurrent("NEWURBAN");		//Test code to check Tileset loading for NEWURBAN
+
+	std::string mapToLoad;
+
+	if (Config::mapName.empty())
+	{
+		std::cout << "\nPlease enter the name of the map you want to load:" << std::endl;
+		std::cin >> mapToLoad;
+		std::cout << std::endl;
+	}
+	else
+	{
+		mapToLoad = Config::mapName;
+	}
+
+	MIXManager::getManager()->extract(mapToLoad);
+
+	MapLoader mapLoader;
+	INIFile* map = INIManager::getManager()->get(mapToLoad);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
+	INIFile* mode = nullptr;
+	if (mapLoader.locateGameMode(map))
+	{
+		mode = INIManager::getManager()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
+	}
 
 	INIFile* rules = INIManager::getManager()->get(Config::rules);
-	INIFile* map = INIManager::getManager()->get("sov01umd.map");	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
-	GameModeCollection::getInstance()->setCurrent("standard");
-	MapLoader mapLoader;
+
 
 	//Log::timerStart();
 
@@ -98,39 +113,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	*/
 	Log::timerStart();
 	mapLoader.load(rules);
-	mapLoader.load(INIManager::getManager()->get(GameModeCollection::getInstance()->getCurrent()->fileName));
+	mapLoader.load(mode);
 	mapLoader.load(map);
 
 	Log::note("Loading everything took: " + Log::getTimerValue(), Log::DEBUG);
 	mapLoader.dumpLists();
-
-	//Theater derp(temperat);
-
-	//std::string tileset = "TileSet0014";
-	//TileSet set0010(10, temperat->getSection(tileset));
-
-	//mixManager.cache("RA2.MIX");
-	//mixManager.cache("LOCAL.MIX");
-	//vxlManager.cacheVPL("VOXELS.VPL");
-
-	//VPLFile::getVPL()->read();
-//	INIFileHandler iniHandler;
-
-//	std::string directory = "D:\\Map_Editor_GIT\\Map_Editor\\Map_Editor_BaseCode\\Debug";
-//	iniHandler.parseConfigFile(directory);	//Sorry, this has to be done before the shit gets real. Done only once though
-
-//	TheaterCollection theaters(iniHandler.getAnINIFile("CONFIG"));
-
-
-	//std::string tmpName = "droadj11.tem";
-	//TMPFile tmpFile(tmpName);
-
-	//StartupLoader startupLoader(&mixHandler, &iniHandler);
-	//startupLoader.initiateMIX();
-	//startupLoader.initiateINI();
-
-	//std::string mapfile = "all01t.map";
-	//iniHandler.createVirtualINI(mapfile);
 	
 	Log::note();
 	Log::note("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);

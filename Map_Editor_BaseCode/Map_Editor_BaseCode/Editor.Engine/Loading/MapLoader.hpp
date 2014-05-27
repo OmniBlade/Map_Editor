@@ -28,6 +28,11 @@ public:
 	void loadAll(INIFile* file);
 
 	/*
+		
+	*/
+	bool locateGameMode(INIFile* map);
+
+	/*
 		Extremely debug, if you want to call this function and poop something out,
 		add the list to the function, there's no argument what so ever
 	*/

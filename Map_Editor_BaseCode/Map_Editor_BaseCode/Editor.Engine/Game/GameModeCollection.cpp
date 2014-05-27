@@ -4,6 +4,7 @@
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Config.hpp"
+#include "../../Log.hpp"
 
 /* static */ GameModeCollection* GameModeCollection::instance;
 /* static */ GameModeCollection* GameModeCollection::getInstance()
@@ -30,41 +31,60 @@ void GameModeCollection::parse()
 {
 	//The INI file with the game modes
 	INIFile* file = INIManager::getManager()->get(Config::modes);
+	if (!file)
+	{
+		return;
+	}
 
 	//Load [Battle]
 	INISection* battle = file->getSection("Battle");
-	for (const auto &it : *battle)
+	if (battle)
 	{
-		modes.push_back(std::make_unique<GameMode>(battle->getValue(it)));
+		for (const auto &it : *battle)
+		{
+			modes.push_back(std::make_unique<GameMode>(battle->getValue(it)));
+		}
 	}
 
 	//Load [Cooperative]
 	//Eh... does this only load 1 entry because Cooperative mode is special?
 	INISection* coop = file->getSection("Cooperative");
-	for (const auto &it : *coop)
+	if (coop)
 	{
-		modes.push_back(std::make_unique<GameMode>(coop->getValue(it)));
+		for (const auto &it : *coop)
+		{
+			modes.push_back(std::make_unique<GameMode>(coop->getValue(it)));
+		}
 	}
 
 	//Load [ManBattle]
 	INISection* manbattle = file->getSection("ManBattle");
-	for (const auto &it : *manbattle)
+	if (manbattle)
 	{
-		modes.push_back(std::make_unique<GameMode>(manbattle->getValue(it)));
+		for (const auto &it : *manbattle)
+		{
+			modes.push_back(std::make_unique<GameMode>(manbattle->getValue(it)));
+		}
 	}
 
 	//Load [FreeForAll]
 	INISection* ffa = file->getSection("FreeForAll");
-	for (const auto &it : *ffa)
+	if (ffa)
 	{
-		modes.push_back(std::make_unique<GameMode>(ffa->getValue(it)));
+		for (const auto &it : *ffa)
+		{
+			modes.push_back(std::make_unique<GameMode>(ffa->getValue(it)));
+		}
 	}
 
 	//Load [Unholy]
 	INISection* unholy = file->getSection("Unholy");
-	for (const auto &it : *unholy)
+	if (unholy)
 	{
-		modes.push_back(std::make_unique<GameMode>(unholy->getValue(it)));
+		for (const auto &it : *unholy)
+		{
+			modes.push_back(std::make_unique<GameMode>(unholy->getValue(it)));
+		}
 	}
 
 	/*

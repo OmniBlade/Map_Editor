@@ -205,12 +205,12 @@ void MIXManager::extract(const std::string& fileName, const std::string& mixName
 {
 	if (rawSystem->fileIsInGameRoot(fileName))
 	{
-		Log::note("File with name '" + fileName + "' already exists in the game's root!", Log::DEBUG);
+		Log::note("EXTRACTION - File with name '" + fileName + "' already exists in the game's root!", Log::DEBUG);
 		return;
 	}
 	else if (rawSystem->fileIsInEditorRoot(fileName))
 	{
-		Log::note("File with name '" + fileName + "' already exists in the editor's root!", Log::DEBUG);
+		Log::note("EXTRACTION - File with name '" + fileName + "' already exists in the editor's root!", Log::DEBUG);
 		return;
 	}
 	
@@ -231,7 +231,7 @@ void MIXManager::extract(const std::string& fileName, const std::string& mixName
 
 	if (!theMix)
 	{
-		Log::note("MIX with name '" + parentMixName + "' does not exist, aborting extraction.", Log::DEBUG);
+		Log::note("EXTRACTION - MIX with name '" + parentMixName + "' does not exist, aborting extraction.", Log::DEBUG);
 		return;
 	}
 
@@ -245,7 +245,7 @@ void MIXManager::extract(const std::string& fileName, const std::string& mixName
 		{
 			dicks << fileBytes[i];
 		}
-		Log::note("File with name '" + fileName + "' has been written to the root of the editor.", Log::DEBUG);
+		Log::note("EXTRACTION - File with name '" + fileName + "' has been written to the root of the editor.", Log::DEBUG);
 		dicks.close();
 	}
 	else if (mixName.empty())

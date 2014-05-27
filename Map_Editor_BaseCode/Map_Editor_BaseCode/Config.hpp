@@ -21,6 +21,7 @@ public:
 	static std::string configName;
 	static bool enableDebug;				// Can we please get a debug file?
 	static bool dumpTypes;
+	static std::string mapName;
 
 	// [Main]
 	static std::string installDir;			// Install directory of the game

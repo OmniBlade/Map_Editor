@@ -28,6 +28,11 @@ bool handleAssignments(const std::string& argStr)
 
 		//if (argType == "")
 			//SOMETHING = argValue
+		if (argType == "-MAPNAME")
+		{
+			Config::mapName = argValue;
+		}
+
 	}
 	return false;
 }

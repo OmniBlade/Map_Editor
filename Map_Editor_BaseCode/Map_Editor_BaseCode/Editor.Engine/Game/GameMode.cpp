@@ -25,9 +25,14 @@ void GameMode::parse(const std::string& line)
 		{
 			WSTTName = CSFManager::getManager()->getValue(STTName);
 		}
+
+		if (!split.empty())
+		{
+			Log::note("GameMode with name '" + iniName + "' has too many parameters.", Log::DEBUG);
+		}
 	}
 	else
 	{
-		Log::note("Unable to parse GameMode file with line '" + line + "'", Log::DEBUG);
+		Log::note("Unable to parse GameMode file with line '" + line + "', too few parameters!", Log::DEBUG);
 	}
 }

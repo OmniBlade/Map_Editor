@@ -99,6 +99,14 @@
 	return number.str();
 } */
 
+std::string Log::wToString(const std::wstring& line)
+{
+	std::string returnString;
+	returnString.assign(line.begin(), line.end());
+
+	return returnString;
+}
+
 /* static */ std::string Log::getFormalDateTime()
 {
 	auto now = std::chrono::system_clock::now();

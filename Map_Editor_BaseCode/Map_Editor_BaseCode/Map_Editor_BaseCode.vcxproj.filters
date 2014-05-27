@@ -264,9 +264,6 @@
     <ClInclude Include="Editor.Engine\Types\BaseNode.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VariableName.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Types\TeamTypes\TeamType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -328,6 +325,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Game\GameMode.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Types\VariableName.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Types\AI\AITriggerEnable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Types\AI\AITriggerType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -560,9 +566,6 @@
     <ClCompile Include="Editor.Engine\Types\BaseNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VariableName.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Types\TeamTypes\TeamType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -624,6 +627,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Game\GameModeCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Types\VariableName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Types\AI\AITriggerEnable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Types\AI\AITriggerType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

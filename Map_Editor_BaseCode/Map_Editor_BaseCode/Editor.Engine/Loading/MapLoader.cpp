@@ -23,6 +23,7 @@
 #include "../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../../Editor.Objects.Westwood/Types/Tiberium.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
+#include "../../Editor.Engine/Game/GameModeCollection.hpp"
 
 MapLoader::MapLoader()
 {
@@ -37,17 +38,18 @@ MapLoader::MapLoader()
 
 void MapLoader::load(INIFile* file)
 {
+	if (!file)
+	{
+		Log::note("Unable to allocate rules, file doesn't exist!", Log::DEBUG);
+		return;
+	}
+
 	allocateMainRules(file);
 	loadAll(file);
 }
 
 void MapLoader::allocateMainRules(INIFile* file)
 {
-	if (!file)
-	{
-		Log::note("Unable to allocate main rules, file doesn't exist!", Log::DEBUG);
-		return;
-	}
 	Log::note("Allocating main rules now...", Log::DEBUG);
 
 	allocateAll(Country::Array, file, "Countries");
@@ -77,10 +79,6 @@ void MapLoader::allocateMainRules(INIFile* file)
 
 void MapLoader::loadAll(INIFile* file)
 {
-	if (!file)
-	{
-		return;
-	}
 	INIFile* art = INIManager::getManager()->get(Config::art);
 
 	Log::note("Loading main rules now...", Log::DEBUG);
@@ -109,6 +107,34 @@ void MapLoader::loadAll(INIFile* file)
 	specialWeapons->loadRules(file);
 	loadFromINI(Tiberium::Array, *file, *art);
 	loadFromINI(WeaponType::Array, *file, *art); //Again
+}
+
+bool MapLoader::locateGameMode(INIFile* map)
+{
+	INISection* basic = map->getSection("Basic");
+	
+	if (!basic->checkKeyExistance("GameMode") || basic->checkKeyExistance("Player"))
+	{
+		return false;
+	}
+
+	LineSplitter split(basic->getValue("GameMode"));
+
+	if (split.size() > 1)
+	{
+		Log::note("Multiple game modes are found, none are loaded to maintain proper lists!", Log::DEBUG);
+		return false;
+	}
+	else if (split.empty())
+	{
+		Log::note("GameMode key exists in map file, but no game modes are defined!", Log::DEBUG);
+		return false;
+	}
+	else if (split.size() == 1)
+	{
+		GameModeCollection::getInstance()->setCurrent(split.pop_string());
+		return true;
+	}
 }
 
 void MapLoader::dumpLists()

@@ -11,6 +11,7 @@ int Config::language = -1;
 std::string Config::configName = "";
 bool Config::enableDebug = false;
 bool Config::dumpTypes = false;
+std::string Config::mapName = "";
 
 // [MAIN]
 std::string Config::editorRoot = "";

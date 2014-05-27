@@ -60,6 +60,8 @@ public:
 		return numberStream.str();
 	}
 
+	static std::string wToString(const std::wstring& line);
+
 	/*
 		Get the date and time in a formal way like YYYY-mm-dd - HH:MM:SS 
 		@return The current time and date as a string
