@@ -4,6 +4,8 @@
 #include "../../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../../Log.hpp"
 
+/* static */ ObjectList<TaskForce> TaskForce::Array;
+
 TaskForce::TaskForce(const std::string& id)
 :ID(id)
 {
@@ -17,7 +19,6 @@ void TaskForce::parse(INIFile* file)
 	section->readStringValue("Name", Name);
 	section->readIntValue("Group", Group);
 
-	Log::note("Types of TaskForce aren't parsed yet!");
 	for (unsigned int i = 0; i < 5; ++i)
 	{
 		if (!section->checkKeyExistance(Log::toString(i)))

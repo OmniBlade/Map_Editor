@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Managers/ObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
 
@@ -8,8 +9,10 @@ class TerrainType;
 class Terrain
 {
 public:
-	Terrain(const std::string& location, const std::string& type);
-	void parse();
+	static ObjectList<Terrain> Array;
+
+	Terrain();
+	void parse(const std::string& index, const std::string& list);
 
 	std::string Location, Type;
 

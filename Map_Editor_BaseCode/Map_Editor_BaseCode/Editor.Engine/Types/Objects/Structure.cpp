@@ -2,7 +2,14 @@
 #include "Structure.hpp"
 #include <sstream>
 
+/* static */ ObjectList<Structure> Structure::Array;
+
 Structure::Structure()
+{
+
+}
+
+void Structure::parse(const std::string& index, const std::string& list)
 {
 
 }

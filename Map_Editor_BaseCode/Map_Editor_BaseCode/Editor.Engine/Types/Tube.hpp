@@ -1,12 +1,15 @@
 #pragma once
 
+#include "Managers/ObjectList.hpp"
 #include <vector>
 
 class Tube
 {
 public:
-	Tube(const std::string& entry);
-	void parse(const std::string& entry);
+	static ObjectList<Tube> Array;
+
+	Tube();
+	void parse(const std::string& id, const std::string& list);
 
 	/*
 		startX - Starting X-coordinate of the tube

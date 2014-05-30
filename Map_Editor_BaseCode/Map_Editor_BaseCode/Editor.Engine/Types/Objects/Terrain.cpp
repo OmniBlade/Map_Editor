@@ -4,15 +4,15 @@
 #include "../../../Log.hpp"
 #include <cstdlib>
 
-Terrain::Terrain(const std::string& location, const std::string& type)
-:Location(location), Type(type)
+/* static */ ObjectList<Terrain> Terrain::Array;
+
+Terrain::Terrain()
 {
-	parse();
 }
 
-void Terrain::parse()
+void Terrain::parse(const std::string& index, const std::string& list)
 {
-	Log::note("Types of TerrainType aren't parsed yet!", Log::DEBUG);
+	Location = index;
 	loc.x = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
 	loc.y = atoi(Location.substr(0, Location.length() - 3).c_str());
 }

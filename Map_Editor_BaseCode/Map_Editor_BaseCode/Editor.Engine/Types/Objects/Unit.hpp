@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Managers/ObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
 #include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
@@ -7,7 +8,11 @@
 class Unit
 {
 public:
+	static ObjectList<Unit> Array;
+
 	Unit();
+
+	void parse(const std::string& index, const std::string& list);
 
 	/*
 	Returns the Unit as a string, ready to paste in a map

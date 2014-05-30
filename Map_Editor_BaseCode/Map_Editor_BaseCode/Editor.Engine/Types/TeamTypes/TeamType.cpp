@@ -9,6 +9,8 @@
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Waypoint.hpp"
 
+/* static */ ObjectList<TeamType> TeamType::Array;
+
 TeamType::TeamType(const std::string& id)
 :ID(id)
 {
@@ -17,8 +19,6 @@ TeamType::TeamType(const std::string& id)
 void TeamType::parse(INIFile* file)
 {
 	INISection* section = file->getSection(ID);
-
-	Log::note("Types of TeamTypes aren't parsed yet!", Log::DEBUG);
 
 	section->readIntValue("VeteranLevel", VeteranLevel);
 	section->readIntValue("MindControlDecision", MindControlDecision);

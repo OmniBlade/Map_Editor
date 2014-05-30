@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Managers/ObjectList.hpp"
 #include <string>
 
 class Tag;
@@ -10,8 +11,10 @@ class Country;
 class Trigger
 {
 public:
-	Trigger(const std::string& id, const std::string& list);
-	void parse(const std::string& list);
+	static ObjectList<Trigger> Array;
+
+	Trigger();
+	void parse(const std::string& id, const std::string& list);
 
 	std::string ID, Name;
 	bool Disabled;

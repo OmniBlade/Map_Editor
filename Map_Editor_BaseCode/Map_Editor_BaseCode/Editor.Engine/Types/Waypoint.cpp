@@ -2,10 +2,17 @@
 #include "Waypoint.hpp"
 #include "../../Log.hpp"
 
-Waypoint::Waypoint(int index_)
-:index(index_), letterIndex(getLetterIndex())
+/* static */ ObjectList<Waypoint> Waypoint::Array;
+
+Waypoint::Waypoint()
 {
 
+}
+
+void Waypoint::parse(const std::string& id, const std::string& list)
+{
+	index = atoi(id.c_str());
+	letterIndex = getLetterIndex();
 }
 
 int Waypoint::getIndex()

@@ -1,12 +1,15 @@
 #pragma once
 
+#include "Managers/ObjectList.hpp"
 #include <string>
 
 class VariableName
 {
 public:
-	VariableName(const std::string& name_, bool state_);
+	static ObjectList<VariableName> Array;
 
+	VariableName();
+	void parse(const std::string& id, const std::string& list);
 	std::string name;
 	bool state;
 };

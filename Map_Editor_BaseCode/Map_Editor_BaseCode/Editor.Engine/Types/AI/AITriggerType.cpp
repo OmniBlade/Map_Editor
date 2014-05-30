@@ -5,14 +5,14 @@
 #include <sstream>
 #include "../../../Log.hpp"
 
+/* static */ ObjectList<AITriggerType> AITriggerType::Array;
 
-AITriggerType::AITriggerType(const std::string& id, const std::string& list, bool isGlobal_ /* = false */)
-:id(id), isGlobal(isGlobal_)
+AITriggerType::AITriggerType()
 {
-	parse(list);
+
 }
 
-void AITriggerType::parse(const std::string& list)
+void AITriggerType::parse(const std::string& id, const std::string& list)
 {
 	LineSplitter split(list);
 	if (split.pop(name) && split.pop(tt1) && split.pop(owner) && split.pop(techlevel) && split.pop(aiTriggerType) 

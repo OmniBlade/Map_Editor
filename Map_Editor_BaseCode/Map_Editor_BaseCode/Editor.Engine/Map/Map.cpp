@@ -1,18 +1,26 @@
 #include "stdafx.h"
 #include "Map.hpp"
 
-
-Map::Map(INIManager* _iniHandler, TheaterCollection* _theaterColl)
-:theaterColl(_theaterColl), iniHandler(_iniHandler)
+/* static */ Map* Map::theMap;
+/* static */ Map* Map::getInstance()
 {
+	if (theMap)
+	{
+		return theMap;
+	}
+	else
+	{
+		theMap = new Map();
+		return theMap;
+	}
 }
 
-Map::~Map()
+Map::Map()
 {
+
 }
 
-void Map::loadTheater(const std::string& _theaterName)
+void Map::writeAll()
 {
-
 
 }

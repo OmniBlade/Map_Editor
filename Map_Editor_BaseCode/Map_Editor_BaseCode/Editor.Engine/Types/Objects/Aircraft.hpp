@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Managers/ObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
 #include "../../../Editor.Objects.Westwood/Types/AircraftType.hpp"
@@ -7,8 +8,12 @@
 class Aircraft
 {
 public:
+	static ObjectList<Aircraft> Array;
+
 	Aircraft();
 	
+	void parse(const std::string& index, const std::string& list);
+
 	/*
 	Returns the Aircraft as a string, ready to paste in a map
 	@return The string like it appears in a map file

@@ -11,6 +11,7 @@
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
 #include "Editor.FileSystem/IniFile/INISection.hpp"
 #include "Editor.Engine/Loading/MapLoader.hpp"
+#include "Editor.Engine/Loading/MapAssetLoader.hpp"
 #include "Editor.Configuration/ConfigLoader.hpp"
 #include "Editor.Engine\Game\GameModeCollection.hpp"
 #include "Config.hpp"
@@ -31,7 +32,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	std::wstring pathW = argv[0];
 	std::string pathS(pathW.begin(), pathW.end());
-	//Remove the executable
+	//Remove the executable from the location-string (this is not FA2 lol)
 	pathS.erase(pathS.find_last_of('\\'), pathS.length());
 	Config::editorRoot = pathS;
 	handleArguments(argc, argv);
@@ -92,6 +93,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	MIXManager::getManager()->extract(mapToLoad);
 
 	MapLoader mapLoader;
+	MapAssetLoader mapAssetLoader;
 	INIFile* map = INIManager::getManager()->get(mapToLoad);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
 	INIFile* mode = nullptr;
 	if (mapLoader.locateGameMode(map))
@@ -116,7 +118,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	mapLoader.load(mode);
 	mapLoader.load(map);
 
-	Log::note("Loading everything took: " + Log::getTimerValue(), Log::DEBUG);
+	Log::note("Going to load all objects now!", Log::DEBUG);
+	Log::timerStart();
+	mapAssetLoader.load(mode);
+	mapAssetLoader.load(map);
+	Log::note("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
+
+
 	mapLoader.dumpLists();
 	
 	Log::note();

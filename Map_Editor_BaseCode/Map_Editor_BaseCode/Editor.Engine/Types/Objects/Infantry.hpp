@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Managers/ObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
 #include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
@@ -7,7 +8,10 @@
 class Infantry
 {
 public:
+	static ObjectList<Infantry> Array;
 	Infantry();
+
+	void parse(const std::string& index, const std::string& list);
 
 	/*
 	Returns the Infantry as a string, ready to paste in a map

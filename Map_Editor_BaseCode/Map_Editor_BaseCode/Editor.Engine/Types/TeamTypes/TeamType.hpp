@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Managers/ObjectList.hpp"
 #include <string>
 
 class ScriptType;
@@ -12,6 +13,8 @@ class INIFile;
 class TeamType
 {
 public:
+	static ObjectList<TeamType> Array;
+
 	TeamType(const std::string& id);
 	void parse(INIFile* file);
 	std::string ID, Name;

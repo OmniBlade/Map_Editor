@@ -2,7 +2,6 @@
 #include "List.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
-#include "../../Log.hpp"
 
 template<typename T> 
 void findOrAllocateAll(List<T>& list, INISection& section)

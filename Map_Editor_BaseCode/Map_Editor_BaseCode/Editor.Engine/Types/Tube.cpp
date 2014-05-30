@@ -3,13 +3,14 @@
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../Log.hpp"
 
-Tube::Tube(const std::string& entry)
+/* static */ ObjectList<Tube> Tube::Array;
+
+Tube::Tube()
 {
-	parse(entry);
 }
 
 
-void Tube::parse(const std::string& entry)
+void Tube::parse(const std::string& id, const std::string& entry)
 {
 	LineSplitter split(entry);
 	split.pop(startX);

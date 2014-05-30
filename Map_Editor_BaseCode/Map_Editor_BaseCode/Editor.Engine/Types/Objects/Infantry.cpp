@@ -2,8 +2,15 @@
 #include "Infantry.hpp"
 #include <sstream>
 
+/* static */ ObjectList<Infantry> Infantry::Array;
+
 Infantry::Infantry()
 {
+}
+
+void Infantry::parse(const std::string& index, const std::string& list)
+{
+
 }
 
 std::string Infantry::asString() const

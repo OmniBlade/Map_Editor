@@ -2,8 +2,15 @@
 #include "Unit.hpp"
 #include <sstream>
 
+/* static */ ObjectList<Unit> Unit::Array;
+
 Unit::Unit()
 {
+}
+
+void Unit::parse(const std::string& index, const std::string& list)
+{
+
 }
 
 std::string Unit::asString() const

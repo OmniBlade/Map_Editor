@@ -7,17 +7,17 @@
 #include "Event.hpp"
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 
-Trigger::Trigger(const std::string& id, const std::string& list)
-:ID(id)
+/* static */ ObjectList<Trigger> Trigger::Array;
+
+Trigger::Trigger()
 {
-	parse(list);
 }
 
-void Trigger::parse(const std::string& list)
+void Trigger::parse(const std::string& id, const std::string& list)
 {
+	ID = id;
 	LineSplitter split(list);
 
-	Log::note("Types of Trigger aren't parsed yet!");
 	std::string house = split.pop_string();
 	std::string trigger = split.pop_string();
 	Name = split.pop_string();

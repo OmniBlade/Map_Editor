@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Managers/ObjectList.hpp"
 #include <string>
 #include <vector>
 #include <memory>
@@ -9,6 +10,8 @@
 class House
 {
 public:
+	static ObjectList<House> Array;
+
 	House(const std::string& id);
 
 	void parse(INIFile* file);

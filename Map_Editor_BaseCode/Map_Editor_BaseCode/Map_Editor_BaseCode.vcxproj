@@ -87,6 +87,8 @@
   <ItemGroup>
     <ClInclude Include="Editor.Engine\Types\AI\AITriggerEnable.hpp" />
     <ClInclude Include="Editor.Engine\Types\AI\AITriggerType.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Managers\ObjectList.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Managers\ObjectListHelpers.hpp" />
     <ClInclude Include="Editor.FileSystem\CsfFile\CSFEntry.hpp" />
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\CSFManager.hpp" />
     <ClInclude Include="Editor.FileSystem\CsfFile\CSFFile.hpp" />

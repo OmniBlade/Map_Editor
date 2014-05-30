@@ -5,6 +5,8 @@
 #include "../../Log.hpp"
 #include <sstream>
 
+/* static */ ObjectList<House> House::Array;
+
 House::House(const std::string& id)
 :ID(id)
 {

@@ -1,12 +1,15 @@
 #pragma once
 
+#include "Managers/ObjectList.hpp"
 #include <string>
 
 class Waypoint
 {
 public:
-	Waypoint(int index_);
+	static ObjectList<Waypoint> Array;
 
+	Waypoint();
+	void parse(const std::string& id, const std::string& list);
 	int index;
 	std::string letterIndex;
 

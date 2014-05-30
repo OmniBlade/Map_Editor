@@ -2,8 +2,15 @@
 #include "Aircraft.hpp"
 #include <sstream>
 
+/* static */ ObjectList<Aircraft> Aircraft::Array;
+
 Aircraft::Aircraft()
 {
+}
+
+void Aircraft::parse(const std::string& index, const std::string& list)
+{
+
 }
 
 std::string Aircraft::asString() const

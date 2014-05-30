@@ -4,17 +4,18 @@
 #include "../../../Log.hpp"
 #include "Trigger.hpp"
 
-Tag::Tag(const std::string& id, const std::string& list)
-:ID(id)
+/* static */ ObjectList<Tag> Tag::Array;
+
+Tag::Tag()
 {
-	parse(list);
+
 }
 
-void Tag::parse(const std::string& list)
+void Tag::parse(const std::string& id, const std::string& list)
 {
+	ID = id;
 	LineSplitter split(list);
 
-	Log::note("Types of Trigger aren't parsed yet!");
 	split.pop(Repeating);
 	split.pop(Name);
 	std::string trigger = split.pop_string();

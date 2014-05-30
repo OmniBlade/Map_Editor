@@ -1,12 +1,17 @@
 #include "stdafx.h"
 #include "VariableName.hpp"
 
+/* static */ ObjectList<VariableName> VariableName::Array;
 
-VariableName::VariableName(const std::string& name_, bool state)
+VariableName::VariableName()
 {
 
 }
 
+void VariableName::parse(const std::string& id, const std::string& list)
+{
+
+}
 
 GlobalVariableName::GlobalVariableName(const std::string& name_)
 {

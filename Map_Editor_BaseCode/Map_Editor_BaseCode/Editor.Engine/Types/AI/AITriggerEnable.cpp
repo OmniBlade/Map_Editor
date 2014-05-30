@@ -2,14 +2,17 @@
 #include "AITriggerEnable.hpp"
 #include "AITriggerType.hpp"
 
-AITriggerEnable::AITriggerEnable(const std::string& id, const std::string& state)
-:id(id)
+/* static */ ObjectList<AITriggerEnable> AITriggerEnable::Array;
+
+AITriggerEnable::AITriggerEnable()
 {
-	parse(state);
+
 }
 
-void AITriggerEnable::parse(const std::string& state)
+void AITriggerEnable::parse(const std::string& id, const std::string& state)
 {
+	ID = id;
+
 	int ret1 = _strcmpi(state.c_str(), "t");
 	int ret2 = _strcmpi(state.c_str(), "y");
 	int ret3 = _strcmpi(state.c_str(), "1");

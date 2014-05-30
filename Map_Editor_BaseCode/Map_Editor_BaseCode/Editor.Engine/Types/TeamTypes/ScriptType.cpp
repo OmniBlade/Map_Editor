@@ -4,6 +4,8 @@
 #include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../../Log.hpp"
 
+/* static */ ObjectList<ScriptType> ScriptType::Array;
+
 ScriptType::ScriptType(const std::string& id)
 :ID(id)
 {
@@ -16,7 +18,6 @@ void ScriptType::parse(INIFile* file)
 
 	section->readStringValue("Name", Name);
 
-	Log::note("Types of ScriptType aren't parsed yet!");
 	for (unsigned int i = 0; i < 50; ++i)
 	{
 
