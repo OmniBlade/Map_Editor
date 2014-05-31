@@ -16,7 +16,7 @@ public:
 	static ObjectList<TeamType> Array;
 
 	TeamType(const std::string& id);
-	void parse(INIFile* file);
+	void parse(INIFile* file, bool isGlobal = false);
 	std::string ID, Name;
 	
 	House* houseOwner; //SP!
@@ -55,5 +55,6 @@ public:
 	bool AreTeamMembersRecruitable;
 	bool IsBaseDefense;
 	bool OnlyTargetHouseEnemy;
+	bool isGlobal;
 };
 

@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "MapAssetLoader.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
+#include "../../Config.hpp"
 #include "../Types/Managers/ObjectListHelpers.hpp"
 #include "../Types/AI/AITriggerEnable.hpp"
 #include "../Types/AI/AITriggerType.hpp"
@@ -35,6 +37,26 @@ void MapAssetLoader::load(INIFile* mapFile)
 
 	allocateMainData(mapFile);
 	loadAll(mapFile);
+}
+
+void MapAssetLoader::loadAI()
+{
+	if (!Config::AIReferences)
+	{
+		return;
+	}
+	else
+	{
+		Log::note("Loading AI content from '" + Config::AI + "'.", Log::DEBUG);
+	}
+
+	INIFile* aimd = INIManager::getManager()->get(Config::AI);
+	allocateAll(TeamType::Array, aimd, "TeamTypes");
+	allocateAll(TaskForce::Array, aimd, "TaskForces");
+	allocateAll(ScriptType::Array, aimd, "ScriptTypes");
+	loadAllocatedINI(TeamType::Array, *aimd, true);
+	loadAllocatedINI(TaskForce::Array, *aimd, true);
+	loadAllocatedINI(ScriptType::Array, *aimd, true);
 }
 
 void MapAssetLoader::allocateMainData(INIFile* mapFile)

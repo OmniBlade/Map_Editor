@@ -25,12 +25,14 @@ void findOrAllocateAll(ObjectList<T>& list, INISection& section)
 }
 
 template<typename T>
-void loadAllocatedINI(ObjectList<T>& list, INIFile& file)
+void loadAllocatedINI(ObjectList<T>& list, INIFile& file, bool isGlobal = false)
 {
-	for (unsigned int i = 0; i < list.objectTypeList.size(); ++i)
+	for (unsigned int i = list.lastParsedItem; i < list.objectTypeList.size(); ++i)
 	{
-		list.objectTypeList[i].get()->parse(&file);
+		list.objectTypeList[i].get()->parse(&file, isGlobal);
+	
 	}
+	list.lastParsedItem = list.objectTypeList.size();
 }
 
 template<typename T>

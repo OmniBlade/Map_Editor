@@ -201,17 +201,17 @@ int MIXManager::getSizeForFile(const std::string& fileName)
 	return 0;
 }
 
-void MIXManager::extract(const std::string& fileName, const std::string& mixName /* = "" */)
+bool MIXManager::extract(const std::string& fileName, const std::string& mixName /* = "" */)
 {
 	if (rawSystem->fileIsInGameRoot(fileName))
 	{
 		Log::note("EXTRACTION - File with name '" + fileName + "' already exists in the game's root!", Log::DEBUG);
-		return;
+		return true;
 	}
 	else if (rawSystem->fileIsInEditorRoot(fileName))
 	{
 		Log::note("EXTRACTION - File with name '" + fileName + "' already exists in the editor's root!", Log::DEBUG);
-		return;
+		return true;
 	}
 	
 	std::vector<byte> fileBytes;
@@ -232,7 +232,7 @@ void MIXManager::extract(const std::string& fileName, const std::string& mixName
 	if (!theMix)
 	{
 		Log::note("EXTRACTION - MIX with name '" + parentMixName + "' does not exist, aborting extraction.", Log::DEBUG);
-		return;
+		return false;
 	}
 
 	fileBytes = theMix->getFile(id);
@@ -247,13 +247,16 @@ void MIXManager::extract(const std::string& fileName, const std::string& mixName
 		}
 		Log::note("EXTRACTION - File with name '" + fileName + "' has been written to the root of the editor.", Log::DEBUG);
 		dicks.close();
+		return true;
 	}
 	else if (mixName.empty())
 	{
 		Log::note("Unable to write file '" + fileName + "'.", Log::DEBUG);
+		return false;
 	}
 	else
 	{
 		Log::note("Unable to write file '" + fileName + "' from MIX with name '" + mixName + "'.", Log::DEBUG);
+		return false;
 	}
 }

@@ -36,7 +36,7 @@ public:
 		@param fileName The name of the file to extract
 		@param mixName If given, the name of the mix to extract the file from
 	*/
-	void extract(const std::string& fileName, const std::string& mixName = "");
+	bool extract(const std::string& fileName, const std::string& mixName = "");
 
 //=====================================
 

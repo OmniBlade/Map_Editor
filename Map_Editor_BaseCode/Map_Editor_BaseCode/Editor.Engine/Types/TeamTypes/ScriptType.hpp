@@ -11,10 +11,10 @@ public:
 	static ObjectList<ScriptType> Array;
 
 	ScriptType(const std::string& id);
-	void parse(INIFile* file);
+	void parse(INIFile* file, bool isGlobal = false);
 	
 	std::string Name, ID;
-
+	bool isGlobal;
 
 
 };

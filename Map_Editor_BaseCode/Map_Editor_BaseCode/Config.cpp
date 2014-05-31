@@ -23,6 +23,7 @@ std::string Config::ecache = "ECACHE";
 std::string Config::elocal = "ELOCAL";
 bool Config::inGameLighting = true;
 bool Config::FA2Mode = false;
+bool Config::AIReferences = false;
 
 // [INI]
 std::string Config::rules	= "RULESMD.INI";
@@ -62,6 +63,8 @@ void Config::parse(INIFile* configINI, const std::string& name)
 			Log::note("In-game lighting: " + Log::toString(inGameLighting), Log::DEBUG);
 			mainSection->readBoolValue("FA2Mode", Config::FA2Mode, false);
 			Log::note("FA2 mode: " + Log::toString(FA2Mode), Log::DEBUG);
+			mainSection->readBoolValue("AIReferences", Config::AIReferences, false);
+			Log::note("AI References: " + Log::toString(AIReferences), Log::DEBUG);
 		}
 		else
 			Log::note("Section [Main] could not be found!", Log::DEBUG);

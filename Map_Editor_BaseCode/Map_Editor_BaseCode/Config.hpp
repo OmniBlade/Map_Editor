@@ -32,6 +32,7 @@ public:
 	static std::string elocal;				// Name of the elocal*.mix files
 	static bool inGameLighting;				// Whether to render in-game lighting over the overlay (or rather just TMPs)
 	static bool FA2Mode;					// Disable any of the fancy elements and switch to antique mode
+	static bool AIReferences;				// Whether to reference AI control file TeamTypes, TaskForces and ScriptTypes in the editor
 
 	// [INI]
 	static std::string rules;				// Name of the rules.ini file, default is 'rulesmd.ini', but some mods (MO again) have this set to 'rulesmo.ini'

@@ -63,4 +63,5 @@ public:
 	}
 
 	std::vector<std::unique_ptr<T>> objectTypeList;
+	int lastParsedItem = 0;
 };

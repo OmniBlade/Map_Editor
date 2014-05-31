@@ -16,10 +16,17 @@ TeamType::TeamType(const std::string& id)
 {
 }
 
-void TeamType::parse(INIFile* file)
+void TeamType::parse(INIFile* file, bool isGlobal_)
 {
 	INISection* section = file->getSection(ID);
 
+	if (!section)
+	{
+		return;
+	}
+
+	isGlobal = isGlobal_;
+	section->readStringValue("Name", Name);
 	section->readIntValue("VeteranLevel", VeteranLevel);
 	section->readIntValue("MindControlDecision", MindControlDecision);
 	section->readIntValue("Priority", Priority);

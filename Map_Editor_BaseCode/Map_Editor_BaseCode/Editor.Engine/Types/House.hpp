@@ -14,7 +14,7 @@ public:
 
 	House(const std::string& id);
 
-	void parse(INIFile* file);
+	void parse(INIFile* file, bool redundant);
 	void loadAllies(const std::string& alliesList);
 	void loadNodes(INISection* section);
 

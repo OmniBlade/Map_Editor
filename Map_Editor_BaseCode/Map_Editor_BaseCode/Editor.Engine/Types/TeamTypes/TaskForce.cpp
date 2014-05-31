@@ -12,10 +12,16 @@ TaskForce::TaskForce(const std::string& id)
 
 }
 
-void TaskForce::parse(INIFile* file)
+void TaskForce::parse(INIFile* file, bool isGlobal_)
 {
 	INISection* section = file->getSection(ID);
 
+	if (!section)
+	{
+		return;
+	}
+
+	isGlobal = isGlobal_;
 	section->readStringValue("Name", Name);
 	section->readIntValue("Group", Group);
 

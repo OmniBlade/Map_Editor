@@ -13,7 +13,7 @@ House::House(const std::string& id)
 
 }
 
-void House::parse(INIFile* file)
+void House::parse(INIFile* file, bool redundant)
 {
 	INISection* houseSection = file->getSection(ID);
 	if (!houseSection) return;

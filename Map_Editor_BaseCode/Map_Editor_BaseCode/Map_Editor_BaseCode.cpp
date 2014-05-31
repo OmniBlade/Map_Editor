@@ -90,7 +90,14 @@ int _tmain(int argc, _TCHAR* argv[])
 		mapToLoad = Config::mapName;
 	}
 
-	MIXManager::getManager()->extract(mapToLoad);
+	if (!MIXManager::getManager()->extract(mapToLoad))
+	{
+		Log::note("Map to load does not exist, unable to continue what so ever!");
+		Log::close();
+		std::cin.get();
+		return 0;
+	}
+	
 
 	MapLoader mapLoader;
 	MapAssetLoader mapAssetLoader;
@@ -120,11 +127,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	Log::note("Going to load all objects now!", Log::DEBUG);
 	Log::timerStart();
+	mapAssetLoader.loadAI();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
 	Log::note("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
-
-
+	
 	mapLoader.dumpLists();
 	
 	Log::note();

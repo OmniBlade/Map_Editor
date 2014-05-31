@@ -12,9 +12,16 @@ ScriptType::ScriptType(const std::string& id)
 
 }
 
-void ScriptType::parse(INIFile* file)
+void ScriptType::parse(INIFile* file, bool isGlobal_)
 {
 	INISection* section = file->getSection(ID);
+
+	if (!section)
+	{
+		return;
+	}
+	
+	isGlobal = isGlobal_;
 
 	section->readStringValue("Name", Name);
 
