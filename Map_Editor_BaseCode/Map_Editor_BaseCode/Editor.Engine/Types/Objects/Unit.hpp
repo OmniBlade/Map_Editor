@@ -3,7 +3,9 @@
 #include "../Managers/ObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
-#include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
+
+class Tag;
+class VehicleType;
 
 class Unit
 {
@@ -32,7 +34,8 @@ public:
 	Vector2D loc;
 	unsigned int direction = 64;
 	std::string mission = "Guard";
-	std::string tag = "none";
+	std::string tag = "None";
+	Tag* pTag;
 	int veterancy = 0;
 	int group = -1;
 	bool onBridge = false;

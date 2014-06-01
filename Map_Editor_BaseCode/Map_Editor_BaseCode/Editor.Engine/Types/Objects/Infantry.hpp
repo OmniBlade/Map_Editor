@@ -3,7 +3,9 @@
 #include "../Managers/ObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
-#include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
+
+class InfantryType;
+class Tag;
 
 class Infantry
 {
@@ -32,7 +34,8 @@ public:
 	unsigned int subCell = 0;
 	std::string mission = "Guard";
 	unsigned int direction = 64;
-	std::string tag = "none";
+	std::string tag = "None";
+	Tag* pTag;
 	unsigned int veterancy = 0;
 	int group = -1;
 	bool onBridge = false;

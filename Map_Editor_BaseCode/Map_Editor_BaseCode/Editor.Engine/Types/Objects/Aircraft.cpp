@@ -1,8 +1,17 @@
 #include "stdafx.h"
 #include "Aircraft.hpp"
 #include <sstream>
+#include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../../Editor.Objects.Westwood/Types/AircraftType.hpp"
+#include "../Triggers/Tag.hpp"
 
 /* static */ ObjectList<Aircraft> Aircraft::Array;
+
+
+/*
+	Please note:
+	Additional constructors will be needed when an object is placed at a specific point with a specific type!
+*/
 
 Aircraft::Aircraft()
 {
@@ -10,7 +19,18 @@ Aircraft::Aircraft()
 
 void Aircraft::parse(const std::string& index, const std::string& list)
 {
-
+	LineSplitter split(list);
+	if (split.pop(owner) && split.pop(aircraftType) && split.pop(health) && split.pop(loc.x) && split.pop(loc.y)
+		&& split.pop(direction) && split.pop(mission) && split.pop(tag) && split.pop(veterancy) && split.pop(group)
+		&& split.pop(recruitable) && split.pop(aiRecruitable))
+	{
+		pAircraft = AircraftType::Array.find(aircraftType);
+		pTag = Tag::Array.find(tag);
+	}
+	else
+	{
+		Log::note("Unable to parse Aircraft with entry number '" + index + "'.", Log::DEBUG);
+	}
 }
 
 std::string Aircraft::asString() const

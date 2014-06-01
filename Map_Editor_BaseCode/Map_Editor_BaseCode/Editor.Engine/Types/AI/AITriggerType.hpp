@@ -2,7 +2,12 @@
 
 #include "../Managers/ObjectList.hpp"
 #include <string>
+
 class TeamType;
+class VehicleType;
+class InfantryType;
+class BuildingType;
+class AircraftType;
 
 class AITriggerType
 {
@@ -20,6 +25,10 @@ public:
 	bool baseDefense, skirmish, easy, medium, hard;
 	TeamType* teamtype1 = nullptr;
 	TeamType* teamtype2 = nullptr;
+	VehicleType* pVehicleType;
+	InfantryType* pInfantryType;
+	BuildingType* pBuildingType;
+	AircraftType* pAircraftType;
 	bool isGlobal;
 };
 

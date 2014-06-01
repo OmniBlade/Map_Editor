@@ -39,26 +39,6 @@ void MapAssetLoader::load(INIFile* mapFile)
 	loadAll(mapFile);
 }
 
-void MapAssetLoader::loadAI()
-{
-	if (!Config::AIReferences)
-	{
-		return;
-	}
-	else
-	{
-		Log::note("Loading AI content from '" + Config::AI + "'.", Log::DEBUG);
-	}
-
-	INIFile* aimd = INIManager::getManager()->get(Config::AI);
-	allocateAll(TeamType::Array, aimd, "TeamTypes");
-	allocateAll(TaskForce::Array, aimd, "TaskForces");
-	allocateAll(ScriptType::Array, aimd, "ScriptTypes");
-	loadAllocatedINI(TeamType::Array, *aimd, true);
-	loadAllocatedINI(TaskForce::Array, *aimd, true);
-	loadAllocatedINI(ScriptType::Array, *aimd, true);
-}
-
 void MapAssetLoader::allocateMainData(INIFile* mapFile)
 {
 	allocateAll(House::Array, mapFile, "Houses");
@@ -76,9 +56,10 @@ void MapAssetLoader::loadAll(INIFile* mapFile)
 	loadAllocatedINI(House::Array, *mapFile); //WARNING, this is a FOA thing!
 	loadFromINI(Tag::Array, *mapFile, "Tags");
 	loadFromINI(CellTag::Array, *mapFile, "CellTags");
-	loadFromINI(Trigger::Array, *mapFile, "Triggers");
 	loadFromINI(Action::Array, *mapFile, "Actions");
 	loadFromINI(Event::Array, *mapFile, "Events");
+	loadFromINI(Trigger::Array, *mapFile, "Triggers");
+	updateTriggerChilds();
 	loadAllocatedINI(TeamType::Array, *mapFile); //WARNING, this is a FOA thing!
 	loadAllocatedINI(ScriptType::Array, *mapFile); //WARNING, this is a FOA thing!
 	loadAllocatedINI(TaskForce::Array, *mapFile); //WARNING, this is a FOA thing!
@@ -90,4 +71,17 @@ void MapAssetLoader::loadAll(INIFile* mapFile)
 	loadFromINI(Structure::Array, *mapFile, "Structures");
 	loadFromINI(Terrain::Array, *mapFile, "Terrain");
 	loadFromINI(Tube::Array, *mapFile, "Tubes");
+}
+
+/*
+Fucking ape-shit...
+After all the triggers are parsed, you can assign the child triggers
+Why? Because Trigger at index 2 can refer to a Trigger at index 8 (which is obviously not loaded yet)
+*/
+void MapAssetLoader::updateTriggerChilds()
+{
+	for (const auto& it : Trigger::Array.objectTypeList)
+	{
+		it.get()->assignChild();
+	}
 }

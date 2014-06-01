@@ -31,3 +31,12 @@ void loadFromINI(List<T>& list, INIFile& file, INIFile& art)
 		it.get()->loadArt(&art);
 	}*/
 }
+
+template<typename T>
+void loadFromSingleINI(List<T>& list, INIFile& file)
+{
+	for (unsigned int i = 0; i < list.typeList.size(); ++i)
+	{
+		list.typeList[i].get()->load(&file);
+	}
+}

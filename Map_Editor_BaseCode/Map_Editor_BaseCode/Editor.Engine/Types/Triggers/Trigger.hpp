@@ -15,25 +15,26 @@ public:
 
 	Trigger();
 	void parse(const std::string& id, const std::string& list);
+	void assignChild();
 
-	std::string ID, Name;
+	std::string ID, Name, owner, child;
 	bool Disabled;
 	bool EasyEnabled;
 	bool MedEnabled;
 	bool HardEnabled;
 	int Unknown;
 
-	Country* owner;
-	Trigger* child;
-	Action* actionList;
-	Event* eventList;
+	Country* pOwner;
+	Trigger* pChild;
+	Action* pActions;
+	Event* pEvents;
 	
 	/*
 		This is pure for faster Trigger nesting, unlike FA2 which
 		cannot even resolve the Tag of a parent Trigger without first
 		having to click on that Trigger...
 	*/
-	Tag* attachedTag; 
+	//Tag* attachedTag; 
 
 
 };

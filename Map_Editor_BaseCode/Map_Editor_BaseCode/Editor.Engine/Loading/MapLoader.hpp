@@ -27,6 +27,8 @@ public:
 	*/
 	void loadAll(INIFile* file);
 
+	void loadAudio();
+	void loadAI();
 	/*
 		
 	*/

@@ -1,7 +1,10 @@
 #pragma once
 
 #include "../Managers/ObjectList.hpp"
+#include "TFEntry.hpp"
 #include <string>
+#include <vector>
+#include <memory>
 
 class INIFile;
 
@@ -15,5 +18,6 @@ public:
 	std::string ID, Name;
 	int Group;
 	bool isGlobal;
+	std::vector<std::unique_ptr<TFEntry>> unitList;
 };
 

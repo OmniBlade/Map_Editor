@@ -15,10 +15,13 @@ void Tag::parse(const std::string& id, const std::string& list)
 {
 	ID = id;
 	LineSplitter split(list);
-
-	split.pop(Repeating);
-	split.pop(Name);
-	std::string trigger = split.pop_string();
-
-
+	
+	if (split.pop(Repeating) && split.pop(Name) && split.pop(trigger))
+	{
+		pTrigger = Trigger::Array.find(split.pop_string());
+	}
+	else
+	{
+		Log::note("Unable to parse Tag with ID '" + ID + "'.", Log::DEBUG);
+	}
 }

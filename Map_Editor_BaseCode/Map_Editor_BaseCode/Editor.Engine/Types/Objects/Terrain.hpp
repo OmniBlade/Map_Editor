@@ -14,9 +14,9 @@ public:
 	Terrain();
 	void parse(const std::string& index, const std::string& list);
 
-	std::string Location, Type;
+	std::string Location, terrainType;
 
 	Vector2D loc;
-	TerrainType* terrainType;
+	TerrainType* pTerrainType;
 };
 

@@ -3,7 +3,9 @@
 #include "../Managers/ObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
-#include "../../../Editor.Objects.Westwood/Types/BuildingType.hpp"
+
+class BuildingType;
+class Tag;
 
 class Structure
 {
@@ -31,13 +33,14 @@ public:
 	unsigned int health = 256;
 	Vector2D loc;
 	unsigned int direction = 0;
-	std::string tag = "none";
+	std::string tag = "None";
+	Tag* pTag;
 	bool sellable = true;
 	bool aiRepair = false;
 	bool powered = true;
 	unsigned int powerupCount = 0;
 	unsigned int spotlight = 0;
-	std::string powerupOne = "none";
+	std::string powerupOne = "None";
 	std::string powerupTwo = powerupOne;
 	std::string powerupThree = powerupOne;
 	bool rebuild = false; // Doesn't work anyway

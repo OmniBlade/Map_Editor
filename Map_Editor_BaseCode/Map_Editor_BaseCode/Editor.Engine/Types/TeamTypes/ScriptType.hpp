@@ -2,6 +2,9 @@
 
 #include "../Managers/ObjectList.hpp"
 #include <string>
+#include <vector>
+#include <memory>
+#include "ScriptAction.hpp"
 
 class INIFile;
 
@@ -15,7 +18,7 @@ public:
 	
 	std::string Name, ID;
 	bool isGlobal;
-
+	std::vector<std::unique_ptr<ScriptAction>> actionList;
 
 };
 

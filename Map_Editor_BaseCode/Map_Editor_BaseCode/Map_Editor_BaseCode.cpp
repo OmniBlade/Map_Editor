@@ -124,10 +124,11 @@ int _tmain(int argc, _TCHAR* argv[])
 	mapLoader.load(rules);
 	mapLoader.load(mode);
 	mapLoader.load(map);
+	mapLoader.loadAI();
+	Log::note("Loading game's objects took: " + Log::getTimerValue(), Log::DEBUG);
 
-	Log::note("Going to load all objects now!", Log::DEBUG);
-	Log::timerStart();
-	mapAssetLoader.loadAI();
+	//Log::note("Going to load all objects now!", Log::DEBUG);
+//	Log::timerStart();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
 	Log::note("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);

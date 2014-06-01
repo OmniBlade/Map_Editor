@@ -5,6 +5,7 @@
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "MapLoaderHelpers.hpp"
 #include "../../Editor.Objects.Westwood/Managers/ListHelpers.hpp"
+#include "../Types/Managers/ObjectListHelpers.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.Objects.Westwood/Types/OverlayType.hpp"
 #include "../../Editor.Objects.Westwood/Types/SuperWeaponType.hpp"
@@ -22,8 +23,15 @@
 #include "../../Editor.Objects.Westwood/Types/WarheadType.hpp"
 #include "../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../../Editor.Objects.Westwood/Types/Tiberium.hpp"
+#include "../../Editor.Objects.Westwood/Audio/Sound.hpp"
+#include "../../Editor.Objects.Westwood/Audio/Speech.hpp"
+#include "../../Editor.Objects.Westwood/Audio/Theme.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.Engine/Game/GameModeCollection.hpp"
+#include "../Types/TeamTypes/ScriptType.hpp"
+#include "../Types/TeamTypes/TaskForce.hpp"
+#include "../Types/TeamTypes/TeamType.hpp"
+#include "../Types/AI/AITriggerType.hpp"
 
 MapLoader::MapLoader()
 {
@@ -34,6 +42,9 @@ MapLoader::MapLoader()
 	combatDamage = new CombatDamage();
 	sides = new Side();
 	iq = new IQ();
+
+	//Initiate Sound, Speech and Theme here, they have no real dependency anyhow
+	loadAudio();
 }
 
 void MapLoader::load(INIFile* file)
@@ -107,6 +118,33 @@ void MapLoader::loadAll(INIFile* file)
 	specialWeapons->loadRules(file);
 	loadFromINI(Tiberium::Array, *file, *art);
 	loadFromINI(WeaponType::Array, *file, *art); //Again
+}
+
+void MapLoader::loadAudio()
+{
+	INIFile* speech = INIManager::getManager()->get(Config::eva);
+	INIFile* sound = INIManager::getManager()->get(Config::sound);
+	INIFile* theme = INIManager::getManager()->get(Config::theme);
+	
+	allocateAll(Speech::Array, speech, "DialogList");
+	allocateAll(Sound::Array, sound, "SoundList");//
+	allocateAll(Theme::Array, theme, "Themes");//
+	loadFromSingleINI(Speech::Array, *speech);
+	loadFromSingleINI(Sound::Array, *sound);
+	loadFromSingleINI(Theme::Array, *theme);
+}
+
+void MapLoader::loadAI()
+{
+	INIFile* aimd = INIManager::getManager()->get(Config::AI);
+
+	allocateAll(TeamType::Array, aimd, "TeamTypes");
+	allocateAll(TaskForce::Array, aimd, "TaskForces");
+	allocateAll(ScriptType::Array, aimd, "ScriptTypes");
+	loadAllocatedINI(TeamType::Array, *aimd, true);
+	loadAllocatedINI(TaskForce::Array, *aimd, true);
+	loadAllocatedINI(ScriptType::Array, *aimd, true);
+	loadFromINI(AITriggerType::Array, *aimd, "AITriggerTypes");
 }
 
 bool MapLoader::locateGameMode(INIFile* map)

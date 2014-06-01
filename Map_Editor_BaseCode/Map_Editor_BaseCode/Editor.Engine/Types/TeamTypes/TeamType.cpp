@@ -8,6 +8,7 @@
 #include "../House.hpp"
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Waypoint.hpp"
+#include "../Triggers/Tag.hpp"
 
 /* static */ ObjectList<TeamType> TeamType::Array;
 
@@ -27,6 +28,9 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 
 	isGlobal = isGlobal_;
 	section->readStringValue("Name", Name);
+	section->readStringValue("Tag", tag);
+	section->readStringValue("House", owner);
+
 	section->readIntValue("VeteranLevel", VeteranLevel);
 	section->readIntValue("MindControlDecision", MindControlDecision);
 	section->readIntValue("Priority", Priority);
@@ -56,4 +60,36 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	section->readBoolValue("AreTeamMembersRecruitable", AreTeamMembersRecruitable);
 	section->readBoolValue("IsBaseDefense", IsBaseDefense);
 	section->readBoolValue("OnlyTargetHouseEnemy", OnlyTargetHouseEnemy);
+
+	/*
+		Easy does it
+		nullptr means the attached type is invalid
+		This is used mainly to determine shit in the validator engine (nullptr for taskforce means no taskforce thus error)
+		Oh, minor detail; crash if not checked for emptyness first!
+	*/
+	if (!owner.empty())
+	{
+		houseOwner = House::Array.find(owner);
+		countryOwner = Country::Array.find(owner);
+	}
+	if (!tag.empty())
+	{
+		pTag = Tag::Array.find(tag);
+	}
+	if (section->checkKeyExistance("TaskForce"))
+	{
+		pTaskForce = TaskForce::Array.find(section->getValue("TaskForce"));
+	}
+	if (section->checkKeyExistance("Script"))
+	{
+		pScriptType = ScriptType::Array.find(section->getValue("Script"));
+	}
+	if (section->checkKeyExistance("Waypoint"))
+	{
+		pWaypoint = Waypoint::Array.find(section->getValue("Waypoint"));
+	}
+	if (section->checkKeyExistance("TransportWaypoint"))
+	{
+		pTransportWaypoint = Waypoint::Array.find(section->getValue("TransportWaypoint"));
+	}
 }

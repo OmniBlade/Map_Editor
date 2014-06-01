@@ -4,6 +4,10 @@
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include <sstream>
 #include "../../../Log.hpp"
+#include "../../../Editor.Objects.Westwood/Types/AircraftType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/BuildingType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
 
 /* static */ ObjectList<AITriggerType> AITriggerType::Array;
 
@@ -14,6 +18,7 @@ AITriggerType::AITriggerType()
 
 void AITriggerType::parse(const std::string& id, const std::string& list)
 {
+	ID = id;
 	LineSplitter split(list);
 	if (split.pop(name) && split.pop(tt1) && split.pop(owner) && split.pop(techlevel) && split.pop(aiTriggerType) 
 		&& split.pop(techType) && split.pop(parameterString) && split.pop(weight) && split.pop(minWeight)
@@ -46,11 +51,27 @@ void AITriggerType::parse(const std::string& id, const std::string& list)
 		*/
 		if (tt1 != "<none>")
 		{
-			//Assign TeamType*
+			teamtype1 = TeamType::Array.find(tt1);
 		}
 		if (tt2 != "<none>")
 		{
-			//Assign TeamType*
+			teamtype2 = TeamType::Array.find(tt2);
+		}
+		if (techType != "<none>")
+		{
+			pInfantryType = InfantryType::Array.find(techType);
+			if (!pInfantryType)
+			{
+				pBuildingType = BuildingType::Array.find(techType);
+				if (!pBuildingType)
+				{
+					pVehicleType = VehicleType::Array.find(techType);
+					if (!pVehicleType)
+					{
+						pAircraftType = AircraftType::Array.find(techType);
+					}
+				}
+			}
 		}
 	}
 	else

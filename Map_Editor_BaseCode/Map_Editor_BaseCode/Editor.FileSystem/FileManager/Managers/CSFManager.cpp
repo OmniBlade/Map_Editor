@@ -51,6 +51,12 @@ CSFFile* CSFManager::cache(const std::string& fileName)
 std::wstring CSFManager::getValue(const std::string& name)
 {
 	std::wstring value;
+
+	if (name.capacity() > 512)
+	{
+		return value = L"<No Name>";
+	}
+	
 	if (Config::hasAres && name.substr(0, 6) == "NOSTR:")
 	{
 		std::string& UINameNOSTR = name.substr(6);

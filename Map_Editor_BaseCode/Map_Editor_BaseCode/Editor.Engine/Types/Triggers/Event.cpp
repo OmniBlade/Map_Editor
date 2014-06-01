@@ -9,5 +9,5 @@ Event::Event()
 
 void Event::parse(const std::string& id, const std::string& list)
 {
-
+	ID = id;
 }

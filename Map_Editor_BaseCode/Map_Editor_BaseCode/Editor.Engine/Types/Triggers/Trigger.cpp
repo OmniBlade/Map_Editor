@@ -18,12 +18,24 @@ void Trigger::parse(const std::string& id, const std::string& list)
 	ID = id;
 	LineSplitter split(list);
 
-	std::string house = split.pop_string();
-	std::string trigger = split.pop_string();
-	Name = split.pop_string();
-	Disabled = split.pop_bool();
-	EasyEnabled = split.pop_bool();
-	MedEnabled = split.pop_bool();
-	HardEnabled = split.pop_bool();
-	Unknown = split.pop_int();
+	if (split.pop(owner) && split.pop(child) && split.pop(Name) && split.pop(Disabled) && split.pop(EasyEnabled)
+		&& split.pop(MedEnabled) && split.pop(HardEnabled) && split.pop(Unknown))
+	{
+		pOwner = Country::Array.find(owner);
+		pActions = Action::Array.find(ID);
+		pEvents = Event::Array.find(ID);
+	}
+	else
+	{
+		Log::note("Unable to parse Trigger with ID '" + ID + "'.", Log::DEBUG);
+	}
+
+}
+
+void Trigger::assignChild()
+{
+	if (child != "<None>")
+	{
+		pChild = Trigger::Array.find(child);
+	}
 }

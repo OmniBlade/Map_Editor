@@ -143,6 +143,7 @@ std::string& INISection::getValue(const std::string& key)
 	{
 		return it->second;
 	}
+	
 	return std::string();
 }
 

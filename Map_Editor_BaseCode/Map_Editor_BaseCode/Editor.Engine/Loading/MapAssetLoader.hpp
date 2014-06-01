@@ -17,11 +17,6 @@ public:
 
 	void loadAll(INIFile* mapFile);
 
-	/*
-		If enabled by the user, this function loads the TeamTYpe/TaskForces and ScriptTypes from the AI file
-		into the editor
-	*/
-	void loadAI();
-
+	void updateTriggerChilds();
 };
 

@@ -18,8 +18,8 @@ public:
 	Tag();
 	void parse(const std::string& id, const std::string& list);
 
-	std::string ID, Name;
+	std::string ID, Name, trigger;
 	int Repeating;
-	Trigger* attachedTrigger;
+	Trigger* pTrigger;
 };
 

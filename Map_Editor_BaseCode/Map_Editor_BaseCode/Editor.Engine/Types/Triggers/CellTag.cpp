@@ -13,7 +13,7 @@ CellTag::CellTag()
 void CellTag::parse(const std::string& location, const std::string& tag)
 {
 	Location = location;
-	attachedTag = tag;
+	pTag = Tag::Array.find(tag);
 	loc.x = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
 	loc.y = atoi(Location.substr(0, Location.length() - 3).c_str());
 }

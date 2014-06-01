@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Managers/ObjectList.hpp"
+#include <string>
 
 class Action
 {
@@ -9,5 +10,7 @@ public:
 
 	Action();
 	void parse(const std::string& id, const std::string& list);
+	std::string ID;
+
 };
 

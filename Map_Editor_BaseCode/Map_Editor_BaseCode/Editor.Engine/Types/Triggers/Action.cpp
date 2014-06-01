@@ -9,5 +9,5 @@ Action::Action()
 
 void Action::parse(const std::string& id, const std::string& list)
 {
-
+	ID = id;
 }

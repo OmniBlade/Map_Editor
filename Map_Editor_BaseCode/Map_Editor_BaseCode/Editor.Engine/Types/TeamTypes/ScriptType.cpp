@@ -22,15 +22,23 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 	}
 	
 	isGlobal = isGlobal_;
-
 	section->readStringValue("Name", Name);
 
-	for (unsigned int i = 0; i < 50; ++i)
+	//If anyone ever resizes the limit for this...
+	unsigned int scriptActionLimit = 50;
+	//actionList.reserve(scriptActionLimit);
+	//actionList.resize(scriptActionLimit);
+
+	for (unsigned int i = 0; i < scriptActionLimit; ++i)
 	{
 
 		if (!section->checkKeyExistance(Log::toString(i)))
+		{
 			break; // Stop reading when an index is missing
-
+		}
+		else
+		{
+			actionList.push_back(std::make_unique<ScriptAction>(section->getValue(Log::toString(i))));
+		}
 	}
-
 }

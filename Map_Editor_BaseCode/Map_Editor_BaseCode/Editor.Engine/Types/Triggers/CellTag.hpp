@@ -13,9 +13,9 @@ public:
 	CellTag();
 	void parse(const std::string& location, const std::string& tag);
 	
-	std::string Location, attachedTag;
+	std::string Location;// , attachedTag;
 	Vector2D loc;
-	Tag* tag;
+	Tag* pTag;
 
 
 };

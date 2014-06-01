@@ -11,6 +11,7 @@ Waypoint::Waypoint()
 
 void Waypoint::parse(const std::string& id, const std::string& list)
 {
+	ID = id;
 	index = atoi(id.c_str());
 	letterIndex = getLetterIndex();
 }

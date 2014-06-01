@@ -19,10 +19,12 @@ void Tube::parse(const std::string& id, const std::string& entry)
 	split.pop(endX);
 	split.pop(endY);
 
-	for (unsigned int i = 0; i < 94; ++i)
+	for (unsigned int i = 5; i < 99; ++i)
 	{
 		steps.push_back(split.peekFromIndex_int(i));
 		if (split.peekFromIndex_int(i) == -1)
+		{
 			break;
+		}
 	}
 }

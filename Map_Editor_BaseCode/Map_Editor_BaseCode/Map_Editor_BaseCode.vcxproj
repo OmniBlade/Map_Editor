@@ -156,6 +156,9 @@
     <ClInclude Include="Editor.Map.Validator\ObjectValidator.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\Side.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\ScriptType.hpp" />
+    <ClInclude Include="Editor.Engine\Types\TeamTypes\ScriptAction.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Audio\Sound.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Audio\Speech.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -181,6 +184,8 @@
     <ClInclude Include="Editor.Engine\Types\Triggers\Trigger.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Terrain.hpp" />
     <ClInclude Include="Editor.Engine\Types\Tube.hpp" />
+    <ClInclude Include="Editor.Engine\Types\TeamTypes\TFEntry.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Audio\Theme.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector2D.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector3D.hpp" />
@@ -259,6 +264,9 @@
     <ClCompile Include="Editor.Map.Validator\ObjectValidator.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\General\Side.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\ScriptType.cpp" />
+    <ClCompile Include="Editor.Engine\Types\TeamTypes\ScriptAction.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Audio\Sound.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Audio\Speech.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -286,6 +294,8 @@
     <ClCompile Include="Editor.Engine\Types\Triggers\Trigger.cpp" />
     <ClCompile Include="Editor.Engine\Types\Objects\Terrain.cpp" />
     <ClCompile Include="Editor.Engine\Types\Tube.cpp" />
+    <ClCompile Include="Editor.Engine\Types\TeamTypes\TFEntry.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\Audio\Theme.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector2D.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector3D.cpp" />

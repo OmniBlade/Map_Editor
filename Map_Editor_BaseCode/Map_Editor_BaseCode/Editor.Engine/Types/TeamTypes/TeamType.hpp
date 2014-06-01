@@ -9,6 +9,7 @@ class House;
 class Country;
 class Waypoint;
 class INIFile;
+class Tag;
 
 class TeamType
 {
@@ -17,15 +18,15 @@ public:
 
 	TeamType(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);
-	std::string ID, Name;
+	std::string ID, Name, tag, owner;
 	
 	House* houseOwner; //SP!
 	Country* countryOwner; //MP!
-	//Tag* tag;
-	Waypoint* waypoint;
-	Waypoint* transportWaypoint;
-	TaskForce* taskForce;
-	ScriptType* scriptType;
+	Tag* pTag;
+	Waypoint* pWaypoint;
+	Waypoint* pTransportWaypoint;
+	TaskForce* pTaskForce;
+	ScriptType* pScriptType;
 
 	int VeteranLevel;
 	int MindControlDecision;

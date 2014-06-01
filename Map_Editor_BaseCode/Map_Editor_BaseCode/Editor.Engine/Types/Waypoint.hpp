@@ -11,7 +11,7 @@ public:
 	Waypoint();
 	void parse(const std::string& id, const std::string& list);
 	int index;
-	std::string letterIndex;
+	std::string ID, letterIndex;
 
 	int getIndex();
 	std::string getLetterIndex();
