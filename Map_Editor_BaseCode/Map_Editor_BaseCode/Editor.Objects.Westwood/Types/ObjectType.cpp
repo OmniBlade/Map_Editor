@@ -12,7 +12,7 @@ void ObjectType::loadRules(INIFile* rules)
 {
 	AbstractType::loadRules(rules);
 	INISection* rulesSection = rules->getSection(ID);
-	rulesSection->readStringValue("Image", Image, ID);
+	rulesSection->readStringValue("Image", Image, ID.c_str());
 	rulesSection->readStringValue("AlphaImage", AlphaImage);
 }
 

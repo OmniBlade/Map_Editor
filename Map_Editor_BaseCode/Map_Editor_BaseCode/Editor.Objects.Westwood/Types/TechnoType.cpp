@@ -117,8 +117,10 @@ void TechnoType::loadWeaponTypes(INISection* rulesSection)
 		std::stringstream number;
 		number << i+1;
 		std::string weapon, eWeapon;
-		rulesSection->readStringValue("Weapon" + number.str(), weapon, WeaponX[i]);
-		rulesSection->readStringValue("EliteWeapon" + number.str(), eWeapon, EliteWeaponX[i]);
+		std::string wep1 = "Weapon" + number.str();
+		std::string elwep1 = "EliteWeapon" + number.str();
+		rulesSection->readStringValue(wep1, weapon, WeaponX[i].c_str());
+		rulesSection->readStringValue(elwep1, eWeapon, EliteWeaponX[i].c_str());
 
 		if (weapon != "")
 			WeaponX[i] = weapon;

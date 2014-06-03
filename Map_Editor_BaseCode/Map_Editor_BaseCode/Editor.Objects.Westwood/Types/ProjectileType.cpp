@@ -18,7 +18,7 @@ void ProjectileType::loadRules(INIFile* rules)
 	if (!rulesSection) return;
 
 	AbstractType::loadRules(rules);
-	rulesSection->readStringValue("Image", Image, ID);
+	rulesSection->readStringValue("Image", Image, ID.c_str());
 	rulesSection->readStringValue("AirburstWeapon", AirburstWeapon);
 	rulesSection->readStringValue("ShrapnelWeapon", ShrapnelWeapon);
 

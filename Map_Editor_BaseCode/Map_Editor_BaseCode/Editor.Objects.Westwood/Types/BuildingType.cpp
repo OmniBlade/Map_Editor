@@ -21,16 +21,16 @@ void BuildingType::loadRules(INIFile* rules)
 
 	TechnoType::loadRules(rules);
 
-	rulesSection->readStringValue("ToTile", ToTile, ToTile);
+	rulesSection->readStringValue("ToTile", ToTile, ToTile.c_str());
 	rulesSection->readBoolValue("HasSpotlight", HasSpotlight, HasSpotlight);
 
-	rulesSection->readStringValue("HalfDamageSmokeLocation1", HalfDamageSmokeLocation1_str, HalfDamageSmokeLocation1_str);
+	rulesSection->readStringValue("HalfDamageSmokeLocation1", HalfDamageSmokeLocation1_str, HalfDamageSmokeLocation1_str.c_str());
 	LineSplitter split(HalfDamageSmokeLocation1_str);
 	HalfDamageSmokeLocation1.x = split.pop_int();
 	HalfDamageSmokeLocation1.y = split.pop_int();
 	HalfDamageSmokeLocation1.z = split.pop_int();
 
-	rulesSection->readStringValue("HalfDamageSmokeLocation2", HalfDamageSmokeLocation2_str, HalfDamageSmokeLocation2_str);
+	rulesSection->readStringValue("HalfDamageSmokeLocation2", HalfDamageSmokeLocation2_str, HalfDamageSmokeLocation2_str.c_str());
 	LineSplitter split2(HalfDamageSmokeLocation2_str);
 	HalfDamageSmokeLocation2.x = split2.pop_int();
 	HalfDamageSmokeLocation2.y = split2.pop_int();

@@ -20,69 +20,53 @@
 #include "INISection.hpp"
 
 INISection::INISection(const std::string &id)
-:sectionName(id) {}
-
-unsigned int INISection::size() const
+:sectionName(id) 
 {
-	return this->keyValueMap.size();
-}
 
-const std::string& INISection::getSectionName() const
-{
-	return sectionName;
-}
-
-std::vector<std::string>::const_iterator INISection::begin() const
-{
-	return keys.begin();
-}
-
-std::vector<std::string>::const_iterator INISection::end() const
-{
-	return keys.end();
 }
 
 void INISection::setValue(const std::string &key, const std::string &value)
 {
 	if (value.length())
 	{
-		auto it = getIter(key);
+		auto it = getIter(key.c_str());
 		if (it == keyValueMap.end())
 		{
-			keyValueMap[key] = value;
 			keys.push_back(key);
+			keyValueMap[_strdup(keys.back().c_str())] = value;
 		}
 		else
 		{
-			keyValueMap[key] = value;
+			keyValueMap[_strdup(keys.back().c_str())] = value;
 		}
 	}
 	else
 	{
-		auto it = getIter(key);
+		auto it = getIter(key.c_str());
 		if (it != this->keyValueMap.end())
 		{
-			keyValueMap.erase(key);
+			free(const_cast<char*>(it->first.Value));
+			keyValueMap.erase(it);
 			keys.erase(std::find(keys.begin(), keys.end(), key));
 		}
 	}
 }
 
-void INISection::readStringValue(const std::string &key, std::string& varToFill, const std::string &default_ /*= ""*/, bool upperCase /* = false */)
+void INISection::readStringValue(const char* key, std::string& varToFill, const char* default_ /*= ""*/, bool upperCase /* = false */)
 {
 	std::string returnString = getValue(key);
 
 	if (upperCase)
 		std::transform(returnString.begin(), returnString.end(), returnString.begin(), ::toupper);
 	if (!returnString.empty())
-		varToFill = returnString;
+		varToFill = std::move(returnString);
 	else
 		varToFill = default_;
 }
 
-void INISection::readIntValue(const std::string& key, int& varToFill, int default_ /* = -1 */)
+void INISection::readIntValue(const char* key, int& varToFill, int default_ /* = -1 */)
 {
-	std::string returnValue = getValue(key);
+	const std::string& returnValue = getValue(key);
 
 	if (!returnValue.empty())
 		varToFill = atoi(returnValue.c_str());
@@ -90,9 +74,9 @@ void INISection::readIntValue(const std::string& key, int& varToFill, int defaul
 		varToFill = default_;
 }
 
-void INISection::readFloatValue(const std::string& key, float& varToFill, float default_ /* = 1.0f */)
+void INISection::readFloatValue(const char* key, float& varToFill, float default_ /* = 1.0f */)
 {
-	std::string returnValue = getValue(key);
+	const std::string& returnValue = getValue(key);
 
 	if (!returnValue.empty())
 		varToFill = (float) atof(returnValue.c_str());
@@ -100,16 +84,15 @@ void INISection::readFloatValue(const std::string& key, float& varToFill, float 
 		varToFill = default_;
 }
 
-void INISection::readBoolValue(const std::string& key, bool& varToFill, bool default_ /* = false */)
+void INISection::readBoolValue(const char* key, bool& varToFill, bool default_ /* = false */)
 {
-	std::string value = getValue(key);
+	const std::string& value = getValue(key);
 
 	varToFill = default_;
 	if (value.empty())
 		return;
 
-	std::transform(value.begin(), value.end(), value.begin(), ::toupper);
-	switch (value.front())
+	switch (toupper(value.front()))
 	{
 	case 'Y':
 	case 'T':
@@ -124,18 +107,16 @@ void INISection::readBoolValue(const std::string& key, bool& varToFill, bool def
 	}
 }
 
-std::string INISection::getKey(const std::string &key, const std::string &_default /*= ""*/)
+std::string const& INISection::getKey(int index, int default_ /*= 0*/)
 {
-	auto& it = getIter(key);
-
-	if (it != this->keyValueMap.end())
+	if (index < 0)
 	{
-		return it->first;
+		index = default_;
 	}
-	return _default;
+	return keys[index];
 }
 
-std::string& INISection::getValue(const std::string& key)
+std::string const& INISection::getValue(const char* key)
 {
 	auto& it = getIter(key);
 
@@ -144,12 +125,13 @@ std::string& INISection::getValue(const std::string& key)
 		return it->second;
 	}
 	
-	return std::string();
+	static const std::string empty; 
+	return empty;
 }
 
 bool INISection::checkKeyExistance(const std::string& key)
 {
-	if (keyValueMap.find(key) != keyValueMap.end())
+	if (keyValueMap.find(key.c_str()) != keyValueMap.end())
 	{
 		return true;
 	}
@@ -158,7 +140,7 @@ bool INISection::checkKeyExistance(const std::string& key)
 
 bool INISection::checkValueExistance(const std::string& key)
 {
-	auto& it = getIter(key);
+	auto& it = getIter(key.c_str());
 
 	if (it != keyValueMap.end())
 	{
@@ -174,12 +156,7 @@ void INISection::dumpContent()
 	Log::note("[" + sectionName + "]", Log::DEBUG);
 	for (const auto& iter : keyValueMap)
 	{
-		Log::note(iter.first + " = " + iter.second, Log::DEBUG);
+		//Log::note(iter.first + " = " + iter.second, Log::DEBUG);
 	}
 	Log::note();
-}
-
-std::map<std::string, std::string>::iterator INISection::getIter(const std::string& key)
-{
-	return keyValueMap.find(key);
 }

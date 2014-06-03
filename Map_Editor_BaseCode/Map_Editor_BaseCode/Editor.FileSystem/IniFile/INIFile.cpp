@@ -94,7 +94,7 @@ void INIFile::load(INIFile* parentINI)
 						}
 						else
 						{
-							parentINI->SetValue(currentSection, key, value);
+							parentINI->SetValue(currentSection.c_str(), key, value);
 						}
 					}
 				}
@@ -105,7 +105,7 @@ void INIFile::load(INIFile* parentINI)
 	isLoaded = true;
 }
 
-void INIFile::SetValue(const std::string &section, const std::string &key, const std::string &value)
+void INIFile::SetValue(const char* section, const std::string &key, const std::string &value)
 {
 	if (EnsureSection(section))
 	{
@@ -113,20 +113,20 @@ void INIFile::SetValue(const std::string &section, const std::string &key, const
 	}
 }
 
-INISection* INIFile::EnsureSection(const std::string &section)
+INISection* INIFile::EnsureSection(const char* section)
 {
 	if (auto pSection = getSection(section))
 	{
 		return pSection;
 	}
 
-	auto &ret = sectionList[section];
+	auto &ret = sectionList[_strdup(section)];
 
 	ret = std::make_unique<INISection>(section);
 	return ret.get();
 }
 
-INISection* INIFile::getSection(const std::string &section)
+INISection* INIFile::getSection(const char* section)
 {
 	auto it = sectionList.find(section);
 	if (it != sectionList.end())
@@ -159,8 +159,8 @@ void INIFile::dumpContent()
 {
 	std::map<std::string, std::unique_ptr<INISection>>::iterator iter;
 
-	for (iter = sectionList.begin(); iter != sectionList.end(); ++iter)
-	{
-		iter->second->dumpContent();
-	}
+	//for (iter = sectionList.begin(); iter != sectionList.end(); ++iter)
+	//{
+//		iter->second->dumpContent();
+//	}
 }

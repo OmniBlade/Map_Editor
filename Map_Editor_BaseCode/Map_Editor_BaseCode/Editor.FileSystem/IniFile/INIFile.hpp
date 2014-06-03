@@ -18,9 +18,10 @@ public:
 
 	void loadInclude(INIFile* parentINI);
 	void load(INIFile* parentINI);
-	void SetValue(const std::string &section, const std::string &key, const std::string &value);
-	INISection* EnsureSection(const std::string &section);
-	INISection* getSection(const std::string &section);
+	void SetValue(const char* section, const std::string& key, const std::string &value);
+	INISection* EnsureSection(const char* section);
+	INISection* getSection(const std::string &section) { return getSection(section.c_str()); };
+	INISection* getSection(const char* section);
 	bool checkSectionExistance(const std::string &section);
 	bool getLoaded() const;
 	std::string& getININame();
@@ -28,11 +29,16 @@ public:
 	void dumpContent();
 
 private:
+	struct ItemKey
+	{
+		const char* Value;
+		ItemKey(const char* value) : Value(value) {} bool operator < (const ItemKey& rhs) const { return strcmp(this->Value, rhs.Value) < 0; }
+	};
 
 	BinaryReader* iniReader;
 	bool isLoaded = false;
 	std::string iniName, mixName;
-	std::map<std::string, std::unique_ptr<INISection>> sectionList;
+	std::map<ItemKey, std::unique_ptr<INISection>> sectionList;
 	std::vector<std::string> includeINIs;
 };
 
