@@ -30,6 +30,10 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	section->readStringValue("Name", Name);
 	section->readStringValue("Tag", tag);
 	section->readStringValue("House", owner);
+	section->readStringValue("Script", script);
+	section->readStringValue("TaskForce", taskForce);
+	section->readStringValue("Waypoint", waypoint);
+	section->readStringValue("TransportWaypoint", transWaypoint);
 
 	section->readIntValue("VeteranLevel", VeteranLevel);
 	section->readIntValue("MindControlDecision", MindControlDecision);
@@ -78,18 +82,18 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	}
 	if (section->checkKeyExistance("TaskForce"))
 	{
-		pTaskForce = TaskForce::Array.find(section->getValue("TaskForce"));
+		pTaskForce = TaskForce::Array.find(taskForce);
 	}
 	if (section->checkKeyExistance("Script"))
 	{
-		pScriptType = ScriptType::Array.find(section->getValue("Script"));
+		pScriptType = ScriptType::Array.find(script);
 	}
-	if (section->checkKeyExistance("Waypoint"))
+	if (!waypoint.empty())
 	{
-		pWaypoint = Waypoint::Array.find(section->getValue("Waypoint"));
+		pWaypoint = Waypoint::Array.find(waypoint);
 	}
-	if (section->checkKeyExistance("TransportWaypoint"))
+	if (!transWaypoint.empty())
 	{
-		pTransportWaypoint = Waypoint::Array.find(section->getValue("TransportWaypoint"));
+		pTransportWaypoint = Waypoint::Array.find(transWaypoint);
 	}
 }

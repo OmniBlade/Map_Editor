@@ -6,6 +6,8 @@
 
 class BuildingType;
 class Tag;
+class Country;
+class House;
 
 class Structure
 {
@@ -28,6 +30,8 @@ public:
 	void setBuildingType();
 
 	std::string owner = "";
+	Country* pCountry;
+	House* pHouse;
 	std::string buildingType = "";
 	BuildingType* pBuilding = nullptr;
 	unsigned int health = 256;
@@ -38,7 +42,7 @@ public:
 	bool sellable = true;
 	bool aiRepair = false;
 	bool powered = true;
-	unsigned int powerupCount = 0;
+	int powerupCount;
 	unsigned int spotlight = 0;
 	std::string powerupOne = "None";
 	std::string powerupTwo = powerupOne;

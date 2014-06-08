@@ -86,7 +86,7 @@ size_t Base64::decode(byte const* in, byte* out, size_t len) {
 byte* Base64::decode(INISection& ini, size_t& len) {
 	std::string b64;
 	for (unsigned int key = 1; ini.checkKeyExistance(Utils::toString(key)); key++) {
-		b64 += ini.getKey(Utils::toString(key));
+		//b64 += ini.getKey(Utils::toString(key));
 	}
 	if (b64.length() % 4) {
 		std::cout << "Data from INI file is not a multiple of 4 bytes long (is" << b64.length() << " long)" << std::endl;

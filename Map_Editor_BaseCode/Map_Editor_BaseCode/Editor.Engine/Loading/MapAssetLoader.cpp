@@ -20,6 +20,7 @@
 #include "../Types/Triggers/Action.hpp"
 #include "../Types/Triggers/Event.hpp"
 #include "../Types/Tube.hpp"
+#include "../Types/Smudge.hpp"
 #include "../Types/Waypoint.hpp"
 #include "../Types/VariableName.hpp"
 
@@ -54,11 +55,11 @@ void MapAssetLoader::loadAll(INIFile* mapFile)
 	loadFromINI(Waypoint::Array, *mapFile, "Waypoints");
 	loadFromINI(VariableName::Array, *mapFile, "VariableNames");
 	loadAllocatedINI(House::Array, *mapFile); //WARNING, this is a FOA thing!
-	loadFromINI(Tag::Array, *mapFile, "Tags");
-	loadFromINI(CellTag::Array, *mapFile, "CellTags");
 	loadFromINI(Action::Array, *mapFile, "Actions");
 	loadFromINI(Event::Array, *mapFile, "Events");
 	loadFromINI(Trigger::Array, *mapFile, "Triggers");
+	loadFromINI(Tag::Array, *mapFile, "Tags");
+	loadFromINI(CellTag::Array, *mapFile, "CellTags");
 	updateTriggerChilds();
 	loadAllocatedINI(TeamType::Array, *mapFile); //WARNING, this is a FOA thing!
 	loadAllocatedINI(ScriptType::Array, *mapFile); //WARNING, this is a FOA thing!
@@ -71,6 +72,7 @@ void MapAssetLoader::loadAll(INIFile* mapFile)
 	loadFromINI(Structure::Array, *mapFile, "Structures");
 	loadFromINI(Terrain::Array, *mapFile, "Terrain");
 	loadFromINI(Tube::Array, *mapFile, "Tubes");
+	loadFromINI(Smudge::Array, *mapFile, "Smudge");
 }
 
 /*

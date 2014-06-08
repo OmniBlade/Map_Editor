@@ -20,6 +20,7 @@ public:
 	void assign(RawFileSystem* _rawSystem);
 	FileProperties getFile(const std::string& fileName);
 	FileProperties getRootFile(const std::string& fileName);
+	std::wstring getFileVersion(const std::string& fullFileName);
 
 private:
 	static FileSystem* system;

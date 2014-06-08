@@ -2,6 +2,7 @@
 #include "ScriptType.hpp"
 #include "../../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
+#include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../../Log.hpp"
 
 /* static */ ObjectList<ScriptType> ScriptType::Array;
@@ -38,7 +39,15 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 		}
 		else
 		{
-			actionList.push_back(std::make_unique<ScriptAction>(section->getValue(Log::toString(i))));
+			LineSplitter parts(section->getValue(Log::toString(i)));
+			if (auto sub = ScriptAction::parse(parts))
+			{
+				actionList.push_back(sub);
+			}
+			else
+			{
+				Log::note("Unable to parse Script Action with ID '" + ID + "'.", Log::DEBUG);
+			}
 		}
 	}
 }

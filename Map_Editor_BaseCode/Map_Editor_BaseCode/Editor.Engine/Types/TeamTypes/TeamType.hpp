@@ -18,7 +18,7 @@ public:
 
 	TeamType(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);
-	std::string ID, Name, tag, owner;
+	std::string ID, Name, tag, owner, taskForce, script, waypoint, transWaypoint;
 	
 	House* houseOwner; //SP!
 	Country* countryOwner; //MP!

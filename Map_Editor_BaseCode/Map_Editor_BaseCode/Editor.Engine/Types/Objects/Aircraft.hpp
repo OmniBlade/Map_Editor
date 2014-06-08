@@ -6,6 +6,8 @@
 
 class AircraftType;
 class Tag;
+class House;
+class Country;
 
 class Aircraft
 {
@@ -28,6 +30,8 @@ public:
 	void setAircraftType();
 
 	std::string owner = "";
+	Country* pCountry;
+	House* pHouse;
 	std::string aircraftType = "";
 	AircraftType* pAircraft = nullptr;
 	unsigned int health = 256;

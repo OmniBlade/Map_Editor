@@ -89,12 +89,18 @@ void StartupLoader::initiateINI()
 	FindClose(hFind);
 
 	std::vector<std::string>& iniFiles = getIniNames();
+	INIManager* iniManager = INIManager::getManager();
 
 	for (unsigned int i = 0; i < iniFiles.size(); ++i)
 	{
 		//std::cout << "Trying to cache: " << iniFiles[i] << std::endl;
-		INIManager::getManager()->cache(iniFiles[i]);
+		iniManager->cache(iniFiles[i]);
 	}
+
+	iniManager->cacheRoot("PARAMS");
+	iniManager->cacheRoot("ACTIONS");
+	iniManager->cacheRoot("EVENTS");
+	iniManager->cacheRoot("SACTIONS");
 }
 
 void StartupLoader::initiateCSF()
@@ -124,11 +130,16 @@ void StartupLoader::initiateCSF()
 	FindClose(hFind);
 
 	std::vector<std::string> csfFiles;
+	if (Config::hasAres)
+	{
+		findCSFFiles(csfFiles);
+	}
+
 	csfFiles.push_back("RA2MD.CSF");
+
 	if (Config::hasAres)
 	{
 		csfFiles.push_back("ARES.CSF");
-		findCSFFiles(csfFiles);
 	}
 
 	for (unsigned int i = 0; i < csfFiles.size(); ++i)
@@ -140,7 +151,7 @@ void StartupLoader::initiateCSF()
 void StartupLoader::findCSFFiles(std::vector<std::string>& list)
 {
 	std::string stringtable = "STRINGTABLE";
-	for (unsigned int i = 0; i < 99; ++i)
+	for (int i = 99; i > -1; --i)
 	{
 		std::stringstream number;
 

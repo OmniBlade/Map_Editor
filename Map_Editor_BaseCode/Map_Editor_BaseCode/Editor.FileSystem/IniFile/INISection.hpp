@@ -20,7 +20,7 @@ public:
 	const std::string& getSectionName() const { return sectionName; };
 	std::vector<std::string>::const_iterator begin() const { return keys.begin(); };
 	std::vector<std::string>::const_iterator end() const { return keys.end(); };
-	void setValue(const std::string &key, const std::string &value);
+	void setValue(const std::string &key, std::string value);
 //READING
 	/* 
 		Reads a string from a key

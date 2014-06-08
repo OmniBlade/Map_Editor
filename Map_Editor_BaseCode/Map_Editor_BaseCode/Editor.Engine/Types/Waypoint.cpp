@@ -11,9 +11,14 @@ Waypoint::Waypoint()
 
 void Waypoint::parse(const std::string& id, const std::string& list)
 {
-	ID = id;
 	index = atoi(id.c_str());
 	letterIndex = getLetterIndex();
+	ID = letterIndex;
+
+	int coords = atoi(list.c_str());
+	loc.x = coords % 1000;
+	loc.y = coords / 1000;
+
 }
 
 int Waypoint::getIndex()
@@ -64,15 +69,16 @@ std::string Waypoint::getLetterIndex()
 	}
 	else
 	{
-		float divided = (float) index / 26;
-		int letter1 = (int) divided - 1;
-		int letter2 = index - 26 * (int) divided;
+		int divided = index / 26;
+		int letter1 = divided - 1;
+		int letter2 = index - 26 * divided;
 		char chX = 'A' + letter2;
 		char chY = 'A' + letter1;
 
 		std::string result;
+		if (divided != 0.0f)
+			result.push_back(chY);
 		result.push_back(chX);
-		result.push_back(chY);
 		//std::cout << "Waypoint converted to STRING: " << result << std::endl;
 
 		return result;

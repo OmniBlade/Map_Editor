@@ -11,71 +11,84 @@
 
 #pragma warning(disable : 4996) // Disable time ERRORS
 
-/* static */ std::vector<std::string> Log::debugLines;
-/* static */ std::vector<std::string> Log::logLines;
-/* static */ std::ofstream Log::logFile;
-/* static */ std::ofstream Log::debugFile;
-/* static */ std::ofstream Log::debugTimeFile;
+/* static */ std::vector<std::wstring> Log::debugLines;
+/* static */ std::vector<std::wstring> Log::logLines;
+/* static */ std::vector<std::wstring> Log::errorLines;
+/* static */ std::vector<std::wstring> Log::warningLines;
+/* static */ std::wofstream Log::logFile;
+/* static */ std::wofstream Log::debugFile;
+/* static */ std::wofstream Log::debugTimeFile;
+/* static */ std::wofstream Log::logTimeFile;
 /* static */ int Log::atLogLine = 0;
 /* static */ int Log::atDebugLine = 0;
+/* static */ int Log::lastError = 0;
+/* static */ int Log::errorCount = 0;
+/* static */ int Log::lastWarning = 0;
+/* static */ int Log::warningCount = 0;
 /* static */ bool Log::dumpInConsole = true;
 /* static */ Log::LogType types = Log::LogType::EMPTY;
 /* static */ Log::DebugType typesDebug = Log::DebugType::EMPTY_D;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::startTime;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::timer;
-/* static */ std::string Log::outputName = "output";
-/* static */ std::string Log::debugName = "debug";
 /* static */ std::string Log::logFolder = Config::backSlash + "Logging";
 
-/* static */ void Log::cout(const std::string& line)
+/* static */ void Log::cout(const std::wstring& line)
 {
-	std::cout << line << std::endl;
+	std::wcout << line << std::endl;
 }
 
-/* static */ void Log::line(const std::string& line /* = "" */, LogType type /* = EMPTY */)
+/* static */ void Log::line(const std::wstring& line /* = "" */, LogType type /* = EMPTY */)
 {
 	switch (type)
 	{
 	case INFO:
-		logLines.push_back("INFO     - " + line);
+		logLines.push_back(L"INFO     - " + line);
 		break;
 	case WARNING:
-		logLines.push_back("WARNING  - " + line);
+		logLines.push_back(L"WARNING  - " + line);
+		warningCount++;
 		break;
 	case ERRORS:
-		logLines.push_back("ERROR    - " + line);
+		logLines.push_back(L"ERROR	 - " + line);
+		break;
+	case ERROR_BUFFER:
+		errorLines.push_back(line);
+		errorCount++;
+		break;
+	case WARNING_BUFFER:
+		warningLines.push_back(line);
+		warningCount++;
 		break;
 	case CRITICAL:
-		logLines.push_back("CRITICAL - " + line);
+		logLines.push_back(L"CRITICAL - " + line);
 		break;
 	case UNKNOWN:
-		logLines.push_back("UNKNOWN  - " + line);
+		logLines.push_back(L"UNKNOWN  - " + line);
 		break;
 	case EXTRAS:
-		logLines.push_back("           " + line);
+		logLines.push_back(L"           " + line);
 		break;
 	case EMPTY:
-		logLines.push_back("");
+		logLines.push_back(L"");
 		break;
 	}
-	write(); // Make sure shit ends up in the log file inb4 crash
 }
 
-/*static */ void Log::note(const std::string& line /* = "" */, DebugType type /* = EMPTY_D */)
+/*static */ void Log::note(const std::wstring& line /* = "" */, DebugType type /* = EMPTY_D */)
 {
 	if (!Config::enableDebug) return; //GTFO out of my debug function
 
 	switch (type)
 	{
 	case DEBUG:
-		debugLines.push_back("[" + getFormalTime() + "] - " + line);
+		debugLines.push_back(L"[" + getFormalTime() + L"] - " + line);
 		break;
 	case EXTRA:
-		debugLines.push_back("             " + line);
+		debugLines.push_back(L"             " + line);
 		break;
 	default:
 	case EMPTY_D:
-		debugLines.push_back("");
+		debugLines.push_back(L"");
 		break;
 	}
 	if (dumpInConsole)
@@ -83,28 +96,67 @@
 	write();
 }
 
-/* static */ /*std::string Log::toString(int value)
+std::wstring Log::toWString(const std::string& line)
 {
-	std::stringstream number;
-	number << value;
-
-	return number.str();
-}*/
-
-/* static / std::string Log::toString(float value)
-{
-	std::stringstream number;
-	number << value;
-
-	return number.str();
-} */
-
-std::string Log::wToString(const std::wstring& line)
-{
-	std::string returnString;
+	std::wstring returnString;
 	returnString.assign(line.begin(), line.end());
-
+	
 	return returnString;
+}
+
+void Log::finishErrorRound()
+{
+	if (errorCount == lastError)
+	{
+		Log::line(L"No errors were found.", Log::EXTRAS);
+	}
+	else if (errorCount > lastError)
+	{
+		Log::line(Log::toWString(errorCount - lastError) + L" errors were found.", Log::EXTRAS);
+	}
+	else if (errorCount < lastError)
+	{
+		Log::line(Log::toWString(errorCount - lastError) + L" errors were found?", Log::EXTRAS);
+	}
+
+	for (unsigned int i = lastError; i < errorLines.size(); ++i)
+	{
+		Log::line(errorLines[i], Log::ERRORS);
+	}
+	errorLines.empty();
+
+	if (errorCount > lastError)
+	{
+		Log::line();
+	}
+
+	lastError = errorCount;
+	write(); // Make sure shit ends up in the log file inb4 crash
+}
+
+void Log::finishWarningRound()
+{
+	if (warningCount == lastWarning)
+	{
+		Log::line("No warnings were found.", Log::EXTRAS);
+	}
+	else if (warningCount > lastWarning)
+	{
+		Log::line(Log::toWString(warningCount - lastWarning) + L" warnings were found.", Log::EXTRAS);
+	}
+	else if (warningCount < lastWarning)
+	{
+		Log::line(Log::toWString(warningCount - lastWarning) + L" warnings were found?", Log::EXTRAS);
+	}
+
+	for (unsigned int i = lastWarning; i < warningLines.size(); ++i)
+	{
+		Log::line(warningLines[i], Log::WARNING);
+	}
+	warningLines.empty();
+
+	lastWarning = warningCount;
+	write(); // Make sure shit ends up in the log file inb4 crash
 }
 
 /* static */ std::string Log::getFormalDateTime()
@@ -119,7 +171,7 @@ std::string Log::wToString(const std::wstring& line)
 	return ss.str();
 }
 
-/* static */ std::string Log::getFormalTime()
+/* static */ std::wstring Log::getFormalTime()
 {
 	auto now = std::chrono::system_clock::now();
 	auto in_time_t = std::chrono::system_clock::to_time_t(now);
@@ -128,7 +180,10 @@ std::string Log::wToString(const std::wstring& line)
 
 	ss << std::put_time(std::localtime(&in_time_t), "%H:%M:%S");
 
-	return ss.str();
+	std::string& tempStr = ss.str();
+	std::wstring wTempStr = std::wstring(tempStr.begin(), tempStr.end());
+
+	return wTempStr;
 }
 
 /* static */ std::string Log::getSessionTime()
@@ -203,7 +258,7 @@ std::string Log::getTimerValue()
 	return ss.str();
 }
 
-/* static */ void Log::open()
+/* static */ void Log::openDebug()
 {
 	/* Check if "Logging" folder exists */
 	std::string dirName = Config::editorRoot + Config::backSlash + "Logging";
@@ -222,10 +277,6 @@ std::string Log::getTimerValue()
 
 	startTime = std::chrono::system_clock::now();
 	std::string& dateTime = getDateTimeForFile();
-	std::string outputName = Config::editorRoot + logFolder + Config::backSlash + "output.log";
-	//std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + ".log";
-
-	logFile.open(outputName);
 
 	if (!Config::enableDebug) return;
 
@@ -236,11 +287,24 @@ std::string Log::getTimerValue()
 	debugTimeFile.open(debugNameNew);
 }
 
+/* static */ void Log::openOutput()
+{
+	std::string& dateTime = getDateTimeForFile();
+	
+	std::string outputName = Config::editorRoot + logFolder + Config::backSlash + "output.log";
+	std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + '.' + Config::mapName + ".log";
+	//std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + ".log";
+
+	logFile.open(outputNameNew);
+	logTimeFile.open(outputName);
+}
+
 /* static */ void Log::write()
 {
 	for (unsigned int i = atLogLine; i < logLines.size(); ++i)
 	{
 		logFile << logLines[i] << '\n';
+		logTimeFile << logLines[i] << '\n';
 	}
 
 	for (unsigned int i = atDebugLine; i < debugLines.size(); ++i)
@@ -250,6 +314,7 @@ std::string Log::getTimerValue()
 	}
 
 	logFile.flush();
+	logTimeFile.flush();
 	atLogLine = logLines.size();
 
 	if (!Config::enableDebug) return;
@@ -259,13 +324,17 @@ std::string Log::getTimerValue()
 	atDebugLine = debugLines.size();
 }
 
-/* static */ void Log::close()
+/* static */ void Log::closeDebug()
 {
-	logFile.close();
-
 	if (!Config::enableDebug) return;
 	debugFile.close();
 	debugTimeFile.close();
+}
+
+/* static */ void Log::closeOutput()
+{
+	logFile.close();
+	logTimeFile.close();
 }
 
 //Backup for the CopyFile stuff which is probably obsolete now

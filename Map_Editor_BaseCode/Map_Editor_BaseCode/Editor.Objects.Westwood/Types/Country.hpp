@@ -47,6 +47,5 @@ public:
 	float IncomeMult = 1.0f;
 	float Firepower = 1.0f;
 	float ROF = 1.0f;
-
 };
 

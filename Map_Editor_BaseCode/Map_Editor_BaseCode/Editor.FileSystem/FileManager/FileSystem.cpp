@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Managers\MixManager.hpp"
 #include "../../Log.hpp"
+#include "Windows.h"
 
 /* static */ FileSystem* FileSystem::system;
 /* static */ FileSystem* FileSystem::getFileSystem()
@@ -34,15 +35,8 @@ FileProperties FileSystem::getFile(const std::string& fileName)
 	fileProp.offset = getFileOffset(fileName);
 	fileProp.size = getFileSize(fileName);
 	
-	if (rawSystem->fileIsInEditorRoot(fileName))
-	{
-		fileProp.reader = getReaderForEditorFile(fileName);
-		fileProp.offset = getEditorFileOffset(fileName);
-		fileProp.size = getEditorFileSize(fileName);
-	}	
-
 	if (!fileProp.reader)
-		Log::note("Requested file '" + fileName + "' is unlocatable (misspelled name?).", Log::DEBUG);
+		Log::note("Requested file '" + fileName + "' is unlocatable in %GAME% (misspelled name?).", Log::DEBUG);
 
 	return fileProp;
 }
@@ -57,7 +51,25 @@ FileProperties FileSystem::getRootFile(const std::string& fileName)
 	fileProp.offset = getEditorFileOffset(fileNameCaps);
 	fileProp.size = getEditorFileSize(fileNameCaps);
 
+	if (!fileProp.reader)
+		Log::note("Requested file '" + fileName + "' is unlocatable in %EDITOR% (misspelled name?).", Log::DEBUG);
+
 	return fileProp;
+}
+
+std::wstring FileSystem::getFileVersion(const std::string& fullFileName)
+{
+	FileProperties props = getFile(fullFileName);
+	if (props.size == 4813072)
+	{
+		return L"YR - 1.001";
+	}
+	else if (props.size == 4808976)
+	{
+		return L"YR - 1.000";
+	}
+
+	return L"YR - UNKNOWN... MODIFIED?";
 }
 
 BinaryReader* FileSystem::getReaderForFile(const std::string& fileName)

@@ -21,10 +21,12 @@ public:
 	static std::string configName;
 	static bool enableDebug;				// Can we please get a debug file?
 	static bool dumpTypes;
+	static bool isSP;						// WHether this map is SP or MP, about 75% is MP, so default to false
 	static std::string mapName;
 
 	// [Main]
 	static std::string installDir;			// Install directory of the game
+	static std::string executable;
 	static std::string backSlash;			// General back slash variable '\\'
 	static std::string missionDisk;			// Suffix used for Yuri's Revenge, default is 'md' but some mods (Mental Omega) have this set to 'mo'
 	static std::string expand;				// Name of the expandXX.mix files

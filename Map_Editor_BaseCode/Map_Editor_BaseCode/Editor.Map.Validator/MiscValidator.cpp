@@ -1,0 +1,166 @@
+#include "stdafx.h"
+#include "MiscValidator.hpp"
+#include "../Log.hpp"
+#include "../Config.hpp"
+
+#include "../Editor.Engine/Types/Smudge.hpp"
+#include "../Editor.Engine/Types/Tube.hpp"
+#include "../Editor.Engine/Types/Waypoint.hpp"
+#include "../Editor.Engine/Types/VariableName.hpp"
+
+MiscValidator::MiscValidator()
+{
+	//Locals
+	//validateLocals();
+	//Log::finishErrorRound();
+	//Log::finishWarningRound();
+	//Smudges
+	validateSmudge();
+	Log::finishErrorRound();
+	Log::finishWarningRound();
+	//Tubes
+	validateTube();
+	Log::finishErrorRound();
+	Log::finishWarningRound();
+	//Waypoints
+	validateWaypoint();
+	Log::finishErrorRound();
+	Log::finishWarningRound();
+}
+
+MiscValidator::~MiscValidator()
+{
+}
+
+void MiscValidator::validateWaypoint()
+{
+	Log::line();
+	Log::line("Validating [Waypoints] now...", Log::INFO);
+	for (const auto& it : Waypoint::Array.objectTypeList)
+	{
+		if (it->index < 0 || it->index > 701)
+			Log::line("Waypoint with ID '" + it->ID + "' has an invalid index set.", Log::ERROR_BUFFER);
+		if (it->loc.x < 0)
+			Log::line("Waypoint with ID '" + it->ID + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
+		if (it->loc.y < 0)
+			Log::line("Waypoint with ID '" + it->ID + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
+	}
+}
+
+void MiscValidator::validateLocals()
+{
+	for (const auto& it : VariableName::Array.objectTypeList)
+	{
+
+	}
+}
+
+void MiscValidator::validateTube()
+{
+	Log::line();
+	Log::line("Validating [Tubes] now...", Log::INFO);
+	for (const auto& it : Tube::Array.objectTypeList)
+	{
+		const std::string& oppositeID = getOppositeTube(it.get());
+		if (oppositeID == "")
+			Log::line("Tube at index '" + it->ID + "' has no opposite Tube set.", Log::WARNING_BUFFER);
+		walkTubePath(it.get());
+	}
+}
+
+void MiscValidator::validateSmudge()
+{
+	Log::line();
+	Log::line("Validating [Smudge] now...", Log::INFO);
+	unsigned int index = 0;
+	for (const auto& it : Smudge::Array.objectTypeList)
+	{
+		if (!it->pSmudgeType)
+			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid SmudgeType set.", Log::ERROR_BUFFER);
+		if (it->loc.x < 0)
+			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
+		if (it->loc.y < 0)
+			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
+		if (it->unknown != 0)
+			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid Unknown index set (should always be 0).", Log::ERROR_BUFFER);
+		index++;
+	}
+}
+
+std::string const& MiscValidator::getOppositeTube(Tube* tube)
+{
+	for (const auto& it : Tube::Array.objectTypeList)
+	{
+		if (it->startX == tube->endX && it->startY == tube->endY && it->endX == tube->startX && it->endY == tube->startY)
+		{
+			return it->ID;
+		}
+	}
+
+	static std::string null;
+	return null;
+}
+
+void MiscValidator::walkTubePath(Tube* tube)
+{
+	int tubeSize = tube->steps.size();
+	int tubePosX = 0, tubePosY = 0;
+	bool tubeEnded = false, logError = true;
+
+	for (int i = 0; i < tubeSize; ++i)
+	{
+		int currentDirection = tube->steps[i];
+
+		switch (currentDirection)
+		{
+		case -1:
+			tubeEnded = true;
+			break;
+		case 0:
+			tubePosY--;
+			break;
+		case 1:
+			tubePosY--;
+			tubePosX++;
+			break;
+		case 2:
+			tubePosX++;
+			break;
+		case 3:
+			tubePosY++;
+			tubePosX++;
+			break;
+		case 4:
+			tubePosY++;
+			break;
+		case 5:
+			tubePosY++;
+			tubePosX--;
+			break;
+		case 6:
+			tubePosX--;
+			break;
+		case 7:
+			tubePosY--;
+			tubePosX--;
+			break;
+		}
+
+
+		if (i > 99 && !tubeEnded)
+		{
+			Log::line("Tube at index '" + tube->ID + "' has no more than 94 directions set Tube set.", Log::WARNING_BUFFER);
+			tubeEnded = true;
+			logError = false;
+		}
+
+		if (tubeEnded)
+		{//Tube ended, verify positions
+			if ((tube->startX + tubePosX != tube->endX || tube->startY + tubePosY > tube->endY) && logError)
+			{
+				Log::line("Tube at index '" + tube->ID + "' has a path that does not correspond with the starting and ending coordinates.", Log::ERROR_BUFFER);
+			}
+			break;
+		}
+	}
+}

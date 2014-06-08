@@ -6,6 +6,8 @@
 
 class Tag;
 class VehicleType;
+class Country;
+class House;
 
 class Unit
 {
@@ -28,6 +30,8 @@ public:
 	void setVehicleType();
 
 	std::string owner = "";
+	Country* pCountry;
+	House* pHouse;
 	std::string vehicleType = "";
 	VehicleType* pVehicle = nullptr;
 	unsigned int health = 256;

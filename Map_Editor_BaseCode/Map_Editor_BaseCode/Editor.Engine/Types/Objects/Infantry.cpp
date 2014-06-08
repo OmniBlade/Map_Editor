@@ -3,7 +3,9 @@
 #include <sstream>
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Triggers//Tag.hpp"
+#include "../House.hpp"
 
 /* static */ ObjectList<Infantry> Infantry::Array;
 
@@ -20,6 +22,8 @@ void Infantry::parse(const std::string& index, const std::string& list)
 	{
 		pInfantry = InfantryType::Array.find(infantryType);
 		pTag = Tag::Array.find(tag);
+		pCountry = Country::Array.find(owner);
+		pHouse = House::Array.find(owner);
 	}
 	else
 	{

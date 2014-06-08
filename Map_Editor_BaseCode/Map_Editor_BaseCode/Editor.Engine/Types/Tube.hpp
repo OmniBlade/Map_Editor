@@ -19,6 +19,7 @@ public:
 		endY - Ending Y-coordinate of the tube
 	*/
 	int startX, startY, direction, endX, endY;
+	std::string ID;
 	std::vector<int> steps;
 
 };

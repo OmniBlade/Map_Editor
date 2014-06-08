@@ -29,7 +29,7 @@ void TaskForce::parse(INIFile* file, bool isGlobal_)
 		If someone ever changes this limit...
 		Counts from 0 - limit, thus 5 means 6 entries
 	*/
-	int taskForceLimit = 5;
+	unsigned int taskForceLimit = 5;
 	//unitList.reserve(taskForceLimit);
 	//unitList.resize(taskForceLimit);
 

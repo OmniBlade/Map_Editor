@@ -12,6 +12,7 @@ Tube::Tube()
 
 void Tube::parse(const std::string& id, const std::string& entry)
 {
+	ID = id;
 	LineSplitter split(entry);
 	split.pop(startX);
 	split.pop(startY);

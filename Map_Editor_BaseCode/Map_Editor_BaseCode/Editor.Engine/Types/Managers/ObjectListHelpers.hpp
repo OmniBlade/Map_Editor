@@ -20,7 +20,7 @@ void findOrAllocateAll(ObjectList<T>& list, INISection& section)
 	//Log::note("Now in findOrAllocateAll()", Log::DEBUG);
 	for (const auto& it : section)
 	{
-		list.findOrAllocate(section.getValue(it));
+		list.findOrAllocate(section.getValue(it.c_str()));
 	}
 }
 
@@ -46,6 +46,21 @@ void loadFromINI(ObjectList<T>& list, INIFile& file, const std::string& section)
 	for (const auto& it : uglySection)
 	{
 		list.make();
-		list.objectTypeList[list.count() - 1].get()->parse(it, uglySection.getValue(it));
+		list.objectTypeList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
+	}
+}
+
+template<typename T>
+void loadAIFromINI(ObjectList<T>& list, INIFile& file, const std::string& section, bool isGlobal = false)
+{
+	INISection* pSection = file.getSection(section);
+	if (!pSection) return;
+
+	INISection& uglySection = *pSection;
+
+	for (const auto& it : uglySection)
+	{
+		list.make();
+		list.objectTypeList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()), isGlobal);
 	}
 }

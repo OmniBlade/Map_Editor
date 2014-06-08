@@ -26,8 +26,8 @@ public:
 
 	Country* pOwner;
 	Trigger* pChild;
-	Action* pActions;
-	Event* pEvents;
+	Action* pAction;
+	Event* pEvent;
 	
 	/*
 		This is pure for faster Trigger nesting, unlike FA2 which

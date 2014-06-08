@@ -11,11 +11,13 @@ int Config::language = -1;
 std::string Config::configName = "";
 bool Config::enableDebug = false;
 bool Config::dumpTypes = false;
+bool Config::isSP = false;
 std::string Config::mapName = "";
 
 // [MAIN]
 std::string Config::editorRoot = "";
 std::string Config::installDir = "";
+std::string Config::executable = "GAMEMD.EXE";
 std::string Config::backSlash = "\\";
 std::string Config::missionDisk = "MD";
 std::string Config::expand = "EXPAND";
@@ -51,6 +53,8 @@ void Config::parse(INIFile* configINI, const std::string& name)
 		{
 			mainSection->readStringValue("InstallDir", Config::installDir, "", true);
 			Log::note("Install directory: " + installDir, Log::DEBUG);
+			mainSection->readStringValue("Executable", Config::executable, "GAMEMD.EXE", true);
+			Log::note("Executable name: " + executable, Log::DEBUG);
 			mainSection->readStringValue("MissionDisk", Config::missionDisk, "MD", true);
 			Log::note("Mission disk: " + missionDisk, Log::DEBUG);
 			mainSection->readStringValue("ExpandMix", Config::expand, "EXPAND", true);

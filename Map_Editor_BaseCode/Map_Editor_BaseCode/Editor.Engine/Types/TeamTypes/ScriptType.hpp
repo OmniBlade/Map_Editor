@@ -18,7 +18,7 @@ public:
 	
 	std::string Name, ID;
 	bool isGlobal;
-	std::vector<std::unique_ptr<ScriptAction>> actionList;
+	std::vector<std::shared_ptr<ScriptAction>> actionList;
 
 };
 

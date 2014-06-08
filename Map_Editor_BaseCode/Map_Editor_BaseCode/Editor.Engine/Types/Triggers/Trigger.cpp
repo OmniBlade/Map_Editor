@@ -6,6 +6,8 @@
 #include "Action.hpp"
 #include "Event.hpp"
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
+#include "../../../Editor.FileSystem/IniFile/INISection.hpp"
 
 /* static */ ObjectList<Trigger> Trigger::Array;
 
@@ -22,8 +24,18 @@ void Trigger::parse(const std::string& id, const std::string& list)
 		&& split.pop(MedEnabled) && split.pop(HardEnabled) && split.pop(Unknown))
 	{
 		pOwner = Country::Array.find(owner);
-		pActions = Action::Array.find(ID);
-		pEvents = Event::Array.find(ID);
+		pAction = Action::Array.find(ID);
+		pEvent = Event::Array.find(ID);
+
+		if (pEvent)
+		{
+			pEvent->parseEvents();
+		}
+
+		if (pAction)
+		{
+			pAction->parseActions();
+		}
 	}
 	else
 	{

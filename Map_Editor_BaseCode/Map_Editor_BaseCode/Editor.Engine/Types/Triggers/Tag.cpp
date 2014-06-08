@@ -18,7 +18,7 @@ void Tag::parse(const std::string& id, const std::string& list)
 	
 	if (split.pop(Repeating) && split.pop(Name) && split.pop(trigger))
 	{
-		pTrigger = Trigger::Array.find(split.pop_string());
+		pTrigger = Trigger::Array.find(trigger);
 	}
 	else
 	{

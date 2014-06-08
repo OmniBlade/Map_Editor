@@ -53,6 +53,8 @@ public:
 	*/
 	void insertDAnimation();
 
+	//void loadMPCountries();
+
 private:
 	General* general;
 	AI* ai;

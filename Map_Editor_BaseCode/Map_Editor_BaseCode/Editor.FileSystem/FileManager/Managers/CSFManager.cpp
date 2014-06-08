@@ -21,29 +21,27 @@ CSFManager::CSFManager()
 
 }
 
-
 CSFFile* CSFManager::get(const std::string& fileName)
 {
-	std::string capsName = fileName;
+	std::string capsName = std::move(fileName);
 	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
 
-	if (csfFiles[capsName])
-		return csfFiles[capsName].get();
-	else
+	//if (csfFiles[capsName])
+		//return csfFiles[capsName].get();
+	//else
 		return cache(capsName);
 }
 
 CSFFile* CSFManager::cache(const std::string& fileName)
 {
+
 	FileProperties props = FileSystem::getFileSystem()->getFile(fileName);
 	if (props.reader)
 	{
-		csfFiles[fileName] = std::make_unique<CSFFile>(props);
+		csfFiles.push_back(std::make_unique<CSFFile>(props));
 		Log::note("CSF: " + fileName + " succesfully cached.", Log::DEBUG);
-		return csfFiles[fileName].get();
+		return csfFiles.back().get();
 	}
-	else
-		csfFiles[fileName] = nullptr;
 
 	return nullptr;
 }
@@ -52,11 +50,6 @@ std::wstring CSFManager::getValue(const std::string& name)
 {
 	std::wstring value;
 
-	if (name.capacity() > 512)
-	{
-		return value = L"<No Name>";
-	}
-	
 	if (Config::hasAres && name.substr(0, 6) == "NOSTR:")
 	{
 		std::string& UINameNOSTR = name.substr(6);
@@ -66,8 +59,10 @@ std::wstring CSFManager::getValue(const std::string& name)
 
 	for (const auto& file : csfFiles) 
 	{
-		if (file.second.get()->get(name, value))
+		if (file.get()->get(name, value))
+		{
 			return value;
+		}
 	}
 	return value = L"<No Name>";
 }

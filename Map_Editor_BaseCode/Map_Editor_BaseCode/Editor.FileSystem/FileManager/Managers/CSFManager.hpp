@@ -16,6 +16,7 @@ public:
 private:
 	static CSFManager* manager;
 	CSFManager();
-	std::map<std::string, std::unique_ptr<CSFFile>> csfFiles;
+	//std::map<std::string, std::unique_ptr<CSFFile>> csfFiles;
+	std::vector<std::unique_ptr<CSFFile>> csfFiles;
 };
 

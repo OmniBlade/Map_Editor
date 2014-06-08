@@ -17,6 +17,8 @@ public:
 		UNKNOWN = 4,	// Default/unknown line, prefix "UNKNOWN - "
 		EMPTY = 5,		// Empty line, no prefix, used for spacing
 		EXTRAS = 6,
+		ERROR_BUFFER = 7,
+		WARNING_BUFFER = 8,
 	};
 	Log::LogType outputTypes;
 
@@ -32,26 +34,37 @@ public:
 		Simply ships the line given to line() to console out
 		@param line The line to put in the console
 	*/
-	static void cout(const std::string& line);
+	static void cout(const std::wstring& line);
+	static void cout(const std::string& line) { cout(std::wstring(line.begin(), line.end())); };
 
 	/*
 		Logs a line with the given type, used primarily for the validation of a map!
 		@param line The line to log
 		@param type The type of log message (default EMPTY, see LogType enum)
 	*/
-	static void line(const std::string& line = "", LogType type = EMPTY);
+	static void line(const std::wstring& line, LogType type = EMPTY);
+	static void line(const std::string& line_ = "", LogType type = EMPTY) { line(std::wstring(line_.begin(), line_.end()), type); };
 
 	/*
 		Logs a debug line with the given type, used primarily for logging the process of the editor!
 		@param line The line to log
 		@param type The type of debug message (default EMPTY_D, see DebugType enum)
 	*/
-	static void note(const std::string& line = "", DebugType type = EMPTY_D);
+	static void note(const std::wstring& line, DebugType type = EMPTY_D);
+	static void note(const std::string& line = "", DebugType type = EMPTY_D) { note(std::wstring(line.begin(), line.end()), type);  };
 
 	/*
 		Converts the passed argument to a string and returns it
 		@param value The value to convert to a string
 	*/
+	template<typename T>
+	static std::wstring toWString(T number)
+	{
+		std::wstringstream numberStream;
+		numberStream << number;
+		return numberStream.str();
+	}
+
 	template<typename T>
 	static std::string toString(T number)
 	{
@@ -60,7 +73,12 @@ public:
 		return numberStream.str();
 	}
 
-	static std::string wToString(const std::wstring& line);
+
+	static void finishErrorRound();
+	static void finishWarningRound();
+
+	static std::wstring toWString(const std::string& line);
+
 
 	/*
 		Get the date and time in a formal way like YYYY-mm-dd - HH:MM:SS 
@@ -72,7 +90,7 @@ public:
 		Get the time in a formal way like HH:MM:SS
 		@return The current time as a string
 	*/
-	static std::string getFormalTime();
+	static std::wstring getFormalTime();
 	
 	/*
 		Get the time that's passed since the start of the program
@@ -100,7 +118,13 @@ public:
 	/*
 		Opens the output streamc of the log files, creates a file if it doesn't exist
 	*/
-	static void open();
+	static void openDebug();
+
+	/*
+		Opens the output streams of the 'output' log files, creates a file if it doesn't exist
+		'output' needs to be opened after debug because the map name is added to the file name
+	*/
+	static void openOutput();
 
 	/*
 		Writes all the current cached log lines to their respective files
@@ -111,20 +135,37 @@ public:
 	/*
 		Closes the output streams of the log files
 	*/
-	static void close();
+	static void close() { closeDebug(); closeOutput(); };
+	
+	/*
+		Closes the output streams of the debug files
+		Usually called when the application is exited
+	*/
+	static void closeDebug();
+
+	/*
+		Closes the output streams of the 'output' files
+		Usually called when a map is closed / new one is created or opened
+		These log files are based per map
+	*/
+	static void closeOutput();
 
 	static bool dumpInConsole;
 	static int atLogLine;
 	static int atDebugLine;
+	static int lastError;
+	static int errorCount;
+	static int lastWarning;
+	static int warningCount;
 
 	static std::chrono::time_point<std::chrono::system_clock> startTime;
 	static std::chrono::time_point<std::chrono::system_clock> timer;
-	static std::string outputName;
-	static std::string debugName;
 	static std::string logFolder;
 
-	static std::ofstream logFile, debugFile, debugTimeFile;
-	static std::vector<std::string> debugLines;
-	static std::vector<std::string> logLines;
+	static std::wofstream logFile, logTimeFile, debugFile, debugTimeFile;
+	static std::vector<std::wstring> debugLines;
+	static std::vector<std::wstring> logLines;
+	static std::vector<std::wstring> errorLines;
+	static std::vector<std::wstring> warningLines;
 };
 

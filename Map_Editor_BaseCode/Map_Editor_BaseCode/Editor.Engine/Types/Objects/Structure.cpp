@@ -3,7 +3,9 @@
 #include <sstream>
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../../Editor.Objects.Westwood/Types/BuildingType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Triggers/Tag.hpp"
+#include "../House.hpp"
 
 /* static */ ObjectList<Structure> Structure::Array;
 
@@ -20,8 +22,12 @@ void Structure::parse(const std::string& index, const std::string& list)
 		&& split.pop(powerupCount) && split.pop(spotlight) && split.pop(powerupOne) && split.pop(powerupTwo)
 		&& split.pop(powerupThree) && split.pop(rebuild) && split.pop(showName))
 	{
+		//9=Pacific House     ,GAPOWR,256,117,191,64,None,1,0,1,1,       0,GAPOWRUP,None,None,1,0
+		//0=UnitedStates House,GAPOWR,256,67,71,64  ,None,1,0,1,UPGRADES,0,GAPOWRUP,None,None,0,0
 		pBuilding = BuildingType::Array.find(buildingType);
 		pTag = Tag::Array.find(tag);
+		pCountry = Country::Array.find(owner);
+		pHouse = House::Array.find(owner);
 	}
 	else
 	{

@@ -3,7 +3,9 @@
 #include <sstream>
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Triggers/Tag.hpp"
+#include "../House.hpp"
 
 /* static */ ObjectList<Unit> Unit::Array;
 
@@ -20,6 +22,8 @@ void Unit::parse(const std::string& index, const std::string& list)
 	{
 		pVehicle = VehicleType::Array.find(vehicleType);
 		pTag = Tag::Array.find(tag);
+		pCountry = Country::Array.find(owner);
+		pHouse = House::Array.find(owner);
 	}
 	else
 	{

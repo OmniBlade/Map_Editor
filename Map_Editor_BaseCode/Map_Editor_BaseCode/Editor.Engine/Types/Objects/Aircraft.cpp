@@ -3,7 +3,9 @@
 #include <sstream>
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../../Editor.Objects.Westwood/Types/AircraftType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Triggers/Tag.hpp"
+#include "../House.hpp"
 
 /* static */ ObjectList<Aircraft> Aircraft::Array;
 
@@ -26,6 +28,8 @@ void Aircraft::parse(const std::string& index, const std::string& list)
 	{
 		pAircraft = AircraftType::Array.find(aircraftType);
 		pTag = Tag::Array.find(tag);
+		pCountry = Country::Array.find(owner);
+		pHouse = House::Array.find(owner);
 	}
 	else
 	{

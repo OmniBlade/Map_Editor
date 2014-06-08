@@ -80,7 +80,7 @@ void INIFile::load(INIFile* parentINI)
 						std::string errValue = value.substr(512);
 
 						Log::note("Key '" + key + "' in section '" + currentSection + "' is too long (longer than 512 characters):", Log::DEBUG);
-						Log::note("Parsed: " + corrValue, Log::EXTRA);
+						//Log::note("Parsed: " + corrValue, Log::EXTRA);
 						Log::note("Cut-off: " + errValue, Log::EXTRA);
 						value = corrValue;
 					}

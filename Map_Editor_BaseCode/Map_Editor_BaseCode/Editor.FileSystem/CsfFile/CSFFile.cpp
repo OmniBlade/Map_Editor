@@ -4,6 +4,7 @@
 #include "../FileManager/FileSystem.hpp"
 #include "../FileManager/BinaryReader.hpp"
 #include "../../Log.hpp"
+#include <algorithm>
 
 CSFFile::CSFFile(const FileProperties& props)
 :csfReader(props.reader)
@@ -92,15 +93,21 @@ void CSFFile::parse()
 
 void CSFFile::setValue(const std::string& name, const std::wstring& value, const std::string& extraValue)
 {
-	entryList[name] = std::make_unique<CSFEntry>(value, extraValue);
+	std::string capsName = std::move(name);
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	entryList[capsName] = std::make_unique<CSFEntry>(value, extraValue);
 	//entryList.push_back(std::make_unique<CSFEntry>(name, value, extraValue));
 }
 
 bool CSFFile::get(const std::string& name, std::wstring& value)
 {
-	if (entryList[name].get())
+	std::string capsName = std::move(name);
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	if (entryList[capsName].get())
 	{
-		value = entryList[name].get()->Value;
+		value = entryList[capsName].get()->Value;
 		return true;
 	}
 		return false;

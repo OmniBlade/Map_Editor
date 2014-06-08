@@ -199,3 +199,12 @@ void LineSplitter::dumpContent()
 		std::cout << paramVector[i] << std::endl;
 	}
 }
+
+bool LineSplitter::checkExistance(const std::string& item)
+{
+	if (std::find(paramVector.begin(), paramVector.end(), item) != paramVector.end())
+	{
+		return true;
+	}
+	return false;
+}

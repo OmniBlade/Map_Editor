@@ -5,6 +5,7 @@
 #include "Editor.FileSystem/FileManager/RawFileSystem.hpp"
 #include "Editor.FileSystem/FileManager/Managers/INIManager.hpp"	
 #include "Editor.FileSystem/FileManager/Managers/MIXmanager.hpp"	
+#include "Editor.FileSystem/FileManager/Managers/CSFManager.hpp"	
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
 #include "Editor.Engine/Loading/StartupLoader.hpp"		
 #include "Editor.Engine/Map/TheaterCollection.hpp"
@@ -14,6 +15,12 @@
 #include "Editor.Engine/Loading/MapAssetLoader.hpp"
 #include "Editor.Configuration/ConfigLoader.hpp"
 #include "Editor.Engine\Game\GameModeCollection.hpp"
+#include "Editor.Map.Validator\MainValidator.hpp"
+#include "Editor.Engine\Basics\Basic.hpp"
+#include "Editor.FileSystem\MapFile\ParamCollection.hpp"
+#include "Editor.FileSystem\MapFile\SActionCollection.hpp"
+#include "Editor.FileSystem\MapFile\ActionCollection.hpp"
+#include "Editor.FileSystem\MapFile\EventCollection.hpp"
 #include "Config.hpp"
 #include "Arguments.hpp"
 #include "Log.hpp"
@@ -37,7 +44,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	Config::editorRoot = pathS;
 	handleArguments(argc, argv);
 
-	Log::open();
+	Log::openDebug();
 	Log::note("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
 
 	//TODO: Rename ambiguous functions
@@ -74,34 +81,44 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::note("Loading CSF files:", Log::DEBUG);
 	bootLoader.initiateCSF();
 
+	ParamCollection::getInstance()->parse();
+	ActionCollection::getInstance()->parse();
+	EventCollection::getInstance()->parse();
+	SActionCollection::getInstance()->parse();
+	
  	GameModeCollection::getInstance()->parse();
 	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get(Config::configName));
 
-	std::string mapToLoad;
 
 	if (Config::mapName.empty())
 	{
+		std::string mapToLoad;
 		std::cout << "\nPlease enter the name of the map you want to load:" << std::endl;
 		std::cin >> mapToLoad;
+		Config::mapName = std::move(mapToLoad);
 		std::cout << std::endl;
 	}
-	else
-	{
-		mapToLoad = Config::mapName;
-	}
 
-	if (!MIXManager::getManager()->extract(mapToLoad))
+	if (!MIXManager::getManager()->extract(Config::mapName))
 	{
 		Log::note("Map to load does not exist, unable to continue what so ever!");
 		Log::close();
-		std::cin.get();
+		system("pause");
 		return 0;
 	}
 	
+	Log::openOutput();
+	std::wstring info = L"Game: " + CSFManager::getManager()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
+	size_t found = info.find_first_of(L"\n");
+	if (found != std::wstring::npos)
+		info.erase(found, found + 1);
+	Log::line("--- Game information ---", Log::INFO);
+	Log::line(info, Log::EXTRAS);
 
 	MapLoader mapLoader;
 	MapAssetLoader mapAssetLoader;
-	INIFile* map = INIManager::getManager()->get(mapToLoad);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
+	INIFile* map = INIManager::getManager()->get(Config::mapName);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
+	Basic::getBasic()->parse();
 	INIFile* mode = nullptr;
 	if (mapLoader.locateGameMode(map))
 	{
@@ -109,7 +126,22 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	INIFile* rules = INIManager::getManager()->get(Config::rules);
-
+	
+	Log::line("---- Map information ----", Log::INFO);
+	Log::line("Scenario name: " + Config::mapName, Log::EXTRAS);
+	Log::line("Map name: " + Basic::getBasic()->name, Log::EXTRAS);
+	if (!Basic::getBasic()->player.empty())
+	{
+		Log::line("This is a singleplayer map.", Log::EXTRAS);
+		Config::isSP = true;
+	}
+	else
+	{
+		Log::line("This is a multiplayer map.", Log::EXTRAS);
+		if (GameModeCollection::getInstance()->getCurrent())
+			Log::line(L"Gamemode: " + GameModeCollection::getInstance()->getCurrent()->WGUIName, Log::EXTRAS);
+	}
+	Log::line();
 
 	//Log::timerStart();
 
@@ -128,13 +160,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::note("Loading game's objects took: " + Log::getTimerValue(), Log::DEBUG);
 
 	//Log::note("Going to load all objects now!", Log::DEBUG);
-//	Log::timerStart();
+	Log::timerStart();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
 	Log::note("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
 	
 	mapLoader.dumpLists();
 	
+	Log::note();
+	Log::note("Going to validate the map now!", Log::DEBUG);
+	Log::timerStart();
+	MainValidator mainValidator;
+	Log::note("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
+
 	Log::note();
 	Log::note("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;

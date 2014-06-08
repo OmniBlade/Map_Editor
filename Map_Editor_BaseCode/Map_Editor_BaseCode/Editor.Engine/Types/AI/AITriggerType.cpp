@@ -8,6 +8,7 @@
 #include "../../../Editor.Objects.Westwood/Types/BuildingType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 
 /* static */ ObjectList<AITriggerType> AITriggerType::Array;
 
@@ -16,8 +17,9 @@ AITriggerType::AITriggerType()
 
 }
 
-void AITriggerType::parse(const std::string& id, const std::string& list)
+void AITriggerType::parse(const std::string& id, const std::string& list, bool isGlobal_ /* = false */)
 {
+	isGlobal = isGlobal_;
 	ID = id;
 	LineSplitter split(list);
 	if (split.pop(name) && split.pop(tt1) && split.pop(owner) && split.pop(techlevel) && split.pop(aiTriggerType) 
@@ -45,10 +47,8 @@ void AITriggerType::parse(const std::string& id, const std::string& list)
 			Log::note("Unable to parse HEX string from AITriggerType with ID '" + id + "'.", Log::DEBUG);
 		}
 
-		/*
-			TODO:
-			Whether to keep TT* or leave it out!
-		*/
+		pCountry = Country::Array.find(owner);
+
 		if (tt1 != "<none>")
 		{
 			teamtype1 = TeamType::Array.find(tt1);

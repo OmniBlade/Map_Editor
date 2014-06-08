@@ -1,7 +1,10 @@
 #pragma once
 
 #include "../Managers/ObjectList.hpp"
+#include "SubAction.hpp"
 #include <string>
+#include <vector>
+#include <memory>
 
 class Action
 {
@@ -10,7 +13,11 @@ public:
 
 	Action();
 	void parse(const std::string& id, const std::string& list);
-	std::string ID;
+	void parseActions();
+	
+	std::string ID, List;
+	unsigned int count;
+	std::vector<std::shared_ptr<SubAction>> actionList;
 
 };
 

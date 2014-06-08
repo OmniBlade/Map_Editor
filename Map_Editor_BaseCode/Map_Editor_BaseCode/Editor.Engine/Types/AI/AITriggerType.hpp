@@ -8,6 +8,7 @@ class VehicleType;
 class InfantryType;
 class BuildingType;
 class AircraftType;
+class Country;
 
 class AITriggerType
 {
@@ -15,7 +16,7 @@ public:
 	static ObjectList<AITriggerType> Array;
 
 	AITriggerType();
-	void parse(const std::string& id, const std::string& list);
+	void parse(const std::string& id, const std::string& list, bool isGlobal_ = false);
 	std::string asString();
 	std::string createParameters();
 
@@ -29,6 +30,7 @@ public:
 	InfantryType* pInfantryType;
 	BuildingType* pBuildingType;
 	AircraftType* pAircraftType;
+	Country* pCountry;
 	bool isGlobal;
 };
 

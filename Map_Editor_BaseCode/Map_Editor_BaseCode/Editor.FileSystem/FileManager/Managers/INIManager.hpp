@@ -14,6 +14,8 @@ public:
 
 	INIFile* get(const std::string& fileName);
 	INIFile* cache(const std::string& fileName);
+	INIFile* getRoot(const std::string& fileName);
+	INIFile* cacheRoot(const std::string& fileName);
 	void loadIncludeINI(const std::string& fileName, std::vector<std::string>& includes, INIFile* parent);
 	void cacheIncluded(const std::string& fileName, INIFile* parent);
 

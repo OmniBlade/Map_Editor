@@ -16,7 +16,7 @@ ConfigLoader::ConfigLoader()
 void ConfigLoader::parse()
 {
 	std::string CONFIG = "CONFIGS";
-	INIFile* configINI = INIManager::getManager()->get(CONFIG);
+	INIFile* configINI = INIManager::getManager()->getRoot(CONFIG);
 
 	if (!configINI)
 	{
@@ -49,7 +49,7 @@ bool ConfigLoader::chooseConfig()
 {
 	if (configFiles.size() == 1)
 	{
-		Config::parse(INIManager::getManager()->get(configFiles.back().get()->Path), configFiles.back().get()->Path);
+		Config::parse(INIManager::getManager()->getRoot(configFiles.back().get()->Path), configFiles.back().get()->Path);
 		return true;
 	}
 	else if (configFiles.size() > 1)
@@ -67,7 +67,7 @@ bool ConfigLoader::chooseConfig()
 		if (index >= configFiles.size())
 			index = 0;
 		
-		Config::parse(INIManager::getManager()->get(configFiles[index].get()->Path), configFiles[index].get()->Path);
+		Config::parse(INIManager::getManager()->getRoot(configFiles[index].get()->Path), configFiles[index].get()->Path);
 		return true;
 	}
 	Log::note("There are 0 configuration files listed, unable to continue!", Log::DEBUG);

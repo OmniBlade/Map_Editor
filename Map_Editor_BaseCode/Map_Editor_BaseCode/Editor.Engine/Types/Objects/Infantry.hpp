@@ -6,6 +6,8 @@
 
 class InfantryType;
 class Tag;
+class House;
+class Country;
 
 class Infantry
 {
@@ -27,6 +29,8 @@ public:
 	void setInfantryType();
 
 	std::string owner = "";
+	Country* pCountry;
+	House* pHouse;
 	std::string infantryType = "";
 	InfantryType* pInfantry = nullptr;
 	unsigned int health = 256;

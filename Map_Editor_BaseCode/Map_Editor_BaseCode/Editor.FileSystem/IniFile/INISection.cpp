@@ -25,7 +25,7 @@ INISection::INISection(const std::string &id)
 
 }
 
-void INISection::setValue(const std::string &key, const std::string &value)
+void INISection::setValue(const std::string &key, std::string value)
 {
 	if (value.length())
 	{
@@ -33,11 +33,11 @@ void INISection::setValue(const std::string &key, const std::string &value)
 		if (it == keyValueMap.end())
 		{
 			keys.push_back(key);
-			keyValueMap[_strdup(keys.back().c_str())] = value;
+			keyValueMap[_strdup(keys.back().c_str())] = std::move(value);
 		}
 		else
 		{
-			keyValueMap[_strdup(keys.back().c_str())] = value;
+			it->second = std::move(value);
 		}
 	}
 	else

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Country.hpp"
+#include "../../Config.hpp"
 
 /* static */ List<Country> Country::Array;
 

@@ -144,7 +144,7 @@ void MapLoader::loadAI()
 	loadAllocatedINI(TeamType::Array, *aimd, true);
 	loadAllocatedINI(TaskForce::Array, *aimd, true);
 	loadAllocatedINI(ScriptType::Array, *aimd, true);
-	loadFromINI(AITriggerType::Array, *aimd, "AITriggerTypes");
+	loadAIFromINI(AITriggerType::Array, *aimd, "AITriggerTypes", true);
 }
 
 bool MapLoader::locateGameMode(INIFile* map)
@@ -157,8 +157,7 @@ bool MapLoader::locateGameMode(INIFile* map)
 	}
 
 	LineSplitter split(basic->getValue("GameMode"));
-
-	if (split.size() > 1)
+	if (split.size() > 1 && (split.size() == 2 && !split.checkExistance("standard")))
 	{
 		Log::note("Multiple game modes are found, none are loaded to maintain proper lists!", Log::DEBUG);
 		return false;
@@ -168,11 +167,18 @@ bool MapLoader::locateGameMode(INIFile* map)
 		Log::note("GameMode key exists in map file, but no game modes are defined!", Log::DEBUG);
 		return false;
 	}
-	else if (split.size() == 1)
+	else if (split.size() == 1 || (split.size() == 2 && split.checkExistance("standard")))
 	{
-		GameModeCollection::getInstance()->setCurrent(split.pop_string());
+		if (split.peek_string() == "standard")
+		{
+			split.pop_string();
+			GameModeCollection::getInstance()->setCurrent(split.pop_string());
+		}
+		else
+			GameModeCollection::getInstance()->setCurrent(split.pop_string());
 		return true;
 	}
+	return false;
 }
 
 void MapLoader::dumpLists()
@@ -251,3 +257,15 @@ void MapLoader::insertDAnimation()
 {
 	Animation::Array.findOrAllocate("D");
 }
+
+/*void MapLoader::loadMPCountries()
+{
+	Country::Array.findOrAllocate("<Player @ A>");
+	Country::Array.findOrAllocate("<Player @ B>");
+	Country::Array.findOrAllocate("<Player @ C>");
+	Country::Array.findOrAllocate("<Player @ D>");
+	Country::Array.findOrAllocate("<Player @ E>");
+	Country::Array.findOrAllocate("<Player @ F>");
+	Country::Array.findOrAllocate("<Player @ G>");
+	Country::Array.findOrAllocate("<Player @ H>");
+}*/

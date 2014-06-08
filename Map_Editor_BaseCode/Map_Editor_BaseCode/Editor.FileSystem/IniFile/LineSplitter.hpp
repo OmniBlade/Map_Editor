@@ -36,6 +36,7 @@ public:
 	bool empty() const;
 	std::vector<std::string> getParamVector() const;
 	void dumpContent();
+	bool checkExistance(const std::string& item);
 
 private:
 	unsigned int index;
