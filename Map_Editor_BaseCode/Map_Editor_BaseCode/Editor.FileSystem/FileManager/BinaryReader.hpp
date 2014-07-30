@@ -27,6 +27,7 @@ public:
 	/*
 		Opens the file as a binary file and opens a file stream to it
 		@param _fullFileName The full path to the file
+		@param logError Should the logger log an error if the file cannot be opened?
 	*/
 	BinaryReader(const std::string& _fullFileName, bool logError = true);// , __int32 _offset = 0, int size = 0);
 	/*
@@ -43,12 +44,16 @@ public:
 		@return The current offset from the file
 	*/
 	int getOffset();
-	/*
 	
+	/*
+		Sets the size of the file to the value given in the parameter
+		@param _size The new size of the file
 	*/
 	void setSize(int _size);
-	/*
 	
+	/*
+		Returns the file size 
+		@return Size of the file as integer
 	*/
 	int getFileSize();
 	//Integers
@@ -118,6 +123,12 @@ public:
 		Checks whether the file is at eof, returns true if it is, false if it isn't
 	*/
 	bool checkEOF();
+
+	/*
+		Returns the instance of this class as a const
+		@return The pointer to the instance of this class
+	*/
+	const BinaryReader* get() const;
 
 	//Endian conversion
 	/*

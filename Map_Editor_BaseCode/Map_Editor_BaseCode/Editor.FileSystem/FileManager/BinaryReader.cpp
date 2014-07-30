@@ -174,7 +174,7 @@ std::string BinaryReader::readTextLine(const int length /* 2048 */, bool zeroTer
 			endReached = true;
 		}
 	}
-	line[511] = '\0';
+	line[2047] = '\0';
 	return line;
 }
 
@@ -184,6 +184,11 @@ bool BinaryReader::checkEOF()
 		return true;
 	else
 		return false;
+}
+
+const BinaryReader* BinaryReader::get() const
+{
+	return this;
 }
 
 unsigned short BinaryReader::littleToBigUShort(unsigned short toSwap)

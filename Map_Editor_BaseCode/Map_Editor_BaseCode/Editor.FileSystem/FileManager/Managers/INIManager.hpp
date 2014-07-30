@@ -18,6 +18,9 @@ public:
 	INIFile* cacheRoot(const std::string& fileName);
 	void loadIncludeINI(const std::string& fileName, std::vector<std::string>& includes, INIFile* parent);
 	void cacheIncluded(const std::string& fileName, INIFile* parent);
+	void insert(const std::string& fileName, INIFile* file);
+
+	bool exists(const std::string& fileName) { if (iniFiles[fileName]) return true; return false; };
 
 private:
 	static INIManager* manager;

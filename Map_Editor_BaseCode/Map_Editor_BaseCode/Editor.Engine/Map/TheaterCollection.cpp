@@ -36,7 +36,7 @@ TheaterCollection::~TheaterCollection()
 {
 }
 
-bool TheaterCollection::checkTheaterExistance(const std::string& _theaterName)
+bool TheaterCollection::theaterExists(const std::string& _theaterName)
 {
 	for (unsigned int i = 0; i < theaters.size(); ++i)
 	{
@@ -69,7 +69,7 @@ void TheaterCollection::parseTheaters()
 		{
 			std::string theaterName = theatersSection->getNextValue();
 			std::transform(theaterName.begin(), theaterName.end(), theaterName.begin(), ::toupper);
-			if (!checkTheaterExistance(theaterName))
+			if (!theaterExists(theaterName))
 			{
 				if (std::find(defTheaterNames.begin(), defTheaterNames.end(), theaterName) != defTheaterNames.end())
 					createTheater(theaterName); //Found it in the section, parse modified values
@@ -83,7 +83,7 @@ void TheaterCollection::parseTheaters()
 		std::cout << "[Theaters] not found, parsing default theaters and values." << std::endl;
 		for (unsigned int i = 0; i < defTheaterNames.size(); ++i)
 		{
-			if (!checkTheaterExistance(defTheaterNames[i]))
+			if (!theaterExists(defTheaterNames[i]))
 				createTheater();
 		}
 	}*/
@@ -116,7 +116,7 @@ void TheaterCollection::validateTheaterPresence()
 			}
 		}
 		if (!theaterFound)
-			Log::note("Unable to locate default theater with name '" + defTheaterNames[i] + "'.", Log::DEBUG);
+			Log::note("Unable to validate presence of default theater with name '" + defTheaterNames[i] + "'.", Log::DEBUG);
 	}
 }
 

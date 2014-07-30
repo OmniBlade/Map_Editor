@@ -160,3 +160,13 @@ void INISection::dumpContent()
 	}
 	Log::note();
 }
+
+unsigned int INISection::totalSize() const
+{
+	unsigned int totalSize = 0;
+	for (const auto& iter : keyValueMap)
+	{
+		totalSize += iter.second.length();
+	}
+	return totalSize;
+}

@@ -2,12 +2,14 @@
 #include <string>
 
 class INISection;
+class ParamType;
+class ParamCollection;
 
 class SActionTemplate
 {
 public:
-	SActionTemplate(INISection* section);
-	void parse(INISection* section);
+	SActionTemplate(INISection* section, ParamCollection* params);
+	void parse(INISection* section, ParamCollection* params);
 
 	//Stuff from the file
 	int identifier;
@@ -16,5 +18,6 @@ public:
 
 	//Internal parsed stuff
 	int P1 = 0;
+	ParamType* param;
 };
 

@@ -6,14 +6,13 @@
 class ParamCollection
 {
 public:
-	static ParamCollection* getInstance();
-
+	ParamCollection();
 	void parse();
+	void applySpecialCases();
+
+	ParamType* get(int ID);
 
 private:
-	static ParamCollection* instance;
-	ParamCollection();
-
-	const int paramCount = 56; // 1 - 56...
+	const int paramCount = 57; // 1 - 57...
 	std::vector<std::unique_ptr<ParamType>> paramList;
 };

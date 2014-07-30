@@ -97,7 +97,6 @@ void CSFFile::setValue(const std::string& name, const std::wstring& value, const
 	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
 
 	entryList[capsName] = std::make_unique<CSFEntry>(value, extraValue);
-	//entryList.push_back(std::make_unique<CSFEntry>(name, value, extraValue));
 }
 
 bool CSFFile::get(const std::string& name, std::wstring& value)

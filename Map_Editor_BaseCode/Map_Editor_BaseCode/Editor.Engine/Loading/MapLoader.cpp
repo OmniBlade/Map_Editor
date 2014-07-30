@@ -145,6 +145,7 @@ void MapLoader::loadAI()
 	loadAllocatedINI(TaskForce::Array, *aimd, true);
 	loadAllocatedINI(ScriptType::Array, *aimd, true);
 	loadAIFromINI(AITriggerType::Array, *aimd, "AITriggerTypes", true);
+
 }
 
 bool MapLoader::locateGameMode(INIFile* map)
@@ -157,7 +158,7 @@ bool MapLoader::locateGameMode(INIFile* map)
 	}
 
 	LineSplitter split(basic->getValue("GameMode"));
-	if (split.size() > 1 && (split.size() == 2 && !split.checkExistance("standard")))
+	if (split.size() > 1 && (split.size() == 2 && !split.exists("standard")))
 	{
 		Log::note("Multiple game modes are found, none are loaded to maintain proper lists!", Log::DEBUG);
 		return false;
@@ -167,9 +168,9 @@ bool MapLoader::locateGameMode(INIFile* map)
 		Log::note("GameMode key exists in map file, but no game modes are defined!", Log::DEBUG);
 		return false;
 	}
-	else if (split.size() == 1 || (split.size() == 2 && split.checkExistance("standard")))
+	else if (split.size() == 1 || (split.size() == 2 && split.exists("standard")))
 	{
-		if (split.peek_string() == "standard")
+		if (split.peek_string() == "standard" && split.size() == 2)
 		{
 			split.pop_string();
 			GameModeCollection::getInstance()->setCurrent(split.pop_string());

@@ -12,7 +12,15 @@ public:
 	Theater(INIFile* _controlFile);
 	~Theater();
 
+	/*
+		Reads the [General] section of the theater control file
+	*/
 	void readGeneral();
+	
+	/* 
+		Reads the tilesets defined in the control file, range is from 0000 to 9999
+		Creates a TileSet object for each found TileSet
+	*/
 	void readTileSets();
 
 	int RampBase= -1;

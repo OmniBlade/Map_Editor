@@ -15,16 +15,18 @@ class INIFile {
 public:
 	INIFile(const FileProperties& props);
 	INIFile(const FileProperties& props, INIFile* parentINI);
+	INIFile(const std::vector<char>& file);
 
 	void loadInclude(INIFile* parentINI);
 	void load(INIFile* parentINI);
-	void SetValue(const char* section, const std::string& key, const std::string &value);
+	void SetValue(const char* section, std::string key, std::string value);
 	INISection* EnsureSection(const char* section);
 	INISection* getSection(const std::string &section) { return getSection(section.c_str()); };
 	INISection* getSection(const char* section);
 	bool checkSectionExistance(const std::string &section);
 	bool getLoaded() const;
 	std::string& getININame();
+	bool checkEOF();
 
 	void dumpContent();
 
@@ -34,12 +36,16 @@ private:
 		const char* Value;
 		ItemKey(const char* value) : Value(value) {} bool operator < (const ItemKey& rhs) const { return strcmp(this->Value, rhs.Value) < 0; }
 	};
+	
+	std::string readTextLine();
 
 	BinaryReader* iniReader;
+	int atEnc = 0;
 	bool isLoaded = false;
 	std::string iniName, mixName;
 	std::map<ItemKey, std::unique_ptr<INISection>> sectionList;
 	std::vector<std::string> includeINIs;
+	std::vector<char> enc;
 };
 
 #endif /* INIFILE_HPP_ */

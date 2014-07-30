@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "TheaterDefinition.hpp"
+#include "../../Editor.FileSystem/INIFile/INISection.hpp"
 #include <iostream>
 
 TheaterDefinition::TheaterDefinition(const std::vector<std::string>& _defaultTheater, INISection* _theaterSection)
@@ -9,19 +10,13 @@ TheaterDefinition::TheaterDefinition(const std::vector<std::string>& _defaultThe
 		parseTheaterValues(_defaultTheater);
 	else
 		std::cout << "ERRORS - Default theater values does not have 9 values, unable to parse!" << std::endl;
-
-	//dumpContent();
 }
-
-/*Theater::Theater(const std::vector<std::string>* _defaultTheater)
-{
-	parseTheaterValues(_defaultTheater);
-}*/
 
 void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defaultTheater)
 {
-	if (theaterSection == nullptr)// && _defaultTheater != nullptr)
+	if (theaterSection == nullptr)
 	{
+	//Section does not exist, use default values
 		sectionName = _defaultTheater[0];
 		Name = _defaultTheater[1];
 		INIFile = _defaultTheater[2];
@@ -35,8 +30,10 @@ void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defa
 	}
 	else
 	{
+	//Section does exist, use section's values with default values as fall back
 		sectionName = theaterSection->getSectionName();
 
+		std::cout << "Hey there, why are the default value fall backs converted to a char* in parseTheaterValues?" << std::endl;
 		theaterSection->readStringValue("Name", Name, _defaultTheater[0].c_str());
 		theaterSection->readStringValue("INIFileName", INIFile, _defaultTheater[1].c_str());
 		theaterSection->readStringValue("ININame", ININame, _defaultTheater[2].c_str());

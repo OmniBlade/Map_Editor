@@ -200,7 +200,7 @@ void LineSplitter::dumpContent()
 	}
 }
 
-bool LineSplitter::checkExistance(const std::string& item)
+bool LineSplitter::exists(const std::string& item)
 {
 	if (std::find(paramVector.begin(), paramVector.end(), item) != paramVector.end())
 	{

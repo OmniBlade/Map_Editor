@@ -30,6 +30,12 @@ INIFile::INIFile(const FileProperties& props, INIFile* parentINI)
 	load(parentINI);
 }
 
+INIFile::INIFile(const std::vector<char>& file)
+:enc(file)
+{
+	load(this);
+}
+
 void INIFile::load(INIFile* parentINI)
 {
 	std::string currentSection;
@@ -37,9 +43,9 @@ void INIFile::load(INIFile* parentINI)
 
 	Log::timerStart();
 
-	while (iniReader->checkEOF() == false)
+	while (checkEOF() == false)
 	{
-		line = iniReader->readTextLine();
+		line = readTextLine();
 	
 		auto comment = line.find_first_of(";");
 		if (comment != std::string::npos)
@@ -79,9 +85,9 @@ void INIFile::load(INIFile* parentINI)
 						std::string corrValue = value.substr(0, 511);
 						std::string errValue = value.substr(512);
 
-						Log::note("Key '" + key + "' in section '" + currentSection + "' is too long (longer than 512 characters):", Log::DEBUG);
+						//Log::note("Key '" + key + "' in section '" + currentSection + "' is too long (longer than 512 characters):", Log::DEBUG);
 						//Log::note("Parsed: " + corrValue, Log::EXTRA);
-						Log::note("Cut-off: " + errValue, Log::EXTRA);
+						//Log::note("Cut-off: " + errValue, Log::EXTRA);
 						value = corrValue;
 					}
 					
@@ -105,7 +111,7 @@ void INIFile::load(INIFile* parentINI)
 	isLoaded = true;
 }
 
-void INIFile::SetValue(const char* section, const std::string &key, const std::string &value)
+void INIFile::SetValue(const char* section, std::string key, const std::string value)
 {
 	if (EnsureSection(section))
 	{
@@ -153,6 +159,62 @@ bool INIFile::getLoaded() const
 std::string& INIFile::getININame()
 {
 	return iniName;
+}
+
+std::string INIFile::readTextLine()
+{
+	if (iniReader)
+		return iniReader->readTextLine();
+
+	char line[2048];
+
+	for (int i = 0; i < 2048; ++i)
+	{
+		line[i] = enc[atEnc];
+		atEnc++;
+		
+		if (sizeof(line) > 1 && line[i - 1] == '\r' && line[i] == '\n') //This check saves an additional call to this function by INIFile
+		{
+			line[i - 1] = '\0';
+			return line;
+		}
+		else if (line[i] == '\n' || line[i] == '\0')
+		{
+			line[i] = '\0';
+			return line;
+		}
+	}
+
+	bool endReached = false;
+	while (endReached == false)
+	{
+		char currentChar = enc[atEnc];
+
+		switch (currentChar)
+		{
+		case '\n':
+		case EOF:
+		case '\0':
+		case '\r':
+			endReached = true;
+		}
+		atEnc++;
+	}
+	line[2047] = '\0';
+	return line;
+}
+
+bool INIFile::checkEOF()
+{
+	if (iniReader)
+	{
+		return iniReader->checkEOF();
+	}
+	else if (atEnc == enc.size()-1)
+	{
+		return true;
+	}
+	return false;
 }
 
 void INIFile::dumpContent()

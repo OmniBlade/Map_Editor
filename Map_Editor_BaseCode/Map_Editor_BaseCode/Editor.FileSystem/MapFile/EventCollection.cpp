@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EventCollection.hpp"
+#include "ParamCollection.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
@@ -23,8 +24,9 @@ EventCollection::EventCollection()
 
 }
 
-void EventCollection::parse()
+void EventCollection::parse(ParamCollection* paramColl)
 {
+	paramColl = paramColl;
 	INIFile* file = INIManager::getManager()->getRoot("EVENTS");
 	INISection* actions = file->getSection("Events");
 
@@ -39,7 +41,7 @@ void EventCollection::parse()
 	for (int i = 0; i < count; ++i)
 	{
 		if (file->checkSectionExistance(Log::toString(i)))
-			eventList.push_back(std::make_unique<EventTemplate>(file->getSection(Log::toString(i))));
+			eventList.push_back(std::make_unique<EventTemplate>(file->getSection(Log::toString(i)), paramColl));
 		else
 			break;
 	}

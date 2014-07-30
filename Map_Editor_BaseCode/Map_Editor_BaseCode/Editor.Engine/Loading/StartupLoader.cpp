@@ -317,6 +317,8 @@ std::vector<std::string> StartupLoader::getEcacheMixes()
 {
 	std::vector<std::string> ecacheMixNames;
 
+	std::cout << "Hey there! Check the if-statement in getEcacheMixes(), shouldn't the equation be == and not !=?" << std::endl;
+
 	// NOTE: Following code to load ecacheXX.mix files only applies to Tiberian Sun!
 	/*std::stringstream number;
 

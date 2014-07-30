@@ -96,3 +96,15 @@ void INIManager::loadIncludeINI(const std::string& fileName, std::vector<std::st
 		cacheIncluded(capsName, parent);
 	}
 }
+
+void INIManager::insert(const std::string& fileName, INIFile* file)
+{
+	std::string capsName = fileName;
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	if (iniFiles[capsName].get() == nullptr)
+	{
+		iniFiles[capsName] = std::unique_ptr<INIFile>(file);
+	}
+		
+}

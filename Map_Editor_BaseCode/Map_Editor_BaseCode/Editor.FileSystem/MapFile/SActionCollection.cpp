@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SActionCollection.hpp"
+#include "ParamCollection.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
@@ -23,8 +24,9 @@ SActionCollection::SActionCollection()
 
 }
 
-void SActionCollection::parse()
+void SActionCollection::parse(ParamCollection* paramColl)
 {
+	paramColl = paramColl;
 	INIFile* file = INIManager::getManager()->getRoot("SACTIONS");
 	INISection* actions = file->getSection("ScriptActions");
 
@@ -39,7 +41,7 @@ void SActionCollection::parse()
 	for (int i = 0; i < count; ++i)
 	{
 		if (file->checkSectionExistance(Log::toString(i)))
-			actionList.push_back(std::make_unique<SActionTemplate>(file->getSection(Log::toString(i))));
+			actionList.push_back(std::make_unique<SActionTemplate>(file->getSection(Log::toString(i)), paramColl));
 		else
 			break;
 	}

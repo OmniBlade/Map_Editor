@@ -62,6 +62,20 @@ public:
 		objectTypeList.push_back(std::make_unique<T>());
 	}
 
+	void createOverlay(int x, int y, int index, int frame)
+	{
+		objectTypeList.push_back(std::make_unique<T>(x, y, index, frame));
+	}
+
+	std::vector<std::string> getAsString()
+	{
+		std::vector<std::string> names;
+		names.resize(objectTypeList.size());
+
+
+
+	}
+
 	std::vector<std::unique_ptr<T>> objectTypeList;
 	int lastParsedItem = 0;
 };

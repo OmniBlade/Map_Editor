@@ -41,7 +41,7 @@ std::string Config::coop	= "COOPCAMPMD.INI";
 // [GameExtension]
 bool Config::hasAres = false;
 
-void Config::parse(INIFile* configINI, const std::string& name)
+void Config::parse(INIFile* configINI, const std::string& name, const std::string& gameInstallDir)
 {
 	Log::note();
 	Log::note("Showing configuration file flags below:", Log::DEBUG);
@@ -51,7 +51,7 @@ void Config::parse(INIFile* configINI, const std::string& name)
 		INISection* mainSection = configINI->getSection("Main");
 		if (mainSection != nullptr)
 		{
-			mainSection->readStringValue("InstallDir", Config::installDir, "", true);
+			installDir = gameInstallDir;
 			Log::note("Install directory: " + installDir, Log::DEBUG);
 			mainSection->readStringValue("Executable", Config::executable, "GAMEMD.EXE", true);
 			Log::note("Executable name: " + executable, Log::DEBUG);
@@ -109,6 +109,8 @@ void Config::parse(INIFile* configINI, const std::string& name)
 	}
 	else
 		Log::note(name + " could not be found in the editor root!", Log::DEBUG);
+		
+	//LOLOL, [Theaters] isn't even read :')
 
 	Log::note("End of configuration file flags.", Log::DEBUG);
 }

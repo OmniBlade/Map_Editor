@@ -27,10 +27,24 @@ public:
 	*/
 	void loadAll(INIFile* file);
 
-	void loadAudio();
-	void loadAI();
 	/*
+		Loads the audio stuff from the game, this includes EVA speeches (Eva, Sofia), themes (music) and sound effects
+	*/
+	void loadAudio();
+	
+	/*
+		Loads the global AI data from the game
+		This excludes any map-added content
+		Loads each type as a global one for the AIReferences option defined in Config
+	*/
+	void loadAI();
+	
+	/*
+		Locates the game modes used in the specified map
+		Only works with 1 game mode, special handling is used for the default game mode
 		
+		NOTE: This is probably temporary code,
+		as there might come a prompt where the user selects the gamemode he wants to edit the map in
 	*/
 	bool locateGameMode(INIFile* map);
 

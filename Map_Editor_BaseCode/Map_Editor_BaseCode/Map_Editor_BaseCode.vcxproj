@@ -60,7 +60,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>freeglut.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -85,8 +85,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ActionTemplate.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ActionCollection.hpp" />
+    <ClInclude Include="Editor.FileSystem\MapFile\lzoconf.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\lzodefs.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\minilzo.h" />
     <ClInclude Include="Editor.Map.Validator\BasicValidator.hpp" />
     <ClInclude Include="Editor.Engine\Basics\Basic.hpp" />
     <ClInclude Include="Editor.Map.Validator\AIValidator.hpp" />
@@ -117,7 +121,6 @@
     <ClInclude Include="Editor.Objects.Westwood\Types\InfantryType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\Foundation.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\AbstractType.hpp" />
-    <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp" />
     <ClInclude Include="Editor.FileSystem\PaletteFile\PaletteFile.hpp" />
     <ClInclude Include="Editor.Engine\Loading\MapAssetLoader.hpp" />
     <ClInclude Include="Editor.Engine\Loading\MapLoader.hpp" />
@@ -157,6 +160,10 @@
     <ClInclude Include="Editor.Engine\Basics\Lighting.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\EventCollection.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\EventTemplate.hpp" />
+    <ClInclude Include="Editor.Engine\Map\IsoMapPack.hpp" />
+    <ClInclude Include="Editor.FileSystem\EncFile\EncFile.hpp" />
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\EncManager.hpp" />
+    <ClInclude Include="Editor.FileSystem\MapFile\Format80.h" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ParticleType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp" />
@@ -177,6 +184,9 @@
     <ClInclude Include="Editor.FileSystem\MapFile\SActionTemplate.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamCollection.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamType.hpp" />
+    <ClInclude Include="Editor.Engine\Map\PackType.hpp" />
+    <ClInclude Include="Editor.Engine\Map\OverlayDataPack.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Overlay.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -216,10 +226,15 @@
     <ClInclude Include="Editor.Objects.Westwood\Types\WarheadType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Waypoint.hpp" />
     <ClInclude Include="Editor.Engine\Types\VariableName.hpp" />
+    <ClInclude Include="Editor.Map.Validator\ValidatorHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ActionTemplate.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp" />
+    <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Editor.Map.Validator\BasicValidator.cpp" />
     <ClCompile Include="Editor.Engine\Basics\Basic.cpp" />
     <ClCompile Include="Editor.Map.Validator\AIValidator.cpp" />
@@ -244,7 +259,6 @@
     <ClCompile Include="Editor.Objects.Westwood\Types\InfantryType.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\Foundation.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\AbstractType.cpp" />
-    <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp" />
     <ClCompile Include="Editor.FileSystem\PaletteFile\PaletteFile.cpp" />
     <ClCompile Include="Editor.Engine\Loading\MapAssetLoader.cpp" />
     <ClCompile Include="Editor.Engine\Loading\MapLoader.cpp" />
@@ -271,6 +285,10 @@
     <ClCompile Include="Editor.Engine\Basics\Lighting.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\EventCollection.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\EventTemplate.cpp" />
+    <ClCompile Include="Editor.Engine\Map\IsoMapPack.cpp" />
+    <ClCompile Include="Editor.FileSystem\EncFile\EncFile.cpp" />
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\EncManager.cpp" />
+    <ClCompile Include="Editor.FileSystem\MapFile\Format80.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
@@ -302,6 +320,9 @@
     <ClCompile Include="Editor.FileSystem\MapFile\SActionTemplate.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ParamCollection.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ParamType.cpp" />
+    <ClCompile Include="Editor.Engine\Map\PackType.cpp" />
+    <ClCompile Include="Editor.Engine\Map\OverlayDataPack.cpp" />
+    <ClCompile Include="Editor.Engine\Types\Overlay.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -343,6 +364,7 @@
     <ClCompile Include="Editor.Objects.Westwood\Types\WarheadType.cpp" />
     <ClCompile Include="Editor.Engine\Types\Waypoint.cpp" />
     <ClCompile Include="Editor.Engine\Types\VariableName.cpp" />
+    <ClCompile Include="Editor.Map.Validator\ValidatorHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

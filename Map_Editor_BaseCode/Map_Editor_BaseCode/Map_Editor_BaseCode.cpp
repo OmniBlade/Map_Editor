@@ -21,6 +21,10 @@
 #include "Editor.FileSystem\MapFile\SActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\ActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\EventCollection.hpp"
+#include "Editor.Engine\Map\IsoMapPack.hpp"
+#include "Editor.Engine\Map\OverlayDataPack.hpp"
+#include "Editor.FileSystem\FileManager\Managers\EncManager.hpp"
+#include "Editor.FileSystem\EncFile\EncFile.hpp"
 #include "Config.hpp"
 #include "Arguments.hpp"
 #include "Log.hpp"
@@ -31,48 +35,43 @@
 #include <vector>
 #include <string>
 
-/*
-	Main function
-	Config variables will be read from a settings file.
-*/
-int _tmain(int argc, _TCHAR* argv[])
+void initiateEditor()
 {
-	std::wstring pathW = argv[0];
-	std::string pathS(pathW.begin(), pathW.end());
-	//Remove the executable from the location-string (this is not FA2 lol)
-	pathS.erase(pathS.find_last_of('\\'), pathS.length());
-	Config::editorRoot = pathS;
-	handleArguments(argc, argv);
-
-	Log::openDebug();
-	Log::note("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
-
 	//TODO: Rename ambiguous functions
-	RawFileSystem rawSystem;
-	MIXManager::getManager()->assign(&rawSystem);
-	FileSystem::getFileSystem()->assign(&rawSystem);
+	RawFileSystem* rawSystem = new RawFileSystem();;
+	MIXManager::getManager()->assign(rawSystem);
+	FileSystem::getFileSystem()->assign(rawSystem);
 
 	ConfigLoader configLoader;
 	if (!configLoader.chooseConfig())
 	{
 		Log::close();
 		std::cin.get();
-		return 0;
+		exit(0);
 	}
 
 	if (Config::installDir.empty())
 	{
 		Log::note("Unable to determine install directory, terminating now...", Log::DEBUG);
 		Log::close();
-		std::cin.get();
-		return 0;
+		system("pause");
+		exit(0);
 	}
-	rawSystem.locateGameRootFiles();
+	rawSystem->locateGameRootFiles();
 
 	StartupLoader bootLoader;
 	Log::note();
 	Log::note("Loading MIX files:", Log::DEBUG);
 	bootLoader.initiateMIX();
+
+	if (MIXManager::getManager()->get("RA2MD.MIX") == nullptr)
+	{
+		Log::note("Invalid directory set, terminating now...", Log::DEBUG);
+		Log::close();
+		system("pause");
+		exit(0);
+	}
+
 	Log::note();
 	Log::note("Loading INI files:", Log::DEBUG);
 	Log::timerStart();
@@ -81,15 +80,18 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::note("Loading CSF files:", Log::DEBUG);
 	bootLoader.initiateCSF();
 
-	ParamCollection::getInstance()->parse();
-	ActionCollection::getInstance()->parse();
-	EventCollection::getInstance()->parse();
-	SActionCollection::getInstance()->parse();
-	
- 	GameModeCollection::getInstance()->parse();
+	ParamCollection* paramCollection = new ParamCollection();
+	std::cout << "ParamCollection: Possible leak! Move when going to the GUI!" << std::endl;
+	ActionCollection::getInstance()->parse(paramCollection);
+	EventCollection::getInstance()->parse(paramCollection);
+	SActionCollection::getInstance()->parse(paramCollection);
+
+	GameModeCollection::getInstance()->parse();
 	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get(Config::configName));
+}
 
-
+void initiateAMap()
+{
 	if (Config::mapName.empty())
 	{
 		std::string mapToLoad;
@@ -104,9 +106,12 @@ int _tmain(int argc, _TCHAR* argv[])
 		Log::note("Map to load does not exist, unable to continue what so ever!");
 		Log::close();
 		system("pause");
-		return 0;
+		exit(0);
 	}
-	
+}
+
+void loadMap()
+{
 	Log::openOutput();
 	std::wstring info = L"Game: " + CSFManager::getManager()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
 	size_t found = info.find_first_of(L"\n");
@@ -126,7 +131,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 
 	INIFile* rules = INIManager::getManager()->get(Config::rules);
-	
+
 	Log::line("---- Map information ----", Log::INFO);
 	Log::line("Scenario name: " + Config::mapName, Log::EXTRAS);
 	Log::line("Map name: " + Basic::getBasic()->name, Log::EXTRAS);
@@ -143,14 +148,23 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	Log::line();
 
+	Log::note("Serious shit now... Decoding IsoMapPack5!", Log::DEBUG);
+	Log::timerStart();
+	INISection* pack = map->getSection("IsoMapPack5");
+	IsoMapPack isoPack(pack);
+	isoPack.read();
+
+	Log::note("Time to Base64 IsoMapPack5: " + Log::getTimerValue(), Log::DEBUG);
+
+	//std::string base64StrEn = base64_encode((unsigned char*) base64Str.c_str(), base64Str.length());
 	//Log::timerStart();
 
 	/*
-		Little side information:
-		Tiberian Sun's Firestorm expansion pack will load exactly like below
-		Basically firestrm.ini is an INI file that is loaded between rules.ini and <some_map>.map,
-		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
-		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
+	Little side information:
+	Tiberian Sun's Firestorm expansion pack will load exactly like below
+	Basically firestrm.ini is an INI file that is loaded between rules.ini and <some_map>.map,
+	you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
+	Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
 	*/
 	Log::timerStart();
 	mapLoader.load(rules);
@@ -163,15 +177,44 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::timerStart();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
+	mapAssetLoader.loadOverlay(map);
 	Log::note("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
-	
+
 	mapLoader.dumpLists();
-	
+	mapAssetLoader.dumpTypes();
+
+}
+
+void validateMap()
+{
+
 	Log::note();
 	Log::note("Going to validate the map now!", Log::DEBUG);
 	Log::timerStart();
 	MainValidator mainValidator;
 	Log::note("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
+}
+
+/*
+	Main function
+	Config variables will be read from a settings file.
+*/
+int _tmain(int argc, _TCHAR* argv[])
+{
+	std::wstring pathW = argv[0];
+	std::string pathS(pathW.begin(), pathW.end());
+	//Remove the executable from the location-string (this is not FA2 lol)
+	pathS.erase(pathS.find_last_of('\\'), pathS.length());
+	Config::editorRoot = std::move(pathS);
+	handleArguments(argc, argv);
+
+	Log::openDebug();
+	Log::note("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
+
+	initiateEditor();
+	initiateAMap();
+	loadMap();
+	validateMap();
 
 	Log::note();
 	Log::note("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);

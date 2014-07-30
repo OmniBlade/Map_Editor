@@ -189,6 +189,7 @@ std::vector<byte> MixFile::getFile(__int32 fileID)
 	{
 		if (mixIndex[i].id == fileID)
 		{
+			fileBytes.resize(mixIndex[i].size);
 			fileBytes = mixReader->readByteBlockFromOffset(mixIndex[i].offset + startingOffset + bodyOffset, mixIndex[i].size);
 			return fileBytes;
 		}

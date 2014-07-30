@@ -45,6 +45,49 @@ void TileSet::parse()
 		std::cout << "Tileset with ID " << ID << " does not exist!" << std::endl;	
 }
 
+
+void TileSet::collectTiles()
+{
+	std::string& extension = TheaterCollection::getInstance()->getCurrent()->TileExtension;
+	std::stringstream number;
+	
+	for (int i = 1; i <= TilesInSet; ++i)
+	{
+		if (i < 10)
+			number << '0';
+		if (i > 99)
+		{
+			std::cout << "More than 99 tiles were found in this set, only 00-99 can exist!" << std::endl;
+			break;
+		}
+		number << i;
+
+		if (TMPManager::getManager()->get(FileName + number.str() + '.' + extension))
+		{
+			//tiles.push_back(TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension));
+			std::cout << "Hey there, should the tiles be pushed into the tiles vector in collectTiles()?" << std::endl;
+			
+			//Search for a-b-c-d-e-f-g
+			for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
+			{
+				if (!TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension))
+					break;
+				else
+				{
+					//tiles.push_back(TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension));
+				}
+				//else
+					//std::cout << "Now parsing: " << FileName << number.str() << (char)i << '.' << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
+			}
+		}
+		else
+			break;
+
+		number.str(std::string());
+	}
+	//std::cout << "Tiles collected for set: " << SetName << " (" << FileName << ")" << std::endl;
+}
+
 /*
 [23:51:44] <Starkku> It serves different purpose in bridges
 [23:51:55] <Starkku> It works for everything else too but it does different thing
@@ -58,32 +101,3 @@ void TileSet::parse()
 [23:56:32] <Starkku> Well combined with the non-lettered one
 [23:56:35] <Starkku> That makes 8 variants
 */
-void TileSet::collectTiles()
-{
-	std::string& extension = TheaterCollection::getInstance()->getCurrent()->TileExtension;
-	std::stringstream number;
-	for (int i = 1; i <= TilesInSet; ++i)
-	{
-		if (i < 10)
-			number << '0';
-		number << i;
-
-		if (TMPManager::getManager()->get(FileName + number.str() + '.' + extension)) //lol, hardcoding for testing
-		{
-			//std::cout << "Now parsing: " << FileName << number.str() << '.' << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
-			//Search for a-b-c-d-e-f-g
-			for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
-			{
-				if (!TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension))
-					break;
-				//else
-					//std::cout << "Now parsing: " << FileName << number.str() << (char)i << '.' << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
-			}
-		}
-		else
-			break;
-
-		number.str(std::string());
-	}
-	//std::cout << "Tiles collected for set: " << SetName << " (" << FileName << ")" << std::endl;
-}

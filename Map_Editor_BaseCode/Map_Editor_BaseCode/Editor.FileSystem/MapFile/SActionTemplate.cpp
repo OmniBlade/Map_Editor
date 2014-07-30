@@ -1,15 +1,17 @@
 #include "stdafx.h"
 #include "SActionTemplate.hpp"
+#include "ParamCollection.hpp"
+#include "ParamType.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../Log.hpp"
 
-SActionTemplate::SActionTemplate(INISection* section)
+SActionTemplate::SActionTemplate(INISection* section, ParamCollection* params)
 {
-	parse(section);
+	parse(section, params);
 }
 
-void SActionTemplate::parse(INISection* section)
+void SActionTemplate::parse(INISection* section, ParamCollection* params)
 {
 	section->readIntValue("Identifier", identifier, atoi(section->getSectionName().c_str()));
 	section->readStringValue("Name", name);
@@ -24,7 +26,8 @@ void SActionTemplate::parse(INISection* section)
 	LineSplitter split(paramString);
 	if (split.pop(P1))
 	{
-
+		if (P1 > 0)
+			param = params->get(P1);
 	}
 	else
 	{

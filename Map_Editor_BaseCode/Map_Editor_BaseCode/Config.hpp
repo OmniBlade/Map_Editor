@@ -10,9 +10,12 @@ public:
 		Parses the configuration file and puts the values in their respective variables
 		Note: Some variables are not read from the file, but kept here for the sake of consistency
 		They might be set through a command line
+		
 		@param file The config file to load
+		@param name The name of the configuration file (passed on by the CONFIGS file)
+		@param gameInstallDir The install directory of te game
 	*/
-	static void parse(INIFile* file, const std::string& name);
+	static void parse(INIFile* file, const std::string& name, const std::string& gameInstallDir);
 
 	static unsigned int tileWidth;			// 
 	static unsigned int tileHeight;			//

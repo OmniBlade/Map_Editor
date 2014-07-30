@@ -17,6 +17,7 @@ public:
 	INISection(const std::string &id);
 
 	unsigned int size() const {	return this->keyValueMap.size(); };
+	unsigned int totalSize() const;
 	const std::string& getSectionName() const { return sectionName; };
 	std::vector<std::string>::const_iterator begin() const { return keys.begin(); };
 	std::vector<std::string>::const_iterator end() const { return keys.end(); };

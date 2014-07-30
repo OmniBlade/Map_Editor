@@ -3,17 +3,21 @@
 #include <vector>
 #include <memory>
 
+class ParamCollection;
+
 class SActionCollection
 {
 public:
 	static SActionCollection* getInstance();
 
-	void parse();
+	void parse(ParamCollection* paramColl);
 	SActionTemplate* get(int id);
 
 private:
 	static SActionCollection* instance;
 	SActionCollection();
+
+	ParamCollection* paramColl;
 
 	int count;
 	const int YRCount = 65; // 0 - 64...

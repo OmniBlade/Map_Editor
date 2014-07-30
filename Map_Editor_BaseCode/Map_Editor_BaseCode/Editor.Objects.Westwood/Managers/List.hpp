@@ -8,12 +8,23 @@
 template <typename T> class List
 {
 public:
+	/*
+		Finds the object type specified in the parameter and returns a pointer to it
+		@param name The ID of the object
+		@return A pointer to the object if it is found, otherwise nullptr is returned
+	*/
 	T* find(const std::string& name)
 	{
 		auto index = findIndex(name);
 		return (index >= 0) ? get(index) : nullptr;
 	}
-
+	
+	/*
+		Some fun stuff from the game it either finds the object with the specified ID,
+		or it creates it
+		@param name The ID of the object
+		@return A pointer to the object, nullptr if explicitly specified there is nothing in the name
+	*/
 	T* findOrAllocate(const std::string& name)
 	{
 		int ret1 = _strcmpi("", name.c_str());
@@ -72,6 +83,24 @@ public:
 				return true;
 		}
 		return false;
+	}
+
+	std::vector<std::wstring> getAsString()
+	{
+		std::vector<std::wstring> names;
+
+		for (unsigned int i = 0; i < typeList.size(); ++i)
+		{
+			if (typeList[i]->valid)
+			{
+				if (typeList[i]->UIName.empty() || typeList[i]->WUIName == L"Building")
+					names.push_back(Log::toWString(i) + L" - " + Log::toWString(typeList[i]->Name) + L" (" + Log::toWString(typeList[i]->ID) + L")");
+				else
+					names.push_back(Log::toWString(i) + L" - " + typeList[i]->WUIName + L" (" + Log::toWString(typeList[i]->ID) + L")");
+			}
+		}
+
+		return names;
 	}
 
 	std::vector<std::unique_ptr<T>> typeList;

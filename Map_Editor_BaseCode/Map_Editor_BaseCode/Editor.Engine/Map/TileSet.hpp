@@ -12,7 +12,14 @@ public:
 	TileSet(int _ID, INISection* _section);
 	~TileSet();
 
+	/*
+		Parses the INI section for the tileset and reads its values
+	*/
 	void parse();
+	
+	/*
+		Collects the tiles for the tileset instance and pushes them into a vector
+	*/
 	void collectTiles();
 
 	/*
