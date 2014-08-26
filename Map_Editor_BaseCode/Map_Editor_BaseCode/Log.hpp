@@ -146,7 +146,7 @@ public:
 	/*
 		Closes the output streams of the 'output' files
 		Usually called when a map is closed / new one is created or opened
-		These log files are based per map
+		These log files are Based per map
 	*/
 	static void closeOutput();
 

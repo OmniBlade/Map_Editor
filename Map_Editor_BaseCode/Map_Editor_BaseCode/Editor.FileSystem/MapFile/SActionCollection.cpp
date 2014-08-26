@@ -6,6 +6,7 @@
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Config.hpp"
 #include "../../Log.hpp"
+#include "../../GameDefinition.h"
 #include <string>
 
 /* static */ SActionCollection* SActionCollection::instance;
@@ -27,15 +28,24 @@ SActionCollection::SActionCollection()
 void SActionCollection::parse(ParamCollection* paramColl)
 {
 	paramColl = paramColl;
-	INIFile* file = INIManager::getManager()->getRoot("SACTIONS");
+	INIFile* file = INIManager::getManager()->getRoot("ACTIONS_S");
 	INISection* actions = file->getSection("ScriptActions");
 
-	actions->readIntValue("Count", count);
+	actions->readIntValue("RA2", rBaseCount);
+	actions->readIntValue("YR", rExpCount);
 
-	// Load only the first 146 entries if Ares is not enabled
-	if (count < 0 || (count > YRCount && Config::hasAres == false))
+	if (Game::title == Game::Type::Base)
 	{
-		count = YRCount;
+		count = BaseCount;
+	}
+	// Load only the first 146 entries if Ares is not enabled
+	else if (rExpCount < 0 || (rExpCount > expCount && Config::hasAres == false))
+	{
+		count = expCount;
+	}
+	else
+	{
+		count = rExpCount;
 	}
 
 	for (int i = 0; i < count; ++i)

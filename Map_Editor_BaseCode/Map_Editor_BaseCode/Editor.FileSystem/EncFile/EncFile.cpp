@@ -53,7 +53,7 @@ void EncFile::gd()
 {
 	eb.resize(el);
 
-	for (unsigned int i = 0; i < el; ++i)
+	for (int i = 0; i < el; ++i)
 	{
 		eb[i] = encReader->readChar();
 	}
@@ -64,7 +64,7 @@ void EncFile::gf()
 	encReader->setOffset(encReader->getFileSize() - fs);
 	fb.resize(fs);
 
-	for (unsigned int i = 0; i < fs; ++i)
+	for (int i = 0; i < fs; ++i)
 	{
 		fb[i] = encReader->readChar();
 	}

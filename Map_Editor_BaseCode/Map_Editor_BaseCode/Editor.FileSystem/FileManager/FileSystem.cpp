@@ -59,6 +59,8 @@ FileProperties FileSystem::getRootFile(const std::string& fileName)
 
 std::wstring FileSystem::getFileVersion(const std::string& fullFileName)
 {
+	return L"NOT SUPPORTED UNTIL PROPER DETERMINATION IS FOUND";
+
 	FileProperties props = getFile(fullFileName);
 	if (props.size == 4813072)
 	{

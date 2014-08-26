@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Config.hpp"
 #include "Log.hpp"
+#include "GameDefinition.h"
 #include "Editor.FileSystem\FileManager\Managers\INIManager.hpp"
 #include "Editor.FileSystem\IniFile\INISection.hpp"
 
@@ -34,6 +35,7 @@ std::string Config::sound	= "SOUNDMD.INI";
 std::string Config::eva		= "EVAMD.INI";
 std::string Config::theme	= "THEMEMD.INI";
 std::string Config::AI		= "AIMD.INI";
+std::string Config::UI		= "UIMD.INI";
 std::string Config::battle	= "BATTLEMD.INI";
 std::string Config::modes	= "MPMODESMD.INI";
 std::string Config::coop	= "COOPCAMPMD.INI";
@@ -55,8 +57,13 @@ void Config::parse(INIFile* configINI, const std::string& name, const std::strin
 			Log::note("Install directory: " + installDir, Log::DEBUG);
 			mainSection->readStringValue("Executable", Config::executable, "GAMEMD.EXE", true);
 			Log::note("Executable name: " + executable, Log::DEBUG);
-			mainSection->readStringValue("MissionDisk", Config::missionDisk, "MD", true);
-			Log::note("Mission disk: " + missionDisk, Log::DEBUG);
+
+			if (Game::title == Game::Type::Expansion)
+			{
+				mainSection->readStringValue("MissionDisk", Config::missionDisk, "MD", true);
+				Log::note("Mission disk: " + missionDisk, Log::DEBUG);
+			}
+
 			mainSection->readStringValue("ExpandMix", Config::expand, "EXPAND", true);
 			Log::note("Expand: " + expand, Log::DEBUG);
 			mainSection->readStringValue("EcacheMix", Config::ecache, "ECACHE", true);
@@ -86,8 +93,10 @@ void Config::parse(INIFile* configINI, const std::string& name, const std::strin
 			Log::note("Eva: " + eva, Log::DEBUG);
 			iniSection->readStringValue("Theme", Config::theme, "THEMEMD.INI", true);
 			Log::note("Theme: " + theme, Log::DEBUG);
-			iniSection->readStringValue("AI", Config::AI, "AIDMD.INI", true);
+			iniSection->readStringValue("AI", Config::AI, "AIMD.INI", true);
 			Log::note("AI: " + AI, Log::DEBUG);
+			iniSection->readStringValue("UI", Config::UI, "UIMD.INI", true);
+			Log::note("UI: " + UI, Log::DEBUG);
 			iniSection->readStringValue("Battle", Config::battle, "BATTLEMD.INI", true);
 			Log::note("Battle: " + battle, Log::DEBUG);
 			iniSection->readStringValue("Modes", Config::modes, "MPMODESMD.INI", true);
@@ -98,14 +107,17 @@ void Config::parse(INIFile* configINI, const std::string& name, const std::strin
 		else
 			Log::note("Section [INI] could not be found!", Log::DEBUG);
 
-		INISection* extensionSection = configINI->getSection("GameExtension");
-		if (extensionSection != nullptr)
+		if (Game::title == Game::Type::Expansion)
 		{
-			extensionSection->readBoolValue("Ares", Config::hasAres);
-			Log::note("Ares: " + Log::toString(hasAres), Log::DEBUG);
+			INISection* extensionSection = configINI->getSection("GameExtension");
+			if (extensionSection != nullptr)
+			{
+				extensionSection->readBoolValue("Ares", Config::hasAres);
+				Log::note("Ares: " + Log::toString(hasAres), Log::DEBUG);
+			}
+			else if (extensionSection != nullptr)
+				Log::note("Section [GameExtension] could not be found!", Log::DEBUG);
 		}
-		else
-			Log::note("Section [GameExtension] could not be found!", Log::DEBUG);
 	}
 	else
 		Log::note(name + " could not be found in the editor root!", Log::DEBUG);

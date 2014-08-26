@@ -85,6 +85,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameDefinition.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ActionTemplate.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ActionCollection.hpp" />
@@ -289,6 +290,7 @@
     <ClCompile Include="Editor.FileSystem\EncFile\EncFile.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\EncManager.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Format80.cpp" />
+    <ClCompile Include="GameDefinition.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />

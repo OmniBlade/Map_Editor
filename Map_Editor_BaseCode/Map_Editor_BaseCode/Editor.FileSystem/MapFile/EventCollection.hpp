@@ -17,8 +17,9 @@ private:
 	EventCollection();
 
 	ParamCollection* paramColl;
-	int count;
-	const int YRCount = 62; // 0 - 61...
+	int rExpCount, rBaseCount, count;
+	const int BaseCount = 59; // 0 - 58...
+	const int ExpCount = 62; // 0 - 61...
 	std::vector<std::unique_ptr<EventTemplate>> eventList;
 };
 

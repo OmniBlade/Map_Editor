@@ -3,6 +3,7 @@
 #include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../../Log.hpp"
+#include "../../../GameDefinition.h"
 #include "ScriptType.hpp"
 #include "TaskForce.hpp"
 #include "../House.hpp"
@@ -36,7 +37,10 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	section->readStringValue("TransportWaypoint", transWaypoint);
 
 	section->readIntValue("VeteranLevel", VeteranLevel);
-	section->readIntValue("MindControlDecision", MindControlDecision);
+	
+	if (Game::title == Game::Type::Expansion)
+		section->readIntValue("MindControlDecision", MindControlDecision);
+	
 	section->readIntValue("Priority", Priority);
 	section->readIntValue("Max", Max);
 	section->readIntValue("TechLevel", TechLevel);

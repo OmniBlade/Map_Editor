@@ -26,8 +26,6 @@
 /* static */ int Log::lastWarning = 0;
 /* static */ int Log::warningCount = 0;
 /* static */ bool Log::dumpInConsole = true;
-/* static */ Log::LogType types = Log::LogType::EMPTY;
-/* static */ Log::DebugType typesDebug = Log::DebugType::EMPTY_D;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::startTime;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::timer;
 /* static */ std::string Log::logFolder = Config::backSlash + "Logging";

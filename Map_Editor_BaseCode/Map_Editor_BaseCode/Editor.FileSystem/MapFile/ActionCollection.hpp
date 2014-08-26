@@ -19,8 +19,9 @@ private:
 
 	ParamCollection* paramColl;
 	
-	int count;
-	const int YRCount = 146; // 0 - 145...
+	int rBaseCount, rExpCount, count;
+	const int BaseCount = 130; // 0 - 129...
+	const int expCount = 146; // 0 - 145...
 	std::vector<std::unique_ptr<ActionTemplate>> actionList;
 };
 

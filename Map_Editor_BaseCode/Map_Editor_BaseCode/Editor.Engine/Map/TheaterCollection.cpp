@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../../Editor.FileSystem/INIFile/INISection.hpp"
 #include "../../Log.hpp"
+#include "../../GameDefinition.h"
 #include <algorithm>
 
 /* static */ TheaterCollection* TheaterCollection::instance;
@@ -22,9 +23,13 @@ void TheaterCollection::initiate(INIFile* _configFile)
 	defTheaterNames.push_back("Temperate");
 	defTheaterNames.push_back("Snow");
 	defTheaterNames.push_back("Urban");
-	defTheaterNames.push_back("Desert");
-	defTheaterNames.push_back("Lunar");
-	defTheaterNames.push_back("NewUrban");
+
+	if (Game::title == Game::Type::Expansion)
+	{
+		defTheaterNames.push_back("Desert");
+		defTheaterNames.push_back("Lunar");
+		defTheaterNames.push_back("NewUrban");
+	}
 	parseTheaters();
 }
 

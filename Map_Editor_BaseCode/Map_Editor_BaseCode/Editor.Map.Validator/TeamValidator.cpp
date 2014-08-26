@@ -2,6 +2,7 @@
 #include "TeamValidator.hpp"
 #include "../Log.hpp"
 #include "../Config.hpp" 
+#include "../GameDefinition.h"
 #include <algorithm>
 
 //#include "../Editor.Engine/Types/House.hpp"
@@ -111,7 +112,7 @@ void TeamValidator::validateTeamType()
 				Log::line("TeamType with ID '" + it->ID + "' has an invalid Transport Waypoint set.", Log::ERROR_BUFFER);
 			if (it->VeteranLevel < 0 || it->VeteranLevel > 3)
 				Log::line("TeamType with ID '" + it->ID + "' has an invalid Veteran Level set.", Log::ERROR_BUFFER);
-			if (it->MindControlDecision < 0 || it->MindControlDecision > 5)
+			if ((it->MindControlDecision < 0 || it->MindControlDecision > 5) && Game::title == Game::Type::Expansion)
 				Log::line("TeamType with ID '" + it->ID + "' has an invalid Mind-Control Decision set.", Log::ERROR_BUFFER);
 			if (it->TechLevel < 0 || it->TechLevel > 10)
 				Log::line("TeamType with ID '" + it->ID + "' has an invalid TechLevel set.", Log::ERROR_BUFFER);

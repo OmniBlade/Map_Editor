@@ -444,6 +444,9 @@
     <ClInclude Include="Editor.Map.Validator\ValidatorHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameDefinition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -837,6 +840,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Map.Validator\ValidatorHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDefinition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

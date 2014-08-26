@@ -6,6 +6,7 @@
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Config.hpp"
 #include "../../Log.hpp"
+#include "../../GameDefinition.h"
 #include <string>
 
 /* static */ EventCollection* EventCollection::instance;
@@ -30,12 +31,23 @@ void EventCollection::parse(ParamCollection* paramColl)
 	INIFile* file = INIManager::getManager()->getRoot("EVENTS");
 	INISection* actions = file->getSection("Events");
 
-	actions->readIntValue("Count", count);
+	actions->readIntValue("RA2", rBaseCount);
+	
+	actions->readIntValue("YR", rExpCount);
 
-	// Load only the first 146 entries if Ares is not enabled
-	if (count < 0 || (count > YRCount && Config::hasAres == false))
+	// Load only the first 59 entries if this is RA2
+	if (Game::title == Game::Type::Base)
 	{
-		count = YRCount;
+		count = BaseCount;
+	}
+	// Load only the first 146 entries if Ares is not enabled
+	else if (rExpCount < 0 || (rExpCount > ExpCount && Config::hasAres == false))
+	{
+		count = ExpCount;
+	}
+	else
+	{
+		count = rExpCount;
 	}
 
 	for (int i = 0; i < count; ++i)

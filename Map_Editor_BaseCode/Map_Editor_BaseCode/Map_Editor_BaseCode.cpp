@@ -59,12 +59,28 @@ void initiateEditor()
 	}
 	rawSystem->locateGameRootFiles();
 
+	switch (Game::title)
+	{
+	case Game::Type::Base:
+		Log::note();
+		Log::note("Setting scope to Base Game", Log::DEBUG);
+		break;
+	case Game::Type::Expansion:
+		Log::note();
+		Log::note("Setting scope to Expansion", Log::DEBUG);
+		break;
+	case Game::Type::Undefined:
+		Log::note();
+		Log::note("Setting scope to MEMLEAK_0x8523 - INVOKING BSOD STOP 0A", Log::DEBUG);
+		break;
+	}
+
 	StartupLoader bootLoader;
 	Log::note();
 	Log::note("Loading MIX files:", Log::DEBUG);
 	bootLoader.initiateMIX();
 
-	if (MIXManager::getManager()->get("RA2MD.MIX") == nullptr)
+	if (MIXManager::getManager()->get("RA2MD.MIX") == nullptr && MIXManager::getManager()->get("RA2.MIX") == nullptr)
 	{
 		Log::note("Invalid directory set, terminating now...", Log::DEBUG);
 		Log::close();
@@ -79,6 +95,7 @@ void initiateEditor()
 	Log::note();
 	Log::note("Loading CSF files:", Log::DEBUG);
 	bootLoader.initiateCSF();
+	Log::note();
 
 	ParamCollection* paramCollection = new ParamCollection();
 	std::cout << "ParamCollection: Possible leak! Move when going to the GUI!" << std::endl;
@@ -120,6 +137,18 @@ void loadMap()
 	Log::line("--- Game information ---", Log::INFO);
 	Log::line(info, Log::EXTRAS);
 
+	if (Config::hasAres)
+	{
+		INIFile* uimd = INIManager::getManager()->get(Config::UI);
+		INISection* info = uimd->getSection("VersionInfo");
+		if (info)
+		{
+			Log::line("--- Additional Ares Debug information ---", Log::INFO);
+			Log::line("Name: " + info->getValue("Name"), Log::EXTRAS);
+			Log::line("Version: " + info->getValue("Version"), Log::EXTRAS);
+		}
+	}
+
 	MapLoader mapLoader;
 	MapAssetLoader mapAssetLoader;
 	INIFile* map = INIManager::getManager()->get(Config::mapName);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
@@ -156,12 +185,12 @@ void loadMap()
 
 	Log::note("Time to Base64 IsoMapPack5: " + Log::getTimerValue(), Log::DEBUG);
 
-	//std::string base64StrEn = base64_encode((unsigned char*) base64Str.c_str(), base64Str.length());
+	//std::string Base64StrEn = Base64_encode((unsigned char*) Base64Str.c_str(), Base64Str.length());
 	//Log::timerStart();
 
 	/*
 	Little side information:
-	Tiberian Sun's Firestorm expansion pack will load exactly like below
+	Tiberian Sun's Firestorm Expansion pack will load exactly like below
 	Basically firestrm.ini is an INI file that is loaded between rules.ini and <some_map>.map,
 	you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
 	Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded

@@ -13,7 +13,7 @@ public:
 
 	//Stuff from the file
 	int identifier;
-	std::string name, description, tagCode, paramString;
+	std::string name, description, paramString;
 	bool requiresAres, works;
 
 	//Internal parsed stuff

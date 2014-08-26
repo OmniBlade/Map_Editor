@@ -46,6 +46,7 @@ public:
 	static std::string eva;
 	static std::string theme;
 	static std::string AI;
+	static std::string UI;
 	static std::string battle;
 	static std::string modes;
 	static std::string coop;

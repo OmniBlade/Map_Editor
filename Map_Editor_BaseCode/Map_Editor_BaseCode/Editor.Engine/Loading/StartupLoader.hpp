@@ -7,6 +7,10 @@ class StartupLoader
 {
 public:
 	StartupLoader();
+//---- GENERIC
+	std::vector<std::string> getFilesWithExtension(const std::string& ext);
+	bool inRoot(const std::string& fileName, const std::vector<std::string>& filenames);
+
 //---- MIX LOADING
 	/* Function to call when initiating MIXes, scoops through the directory for .mix files */
 	void initiateMIX();
@@ -14,12 +18,10 @@ public:
 	void findExpandMIX(std::vector<std::string>& filesVector);
 	/* Finds all ecache* and elocal* mixes in the directory */
 	void findEcacheMIX(std::vector<std::string>& filesVector);
-	/* Testcode - Checks whether the file exists in the root */
-	bool checkMixFileInRoot(const std::string& fileName);
 	/* Returns a list of all sub game mixes (like local.mix) */
 	std::vector<std::string> getMainMixes();
 	std::vector<std::string> getSubMixes();
-	std::vector<std::string> getExpandMixes();
+	std::vector<std::string> getExpandMixes(const std::vector<std::string>& mixFilenames);
 	std::vector<std::string> getEcacheMixes();
 
 //---- INI LOADING
@@ -28,15 +30,11 @@ public:
 	/* Returns a list of all Yuri's Revenge INI files */
 	std::vector<std::string> getIniNames();
 
-	bool checkIniInRoot(const std::string& fileName);
-
 //---- CSF LOADING
 	/* Function to call when initiating CSF files */
 	void initiateCSF();
 	/* Looks for all CSF files listed and tries to locate them in the root or MIX files */
-	void findCSFFiles(std::vector<std::string>& list);
-
-	bool checkCsfInRoot(const std::string& fileName);
+	void findCSFFiles(std::vector<std::string>& list, const std::vector<std::string>& csfFilenames);
 
 private:
 	std::vector<std::string> toProcessINIFileNames;
