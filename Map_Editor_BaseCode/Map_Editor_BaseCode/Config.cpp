@@ -43,86 +43,136 @@ std::string Config::coop	= "COOPCAMPMD.INI";
 // [GameExtension]
 bool Config::hasAres = false;
 
-void Config::parse(INIFile* configINI, const std::string& name, const std::string& gameInstallDir)
+void Config::parse(INIFile* configINI)
 {
 	Log::note();
 	Log::note("Showing configuration file flags below:", Log::DEBUG);
-	configName = name;
 	if (configINI != nullptr)
 	{
-		INISection* mainSection = configINI->getSection("Main");
-		if (mainSection != nullptr)
+		if (INISection* mainSection = configINI->getSection("Main"))
 		{
-			installDir = gameInstallDir;
-			Log::note("Install directory: " + installDir, Log::DEBUG);
-			mainSection->readStringValue("Executable", Config::executable, "GAMEMD.EXE", true);
-			Log::note("Executable name: " + executable, Log::DEBUG);
+			std::string defE;
+			if (Game::title == Game::Type::Base)
+			{
+				defE = "GAME.EXE";
+			}
+			else
+			{
+				defE = "GAMEMD.EXE";
+			}
 
+			mainSection->readStringValue("Executable", Config::executable, defE, true);
 			if (Game::title == Game::Type::Expansion)
 			{
 				mainSection->readStringValue("MissionDisk", Config::missionDisk, "MD", true);
-				Log::note("Mission disk: " + missionDisk, Log::DEBUG);
+			}
+			mainSection->readStringValue("ExpandMix", Config::expand, "EXPAND", true);
+			mainSection->readStringValue("EcacheMix", Config::ecache, "ECACHE", true);
+			mainSection->readStringValue("ElocalMix", Config::elocal, "ELOCAL", true);
+		}
+		else
+		{
+			Log::note("Section [Main] (" + configName + ") could not be found! Using defaults.", Log::DEBUG);
+			if (Game::title == Game::Type::Base)
+			{
+				executable = "GAME.EXE";
+			}
+		}
+		
+		Log::note("Install directory: " + installDir, Log::DEBUG);
+		Log::note("Executable name: " + executable, Log::DEBUG);
+		Log::note("Expand: " + expand, Log::DEBUG);
+		Log::note("Ecache: " + ecache, Log::DEBUG);
+		Log::note("Elocal: " + elocal, Log::DEBUG);
+		if (Game::title == Game::Type::Expansion)
+			Log::note("Mission disk: " + missionDisk, Log::DEBUG);
+
+		if (INISection* iniSection = configINI->getSection("INI"))
+		{
+			std::string defR, defA, defS, defE, defT, defAI, defU, defB, defM, defC;
+			if (Game::title == Game::Type::Base)
+			{
+				defR = "RULES.INI";
+				defA = "ART.INI";
+				defS = "SOUND.INI";
+				defE = "EVA.INI";
+				defT = "THEME.INI";
+				defAI = "AI.INI";
+				defU = "UI.INI";
+				defB = "BATTLE.INI";
+				defM = "MPMODES.INI";
+				defC = "COOPCAMP.INI";
+			}
+			else
+			{
+				defR = "RULESMD.INI";
+				defA = "ARTMD.INI";
+				defS = "SOUNDMD.INI";
+				defE = "EVAMD.INI";
+				defT = "THEMEMD.INI";
+				defAI = "AIMD.INI";
+				defU = "UIMD.INI";
+				defB = "BATTLEMD.INI";
+				defM = "MPMODESMD.INI";
+				defC = "COOPCAMPMD.INI";
 			}
 
-			mainSection->readStringValue("ExpandMix", Config::expand, "EXPAND", true);
-			Log::note("Expand: " + expand, Log::DEBUG);
-			mainSection->readStringValue("EcacheMix", Config::ecache, "ECACHE", true);
-			Log::note("Ecache: " + ecache, Log::DEBUG);
-			mainSection->readStringValue("ElocalMix", Config::elocal, "ELOCAL", true);
-			Log::note("Elocal: " + elocal, Log::DEBUG);
-			mainSection->readBoolValue("InGameLighting", Config::inGameLighting, true);
-			Log::note("In-game lighting: " + Log::toString(inGameLighting), Log::DEBUG);
-			mainSection->readBoolValue("FA2Mode", Config::FA2Mode, false);
-			Log::note("FA2 mode: " + Log::toString(FA2Mode), Log::DEBUG);
-			mainSection->readBoolValue("AIReferences", Config::AIReferences, false);
-			Log::note("AI References: " + Log::toString(AIReferences), Log::DEBUG);
+			iniSection->readStringValue("Rules", Config::rules, defR, true);
+			iniSection->readStringValue("Art", Config::art, defA, true);
+			iniSection->readStringValue("Sound", Config::sound, defS, true);
+			iniSection->readStringValue("Eva", Config::eva, defE, true);
+			iniSection->readStringValue("Theme", Config::theme, defT, true);
+			iniSection->readStringValue("AI", Config::AI, defAI, true);
+			iniSection->readStringValue("UI", Config::UI, defU, true);
+			iniSection->readStringValue("Battle", Config::battle, defB, true);
+			iniSection->readStringValue("Modes", Config::modes, defM, true);
+			iniSection->readStringValue("Coop", Config::coop, defC, true);
 		}
 		else
-			Log::note("Section [Main] could not be found!", Log::DEBUG);
-
-		INISection* iniSection = configINI->getSection("INI");
-		if (iniSection != nullptr)
 		{
-			iniSection->readStringValue("Rules", Config::rules, "RULESMD.INI", true);
-			Log::note("Rules: " + rules, Log::DEBUG);
-			iniSection->readStringValue("Art", Config::art, "ARTMD.INI", true);
-			Log::note("Art: " + art, Log::DEBUG);
-			iniSection->readStringValue("Sound", Config::sound, "SOUNDMD.INI", true);
-			Log::note("Sound: " + sound, Log::DEBUG);
-			iniSection->readStringValue("Eva", Config::eva, "EVAMD.INI", true);
-			Log::note("Eva: " + eva, Log::DEBUG);
-			iniSection->readStringValue("Theme", Config::theme, "THEMEMD.INI", true);
-			Log::note("Theme: " + theme, Log::DEBUG);
-			iniSection->readStringValue("AI", Config::AI, "AIMD.INI", true);
-			Log::note("AI: " + AI, Log::DEBUG);
-			iniSection->readStringValue("UI", Config::UI, "UIMD.INI", true);
-			Log::note("UI: " + UI, Log::DEBUG);
-			iniSection->readStringValue("Battle", Config::battle, "BATTLEMD.INI", true);
-			Log::note("Battle: " + battle, Log::DEBUG);
-			iniSection->readStringValue("Modes", Config::modes, "MPMODESMD.INI", true);
-			Log::note("Modes: " + modes, Log::DEBUG);
-			iniSection->readStringValue("Coop", Config::coop, "COOPCAMPMD.INI", true);
-			Log::note("Coop: " + coop, Log::DEBUG);
+			Log::note("Section [INI] could not be found! Using defaults.", Log::DEBUG);
+			if (Game::title == Game::Type::Base)
+			{
+				rules = "RULES.INI";
+				art = "ART.INI";
+				sound = "SOUND.INI";
+				eva = "EVA.INI";
+				theme = "THEME.INI";
+				AI = "AI.INI";
+				UI = "UI.INI";
+				battle = "BATTLE.INI";
+				modes = "MPMODES.INI";
+				coop = "COOPCAMP.INI";
+			}
+
 		}
-		else
-			Log::note("Section [INI] could not be found!", Log::DEBUG);
+		Log::note("Rules: " + rules, Log::DEBUG);
+		Log::note("Art: " + art, Log::DEBUG);
+		Log::note("Sound: " + sound, Log::DEBUG);
+		Log::note("Eva: " + eva, Log::DEBUG);
+		Log::note("Theme: " + theme, Log::DEBUG);
+		Log::note("AI: " + AI, Log::DEBUG);
+		Log::note("UI: " + UI, Log::DEBUG);
+		Log::note("Battle: " + battle, Log::DEBUG);
+		Log::note("Modes: " + modes, Log::DEBUG);
+		Log::note("Coop: " + coop, Log::DEBUG);
 
 		if (Game::title == Game::Type::Expansion)
 		{
-			INISection* extensionSection = configINI->getSection("GameExtension");
-			if (extensionSection != nullptr)
+			if (INISection* extensionSection = configINI->getSection("GameExtension"))
 			{
 				extensionSection->readBoolValue("Ares", Config::hasAres);
-				Log::note("Ares: " + Log::toString(hasAres), Log::DEBUG);
 			}
-			else if (extensionSection != nullptr)
-				Log::note("Section [GameExtension] could not be found!", Log::DEBUG);
+			else
+			{
+				Log::note("Section [GameExtension] could not be found! Using defaults.", Log::DEBUG);
+				hasAres = false;
+			}
+			Log::note("Ares: " + Log::toString(hasAres), Log::DEBUG);
 		}
 	}
 	else
-		Log::note(name + " could not be found in the editor root!", Log::DEBUG);
-		
-	//LOLOL, [Theaters] isn't even read :')
+		Log::note(configName + " could not be found in the editor root!", Log::DEBUG);
 
 	Log::note("End of configuration file flags.", Log::DEBUG);
 }

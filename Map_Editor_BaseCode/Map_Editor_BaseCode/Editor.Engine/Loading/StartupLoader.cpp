@@ -246,6 +246,13 @@ std::vector<std::string> StartupLoader::getExpandMixes(const std::vector<std::st
 	std::vector<std::string> expandMixNames;
 	std::stringstream number;
 
+	// Prefix for getting the left hand side of the filename only once instead of every loop
+	std::string prefix;
+	if (Game::title == Game::Type::Base)
+		prefix = Config::expand;
+	else if (Game::title == Game::Type::Expansion)
+		prefix = Config::expand + Config::missionDisk;
+	
 	for (int i = 99; i > -1; --i)
 	{
 		if (i < 10)
@@ -253,10 +260,7 @@ std::vector<std::string> StartupLoader::getExpandMixes(const std::vector<std::st
 		number << i;
 
 		std::string fileNameStr;
-		if (Game::title == Game::Type::Base)
-			fileNameStr = Config::expand + number.str() + ".MIX";
-		else if (Game::title == Game::Type::Expansion)
-			fileNameStr = Config::expand + Config::missionDisk + number.str() + ".MIX";
+		fileNameStr = prefix + number.str() + ".MIX";
 		
 		if (inRoot(fileNameStr, mixFilenames))
 		{

@@ -134,7 +134,10 @@ std::vector<std::string> TheaterCollection::getDefaultValues(const std::string& 
 	{
 		defaultValues.push_back("Temperate");
 		defaultValues.push_back("Temperate");
-		defaultValues.push_back("temperatmd.ini");
+		if (Game::title == Game::Type::Base)
+			defaultValues.push_back("TEMPERAT.INI");
+		else
+			defaultValues.push_back("TEMPERATMD.INI");
 		defaultValues.push_back("TEMPERATE");
 		defaultValues.push_back("T");
 		defaultValues.push_back("TEM");
@@ -147,7 +150,10 @@ std::vector<std::string> TheaterCollection::getDefaultValues(const std::string& 
 	{
 		defaultValues.push_back("Snow");
 		defaultValues.push_back("Snow");
-		defaultValues.push_back("snowmd.ini");
+		if (Game::title == Game::Type::Base)
+			defaultValues.push_back("SNOW.INI");
+		else
+			defaultValues.push_back("SNOWMD.INI");
 		defaultValues.push_back("SNOW");
 		defaultValues.push_back("A");
 		defaultValues.push_back("SNO");
@@ -160,7 +166,10 @@ std::vector<std::string> TheaterCollection::getDefaultValues(const std::string& 
 	{
 		defaultValues.push_back("Urban");
 		defaultValues.push_back("Urban");
-		defaultValues.push_back("urbanmd.ini");
+		if (Game::title == Game::Type::Base)
+			defaultValues.push_back("URBAN.INI");
+		else
+			defaultValues.push_back("URBANMD.INI");
 		defaultValues.push_back("URBAN");
 		defaultValues.push_back("U");
 		defaultValues.push_back("URB");
@@ -173,7 +182,7 @@ std::vector<std::string> TheaterCollection::getDefaultValues(const std::string& 
 	{
 		defaultValues.push_back("Desert");
 		defaultValues.push_back("Desert");
-		defaultValues.push_back("desertmd.ini");
+		defaultValues.push_back("DESERTMD.INI");
 		defaultValues.push_back("DESERT");
 		defaultValues.push_back("D");
 		defaultValues.push_back("DES");
@@ -186,7 +195,7 @@ std::vector<std::string> TheaterCollection::getDefaultValues(const std::string& 
 	{
 		defaultValues.push_back("Lunar");
 		defaultValues.push_back("Lunar");
-		defaultValues.push_back("lunarmd.ini");
+		defaultValues.push_back("LUNARMD.INI");
 		defaultValues.push_back("LUNAR");
 		defaultValues.push_back("L");
 		defaultValues.push_back("LUN");
@@ -199,7 +208,7 @@ std::vector<std::string> TheaterCollection::getDefaultValues(const std::string& 
 	{
 		defaultValues.push_back("NewUrban");
 		defaultValues.push_back("New Urban");
-		defaultValues.push_back("urbannmd.ini");
+		defaultValues.push_back("URBANNMD.INI");
 		defaultValues.push_back("NEWURBAN");
 		defaultValues.push_back("N");
 		defaultValues.push_back("UBN");

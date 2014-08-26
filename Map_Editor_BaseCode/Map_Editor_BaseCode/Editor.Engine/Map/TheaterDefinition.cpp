@@ -9,7 +9,7 @@ TheaterDefinition::TheaterDefinition(const std::vector<std::string>& _defaultThe
 	if (_defaultTheater.size() >= 10)
 		parseTheaterValues(_defaultTheater);
 	else
-		std::cout << "ERRORS - Default theater values does not have 9 values, unable to parse!" << std::endl;
+		std::cout << "ERRORS - Default theater values do not have 9 values, unable to parse!" << std::endl;
 }
 
 void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defaultTheater)
@@ -35,8 +35,8 @@ void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defa
 
 		//std::cout << "Hey there, why are the default value fall backs converted to a char* in parseTheaterValues?" << std::endl;
 		theaterSection->readStringValue("Name", Name, _defaultTheater[0].c_str());
-		theaterSection->readStringValue("INIFileName", INIFile, _defaultTheater[1].c_str());
-		theaterSection->readStringValue("ININame", ININame, _defaultTheater[2].c_str());
+		theaterSection->readStringValue("ININame", ININame, _defaultTheater[1].c_str());
+		theaterSection->readStringValue("INIFileName", INIFile, _defaultTheater[2].c_str());
 		theaterSection->readStringValue("NewTheaterSuffix", NewTheaterSuffix, _defaultTheater[3].c_str());
 		theaterSection->readStringValue("TileExtension", TileExtension, _defaultTheater[4].c_str());
 		theaterSection->readStringValue("MarblePrefix", MarblePrefix, _defaultTheater[5].c_str());
@@ -48,7 +48,7 @@ void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defa
 
 void TheaterDefinition::dumpContent()
 {
-	std::cout << "\n-------------------------------------------Dumping content for: " << Name << std::endl;
+	std::cout << "\n------------------Dumping content for: " << Name << std::endl;
 	std::cout << "Name: " << Name << std::endl;
 	std::cout << "INIFile: " << INIFile << std::endl;
 	std::cout << "ININame: " << ININame << std::endl;
