@@ -50,21 +50,22 @@ void ConfigLoader::parse()
 	for (unsigned int i = 0; i < configurations->size(); ++i)
 	{
 		number << i;
-		INISection* aConfig = configINI->getSection(configurations->getValue(number.str()));
-		if (!aConfig)
+		if (INISection* aConfig = configINI->getSection(configurations->getValue(number.str())))
+		{
+			std::string name, file, path, gameType;
+			aConfig->readStringValue("Name", name);
+			aConfig->readStringValue("ConfigFile", file);
+			aConfig->readStringValue("InstallDir", path);
+			aConfig->readStringValue("Game", gameType);
+
+			configFiles.push_back(std::make_unique<ConfigFile>(name, file, path, gameType));
+			number.str(std::string());
+		}
+		else
 		{
 			Log::note("Configuration entry with name '" + number.str() + "' does not exist as a section!", Log::DEBUG);
 			break;
 		}
-
-		std::string name, file, path, gameType;
-		aConfig->readStringValue("Name", name);
-		aConfig->readStringValue("ConfigFile", file);
-		aConfig->readStringValue("InstallDir", path);
-		aConfig->readStringValue("Game", gameType, "NULL");
-
-		configFiles.push_back(std::make_unique<ConfigFile>(name, file, path, gameType));
-		number.str(std::string());
 	}
 }
 

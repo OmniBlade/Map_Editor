@@ -60,7 +60,10 @@ void MIXManager::cache(const std::string& _mixName)
 
 		//Don't try shit when it's not there
 		if (containingMix == "")
+		{
+			Log::note("MIX: " + mixName + " could not be found.", Log::DEBUG);
 			return;
+		}
 
 		/* This gets the MIX that holds the file/mix */
 		MixFile* theMix = get(containingMix);

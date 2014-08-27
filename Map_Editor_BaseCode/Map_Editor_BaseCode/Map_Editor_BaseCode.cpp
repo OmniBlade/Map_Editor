@@ -90,7 +90,7 @@ void initiateEditor()
 
 	Log::note();
 	Log::note("Loading INI files:", Log::DEBUG);
-	Log::timerStart();
+	Log::timerStart(); //To measure the INI loading time!
 	bootLoader.initiateINI();
 	Log::note();
 	Log::note("Loading CSF files:", Log::DEBUG);
@@ -129,7 +129,7 @@ void initiateAMap()
 
 void loadMap()
 {
-	Log::openOutput();
+	Log::openOutput(); // Can't move, requires map INI name in file's name!	
 	std::wstring info = L"Game: " + CSFManager::getManager()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
 	size_t found = info.find_first_of(L"\n");
 	if (found != std::wstring::npos)
@@ -189,11 +189,11 @@ void loadMap()
 	//Log::timerStart();
 
 	/*
-	Little side information:
-	Tiberian Sun's Firestorm Expansion pack will load exactly like below
-	Basically firestrm.ini is an INI file that is loaded between rules.ini and <some_map>.map,
-	you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
-	Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
+		Little side information:
+		Tiberian Sun's Firestorm Expansion pack will load exactly like below
+		Basically firestrm.ini is an INI file that is loaded between rules.ini and <some_map>.map,
+		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
+		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
 	*/
 	Log::timerStart();
 	mapLoader.load(rules);

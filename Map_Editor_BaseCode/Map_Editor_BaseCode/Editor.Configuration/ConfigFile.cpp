@@ -20,6 +20,11 @@ ConfigFile::ConfigFile(const std::string& name, const std::string& path, const s
 	{
 		usedTitle = Game::Type::Expansion;
 	}
+	else if (game == "TS" || game == "FS")
+	{
+		usedTitle = Game::Type::Undefined;
+		Log::note("Mod definition with name '" + name + "' is for Tiberian Sun or Firestorm, those aren't supported by this editor!", Log::DEBUG);
+	}
 	else
 	{
 		usedTitle = Game::Type::Undefined;

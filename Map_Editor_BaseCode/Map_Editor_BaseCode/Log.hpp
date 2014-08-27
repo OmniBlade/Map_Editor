@@ -160,7 +160,7 @@ public:
 
 	static std::chrono::time_point<std::chrono::system_clock> startTime;
 	static std::chrono::time_point<std::chrono::system_clock> timer;
-	static std::string logFolder;
+	static std::string logFolder, startDateTime;
 
 	static std::wofstream logFile, logTimeFile, debugFile, debugTimeFile;
 	static std::vector<std::wstring> debugLines;

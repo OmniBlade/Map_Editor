@@ -29,6 +29,7 @@
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::startTime;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::timer;
 /* static */ std::string Log::logFolder = Config::backSlash + "Logging";
+/* static */ std::string Log::startDateTime = "";
 
 /* static */ void Log::cout(const std::wstring& line)
 {
@@ -274,23 +275,21 @@ std::string Log::getTimerValue()
 		std::cout << "'Logging' exists in the editor root!" << std::endl;
 
 	startTime = std::chrono::system_clock::now();
-	std::string& dateTime = getDateTimeForFile();
+	startDateTime = getDateTimeForFile();
 
 	if (!Config::enableDebug) return;
 
 	std::string debugName = Config::editorRoot + logFolder + Config::backSlash + "debug.log";
-	std::string debugNameNew = Config::editorRoot + logFolder + Config::backSlash + "debug." + dateTime + ".log";
+	std::string debugNameNew = Config::editorRoot + logFolder + Config::backSlash + "debug." + startDateTime + ".log";
 
 	debugFile.open(debugName);
 	debugTimeFile.open(debugNameNew);
 }
 
 /* static */ void Log::openOutput()
-{
-	std::string& dateTime = getDateTimeForFile();
-	
+{	
 	std::string outputName = Config::editorRoot + logFolder + Config::backSlash + "output.log";
-	std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + '.' + Config::mapName + ".log";
+	std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + startDateTime + '.' + Config::mapName + ".log";
 	//std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + ".log";
 
 	logFile.open(outputNameNew);

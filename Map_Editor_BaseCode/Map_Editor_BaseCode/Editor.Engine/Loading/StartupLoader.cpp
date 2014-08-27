@@ -3,6 +3,7 @@
 #include "../../Editor.FileSystem/FileManager/Managers/MixManager.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/CSFManager.hpp"
+#include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../Config.hpp"
 #include "../../Log.hpp"
 #include "../../GameDefinition.h"
@@ -19,12 +20,25 @@ StartupLoader::StartupLoader()
 void StartupLoader::initiateMIX()
 {
 	std::vector<std::string> mixFilenames = getFilesWithExtension("MIX");
-	
-	std::vector<std::string>& mixList = getExpandMixes(mixFilenames);
+	std::vector<std::string> mixList;
+
+	//Only load additional mixes if it is set
+	if (!Config::extraMix.empty())
+	{
+		LineSplitter extraMixes(Config::extraMix);
+		unsigned int extraMixesAmount = extraMixes.size();
+		for (unsigned int i = 0; i < extraMixesAmount; ++i)
+		{
+			mixList.push_back(extraMixes.pop_string());
+		}
+	}
+		
+	std::vector<std::string>& expandMixes = getExpandMixes(mixFilenames);
 	std::vector<std::string>& mainMixes = getMainMixes();
 	std::vector<std::string>& subMixes = getSubMixes();
 	std::vector<std::string>& ecacheMixes = getEcacheMixes();
 
+	mixList.insert(mixList.end(), expandMixes.begin(), expandMixes.end());
 	mixList.insert(mixList.end(), mainMixes.begin(), mainMixes.end());
 	mixList.insert(mixList.end(), ecacheMixes.begin(), ecacheMixes.end());
 	mixList.insert(mixList.end(), subMixes.begin(), subMixes.end());

@@ -24,6 +24,7 @@ std::string Config::missionDisk = "MD";
 std::string Config::expand = "EXPAND";
 std::string Config::ecache = "ECACHE";
 std::string Config::elocal = "ELOCAL";
+std::string Config::extraMix = "";
 bool Config::inGameLighting = true;
 bool Config::FA2Mode = false;
 bool Config::AIReferences = false;
@@ -66,6 +67,7 @@ void Config::parse(INIFile* configINI)
 			{
 				mainSection->readStringValue("MissionDisk", Config::missionDisk, "MD", true);
 			}
+			mainSection->readStringValue("ExtraMixes", Config::extraMix, "", true);
 			mainSection->readStringValue("ExpandMix", Config::expand, "EXPAND", true);
 			mainSection->readStringValue("EcacheMix", Config::ecache, "ECACHE", true);
 			mainSection->readStringValue("ElocalMix", Config::elocal, "ELOCAL", true);

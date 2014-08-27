@@ -9,7 +9,6 @@
 RawFileSystem::RawFileSystem()
 {
 	locateEditorRootFiles();
-//	locateGameRootFiles();
 }
 
 
