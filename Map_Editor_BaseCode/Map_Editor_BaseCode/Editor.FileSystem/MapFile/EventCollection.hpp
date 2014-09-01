@@ -1,4 +1,4 @@
-#include "EventTemplate.hpp"
+#include "EventType.hpp"
 #include <vector>
 #include <memory>
 
@@ -10,7 +10,7 @@ public:
 	static EventCollection* getInstance();
 
 	void parse(ParamCollection* paramColl);
-	EventTemplate* get(int id);
+	EventType* get(int id);
 
 private:
 	static EventCollection* instance;
@@ -20,7 +20,7 @@ private:
 	int rExpCount, rBaseCount, count;
 	const int BaseCount = 59; // 0 - 58...
 	const int ExpCount = 62; // 0 - 61...
-	std::vector<std::unique_ptr<EventTemplate>> eventList;
+	std::vector<std::unique_ptr<EventType>> eventList;
 };
 
 

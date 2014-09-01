@@ -28,7 +28,6 @@
 /* static */ bool Log::dumpInConsole = true;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::startTime;
 /* static */ std::chrono::time_point<std::chrono::system_clock> Log::timer;
-/* static */ std::string Log::logFolder = Config::backSlash + "Logging";
 /* static */ std::string Log::startDateTime = "";
 
 /* static */ void Log::cout(const std::wstring& line)
@@ -36,7 +35,7 @@
 	std::wcout << line << std::endl;
 }
 
-/* static */ void Log::line(const std::wstring& line /* = "" */, LogType type /* = EMPTY */)
+/* static */ void Log::validatorLine(const std::wstring& line /* = "" */, LogType type /* = EMPTY */)
 {
 	switch (type)
 	{
@@ -44,7 +43,7 @@
 		logLines.push_back(L"INFO     - " + line);
 		break;
 	case WARNING:
-		logLines.push_back(L"WARNING  - " + line);
+		logLines.push_back(L"WARN     - " + line);
 		warningCount++;
 		break;
 	case ERRORS:
@@ -70,10 +69,10 @@
 	case EMPTY:
 		logLines.push_back(L"");
 		break;
-	}
+	}	
 }
 
-/*static */ void Log::note(const std::wstring& line /* = "" */, DebugType type /* = EMPTY_D */)
+/*static */ void Log::line(const std::wstring& line /* = "" */, DebugType type /* = EMPTY_D */)
 {
 	if (!Config::enableDebug) return; //GTFO out of my debug function
 
@@ -107,26 +106,26 @@ void Log::finishErrorRound()
 {
 	if (errorCount == lastError)
 	{
-		Log::line(L"No errors were found.", Log::EXTRAS);
+		Log::validatorLine(L"No errors were found.", Log::EXTRAS);
 	}
 	else if (errorCount > lastError)
 	{
-		Log::line(Log::toWString(errorCount - lastError) + L" errors were found.", Log::EXTRAS);
+		Log::validatorLine(Log::toWString(errorCount - lastError) + L" errors were found.", Log::EXTRAS);
 	}
 	else if (errorCount < lastError)
 	{
-		Log::line(Log::toWString(errorCount - lastError) + L" errors were found?", Log::EXTRAS);
+		Log::validatorLine(Log::toWString(errorCount - lastError) + L" errors were found?", Log::EXTRAS);
 	}
 
 	for (unsigned int i = lastError; i < errorLines.size(); ++i)
 	{
-		Log::line(errorLines[i], Log::ERRORS);
+		Log::validatorLine(errorLines[i], Log::ERRORS);
 	}
 	errorLines.empty();
 
 	if (errorCount > lastError)
 	{
-		Log::line();
+		Log::validatorLine();
 	}
 
 	lastError = errorCount;
@@ -137,20 +136,20 @@ void Log::finishWarningRound()
 {
 	if (warningCount == lastWarning)
 	{
-		Log::line("No warnings were found.", Log::EXTRAS);
+		Log::validatorLine("No warnings were found.", Log::EXTRAS);
 	}
 	else if (warningCount > lastWarning)
 	{
-		Log::line(Log::toWString(warningCount - lastWarning) + L" warnings were found.", Log::EXTRAS);
+		Log::validatorLine(Log::toWString(warningCount - lastWarning) + L" warnings were found.", Log::EXTRAS);
 	}
 	else if (warningCount < lastWarning)
 	{
-		Log::line(Log::toWString(warningCount - lastWarning) + L" warnings were found?", Log::EXTRAS);
+		Log::validatorLine(Log::toWString(warningCount - lastWarning) + L" warnings were found?", Log::EXTRAS);
 	}
 
 	for (unsigned int i = lastWarning; i < warningLines.size(); ++i)
 	{
-		Log::line(warningLines[i], Log::WARNING);
+		Log::validatorLine(warningLines[i], Log::WARNING);
 	}
 	warningLines.empty();
 
@@ -267,7 +266,7 @@ std::string Log::getTimerValue()
 	{
 		std::cout << "Logging directory doesn't exist, creating now..." << std::endl;
 		if (CreateDirectory(dirNameW.c_str(), NULL))
-			note("Creating 'Logging' directory successful!", DEBUG);
+			line("Creating 'Logging' directory successful!", DEBUG);
 		else
 			std::cout << "Creating 'Logging' directory in editor root failed, are you running this as administrator?" << std::endl;
 	}
@@ -279,8 +278,8 @@ std::string Log::getTimerValue()
 
 	if (!Config::enableDebug) return;
 
-	std::string debugName = Config::editorRoot + logFolder + Config::backSlash + "debug.log";
-	std::string debugNameNew = Config::editorRoot + logFolder + Config::backSlash + "debug." + startDateTime + ".log";
+	std::string debugName = Config::editorRoot + Config::backSlash + "Logging" + Config::backSlash + "debug.log";
+	std::string debugNameNew = Config::editorRoot + Config::backSlash + "Logging" + Config::backSlash + "debug." + startDateTime + ".log";
 
 	debugFile.open(debugName);
 	debugTimeFile.open(debugNameNew);
@@ -288,9 +287,8 @@ std::string Log::getTimerValue()
 
 /* static */ void Log::openOutput()
 {	
-	std::string outputName = Config::editorRoot + logFolder + Config::backSlash + "output.log";
-	std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + startDateTime + '.' + Config::mapName + ".log";
-	//std::string outputNameNew = Config::editorRoot + logFolder + Config::backSlash + "output." + dateTime + ".log";
+	std::string outputName = Config::editorRoot + Config::backSlash + "Logging" + Config::backSlash + "output.log";
+	std::string outputNameNew = Config::editorRoot + Config::backSlash + "Logging" + Config::backSlash + "output." + startDateTime + '.' + Config::mapName + ".log";
 
 	logFile.open(outputNameNew);
 	logTimeFile.open(outputName);

@@ -41,7 +41,7 @@ void EventCollection::parse(ParamCollection* paramColl)
 		count = BaseCount;
 	}
 	// Load only the first 146 entries if Ares is not enabled
-	else if (rExpCount < 0 || (rExpCount > ExpCount && Config::hasAres == false))
+	else if (Game::title == Game::Type::Expansion && Config::hasAres == false)
 	{
 		count = ExpCount;
 	}
@@ -53,13 +53,13 @@ void EventCollection::parse(ParamCollection* paramColl)
 	for (int i = 0; i < count; ++i)
 	{
 		if (file->checkSectionExistance(Log::toString(i)))
-			eventList.push_back(std::make_unique<EventTemplate>(file->getSection(Log::toString(i)), paramColl));
+			eventList.push_back(std::make_unique<EventType>(file->getSection(Log::toString(i)), paramColl));
 		else
 			break;
 	}
 }
 
-EventTemplate* EventCollection::get(int id)
+EventType* EventCollection::get(int id)
 {
 	for (unsigned int i = 0; i < eventList.size(); ++i)
 	{

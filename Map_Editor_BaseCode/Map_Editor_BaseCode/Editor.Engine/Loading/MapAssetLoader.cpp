@@ -2,7 +2,7 @@
 #include "MapAssetLoader.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Config.hpp"
-#include "../Types/Managers/ObjectListHelpers.hpp"
+#include "../Types/Managers/MapObjectListHelpers.hpp"
 #include "../Types/AI/AITriggerEnable.hpp"
 #include "../Types/AI/AITriggerType.hpp"
 #include "../Types/House.hpp"
@@ -35,7 +35,7 @@ void MapAssetLoader::load(INIFile* mapFile)
 {
 	if (!mapFile)
 	{
-		Log::note("Unable to allocate map objects, file doesn't exist!", Log::DEBUG);
+		Log::line("Unable to allocate map objects, file doesn't exist!", Log::DEBUG);
 		return;
 	}
 
@@ -53,7 +53,7 @@ void MapAssetLoader::allocateMainData(INIFile* mapFile)
 
 void MapAssetLoader::loadAll(INIFile* mapFile)
 {
-	Log::note("Loading map objects now...", Log::DEBUG);
+	Log::line("Loading map objects now...", Log::DEBUG);
 
 	loadFromINI(Waypoint::Array, *mapFile, "Waypoints");
 	loadFromINI(VariableName::Array, *mapFile, "VariableNames");
@@ -93,16 +93,16 @@ void MapAssetLoader::updateTriggerChilds()
 
 void MapAssetLoader::dumpTypes()
 {
-	Log::note();
-	Log::note("Dumping the count of map types!");
-	Log::note("Tags: " + Log::toString(Tag::Array.objectTypeList.size()), Log::DEBUG);
-	Log::note("Triggers: " + Log::toString(Trigger::Array.objectTypeList.size()), Log::DEBUG);
-	Log::note("Events: " + Log::toString(Event::Array.objectTypeList.size()), Log::DEBUG);
-	Log::note("Actions: " + Log::toString(Action::Array.objectTypeList.size()), Log::DEBUG);
-	Log::note("TeamTypes: " + Log::toString(TeamType::Array.objectTypeList.size()), Log::DEBUG);
-	Log::note("ScriptType: " + Log::toString(ScriptType::Array.objectTypeList.size()), Log::DEBUG);
-	Log::note("TaskForces: " + Log::toString(TaskForce::Array.objectTypeList.size()), Log::DEBUG);
-	Log::note();
+	Log::line();
+	Log::line("Dumping the count of map types!");
+	Log::line("Tags: " + Log::toString(Tag::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line("Triggers: " + Log::toString(Trigger::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line("Events: " + Log::toString(Event::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line("Actions: " + Log::toString(Action::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line("TeamTypes: " + Log::toString(TeamType::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line("ScriptType: " + Log::toString(ScriptType::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line("TaskForces: " + Log::toString(TaskForce::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line();
 }
 
 void MapAssetLoader::loadOverlay(INIFile* mapFile)
@@ -130,6 +130,4 @@ void MapAssetLoader::loadOverlay(INIFile* mapFile)
 			}
 		}
 	}
-
-
 }

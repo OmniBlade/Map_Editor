@@ -85,9 +85,9 @@ void INIFile::load(INIFile* parentINI)
 						std::string corrValue = value.substr(0, 511);
 						std::string errValue = value.substr(512);
 
-						//Log::note("Key '" + key + "' in section '" + currentSection + "' is too long (longer than 512 characters):", Log::DEBUG);
-						//Log::note("Parsed: " + corrValue, Log::EXTRA);
-						//Log::note("Cut-off: " + errValue, Log::EXTRA);
+						//Log::line("Key '" + key + "' in section '" + currentSection + "' is too long (longer than 512 characters):", Log::DEBUG);
+						//Log::line("Parsed: " + corrValue, Log::EXTRA);
+						//Log::line("Cut-off: " + errValue, Log::EXTRA);
 						value = corrValue;
 					}
 					
@@ -107,7 +107,7 @@ void INIFile::load(INIFile* parentINI)
 			}
 		}
 	}
-	Log::note("Loading of file (name below this line) took: " + Log::getTimerValue(), Log::DEBUG);
+	Log::line("Loading of file (name below this line) took: " + Log::getTimerValue(), Log::DEBUG);
 	isLoaded = true;
 }
 

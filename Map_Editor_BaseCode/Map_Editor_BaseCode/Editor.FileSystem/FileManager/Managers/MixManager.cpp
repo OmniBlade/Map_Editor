@@ -61,7 +61,7 @@ void MIXManager::cache(const std::string& _mixName)
 		//Don't try shit when it's not there
 		if (containingMix == "")
 		{
-			Log::note("MIX: " + mixName + " could not be found.", Log::DEBUG);
+			Log::line("MIX: " + mixName + " could not be found.", Log::DEBUG);
 			return;
 		}
 
@@ -82,7 +82,7 @@ void MIXManager::cache(const std::string& _mixName)
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(parentName), offset, size));
 	}
 
-	Log::note("MIX: " + mixName + " succesfully cached.", Log::DEBUG);
+	Log::line("MIX: " + mixName + " succesfully cached.", Log::DEBUG);
 }
 
 		/*
@@ -208,12 +208,12 @@ bool MIXManager::extract(const std::string& fileName, const std::string& mixName
 {
 	if (rawSystem->fileIsInGameRoot(fileName))
 	{
-		Log::note("EXTRACTION - File with name '" + fileName + "' already exists in the game's root!", Log::DEBUG);
+		Log::line("EXTRACTION - File with name '" + fileName + "' already exists in the game's root!", Log::DEBUG);
 		return true;
 	}
 	else if (rawSystem->fileIsInEditorRoot(fileName))
 	{
-		Log::note("EXTRACTION - File with name '" + fileName + "' already exists in the editor's root!", Log::DEBUG);
+		Log::line("EXTRACTION - File with name '" + fileName + "' already exists in the editor's root!", Log::DEBUG);
 		return true;
 	}
 	
@@ -234,7 +234,7 @@ bool MIXManager::extract(const std::string& fileName, const std::string& mixName
 
 	if (!theMix)
 	{
-		Log::note("EXTRACTION - MIX with name '" + parentMixName + "' does not exist, aborting extraction.", Log::DEBUG);
+		Log::line("EXTRACTION - MIX with name '" + parentMixName + "' does not exist, aborting extraction.", Log::DEBUG);
 		return false;
 	}
 
@@ -243,23 +243,23 @@ bool MIXManager::extract(const std::string& fileName, const std::string& mixName
 	std::ofstream dicks(Config::editorRoot + Config::backSlash + fileName, std::ios::out | std::ios::binary);
 	if (dicks.is_open() && fileBytes.size() > 0)
 	{
-		//Log::note("Extracting following file from: " + parentMixName, Log::DEBUG);
+		//Log::line("Extracting following file from: " + parentMixName, Log::DEBUG);
 		for (unsigned int i = 0; i < fileBytes.size(); ++i)
 		{
 			dicks << fileBytes[i];
 		}
-		Log::note("EXTRACTION - File with name '" + fileName + "' has been written to the root of the editor.", Log::DEBUG);
+		Log::line("EXTRACTION - File with name '" + fileName + "' has been written to the root of the editor.", Log::DEBUG);
 		dicks.close();
 		return true;
 	}
 	else if (mixName.empty())
 	{
-		Log::note("Unable to write file '" + fileName + "'.", Log::DEBUG);
+		Log::line("Unable to write file '" + fileName + "'.", Log::DEBUG);
 		return false;
 	}
 	else
 	{
-		Log::note("Unable to write file '" + fileName + "' from MIX with name '" + mixName + "'.", Log::DEBUG);
+		Log::line("Unable to write file '" + fileName + "' from MIX with name '" + mixName + "'.", Log::DEBUG);
 		return false;
 	}
 }

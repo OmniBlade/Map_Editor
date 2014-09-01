@@ -1,14 +1,14 @@
 #pragma once
 
 #include "TechnoType.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include <string>
 
 
 class AircraftType : public TechnoType
 {
 public:
-	static List<AircraftType> Array;
+	static WWList<AircraftType> Array;
 	AircraftType(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

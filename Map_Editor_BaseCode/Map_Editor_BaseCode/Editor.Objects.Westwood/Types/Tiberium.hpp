@@ -1,12 +1,12 @@
 #pragma once
 
 #include "ObjectType.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 
 class Tiberium : public ObjectType
 {
 public:
-	static List<Tiberium> Array;
+	static WWList<Tiberium> Array;
 	Tiberium(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

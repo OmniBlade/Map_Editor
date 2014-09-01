@@ -7,7 +7,7 @@
 #include "InfantryType.hpp"
 #include "OverlayType.hpp"
 
-/* static */ List<BuildingType> BuildingType::Array;
+/* static */ WWList<BuildingType> BuildingType::Array;
 
 BuildingType::BuildingType(const std::string& id)
 :TechnoType(id)

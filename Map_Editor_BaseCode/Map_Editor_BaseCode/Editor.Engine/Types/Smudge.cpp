@@ -3,7 +3,7 @@
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../Editor.Objects.Westwood/Types/SmudgeType.hpp"
 
-/* static */ ObjectList<Smudge> Smudge::Array;
+/* static */ MapObjectList<Smudge> Smudge::Array;
 
 Smudge::Smudge()
 {
@@ -19,6 +19,6 @@ void Smudge::parse(const std::string& id, const std::string& list)
 	}
 	else
 	{
-		Log::note("Unable to parse Smudge with index '" + id + "'.", Log::DEBUG);
+		Log::line("Unable to parse Smudge with index '" + id + "'.", Log::DEBUG);
 	}
 }

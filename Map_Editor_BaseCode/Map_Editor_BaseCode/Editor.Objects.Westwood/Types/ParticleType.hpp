@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include "ObjectType.hpp"
 
 class ParticleType : public ObjectType
 {
 public:
-	static List<ParticleType> Array;
+	static WWList<ParticleType> Array;
 	ParticleType(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

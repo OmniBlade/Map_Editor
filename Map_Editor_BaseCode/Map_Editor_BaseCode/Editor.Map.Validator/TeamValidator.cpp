@@ -36,16 +36,16 @@ TeamValidator::~TeamValidator()
 
 void TeamValidator::validateScriptType()
 {
-	Log::line();
-	Log::line("Validating [ScriptTypes] now...", Log::INFO);
-	Log::line("Nothing to validate!", Log::CRITICAL);
+	Log::validatorLine();
+	Log::validatorLine("Validating [ScriptTypes] now...", Log::INFO);
+	Log::validatorLine("Nothing to validate!", Log::CRITICAL);
 	for (const auto& it : ScriptType::Array.objectTypeList)
 	{
 		if (!it->isGlobal)
 		{
 			if (it->actionList.size() > 50)
 			{
-				Log::line("ScriptType with ID '" + it->ID + "' has too many actions, game only parses the first 50.", Log::WARNING_BUFFER);
+				Log::validatorLine("ScriptType with ID '" + it->ID + "' has too many actions, game only parses the first 50.", Log::WARNING_BUFFER);
 			}
 
 			unsigned int index = 0;
@@ -62,15 +62,15 @@ void TeamValidator::validateScriptType()
 
 void TeamValidator::validateTaskForce()
 {
-	Log::line();
-	Log::line("Validating [TaskForces] now...", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("Validating [TaskForces] now...", Log::INFO);
 	for (const auto& it : TaskForce::Array.objectTypeList)
 	{
 		if (!it->isGlobal)
 		{
 			if (it->unitList.size() > 6)
 			{
-				Log::line("TaskForce with ID '" + it->ID + "' has too many units, game only parses the first 6.", Log::WARNING_BUFFER);
+				Log::validatorLine("TaskForce with ID '" + it->ID + "' has too many units, game only parses the first 6.", Log::WARNING_BUFFER);
 			}
 
 			unsigned int index = 0;
@@ -80,9 +80,9 @@ void TeamValidator::validateTaskForce()
 					break;
 
 				if (subIt->count < 1)
-					Log::line("TaskForce with ID '" + it->ID + "' has an invalid Unit Count set for entry '" + Log::toString(index)  + "'.", Log::WARNING_BUFFER);
+					Log::validatorLine("TaskForce with ID '" + it->ID + "' has an invalid Unit Count set for entry '" + Log::toString(index)  + "'.", Log::WARNING_BUFFER);
 				if (!subIt->aircraft && !subIt->infantry && !subIt->vehicle)
-					Log::line("TaskForce with ID '" + it->ID + "' has an invalid TechType set set for entry '" + Log::toString(index) + "'.", Log::ERROR_BUFFER);
+					Log::validatorLine("TaskForce with ID '" + it->ID + "' has an invalid TechType set set for entry '" + Log::toString(index) + "'.", Log::ERROR_BUFFER);
 
 				index++;
 			}
@@ -92,30 +92,30 @@ void TeamValidator::validateTaskForce()
 
 void TeamValidator::validateTeamType()
 {
-	Log::line();
-	Log::line("Validating [TeamTypes] now...", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("Validating [TeamTypes] now...", Log::INFO);
 	for (const auto& it : TeamType::Array.objectTypeList)
 	{
 		if (!it->isGlobal)
 		{
 			if (!it->pTag && it->tag != "" && it->tag != "None")
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid Tag set.", Log::ERROR_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid Tag set.", Log::ERROR_BUFFER);
 			if (!it->countryOwner && (!Config::isSP && !validateMPOwner(it->owner)))
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid Country as owner.", Log::ERROR_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid Country as owner.", Log::ERROR_BUFFER);
 			if (!it->pTaskForce && it->taskForce != "None" && !it->taskForce.empty())
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid TaskForce set.", Log::WARNING_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid TaskForce set.", Log::WARNING_BUFFER);
 			if (!it->pScriptType && it->script != "None" && !it->script.empty())
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid ScriptType set.", Log::WARNING_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid ScriptType set.", Log::WARNING_BUFFER);
 			if (!it->pWaypoint && !it->waypoint.empty())
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid Waypoint set.", Log::ERROR_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid Waypoint set.", Log::ERROR_BUFFER);
 			if (it->UseTransportOrigin && !it->pTransportWaypoint && !it->transWaypoint.empty())
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid Transport Waypoint set.", Log::ERROR_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid Transport Waypoint set.", Log::ERROR_BUFFER);
 			if (it->VeteranLevel < 0 || it->VeteranLevel > 3)
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid Veteran Level set.", Log::ERROR_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid Veteran Level set.", Log::ERROR_BUFFER);
 			if ((it->MindControlDecision < 0 || it->MindControlDecision > 5) && Game::title == Game::Type::Expansion)
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid Mind-Control Decision set.", Log::ERROR_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid Mind-Control Decision set.", Log::ERROR_BUFFER);
 			if (it->TechLevel < 0 || it->TechLevel > 10)
-				Log::line("TeamType with ID '" + it->ID + "' has an invalid TechLevel set.", Log::ERROR_BUFFER);
+				Log::validatorLine("TeamType with ID '" + it->ID + "' has an invalid TechLevel set.", Log::ERROR_BUFFER);
 		}
 	}
 }

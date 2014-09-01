@@ -4,7 +4,7 @@
 #include "../../../Log.hpp"
 #include "Trigger.hpp"
 
-/* static */ ObjectList<Tag> Tag::Array;
+/* static */ MapObjectList<Tag> Tag::Array;
 
 Tag::Tag()
 {
@@ -22,6 +22,6 @@ void Tag::parse(const std::string& id, const std::string& list)
 	}
 	else
 	{
-		Log::note("Unable to parse Tag with ID '" + ID + "'.", Log::DEBUG);
+		Log::line("Unable to parse Tag with ID '" + ID + "'.", Log::DEBUG);
 	}
 }

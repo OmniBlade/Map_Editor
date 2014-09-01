@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Tiberium.hpp"
 
-/* static */ List<Tiberium> Tiberium::Array;
+/* static */ WWList<Tiberium> Tiberium::Array;
 
 Tiberium::Tiberium(const std::string& id)
 :ObjectType(id)

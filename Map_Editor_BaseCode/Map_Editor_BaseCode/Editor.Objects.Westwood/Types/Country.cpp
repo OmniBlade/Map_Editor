@@ -2,7 +2,7 @@
 #include "Country.hpp"
 #include "../../Config.hpp"
 
-/* static */ List<Country> Country::Array;
+/* static */ WWList<Country> Country::Array;
 
 Country::Country(const std::string& id)
 :AbstractType(id)

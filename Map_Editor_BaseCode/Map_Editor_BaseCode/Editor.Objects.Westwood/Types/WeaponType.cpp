@@ -6,7 +6,7 @@
 #include "WarheadType.hpp"
 #include "Animation.hpp"
 
-/* static */ List<WeaponType> WeaponType::Array;
+/* static */ WWList<WeaponType> WeaponType::Array;
 
 WeaponType::WeaponType(const std::string& id)
 :AbstractType(id)

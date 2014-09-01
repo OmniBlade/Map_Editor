@@ -4,7 +4,7 @@
 #include "../../../Log.hpp"
 #include <cstdlib>
 
-/* static */ ObjectList<CellTag> CellTag::Array;
+/* static */ MapObjectList<CellTag> CellTag::Array;
 
 CellTag::CellTag()
 {

@@ -14,7 +14,7 @@ void Side::loadRules(INIFile* file)
 
 	for (auto& it : *rulesSection)
 	{
-		//Log::note("Adding Side: " + section.first, Log::DEBUG);
+		//Log::line("Adding Side: " + section.first, Log::DEBUG);
 		sideList.push_back(it);
 	}
 }

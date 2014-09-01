@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
 
@@ -12,7 +12,7 @@ class House;
 class Structure
 {
 public:
-	static ObjectList<Structure> Array;
+	static MapObjectList<Structure> Array;
 
 	Structure();
 

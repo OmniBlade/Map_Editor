@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include "AbstractType.hpp"
 
 class SuperWeaponType : public AbstractType
 {
 public:
-	static List<SuperWeaponType> Array;
+	static WWList<SuperWeaponType> Array;
 
 	SuperWeaponType(const std::string& id);
 

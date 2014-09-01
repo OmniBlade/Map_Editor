@@ -5,7 +5,7 @@
 #include <algorithm>
 #include "../../Log.hpp"
 
-template <typename T> class List
+template <typename T> class WWList
 {
 public:
 	/*
@@ -20,7 +20,7 @@ public:
 	}
 	
 	/*
-		Some fun stuff from the game it either finds the object with the specified ID,
+		Some fun stuff from the game; it either finds the object with the specified ID,
 		or it creates it
 		@param name The ID of the object
 		@return A pointer to the object, nullptr if explicitly specified there is nothing in the name
@@ -69,9 +69,9 @@ public:
 		for (unsigned int i = 0; i < typeList.size(); ++i)
 		{
 			if (typeList[i]->valid)
-				Log::line("V - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
+				Log::validatorLine("V - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
 			else
-				Log::line("X - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
+				Log::validatorLine("X - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
 		}
 	}
 
@@ -85,22 +85,9 @@ public:
 		return false;
 	}
 
-	std::vector<std::wstring> getAsString()
+	void make()
 	{
-		std::vector<std::wstring> names;
-
-		for (unsigned int i = 0; i < typeList.size(); ++i)
-		{
-			if (typeList[i]->valid)
-			{
-				if (typeList[i]->UIName.empty() || typeList[i]->WUIName == L"Building")
-					names.push_back(Log::toWString(i) + L" - " + Log::toWString(typeList[i]->Name) + L" (" + Log::toWString(typeList[i]->ID) + L")");
-				else
-					names.push_back(Log::toWString(i) + L" - " + typeList[i]->WUIName + L" (" + Log::toWString(typeList[i]->ID) + L")");
-			}
-		}
-
-		return names;
+		typeList.push_back(std::make_unique<T>());
 	}
 
 	std::vector<std::unique_ptr<T>> typeList;

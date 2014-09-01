@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SubAction.hpp"
 #include "../../../Editor.FileSystem/MapFile/ActionCollection.hpp"
-#include "../../../Editor.FileSystem/MapFile/ActionTemplate.hpp"
+#include "../../../Editor.FileSystem/MapFile/ActionType.hpp"
 #include "../../../Log.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 
@@ -31,5 +31,5 @@ void SubAction::assignActionType()
 {
 	pActionType = ActionCollection::getInstance()->get(actionType);
 	if (!pActionType)
-		Log::note("Unable to get ActionType for SubAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
+		Log::line("Unable to get ActionType for SubAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
 }

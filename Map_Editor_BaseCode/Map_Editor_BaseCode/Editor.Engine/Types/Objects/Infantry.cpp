@@ -7,7 +7,7 @@
 #include "../Triggers//Tag.hpp"
 #include "../House.hpp"
 
-/* static */ ObjectList<Infantry> Infantry::Array;
+/* static */ MapObjectList<Infantry> Infantry::Array;
 
 Infantry::Infantry()
 {
@@ -27,7 +27,7 @@ void Infantry::parse(const std::string& index, const std::string& list)
 	}
 	else
 	{
-		Log::note("Unable to parse Infantry with entry number '" + index + "'.", Log::DEBUG);
+		Log::line("Unable to parse Infantry with entry number '" + index + "'.", Log::DEBUG);
 	}
 }
 

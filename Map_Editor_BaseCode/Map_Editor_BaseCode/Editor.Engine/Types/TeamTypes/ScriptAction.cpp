@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ScriptAction.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
-#include "../../../Editor.FileSystem/MapFile/SActionTemplate.hpp"
+#include "../../../Editor.FileSystem/MapFile/SActionType.hpp"
 #include "../../../Editor.FileSystem/MapFile/SActionCollection.hpp"
 #include "../../../Log.hpp"
 
@@ -29,5 +29,5 @@ void ScriptAction::assignActionType()
 {
 	pActionType = SActionCollection::getInstance()->get(actionType);
 	if (!pActionType)
-		Log::note("Unable to get ActionType for SubAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
+		Log::line("Unable to get ActionType for SubAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
 }

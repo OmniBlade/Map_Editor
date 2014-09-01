@@ -2,7 +2,7 @@
 #include "AITriggerEnable.hpp"
 #include "AITriggerType.hpp"
 
-/* static */ ObjectList<AITriggerEnable> AITriggerEnable::Array;
+/* static */ MapObjectList<AITriggerEnable> AITriggerEnable::Array;
 
 AITriggerEnable::AITriggerEnable()
 {

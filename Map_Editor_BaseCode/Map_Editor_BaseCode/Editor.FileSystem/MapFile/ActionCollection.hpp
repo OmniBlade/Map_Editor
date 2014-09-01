@@ -1,5 +1,5 @@
 #pragma once
-#include "ActionTemplate.hpp"
+#include "ActionType.hpp"
 #include <vector>
 #include <memory>
 
@@ -11,7 +11,7 @@ public:
 	static ActionCollection* getInstance();
 
 	void parse(ParamCollection* paramColl);
-	ActionTemplate* get(int id);
+	ActionType* get(int id);
 
 private:
 	static ActionCollection* instance;
@@ -22,6 +22,6 @@ private:
 	int rBaseCount, rExpCount, count;
 	const int BaseCount = 130; // 0 - 129...
 	const int expCount = 146; // 0 - 145...
-	std::vector<std::unique_ptr<ActionTemplate>> actionList;
+	std::vector<std::unique_ptr<ActionType>> actionList;
 };
 

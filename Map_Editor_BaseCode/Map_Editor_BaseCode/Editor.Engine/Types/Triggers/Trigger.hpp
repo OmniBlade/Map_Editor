@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include <string>
 
 class Tag;
@@ -11,7 +11,7 @@ class Country;
 class Trigger
 {
 public:
-	static ObjectList<Trigger> Array;
+	static MapObjectList<Trigger> Array;
 
 	Trigger();
 	void parse(const std::string& id, const std::string& list);

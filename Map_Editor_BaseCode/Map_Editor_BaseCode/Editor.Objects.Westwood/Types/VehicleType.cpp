@@ -2,7 +2,7 @@
 #include "VehicleType.hpp"
 #include "../../Log.hpp"
 
-/* static */ List<VehicleType> VehicleType::Array;
+/* static */ WWList<VehicleType> VehicleType::Array;
 
 VehicleType::VehicleType(const std::string& id)
 :TechnoType(id)

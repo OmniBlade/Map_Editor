@@ -7,7 +7,7 @@
 #include "../Triggers/Tag.hpp"
 #include "../House.hpp"
 
-/* static */ ObjectList<Aircraft> Aircraft::Array;
+/* static */ MapObjectList<Aircraft> Aircraft::Array;
 
 
 /*
@@ -33,7 +33,7 @@ void Aircraft::parse(const std::string& index, const std::string& list)
 	}
 	else
 	{
-		Log::note("Unable to parse Aircraft with entry number '" + index + "'.", Log::DEBUG);
+		Log::line("Unable to parse Aircraft with entry number '" + index + "'.", Log::DEBUG);
 	}
 }
 

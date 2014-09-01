@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include "SubEvent.hpp"
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@
 class Event
 {
 public:
-	static ObjectList<Event> Array;
+	static MapObjectList<Event> Array;
 
 	Event();
 	void parse(const std::string& id, const std::string& list);

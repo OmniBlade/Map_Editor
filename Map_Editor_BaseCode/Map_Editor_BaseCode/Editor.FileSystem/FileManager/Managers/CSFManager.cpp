@@ -39,7 +39,7 @@ CSFFile* CSFManager::cache(const std::string& fileName)
 	if (props.reader)
 	{
 		csfFiles.push_back(std::make_unique<CSFFile>(props));
-		Log::note("CSF: " + fileName + " succesfully cached.", Log::DEBUG);
+		Log::line("CSF: " + fileName + " succesfully cached.", Log::DEBUG);
 		return csfFiles.back().get();
 	}
 

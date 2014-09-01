@@ -35,6 +35,8 @@
 #include <vector>
 #include <string>
 
+#include "Editor.Engine\Lists\ListProvider.h"
+
 void initiateEditor()
 {
 	//TODO: Rename ambiguous functions
@@ -52,7 +54,7 @@ void initiateEditor()
 
 	if (Config::installDir.empty())
 	{
-		Log::note("Unable to determine install directory, terminating now...", Log::DEBUG);
+		Log::line("Unable to determine install directory, terminating now...", Log::DEBUG);
 		Log::close();
 		system("pause");
 		exit(0);
@@ -62,40 +64,40 @@ void initiateEditor()
 	switch (Game::title)
 	{
 	case Game::Type::Base:
-		Log::note();
-		Log::note("Setting scope to Base Game", Log::DEBUG);
+		Log::line();
+		Log::line("Setting scope to Base Game", Log::DEBUG);
 		break;
 	case Game::Type::Expansion:
-		Log::note();
-		Log::note("Setting scope to Expansion", Log::DEBUG);
+		Log::line();
+		Log::line("Setting scope to Expansion", Log::DEBUG);
 		break;
 	case Game::Type::Undefined:
-		Log::note();
-		Log::note("Setting scope to MEMLEAK_0x8523 - INVOKING BSOD STOP 0A", Log::DEBUG);
+		Log::line();
+		Log::line("Setting scope to MEMLEAK_0x8523 - INVOKING BSOD STOP 0A", Log::DEBUG);
 		break;
 	}
 
 	StartupLoader bootLoader;
-	Log::note();
-	Log::note("Loading MIX files:", Log::DEBUG);
+	Log::line();
+	Log::line("Loading MIX files:", Log::DEBUG);
 	bootLoader.initiateMIX();
 
 	if (MIXManager::getManager()->get("RA2MD.MIX") == nullptr && MIXManager::getManager()->get("RA2.MIX") == nullptr)
 	{
-		Log::note("Invalid directory set, terminating now...", Log::DEBUG);
+		Log::line("Invalid directory set, terminating now...", Log::DEBUG);
 		Log::close();
 		system("pause");
 		exit(0);
 	}
 
-	Log::note();
-	Log::note("Loading INI files:", Log::DEBUG);
+	Log::line();
+	Log::line("Loading INI files:", Log::DEBUG);
 	Log::timerStart(); //To measure the INI loading time!
 	bootLoader.initiateINI();
-	Log::note();
-	Log::note("Loading CSF files:", Log::DEBUG);
+	Log::line();
+	Log::line("Loading CSF files:", Log::DEBUG);
 	bootLoader.initiateCSF();
-	Log::note();
+	Log::line();
 
 	ParamCollection* paramCollection = new ParamCollection();
 	std::cout << "ParamCollection: Possible leak! Move when going to the GUI!" << std::endl;
@@ -120,7 +122,7 @@ void initiateAMap()
 
 	if (!MIXManager::getManager()->extract(Config::mapName))
 	{
-		Log::note("Map to load does not exist, unable to continue what so ever!");
+		Log::line("Map to load does not exist, unable to continue what so ever!");
 		Log::close();
 		system("pause");
 		exit(0);
@@ -134,8 +136,8 @@ void loadMap()
 	size_t found = info.find_first_of(L"\n");
 	if (found != std::wstring::npos)
 		info.erase(found, found + 1);
-	Log::line("--- Game information ---", Log::INFO);
-	Log::line(info, Log::EXTRAS);
+	Log::validatorLine("--- Game information ---", Log::INFO);
+	Log::validatorLine(info, Log::EXTRAS);
 
 	if (Config::hasAres)
 	{
@@ -143,9 +145,9 @@ void loadMap()
 		INISection* info = uimd->getSection("VersionInfo");
 		if (info)
 		{
-			Log::line("--- Additional Ares Debug information ---", Log::INFO);
-			Log::line("Name: " + info->getValue("Name"), Log::EXTRAS);
-			Log::line("Version: " + info->getValue("Version"), Log::EXTRAS);
+			Log::validatorLine("--- Additional Ares Debug information ---", Log::INFO);
+			Log::validatorLine("Name: " + info->getValue("Name"), Log::EXTRAS);
+			Log::validatorLine("Version: " + info->getValue("Version"), Log::EXTRAS);
 		}
 	}
 
@@ -161,29 +163,25 @@ void loadMap()
 
 	INIFile* rules = INIManager::getManager()->get(Config::rules);
 
-	Log::line("---- Map information ----", Log::INFO);
-	Log::line("Scenario name: " + Config::mapName, Log::EXTRAS);
-	Log::line("Map name: " + Basic::getBasic()->name, Log::EXTRAS);
+	Log::validatorLine("---- Map information ----", Log::INFO);
+	Log::validatorLine("Scenario name: " + Config::mapName, Log::EXTRAS);
+	Log::validatorLine("Map name: " + Basic::getBasic()->name, Log::EXTRAS);
 	if (!Basic::getBasic()->player.empty())
 	{
-		Log::line("This is a singleplayer map.", Log::EXTRAS);
+		Log::validatorLine("This is a singleplayer map.", Log::EXTRAS);
 		Config::isSP = true;
 	}
 	else
 	{
-		Log::line("This is a multiplayer map.", Log::EXTRAS);
+		Log::validatorLine("This is a multiplayer map.", Log::EXTRAS);
 		if (GameModeCollection::getInstance()->getCurrent())
-			Log::line(L"Gamemode: " + GameModeCollection::getInstance()->getCurrent()->WGUIName, Log::EXTRAS);
+			Log::validatorLine(L"Gamemode: " + GameModeCollection::getInstance()->getCurrent()->WGUIName, Log::EXTRAS);
 	}
-	Log::line();
+	Log::validatorLine();
 
-	Log::note("Serious shit now... Decoding IsoMapPack5!", Log::DEBUG);
-	Log::timerStart();
 	INISection* pack = map->getSection("IsoMapPack5");
 	IsoMapPack isoPack(pack);
 	isoPack.read();
-
-	Log::note("Time to Base64 IsoMapPack5: " + Log::getTimerValue(), Log::DEBUG);
 
 	//std::string Base64StrEn = Base64_encode((unsigned char*) Base64Str.c_str(), Base64Str.length());
 	//Log::timerStart();
@@ -199,15 +197,16 @@ void loadMap()
 	mapLoader.load(rules);
 	mapLoader.load(mode);
 	mapLoader.load(map);
+	mapLoader.loadGlobalVariable();
 	mapLoader.loadAI();
-	Log::note("Loading game's objects took: " + Log::getTimerValue(), Log::DEBUG);
+	Log::line("Loading game's objects took: " + Log::getTimerValue(), Log::DEBUG);
 
-	//Log::note("Going to load all objects now!", Log::DEBUG);
+	//Log::line("Going to load all objects now!", Log::DEBUG);
 	Log::timerStart();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
 	mapAssetLoader.loadOverlay(map);
-	Log::note("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
+	Log::line("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
 
 	mapLoader.dumpLists();
 	mapAssetLoader.dumpTypes();
@@ -217,11 +216,11 @@ void loadMap()
 void validateMap()
 {
 
-	Log::note();
-	Log::note("Going to validate the map now!", Log::DEBUG);
+	Log::line();
+	Log::line("Going to validate the map now!", Log::DEBUG);
 	Log::timerStart();
 	MainValidator mainValidator;
-	Log::note("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
+	Log::line("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
 }
 
 /*
@@ -238,15 +237,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	handleArguments(argc, argv);
 
 	Log::openDebug();
-	Log::note("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
+	Log::line("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
 
 	initiateEditor();
 	initiateAMap();
 	loadMap();
 	validateMap();
 
-	Log::note();
-	Log::note("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
+	Log::line();
+	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;
 	Log::close();
 	system("pause");

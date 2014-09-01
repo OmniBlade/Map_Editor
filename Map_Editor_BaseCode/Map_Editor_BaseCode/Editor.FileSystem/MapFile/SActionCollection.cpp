@@ -39,7 +39,7 @@ void SActionCollection::parse(ParamCollection* paramColl)
 		count = BaseCount;
 	}
 	// Load only the first 146 entries if Ares is not enabled
-	else if (rExpCount < 0 || (rExpCount > expCount && Config::hasAres == false))
+	else if (Game::title == Game::Type::Expansion && Config::hasAres == false)
 	{
 		count = expCount;
 	}
@@ -51,13 +51,13 @@ void SActionCollection::parse(ParamCollection* paramColl)
 	for (int i = 0; i < count; ++i)
 	{
 		if (file->checkSectionExistance(Log::toString(i)))
-			actionList.push_back(std::make_unique<SActionTemplate>(file->getSection(Log::toString(i)), paramColl));
+			actionList.push_back(std::make_unique<SActionType>(file->getSection(Log::toString(i)), paramColl));
 		else
 			break;
 	}
 }
 
-SActionTemplate* SActionCollection::get(int id)
+SActionType* SActionCollection::get(int id)
 {
 	for (unsigned int i = 0; i < actionList.size(); ++i)
 	{

@@ -1,12 +1,12 @@
 #pragma once
 
 #include "TechnoType.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 
 class VehicleType : public TechnoType
 {
 public:
-	static List<VehicleType> Array;
+	static WWList<VehicleType> Array;
 	VehicleType(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

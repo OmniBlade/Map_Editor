@@ -3,7 +3,7 @@
 #include "../../Log.hpp"
 #include "WeaponType.hpp"
 
-/* static */ List<InfantryType> InfantryType::Array;
+/* static */ WWList<InfantryType> InfantryType::Array;
 
 InfantryType::InfantryType(const std::string& id)
 :TechnoType(id)

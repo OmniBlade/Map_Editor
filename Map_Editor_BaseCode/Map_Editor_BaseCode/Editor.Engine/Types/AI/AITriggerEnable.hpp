@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include <string>
 class AITriggerType;
 
 class AITriggerEnable
 {
 public:
-	static ObjectList<AITriggerEnable> Array;
+	static MapObjectList<AITriggerEnable> Array;
 
 	AITriggerEnable();
 	void parse(const std::string& id, const std::string& state);

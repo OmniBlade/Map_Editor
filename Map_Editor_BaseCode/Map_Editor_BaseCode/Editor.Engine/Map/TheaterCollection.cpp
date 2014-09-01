@@ -121,7 +121,7 @@ void TheaterCollection::validateTheaterPresence()
 			}
 		}
 		if (!theaterFound)
-			Log::note("Unable to validate presence of default theater with name '" + defTheaterNames[i] + "'.", Log::DEBUG);
+			Log::line("Unable to validate presence of default theater with name '" + defTheaterNames[i] + "'.", Log::DEBUG);
 	}
 }
 

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Overlay.h"
 
-/* static */ ObjectList<Overlay> Overlay::Array;
+/* static */ MapObjectList<Overlay> Overlay::Array;
 
 Overlay::Overlay()
 {

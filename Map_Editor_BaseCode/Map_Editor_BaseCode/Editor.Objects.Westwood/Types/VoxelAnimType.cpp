@@ -3,7 +3,7 @@
 #include "../../Log.hpp"
 #include "WarheadType.hpp"
 
-/* static */ List<VoxelAnimType> VoxelAnimType::Array;
+/* static */ WWList<VoxelAnimType> VoxelAnimType::Array;
 
 VoxelAnimType::VoxelAnimType(const std::string& id)
 :ObjectType(id)

@@ -5,7 +5,7 @@
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../../Log.hpp"
 
-/* static */ ObjectList<ScriptType> ScriptType::Array;
+/* static */ MapObjectList<ScriptType> ScriptType::Array;
 
 ScriptType::ScriptType(const std::string& id)
 :ID(id)
@@ -46,7 +46,7 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 			}
 			else
 			{
-				Log::note("Unable to parse Script Action with ID '" + ID + "'.", Log::DEBUG);
+				Log::line("Unable to parse Script Action with ID '" + ID + "'.", Log::DEBUG);
 			}
 		}
 	}

@@ -1,12 +1,12 @@
 #pragma once
-#include "List.hpp"
+#include "WWList.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 template<typename T> 
-void findOrAllocateAll(List<T>& list, INISection& section)
+void findOrAllocateAll(WWList<T>& list, INISection& section)
 {
-	//Log::note("Now in findOrAllocateAll()", Log::DEBUG);
+	//Log::line("Now in findOrAllocateAll()", Log::DEBUG);
 	for (const auto& it : section)
 	{
 		list.findOrAllocate(section.getValue(it));
@@ -14,9 +14,9 @@ void findOrAllocateAll(List<T>& list, INISection& section)
 }
 
 template<typename T>
-void loadFromINI(List<T>& list, INIFile& file, INIFile& art)
+void loadFromINI(WWList<T>& list, INIFile& file, INIFile& art)
 {
-	//Log::note("Now in loadFromINI()", Log::DEBUG);
+	//Log::line("Now in loadFromINI()", Log::DEBUG);
 	for (unsigned int i = 0; i < list.typeList.size(); ++i)
 	{
 		list.typeList[i].get()->loadRules(&file);
@@ -33,7 +33,7 @@ void loadFromINI(List<T>& list, INIFile& file, INIFile& art)
 }
 
 template<typename T>
-void loadFromSingleINI(List<T>& list, INIFile& file)
+void loadFromSingleINI(WWList<T>& list, INIFile& file)
 {
 	for (unsigned int i = 0; i < list.typeList.size(); ++i)
 	{

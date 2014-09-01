@@ -11,7 +11,7 @@
 #include "../Waypoint.hpp"
 #include "../Triggers/Tag.hpp"
 
-/* static */ ObjectList<TeamType> TeamType::Array;
+/* static */ MapObjectList<TeamType> TeamType::Array;
 
 TeamType::TeamType(const std::string& id)
 :ID(id)

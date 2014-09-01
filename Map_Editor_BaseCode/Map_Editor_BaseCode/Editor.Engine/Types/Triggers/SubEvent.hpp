@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 
-class EventTemplate;
+class EventType;
 class LineSplitter;
 
 class SubEvent
@@ -15,6 +15,6 @@ public:
 	int eventType, parseType, param1;
 	std::string param1S, param2;
 	
-	EventTemplate* pEventType;
+	EventType* pEventType;
 };
 

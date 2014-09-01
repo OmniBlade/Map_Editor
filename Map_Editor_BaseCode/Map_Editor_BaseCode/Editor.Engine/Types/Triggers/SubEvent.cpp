@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SubEvent.hpp"
 #include "../../../Editor.FileSystem/MapFile/EventCollection.hpp"
-#include "../../../Editor.FileSystem/MapFile/EventTemplate.hpp"
+#include "../../../Editor.FileSystem/MapFile/EventType.hpp"
 #include "../../../Log.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 
@@ -34,5 +34,5 @@ void SubEvent::assignEventType()
 {
 	pEventType = EventCollection::getInstance()->get(eventType);
 	if (!pEventType)
-		Log::note("Unable to get EventType for SubEvent with ID " + Log::toString(eventType) + ".", Log::DEBUG);
+		Log::line("Unable to get EventType for SubEvent with ID " + Log::toString(eventType) + ".", Log::DEBUG);
 }

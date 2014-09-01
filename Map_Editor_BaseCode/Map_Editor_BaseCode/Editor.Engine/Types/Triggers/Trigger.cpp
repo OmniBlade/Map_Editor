@@ -9,7 +9,7 @@
 #include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../../Editor.FileSystem/IniFile/INISection.hpp"
 
-/* static */ ObjectList<Trigger> Trigger::Array;
+/* static */ MapObjectList<Trigger> Trigger::Array;
 
 Trigger::Trigger()
 {
@@ -39,7 +39,7 @@ void Trigger::parse(const std::string& id, const std::string& list)
 	}
 	else
 	{
-		Log::note("Unable to parse Trigger with ID '" + ID + "'.", Log::DEBUG);
+		Log::line("Unable to parse Trigger with ID '" + ID + "'.", Log::DEBUG);
 	}
 
 }

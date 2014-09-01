@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "EventTemplate.hpp"
+#include "EventType.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "ParamCollection.hpp"
 #include "ParamType.hpp"
 #include "../../Log.hpp"
 
-EventTemplate::EventTemplate(INISection* section, ParamCollection* params)
+EventType::EventType(INISection* section, ParamCollection* params)
 {
 	parse(section, params);
 }
 
-void EventTemplate::parse(INISection* section, ParamCollection* params)
+void EventType::parse(INISection* section, ParamCollection* params)
 {
 	section->readIntValue("Identifier", identifier, atoi(section->getSectionName().c_str()));
 	section->readStringValue("Name", name);
@@ -41,12 +41,12 @@ void EventTemplate::parse(INISection* section, ParamCollection* params)
 				if (P3 > 0)
 					paramList.push_back(params->get(P2));
 
-				Log::note("Event with ID '" + section->getSectionName() + "' has too few parameters in its ParamString.", Log::DEBUG);
+				Log::line("Event with ID '" + section->getSectionName() + "' has too few parameters in its ParamString.", Log::DEBUG);
 			}
 		}
 	}
 	else
 	{
-		Log::note("Unable to parse Event with ID '" + section->getSectionName() + "', invalid ParamString.", Log::DEBUG);
+		Log::line("Unable to parse Event with ID '" + section->getSectionName() + "', invalid ParamString.", Log::DEBUG);
 	}
 }

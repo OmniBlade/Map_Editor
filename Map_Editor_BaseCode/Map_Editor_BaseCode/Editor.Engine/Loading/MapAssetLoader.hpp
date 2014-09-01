@@ -40,5 +40,6 @@ public:
 		@param mapFile The INI file that contains map 'code'
 	*/
 	void loadOverlay(INIFile* mapFile);
+
 };
 

@@ -7,7 +7,7 @@
 #include "../Triggers/Tag.hpp"
 #include "../House.hpp"
 
-/* static */ ObjectList<Structure> Structure::Array;
+/* static */ MapObjectList<Structure> Structure::Array;
 
 Structure::Structure()
 {
@@ -31,7 +31,7 @@ void Structure::parse(const std::string& index, const std::string& list)
 	}
 	else
 	{
-		Log::note("Unable to parse Structure with entry number '" + index + "'.", Log::DEBUG);
+		Log::line("Unable to parse Structure with entry number '" + index + "'.", Log::DEBUG);
 	}
 }
 

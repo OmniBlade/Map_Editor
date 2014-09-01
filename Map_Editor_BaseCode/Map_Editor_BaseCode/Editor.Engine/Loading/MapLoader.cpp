@@ -4,8 +4,8 @@
 #include "../../Config.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "MapLoaderHelpers.hpp"
-#include "../../Editor.Objects.Westwood/Managers/ListHelpers.hpp"
-#include "../Types/Managers/ObjectListHelpers.hpp"
+#include "../../Editor.Objects.Westwood/Managers/WWListHelpers.hpp"
+#include "../Types/Managers/MapObjectListHelpers.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.Objects.Westwood/Types/OverlayType.hpp"
 #include "../../Editor.Objects.Westwood/Types/SuperWeaponType.hpp"
@@ -23,11 +23,13 @@
 #include "../../Editor.Objects.Westwood/Types/WarheadType.hpp"
 #include "../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../../Editor.Objects.Westwood/Types/Tiberium.hpp"
-#include "../../Editor.Objects.Westwood/Audio/Sound.hpp"
-#include "../../Editor.Objects.Westwood/Audio/Speech.hpp"
-#include "../../Editor.Objects.Westwood/Audio/Theme.hpp"
+#include "../../Editor.Objects.Westwood/AudioVisual/Sound.hpp"
+#include "../../Editor.Objects.Westwood/AudioVisual/Speech.hpp"
+#include "../../Editor.Objects.Westwood/AudioVisual/Theme.hpp"
+#include "../../Editor.Objects.Westwood/AudioVisual/Movie.h"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.Engine/Game/GameModeCollection.hpp"
+#include "../Types/VariableName.hpp"
 #include "../Types/TeamTypes/ScriptType.hpp"
 #include "../Types/TeamTypes/TaskForce.hpp"
 #include "../Types/TeamTypes/TeamType.hpp"
@@ -51,7 +53,7 @@ void MapLoader::load(INIFile* file)
 {
 	if (!file)
 	{
-		Log::note("Unable to allocate rules, file doesn't exist!", Log::DEBUG);
+		Log::line("Unable to allocate rules, file doesn't exist!", Log::DEBUG);
 		return;
 	}
 
@@ -61,7 +63,7 @@ void MapLoader::load(INIFile* file)
 
 void MapLoader::allocateMainRules(INIFile* file)
 {
-	Log::note("Allocating main rules now...", Log::DEBUG);
+	Log::line("Allocating main rules now...", Log::DEBUG);
 
 	allocateAll(Country::Array, file, "Countries");
 	allocateAll(OverlayType::Array, file, "OverlayTypes");
@@ -92,7 +94,7 @@ void MapLoader::loadAll(INIFile* file)
 {
 	INIFile* art = INIManager::getManager()->get(Config::art);
 
-	Log::note("Loading main rules now...", Log::DEBUG);
+	Log::line("Loading main rules now...", Log::DEBUG);
 	//3 times for rules / gamemode mode / mapmod
 	loadFromINI(Country::Array, *file, *art);
 	sides->loadRules(file);
@@ -125,6 +127,7 @@ void MapLoader::loadAudio()
 	INIFile* speech = INIManager::getManager()->get(Config::eva);
 	INIFile* sound = INIManager::getManager()->get(Config::sound);
 	INIFile* theme = INIManager::getManager()->get(Config::theme);
+	INIFile* art = INIManager::getManager()->get(Config::art);
 	
 	allocateAll(Speech::Array, speech, "DialogList");
 	allocateAll(Sound::Array, sound, "SoundList");//
@@ -132,6 +135,15 @@ void MapLoader::loadAudio()
 	loadFromSingleINI(Speech::Array, *speech);
 	loadFromSingleINI(Sound::Array, *sound);
 	loadFromSingleINI(Theme::Array, *theme);
+
+	INISection* movielist = art->getSection("Movies");
+	INISection& uglySection = *movielist;
+
+	for (const auto& it : uglySection)
+	{
+		Movie::Array.make();
+		Movie::Array.typeList[Movie::Array.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
+	}
 }
 
 void MapLoader::loadAI()
@@ -148,6 +160,20 @@ void MapLoader::loadAI()
 
 }
 
+void MapLoader::loadGlobalVariable()
+{
+	INIFile* rules = INIManager::getManager()->get(Config::rules);
+	INISection* globals = rules->getSection("VariableNames");
+
+	INISection& uglySection = *globals;
+
+	for (const auto& it : uglySection)
+	{
+		GlobalVariableName::Array.make();
+		GlobalVariableName::Array.objectTypeList[GlobalVariableName::Array.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
+	}
+}
+
 bool MapLoader::locateGameMode(INIFile* map)
 {
 	INISection* basic = map->getSection("Basic");
@@ -160,12 +186,12 @@ bool MapLoader::locateGameMode(INIFile* map)
 	LineSplitter split(basic->getValue("GameMode"));
 	if (split.size() > 1 && (split.size() == 2 && !split.exists("standard")))
 	{
-		Log::note("Multiple game modes are found, none are loaded to maintain proper lists!", Log::DEBUG);
+		Log::line("Multiple game modes are found, none are loaded to maintain proper lists!", Log::DEBUG);
 		return false;
 	}
 	else if (split.empty())
 	{
-		Log::note("GameMode key exists in map file, but no game modes are defined!", Log::DEBUG);
+		Log::line("GameMode key exists in map file, but no game modes are defined!", Log::DEBUG);
 		return false;
 	}
 	else if (split.size() == 1 || (split.size() == 2 && split.exists("standard")))
@@ -186,49 +212,49 @@ void MapLoader::dumpLists()
 {
 	if (!Config::dumpTypes) return;
 
-	Log::note("Dumping parsed types to output file, refer to that file for types reference", Log::DEBUG);
-	Log::line("Dumping types, 'X' means the object is invalid and will be hidden from", Log::INFO);
-	Log::line("the actual lists in the editor. 'V' means the object is valid and visible", Log::EXTRAS);
-	Log::line("in the lists. Content should be very close to the game's representation.", Log::EXTRAS);
+	Log::line("Dumping parsed types to output file, refer to that file for types reference", Log::DEBUG);
+	Log::validatorLine("Dumping types, 'X' means the object is invalid and will be hidden from", Log::INFO);
+	Log::validatorLine("the actual lists in the editor. 'V' means the object is valid and visible", Log::EXTRAS);
+	Log::validatorLine("in the lists. Content should be very close to the game's representation.", Log::EXTRAS);
 
-	Log::line();
-	Log::line("[Animations]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[Animations]", Log::INFO);
 	Animation::Array.dumpContent();
-	Log::line();
-	Log::line("[WeaponTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[WeaponTypes]", Log::INFO);
 	WeaponType::Array.dumpContent();
-	Log::line();
-	Log::line("[Warheads]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[Warheads]", Log::INFO);
 	WarheadType::Array.dumpContent();
-	Log::line();
-	Log::line("[Projectiles]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[Projectiles]", Log::INFO);
 	ProjectileType::Array.dumpContent();
-	Log::line();
-	Log::line("[Countries]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[Countries]", Log::INFO);
 	Country::Array.dumpContent();
-	Log::line();
-	Log::line("[InfantryTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[InfantryTypes]", Log::INFO);
 	InfantryType::Array.dumpContent();
-	Log::line();
-	Log::line("[VehicleTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[VehicleTypes]", Log::INFO);
 	VehicleType::Array.dumpContent();
-	Log::line();
-	Log::line("[AircraftTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[AircraftTypes]", Log::INFO);
 	AircraftType::Array.dumpContent();
-	Log::line();
-	Log::line("[BuildingTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[BuildingTypes]", Log::INFO);
 	BuildingType::Array.dumpContent();
-	Log::line();
-	Log::line("[SuperWeaponTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[SuperWeaponTypes]", Log::INFO);
 	SuperWeaponType::Array.dumpContent();
-	Log::line();
-	Log::line("[SmudgeTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[SmudgeTypes]", Log::INFO);
 	SmudgeType::Array.dumpContent();
-	Log::line();
-	Log::line("[OverlayTypes]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[OverlayTypes]", Log::INFO);
 	OverlayType::Array.dumpContent();
-	Log::line();
-	Log::line("[Particles]", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("[Particles]", Log::INFO);
 	ParticleType::Array.dumpContent();
 }
 

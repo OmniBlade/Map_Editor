@@ -7,7 +7,7 @@
 #include "../Triggers/Tag.hpp"
 #include "../House.hpp"
 
-/* static */ ObjectList<Unit> Unit::Array;
+/* static */ MapObjectList<Unit> Unit::Array;
 
 Unit::Unit()
 {
@@ -27,7 +27,7 @@ void Unit::parse(const std::string& index, const std::string& list)
 	}
 	else
 	{
-		Log::note("Unable to parse Unit with entry number '" + index + "'.", Log::DEBUG);
+		Log::line("Unable to parse Unit with entry number '" + index + "'.", Log::DEBUG);
 	}
 }
 

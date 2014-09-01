@@ -5,7 +5,7 @@
 #include "WeaponType.hpp"
 #include "../../Config.hpp"
 
-/* static */ List<SuperWeaponType> SuperWeaponType::Array;
+/* static */ WWList<SuperWeaponType> SuperWeaponType::Array;
 
 SuperWeaponType::SuperWeaponType(const std::string& id)
 :AbstractType(id)

@@ -36,7 +36,7 @@ FileProperties FileSystem::getFile(const std::string& fileName)
 	fileProp.size = getFileSize(fileName);
 	
 	if (!fileProp.reader)
-		Log::note("Requested file '" + fileName + "' is unlocatable in %GAME% (misspelled name?).", Log::DEBUG);
+		Log::line("Requested file '" + fileName + "' is unlocatable in %GAME% (misspelled name?).", Log::DEBUG);
 
 	return fileProp;
 }
@@ -52,7 +52,7 @@ FileProperties FileSystem::getRootFile(const std::string& fileName)
 	fileProp.size = getEditorFileSize(fileNameCaps);
 
 	if (!fileProp.reader)
-		Log::note("Requested file '" + fileName + "' is unlocatable in %EDITOR% (misspelled name?).", Log::DEBUG);
+		Log::line("Requested file '" + fileName + "' is unlocatable in %EDITOR% (misspelled name?).", Log::DEBUG);
 
 	return fileProp;
 }

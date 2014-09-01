@@ -28,11 +28,11 @@ void GameMode::parse(const std::string& line)
 
 		if (!split.empty())
 		{
-			Log::note("GameMode with name '" + iniName + "' has too many parameters.", Log::DEBUG);
+			Log::line("GameMode with name '" + iniName + "' has too many parameters.", Log::DEBUG);
 		}
 	}
 	else
 	{
-		Log::note("Unable to parse GameMode file with line '" + line + "', too few parameters!", Log::DEBUG);
+		Log::line("Unable to parse GameMode file with line '" + line + "', too few parameters!", Log::DEBUG);
 	}
 }

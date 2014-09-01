@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include <string>
 
 class Trigger;
@@ -8,7 +8,7 @@ class Trigger;
 class Tag
 {
 public:
-	static ObjectList<Tag> Array;
+	static MapObjectList<Tag> Array;
 
 	/*
 		Called when a Tag from a map file is added (pre-existing)

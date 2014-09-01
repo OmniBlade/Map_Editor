@@ -4,7 +4,7 @@
 #include "Animation.hpp"
 #include "VoxelAnimType.hpp"
 
-/* static */ List<WarheadType> WarheadType::Array;
+/* static */ WWList<WarheadType> WarheadType::Array;
 
 WarheadType::WarheadType(const std::string& id)
 :AbstractType(id)

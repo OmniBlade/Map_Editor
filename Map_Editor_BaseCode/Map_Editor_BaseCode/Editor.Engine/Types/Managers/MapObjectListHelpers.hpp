@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
-#include "ObjectList.hpp"
+#include "MapObjectList.hpp"
 #include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 
 template<typename T>
-void allocateAll(ObjectList<T>& list, INIFile* iniFile, const std::string& sectionName)
+void allocateAll(MapObjectList<T>& list, INIFile* iniFile, const std::string& sectionName)
 {
 	INISection* section = iniFile->getSection(sectionName);
 	if (!section) return;
@@ -15,9 +15,9 @@ void allocateAll(ObjectList<T>& list, INIFile* iniFile, const std::string& secti
 }
 
 template<typename T>
-void findOrAllocateAll(ObjectList<T>& list, INISection& section)
+void findOrAllocateAll(MapObjectList<T>& list, INISection& section)
 {
-	//Log::note("Now in findOrAllocateAll()", Log::DEBUG);
+	//Log::line("Now in findOrAllocateAll()", Log::DEBUG);
 	for (const auto& it : section)
 	{
 		list.findOrAllocate(section.getValue(it.c_str()));
@@ -25,7 +25,7 @@ void findOrAllocateAll(ObjectList<T>& list, INISection& section)
 }
 
 template<typename T>
-void loadAllocatedINI(ObjectList<T>& list, INIFile& file, bool isGlobal = false)
+void loadAllocatedINI(MapObjectList<T>& list, INIFile& file, bool isGlobal = false)
 {
 	for (unsigned int i = list.lastParsedItem; i < list.objectTypeList.size(); ++i)
 	{
@@ -36,7 +36,7 @@ void loadAllocatedINI(ObjectList<T>& list, INIFile& file, bool isGlobal = false)
 }
 
 template<typename T>
-void loadFromINI(ObjectList<T>& list, INIFile& file, const std::string& section)
+void loadFromINI(MapObjectList<T>& list, INIFile& file, const std::string& section)
 {
 	INISection* pSection = file.getSection(section);
 	if (!pSection) return;
@@ -51,7 +51,7 @@ void loadFromINI(ObjectList<T>& list, INIFile& file, const std::string& section)
 }
 
 template<typename T>
-void loadAIFromINI(ObjectList<T>& list, INIFile& file, const std::string& section, bool isGlobal = false)
+void loadAIFromINI(MapObjectList<T>& list, INIFile& file, const std::string& section, bool isGlobal = false)
 {
 	INISection* pSection = file.getSection(section);
 	if (!pSection) return;

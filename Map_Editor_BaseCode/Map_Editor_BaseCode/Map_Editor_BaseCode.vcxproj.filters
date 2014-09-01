@@ -171,16 +171,10 @@
     <ClInclude Include="Editor.Objects.Westwood\Types\VehicleType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Managers\List.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Log.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Config.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Managers\ListHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp">
@@ -333,25 +327,10 @@
     <ClInclude Include="Editor.Engine\Types\AI\AITriggerType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Types\Managers\ObjectList.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Types\Managers\ObjectListHelpers.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Types\TeamTypes\ScriptAction.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Types\TeamTypes\TFEntry.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Audio\Sound.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Audio\Speech.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Objects.Westwood\Audio\Theme.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Types\Smudge.hpp">
@@ -387,16 +366,7 @@
     <ClInclude Include="Editor.FileSystem\MapFile\ActionCollection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ActionTemplate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.FileSystem\MapFile\EventCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\EventTemplate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\SActionTemplate.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.FileSystem\MapFile\SActionCollection.hpp">
@@ -445,6 +415,57 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameDefinition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\ActionType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\EventType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\SActionType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\ListProvider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\TrivialList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\IList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\TypeList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\ObjectList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Managers\WWList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\Managers\WWListHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Types\Managers\MapObjectList.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Types\Managers\MapObjectListHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\NothingList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Movie.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Sound.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Speech.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Theme.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -752,15 +773,6 @@
     <ClCompile Include="Editor.Engine\Types\TeamTypes\TFEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\Audio\Sound.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\Audio\Speech.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Objects.Westwood\Audio\Theme.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Types\Smudge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -791,19 +803,10 @@
     <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ActionTemplate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\EventCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\EventTemplate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\SActionCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\SActionTemplate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\ParamCollection.cpp">
@@ -843,6 +846,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameDefinition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\ActionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\EventType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\SActionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Lists\ListProvider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Movie.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Sound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Speech.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Theme.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

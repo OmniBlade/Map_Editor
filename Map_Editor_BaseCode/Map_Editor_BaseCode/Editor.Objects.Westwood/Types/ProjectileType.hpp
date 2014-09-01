@@ -1,12 +1,12 @@
 #pragma once
 
 #include "AbstractType.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 
 class ProjectileType : public AbstractType
 {
 public:
-	static List<ProjectileType> Array;
+	static WWList<ProjectileType> Array;
 	ProjectileType(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

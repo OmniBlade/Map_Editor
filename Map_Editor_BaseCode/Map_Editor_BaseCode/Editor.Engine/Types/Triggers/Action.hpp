@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include "SubAction.hpp"
 #include <string>
 #include <vector>
@@ -9,7 +9,7 @@
 class Action
 {
 public:
-	static ObjectList<Action> Array;
+	static MapObjectList<Action> Array;
 
 	Action();
 	void parse(const std::string& id, const std::string& list);

@@ -2,7 +2,7 @@
 #include "OverlayType.hpp"
 #include "../../Log.hpp"
 
-/* static */ List<OverlayType> OverlayType::Array;
+/* static */ WWList<OverlayType> OverlayType::Array;
 
 OverlayType::OverlayType(const std::string& id)
 :ObjectType(id)

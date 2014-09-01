@@ -46,8 +46,8 @@ bool Config::hasAres = false;
 
 void Config::parse(INIFile* configINI)
 {
-	Log::note();
-	Log::note("Showing configuration file flags below:", Log::DEBUG);
+	Log::line();
+	Log::line("Showing configuration file flags below:", Log::DEBUG);
 	if (configINI != nullptr)
 	{
 		if (INISection* mainSection = configINI->getSection("Main"))
@@ -74,20 +74,20 @@ void Config::parse(INIFile* configINI)
 		}
 		else
 		{
-			Log::note("Section [Main] (" + configName + ") could not be found! Using defaults.", Log::DEBUG);
+			Log::line("Section [Main] (" + configName + ") could not be found! Using defaults.", Log::DEBUG);
 			if (Game::title == Game::Type::Base)
 			{
 				executable = "GAME.EXE";
 			}
 		}
 		
-		Log::note("Install directory: " + installDir, Log::DEBUG);
-		Log::note("Executable name: " + executable, Log::DEBUG);
-		Log::note("Expand: " + expand, Log::DEBUG);
-		Log::note("Ecache: " + ecache, Log::DEBUG);
-		Log::note("Elocal: " + elocal, Log::DEBUG);
+		Log::line("Install directory: " + installDir, Log::DEBUG);
+		Log::line("Executable name: " + executable, Log::DEBUG);
+		Log::line("Expand: " + expand, Log::DEBUG);
+		Log::line("Ecache: " + ecache, Log::DEBUG);
+		Log::line("Elocal: " + elocal, Log::DEBUG);
 		if (Game::title == Game::Type::Expansion)
-			Log::note("Mission disk: " + missionDisk, Log::DEBUG);
+			Log::line("Mission disk: " + missionDisk, Log::DEBUG);
 
 		if (INISection* iniSection = configINI->getSection("INI"))
 		{
@@ -132,7 +132,7 @@ void Config::parse(INIFile* configINI)
 		}
 		else
 		{
-			Log::note("Section [INI] could not be found! Using defaults.", Log::DEBUG);
+			Log::line("Section [INI] could not be found! Using defaults.", Log::DEBUG);
 			if (Game::title == Game::Type::Base)
 			{
 				rules = "RULES.INI";
@@ -148,16 +148,16 @@ void Config::parse(INIFile* configINI)
 			}
 
 		}
-		Log::note("Rules: " + rules, Log::DEBUG);
-		Log::note("Art: " + art, Log::DEBUG);
-		Log::note("Sound: " + sound, Log::DEBUG);
-		Log::note("Eva: " + eva, Log::DEBUG);
-		Log::note("Theme: " + theme, Log::DEBUG);
-		Log::note("AI: " + AI, Log::DEBUG);
-		Log::note("UI: " + UI, Log::DEBUG);
-		Log::note("Battle: " + battle, Log::DEBUG);
-		Log::note("Modes: " + modes, Log::DEBUG);
-		Log::note("Coop: " + coop, Log::DEBUG);
+		Log::line("Rules: " + rules, Log::DEBUG);
+		Log::line("Art: " + art, Log::DEBUG);
+		Log::line("Sound: " + sound, Log::DEBUG);
+		Log::line("Eva: " + eva, Log::DEBUG);
+		Log::line("Theme: " + theme, Log::DEBUG);
+		Log::line("AI: " + AI, Log::DEBUG);
+		Log::line("UI: " + UI, Log::DEBUG);
+		Log::line("Battle: " + battle, Log::DEBUG);
+		Log::line("Modes: " + modes, Log::DEBUG);
+		Log::line("Coop: " + coop, Log::DEBUG);
 
 		if (Game::title == Game::Type::Expansion)
 		{
@@ -167,14 +167,14 @@ void Config::parse(INIFile* configINI)
 			}
 			else
 			{
-				Log::note("Section [GameExtension] could not be found! Using defaults.", Log::DEBUG);
+				Log::line("Section [GameExtension] could not be found! Using defaults.", Log::DEBUG);
 				hasAres = false;
 			}
-			Log::note("Ares: " + Log::toString(hasAres), Log::DEBUG);
+			Log::line("Ares: " + Log::toString(hasAres), Log::DEBUG);
 		}
 	}
 	else
-		Log::note(configName + " could not be found in the editor root!", Log::DEBUG);
+		Log::line(configName + " could not be found in the editor root!", Log::DEBUG);
 
-	Log::note("End of configuration file flags.", Log::DEBUG);
+	Log::line("End of configuration file flags.", Log::DEBUG);
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Managers/ObjectList.hpp"
+#include "Managers/MapObjectList.hpp"
 #include <vector>
 
 class Tube
 {
 public:
-	static ObjectList<Tube> Array;
+	static MapObjectList<Tube> Array;
 
 	Tube();
 	void parse(const std::string& id, const std::string& list);

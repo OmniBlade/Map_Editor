@@ -2,7 +2,7 @@
 #include "Waypoint.hpp"
 #include "../../Log.hpp"
 
-/* static */ ObjectList<Waypoint> Waypoint::Array;
+/* static */ MapObjectList<Waypoint> Waypoint::Array;
 
 Waypoint::Waypoint()
 {
@@ -19,6 +19,7 @@ void Waypoint::parse(const std::string& id, const std::string& list)
 	loc.x = coords % 1000;
 	loc.y = coords / 1000;
 
+	Name = Log::toString(loc.x) + " / " + Log::toString(loc.y);
 }
 
 int Waypoint::getIndex()
@@ -48,12 +49,12 @@ int Waypoint::getIndex()
 		}
 		else
 		{
-			Log::note("Unable to convert waypoint with letter indx '" + letterIndex + "'", Log::DEBUG);
+			Log::line("Unable to convert waypoint with letter indx '" + letterIndex + "'", Log::DEBUG);
 		}
 	}
 	else
 	{
-		Log::note("Unable to convert waypoint with letter indx '" + letterIndex + "'", Log::DEBUG);
+		Log::line("Unable to convert waypoint with letter indx '" + letterIndex + "'", Log::DEBUG);
 	}
 	return -1;
 }
@@ -65,7 +66,7 @@ std::string Waypoint::getLetterIndex()
 
 	if (index >= 702 || index < 0)
 	{
-		Log::note("Unable to convert waypoint with index '" + Log::toString(index) + "'", Log::DEBUG);
+		Log::line("Unable to convert waypoint with index '" + Log::toString(index) + "'", Log::DEBUG);
 	}
 	else
 	{

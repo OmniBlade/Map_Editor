@@ -2,7 +2,7 @@
 #include "Action.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 
-/* static */ ObjectList<Action> Action::Array;
+/* static */ MapObjectList<Action> Action::Array;
 
 Action::Action()
 {
@@ -28,11 +28,11 @@ void Action::parseActions()
 		}
 		else
 		{
-			Log::note("Unable to parse Action with ID '" + ID + "'.", Log::DEBUG);
+			Log::line("Unable to parse Action with ID '" + ID + "'.", Log::DEBUG);
 		}
 	}
 	if (actionList.size() != count)
 	{
-		Log::note("Action with ID '" + ID + "' does not have the amount of SubActions it is supposed to have.", Log::DEBUG);
+		Log::line("Action with ID '" + ID + "' does not have the amount of SubActions it is supposed to have.", Log::DEBUG);
 	}
 }

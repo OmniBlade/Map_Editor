@@ -33,7 +33,7 @@ void PackType::decompress()
 		break;
 	case UNKNOWN:
 	default:
-		Log::note("Unable to decompress section with name '" + packSection->getSectionName() + "', unknown compression type set." , Log::DEBUG);
+		Log::line("Unable to decompress section with name '" + packSection->getSectionName() + "', unknown compression type set." , Log::DEBUG);
 		dest.push_back(0); //lol srsly?
 		break;
 	}

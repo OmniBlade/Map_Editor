@@ -42,16 +42,16 @@ public:
 		@param line The line to log
 		@param type The type of log message (default EMPTY, see LogType enum)
 	*/
-	static void line(const std::wstring& line, LogType type = EMPTY);
-	static void line(const std::string& line_ = "", LogType type = EMPTY) { line(std::wstring(line_.begin(), line_.end()), type); };
+	static void validatorLine(const std::wstring& line, LogType type = EMPTY);
+	static void validatorLine(const std::string& line_ = "", LogType type = EMPTY) { validatorLine(std::wstring(line_.begin(), line_.end()), type); };
 
 	/*
 		Logs a debug line with the given type, used primarily for logging the process of the editor!
 		@param line The line to log
 		@param type The type of debug message (default EMPTY_D, see DebugType enum)
 	*/
-	static void note(const std::wstring& line, DebugType type = EMPTY_D);
-	static void note(const std::string& line = "", DebugType type = EMPTY_D) { note(std::wstring(line.begin(), line.end()), type);  };
+	static void line(const std::wstring& aLine, DebugType type = EMPTY_D);
+	static void line(const std::string& aLine = "", DebugType type = EMPTY_D) { line(std::wstring(aLine.begin(), aLine.end()), type);  };
 
 	/*
 		Converts the passed argument to a string and returns it
@@ -160,7 +160,7 @@ public:
 
 	static std::chrono::time_point<std::chrono::system_clock> startTime;
 	static std::chrono::time_point<std::chrono::system_clock> timer;
-	static std::string logFolder, startDateTime;
+	static std::string startDateTime;
 
 	static std::wofstream logFile, logTimeFile, debugFile, debugTimeFile;
 	static std::vector<std::wstring> debugLines;

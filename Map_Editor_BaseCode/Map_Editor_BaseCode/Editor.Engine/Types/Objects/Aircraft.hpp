@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include <string>
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
 
@@ -12,7 +12,7 @@ class Country;
 class Aircraft
 {
 public:
-	static ObjectList<Aircraft> Array;
+	static MapObjectList<Aircraft> Array;
 
 	Aircraft();
 	

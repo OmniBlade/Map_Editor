@@ -2,7 +2,7 @@
 #include "Event.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 
-/* static */ ObjectList<Event> Event::Array;
+/* static */ MapObjectList<Event> Event::Array;
 
 Event::Event()
 {
@@ -28,12 +28,12 @@ void Event::parseEvents()
 		}
 		else
 		{
-			Log::note("Unable to parse Event with ID '" + ID + "'.", Log::DEBUG);
+			Log::line("Unable to parse Event with ID '" + ID + "'.", Log::DEBUG);
 		}
 	}
 
 	if (eventList.size() != count)
 	{
-		Log::note("Event with ID '" + ID + "' does not have the amount of SubEvents it is supposed to have.", Log::DEBUG);
+		Log::line("Event with ID '" + ID + "' does not have the amount of SubEvents it is supposed to have.", Log::DEBUG);
 	}
 }

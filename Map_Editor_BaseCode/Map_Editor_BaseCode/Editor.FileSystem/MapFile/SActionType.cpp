@@ -1,17 +1,17 @@
 #include "stdafx.h"
-#include "SActionTemplate.hpp"
+#include "SActionType.hpp"
 #include "ParamCollection.hpp"
 #include "ParamType.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../Log.hpp"
 
-SActionTemplate::SActionTemplate(INISection* section, ParamCollection* params)
+SActionType::SActionType(INISection* section, ParamCollection* params)
 {
 	parse(section, params);
 }
 
-void SActionTemplate::parse(INISection* section, ParamCollection* params)
+void SActionType::parse(INISection* section, ParamCollection* params)
 {
 	section->readIntValue("Identifier", identifier, atoi(section->getSectionName().c_str()));
 	section->readStringValue("Name", name);
@@ -31,7 +31,7 @@ void SActionTemplate::parse(INISection* section, ParamCollection* params)
 	}
 	else
 	{
-		Log::note("Unable to parse Action with ID '" + section->getSectionName() + "', invalid ParamString", Log::DEBUG);
+		Log::line("Unable to parse Action with ID '" + section->getSectionName() + "', invalid ParamString", Log::DEBUG);
 	}
 
 }

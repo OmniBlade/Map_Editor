@@ -23,12 +23,12 @@ ConfigFile::ConfigFile(const std::string& name, const std::string& path, const s
 	else if (game == "TS" || game == "FS")
 	{
 		usedTitle = Game::Type::Undefined;
-		Log::note("Mod definition with name '" + name + "' is for Tiberian Sun or Firestorm, those aren't supported by this editor!", Log::DEBUG);
+		Log::line("Mod definition with name '" + name + "' is for Tiberian Sun or Firestorm, those aren't supported by this editor!", Log::DEBUG);
 	}
 	else
 	{
 		usedTitle = Game::Type::Undefined;
-		Log::note("Mod definition with name '" + name + "' is not for Red Alert 2 nor Yuri's Revenge!", Log::DEBUG);
+		Log::line("Mod definition with name '" + name + "' is not for Red Alert 2 nor Yuri's Revenge!", Log::DEBUG);
 	}
 }
 

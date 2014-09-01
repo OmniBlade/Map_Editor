@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include "ObjectType.hpp"
 
 class SmudgeType : public ObjectType
 {
 public:
-	static List<SmudgeType> Array;
+	static WWList<SmudgeType> Array;
 
 	SmudgeType(const std::string& id);
 

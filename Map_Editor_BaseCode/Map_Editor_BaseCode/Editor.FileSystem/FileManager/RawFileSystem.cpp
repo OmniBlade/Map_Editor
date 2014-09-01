@@ -146,7 +146,7 @@ void RawFileSystem::locateGameRootFiles()
 
 void RawFileSystem::locateEditorRootFiles()
 {
-	Log::note("Editor root is: " + Config::editorRoot, Log::DEBUG);
+	Log::line("Editor root is: " + Config::editorRoot, Log::DEBUG);
 	WIN32_FIND_DATA ffd;
 	std::string rootFile = Config::editorRoot + Config::backSlash + "*.*";
 	std::wstring dir(rootFile.begin(), rootFile.end());
@@ -158,8 +158,8 @@ void RawFileSystem::locateEditorRootFiles()
 		std::cout << "Invalid file!" << std::endl;
 	}
 
-	//Log::note("==========================", Log::EXTRA);
-	//Log::note("Files in editor root are:", Log::DEBUG);
+	//Log::line("==========================", Log::EXTRA);
+	//Log::line("Files in editor root are:", Log::DEBUG);
 	bool finished = false;
 	int i = 1;
 	while (!finished)
@@ -172,13 +172,13 @@ void RawFileSystem::locateEditorRootFiles()
 		if (fileName != "." && fileName != "..")
 		{
 			editorRootFileNames.push_back(fileName);
-		//	Log::note(fileName, Log::DEBUG);
+		//	Log::line(fileName, Log::DEBUG);
 		}
 
 		if (!FindNextFile(hFind, &ffd))
 			finished = true;
 		++i;
 	}
-	//Log::note("==========================", Log::EXTRA);
+	//Log::line("==========================", Log::EXTRA);
 	FindClose(hFind);
 }

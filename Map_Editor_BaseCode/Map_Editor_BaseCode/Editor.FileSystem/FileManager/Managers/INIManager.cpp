@@ -38,7 +38,7 @@ INIFile* INIManager::cache(const std::string& fileName)
 	if (props.reader)
 	{
 		iniFiles[fileName] = std::make_unique<INIFile>(props);
-		Log::note("INI: " + fileName + " succesfully cached.", Log::DEBUG);
+		Log::line("INI: " + fileName + " succesfully cached.", Log::DEBUG);
 		return iniFiles[fileName].get();
 	}
 	else
@@ -64,7 +64,7 @@ INIFile* INIManager::cacheRoot(const std::string& fileName)
 	if (props.reader)
 	{
 		iniFiles[fileName] = std::make_unique<INIFile>(props);
-		Log::note("INI: " + fileName + " succesfully cached.", Log::DEBUG);
+		Log::line("INI: " + fileName + " succesfully cached.", Log::DEBUG);
 		return iniFiles[fileName].get();
 	}
 	else
@@ -79,7 +79,7 @@ void INIManager::cacheIncluded(const std::string& fileName, INIFile* parent)
 	if (props.reader)
 	{
 		iniFiles[fileName] = std::make_unique<INIFile>(props, parent);
-		Log::note("INI: " + fileName + " (include) succesfully cached.", Log::DEBUG);
+		Log::line("INI: " + fileName + " (include) succesfully cached.", Log::DEBUG);
 	}
 	else
 		iniFiles[fileName] = nullptr;

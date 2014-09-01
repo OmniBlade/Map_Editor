@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include "../../../Editor.Objects.Westwood/Vector2D.hpp"
 #include <string>
 
@@ -9,7 +9,7 @@ class Tag;
 class CellTag
 {
 public:
-	static ObjectList<CellTag> Array;
+	static MapObjectList<CellTag> Array;
 	CellTag();
 	void parse(const std::string& location, const std::string& tag);
 	

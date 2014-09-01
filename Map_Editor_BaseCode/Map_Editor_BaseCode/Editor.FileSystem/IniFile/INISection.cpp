@@ -152,13 +152,13 @@ bool INISection::checkValueExistance(const std::string& key)
 
 void INISection::dumpContent()
 {
-	Log::note();
-	Log::note("[" + sectionName + "]", Log::DEBUG);
+	Log::line();
+	Log::line("[" + sectionName + "]", Log::DEBUG);
 	for (const auto& iter : keyValueMap)
 	{
-		//Log::note(iter.first + " = " + iter.second, Log::DEBUG);
+		//Log::line(iter.first + " = " + iter.second, Log::DEBUG);
 	}
-	Log::note();
+	Log::line();
 }
 
 unsigned int INISection::totalSize() const

@@ -4,7 +4,7 @@
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/CSFManager.hpp"
 
-/* static */ List<Theme> Theme::Array;
+/* static */ WWList<Theme> Theme::Array;
 
 Theme::Theme(const std::string& id)
 :ID(id)
@@ -21,6 +21,8 @@ void Theme::load(INIFile* file)
 		return;
 	}
 
-	name = CSFManager::getManager()->getValue(section->getValue("Name"));
+	Name = section->getValue("Name");
+	WUIName = CSFManager::getManager()->getValue(Name);
+	
 	valid = true;
 }

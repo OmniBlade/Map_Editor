@@ -35,7 +35,7 @@ EncFile* EncManager::get(const std::string& fileName)
 EncFile* EncManager::cache(const std::string& fileName)
 {
 	encFiles[fileName] = std::make_unique<EncFile>(FileSystem::getFileSystem()->getRootFile(fileName), fileName, false);
-	Log::note("ENC: " + fileName + " succesfully cached.", Log::DEBUG);
+	Log::line("ENC: " + fileName + " succesfully cached.", Log::DEBUG);
 	return encFiles[fileName].get();
 }
 
@@ -53,6 +53,6 @@ INIFile* EncManager::getAsINI(const std::string& fileName)
 INIFile* EncManager::cacheAsINI(const std::string& fileName)
 {
 	encFiles[fileName] = std::make_unique<EncFile>(FileSystem::getFileSystem()->getRootFile(fileName), fileName, true);
-	Log::note("ENC: " + fileName + " succesfully cached.", Log::DEBUG);
+	Log::line("ENC: " + fileName + " succesfully cached.", Log::DEBUG);
 	return INIManager::getManager()->get(fileName);
 }

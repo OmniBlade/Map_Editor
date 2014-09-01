@@ -10,7 +10,7 @@
 #include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 
-/* static */ ObjectList<AITriggerType> AITriggerType::Array;
+/* static */ MapObjectList<AITriggerType> AITriggerType::Array;
 
 AITriggerType::AITriggerType()
 {
@@ -22,7 +22,7 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 	isGlobal = isGlobal_;
 	ID = id;
 	LineSplitter split(list);
-	if (split.pop(name) && split.pop(tt1) && split.pop(owner) && split.pop(techlevel) && split.pop(aiTriggerType) 
+	if (split.pop(Name) && split.pop(tt1) && split.pop(owner) && split.pop(techlevel) && split.pop(aiTriggerType) 
 		&& split.pop(techType) && split.pop(parameterString) && split.pop(weight) && split.pop(minWeight)
 		&& split.pop(maxWeight) && split.pop(skirmish) && split.pop(unknown) && split.pop(side) && split.pop(baseDefense) && split.pop(tt2) 
 		&& split.pop(easy) && split.pop(medium) && split.pop(hard))
@@ -44,7 +44,7 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 		}
 		else
 		{
-			Log::note("Unable to parse HEX string from AITriggerType with ID '" + id + "'.", Log::DEBUG);
+			Log::line("Unable to parse HEX string from AITriggerType with ID '" + id + "'.", Log::DEBUG);
 		}
 
 		pCountry = Country::Array.find(owner);
@@ -76,7 +76,7 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 	}
 	else
 	{
-		Log::note("Unable to parse AITriggerType with ID '" + id + "'.", Log::DEBUG);
+		Log::line("Unable to parse AITriggerType with ID '" + id + "'.", Log::DEBUG);
 	}
 }
 
@@ -84,7 +84,7 @@ std::string AITriggerType::asString()
 {
 	std::stringstream returnString;
 	
-	returnString << name << ',' << tt1 << ',' << owner << ',' << techlevel << ',' << aiTriggerType << ',' << techType << ','
+	returnString << Name << ',' << tt1 << ',' << owner << ',' << techlevel << ',' << aiTriggerType << ',' << techType << ','
 		<< createParameters() << ',' << weight << ',' << minWeight << ',' << maxWeight << ',' << skirmish << ',' << unknown
 		<< ',' << side << ',' << baseDefense << ',' << tt2 << ',' << easy << ',' << medium << ',' << hard;
 

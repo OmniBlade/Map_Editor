@@ -1,13 +1,13 @@
 #pragma once
 
 #include "../../Editor.FileSystem/INIFile/INISection.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include "ObjectType.hpp"
 
 class Animation : public ObjectType
 {
 public:
-	static List<Animation> Array;
+	static WWList<Animation> Array;
 	Animation(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

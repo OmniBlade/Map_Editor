@@ -4,7 +4,7 @@
 #include "../../../Log.hpp"
 #include <cstdlib>
 
-/* static */ ObjectList<Terrain> Terrain::Array;
+/* static */ MapObjectList<Terrain> Terrain::Array;
 
 Terrain::Terrain()
 {

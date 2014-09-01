@@ -34,16 +34,16 @@ MiscValidator::~MiscValidator()
 
 void MiscValidator::validateWaypoint()
 {
-	Log::line();
-	Log::line("Validating [Waypoints] now...", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("Validating [Waypoints] now...", Log::INFO);
 	for (const auto& it : Waypoint::Array.objectTypeList)
 	{
 		if (it->index < 0 || it->index > 701)
-			Log::line("Waypoint with ID '" + it->ID + "' has an invalid index set.", Log::ERROR_BUFFER);
+			Log::validatorLine("Waypoint with ID '" + it->ID + "' has an invalid index set.", Log::ERROR_BUFFER);
 		if (it->loc.x < 0)
-			Log::line("Waypoint with ID '" + it->ID + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
+			Log::validatorLine("Waypoint with ID '" + it->ID + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
 		if (it->loc.y < 0)
-			Log::line("Waypoint with ID '" + it->ID + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
+			Log::validatorLine("Waypoint with ID '" + it->ID + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 	}
 }
 
@@ -57,32 +57,32 @@ void MiscValidator::validateLocals()
 
 void MiscValidator::validateTube()
 {
-	Log::line();
-	Log::line("Validating [Tubes] now...", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("Validating [Tubes] now...", Log::INFO);
 	for (const auto& it : Tube::Array.objectTypeList)
 	{
 		const std::string& oppositeID = getOppositeTube(it.get());
 		if (oppositeID == "")
-			Log::line("Tube at index '" + it->ID + "' has no opposite Tube set.", Log::WARNING_BUFFER);
+			Log::validatorLine("Tube at index '" + it->ID + "' has no opposite Tube set.", Log::WARNING_BUFFER);
 		walkTubePath(it.get());
 	}
 }
 
 void MiscValidator::validateSmudge()
 {
-	Log::line();
-	Log::line("Validating [Smudge] now...", Log::INFO);
+	Log::validatorLine();
+	Log::validatorLine("Validating [Smudge] now...", Log::INFO);
 	unsigned int index = 0;
 	for (const auto& it : Smudge::Array.objectTypeList)
 	{
 		if (!it->pSmudgeType)
-			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid SmudgeType set.", Log::ERROR_BUFFER);
+			Log::validatorLine("Smudge at index '" + Log::toString(index) + "' has an invalid SmudgeType set.", Log::ERROR_BUFFER);
 		if (it->loc.x < 0)
-			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
+			Log::validatorLine("Smudge at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
 		if (it->loc.y < 0)
-			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
+			Log::validatorLine("Smudge at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 		if (it->unknown != 0)
-			Log::line("Smudge at index '" + Log::toString(index) + "' has an invalid Unknown index set (should always be 0).", Log::ERROR_BUFFER);
+			Log::validatorLine("Smudge at index '" + Log::toString(index) + "' has an invalid Unknown index set (should always be 0).", Log::ERROR_BUFFER);
 		index++;
 	}
 }
@@ -149,7 +149,7 @@ void MiscValidator::walkTubePath(Tube* tube)
 
 		if (i > 99 && !tubeEnded)
 		{
-			Log::line("Tube at index '" + tube->ID + "' has no more than 94 directions set Tube set.", Log::WARNING_BUFFER);
+			Log::validatorLine("Tube at index '" + tube->ID + "' has no more than 94 directions set Tube set.", Log::WARNING_BUFFER);
 			tubeEnded = true;
 			logError = false;
 		}
@@ -158,7 +158,7 @@ void MiscValidator::walkTubePath(Tube* tube)
 		{//Tube ended, verify positions
 			if ((tube->startX + tubePosX != tube->endX || tube->startY + tubePosY > tube->endY) && logError)
 			{
-				Log::line("Tube at index '" + tube->ID + "' has a path that does not correspond with the starting and ending coordinates.", Log::ERROR_BUFFER);
+				Log::validatorLine("Tube at index '" + tube->ID + "' has a path that does not correspond with the starting and ending coordinates.", Log::ERROR_BUFFER);
 			}
 			break;
 		}

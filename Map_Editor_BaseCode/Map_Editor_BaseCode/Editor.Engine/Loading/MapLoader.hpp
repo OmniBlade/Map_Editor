@@ -39,6 +39,11 @@ public:
 	*/
 	void loadAI();
 	
+
+	/*
+	
+	*/
+	void loadGlobalVariable();
 	/*
 		Locates the game modes used in the specified map
 		Only works with 1 game mode, special handling is used for the default game mode

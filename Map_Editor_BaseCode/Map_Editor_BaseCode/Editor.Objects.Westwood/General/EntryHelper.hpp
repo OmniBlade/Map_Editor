@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include <string>
 #include <iostream>
 
 template<typename T>
-void allocateList(List<T>& list, std::string& types)
+void allocateList(WWList<T>& list, std::string& types)
 {
 	//key = types; //Assign the new value to the old value if it exists
 

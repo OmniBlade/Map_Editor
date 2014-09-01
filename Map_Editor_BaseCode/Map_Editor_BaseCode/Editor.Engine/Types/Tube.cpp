@@ -3,7 +3,7 @@
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../Log.hpp"
 
-/* static */ ObjectList<Tube> Tube::Array;
+/* static */ MapObjectList<Tube> Tube::Array;
 
 Tube::Tube()
 {

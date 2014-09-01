@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include "TFEntry.hpp"
 #include <string>
 #include <vector>
@@ -11,7 +11,7 @@ class INIFile;
 class TaskForce
 {
 public:
-	static ObjectList<TaskForce> Array;
+	static MapObjectList<TaskForce> Array;
 
 	TaskForce(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "ObjectType.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include <string>
 
 class OverlayType : public ObjectType
 {
 public:
-	static List<OverlayType> Array;
+	static WWList<OverlayType> Array;
 	OverlayType(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

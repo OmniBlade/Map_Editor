@@ -5,7 +5,7 @@
 #include "ParticleType.hpp"
 #include "OverlayType.hpp"
 
-/* static */ List<Animation> Animation::Array;
+/* static */ WWList<Animation> Animation::Array;
 
 Animation::Animation(const std::string& id)
 :ObjectType(id)

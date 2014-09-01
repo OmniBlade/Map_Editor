@@ -1,5 +1,5 @@
 #pragma once
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include <string>
 
 class INIFile;
@@ -7,12 +7,12 @@ class INIFile;
 class Theme
 {
 public:
-	static List<Theme> Array;
+	static WWList<Theme> Array;
 
 	Theme(const std::string& id);
 	void load(INIFile* file);
-	std::string ID;
-	std::wstring name;
+	std::string ID, Name;
+	std::wstring WUIName;
 	bool valid = false;
 };
 

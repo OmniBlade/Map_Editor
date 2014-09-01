@@ -5,10 +5,10 @@ class INISection;
 class ParamType;
 class ParamCollection;
 
-class SActionTemplate
+class SActionType
 {
 public:
-	SActionTemplate(INISection* section, ParamCollection* params);
+	SActionType(INISection* section, ParamCollection* params);
 	void parse(INISection* section, ParamCollection* params);
 
 	//Stuff from the file

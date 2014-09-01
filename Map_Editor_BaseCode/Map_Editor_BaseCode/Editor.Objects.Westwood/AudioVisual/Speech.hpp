@@ -1,5 +1,5 @@
 #pragma once
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include <string>
 
 class INIFile;
@@ -7,11 +7,12 @@ class INIFile;
 class Speech
 {
 public:
-	static List<Speech> Array;
+	static WWList<Speech> Array;
 	
 	Speech(const std::string& id);
 	void load(INIFile* file);
-	std::string ID, text;
+	std::string ID, text, Name;
+	std::wstring WUIName;
 	bool valid = false;
 };
 

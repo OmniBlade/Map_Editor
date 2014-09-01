@@ -5,12 +5,12 @@
 #include "../Vector3D.hpp"
 #include "Foundation.hpp"
 #include "TechnoType.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 
 class BuildingType : public TechnoType
 {
 public:
-	static List<BuildingType> Array;
+	static WWList<BuildingType> Array;
 
 	BuildingType(const std::string& id);
 

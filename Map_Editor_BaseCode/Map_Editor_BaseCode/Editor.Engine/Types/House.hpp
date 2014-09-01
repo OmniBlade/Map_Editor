@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Managers/ObjectList.hpp"
+#include "Managers/MapObjectList.hpp"
 #include <string>
 #include <vector>
 #include <memory>
@@ -10,7 +10,7 @@
 class House
 {
 public:
-	static ObjectList<House> Array;
+	static MapObjectList<House> Array;
 
 	House(const std::string& id);
 
@@ -18,8 +18,7 @@ public:
 	void loadAllies(const std::string& alliesList);
 	void loadNodes(INISection* section);
 
-
-	std::string ID;
+	std::string ID, Name;
 	std::string Country;
 	int TechLevel;
 	int Credits; // x100 in-game

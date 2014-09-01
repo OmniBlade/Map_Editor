@@ -21,11 +21,11 @@ void ConfigLoader::parse()
 
 	if (!configINI)
 	{
-		Log::note("CONFIGS file is missing, unable to continue!", Log::DEBUG);
+		Log::line("CONFIGS file is missing, unable to continue!", Log::DEBUG);
 	}
 
-	Log::note();
-	Log::note("Showing global configuration flags below:", Log::DEBUG);
+	Log::line();
+	Log::line("Showing global configuration flags below:", Log::DEBUG);
 	if (INISection* mainSection = configINI->getSection("Main"))
 	{
 		mainSection->readBoolValue("InGameLighting", Config::inGameLighting, true);
@@ -34,15 +34,15 @@ void ConfigLoader::parse()
 	}
 	else
 	{
-		Log::note("Section [Main] (CONFIGS) could not be found! Using defaults.", Log::DEBUG);
+		Log::line("Section [Main] (CONFIGS) could not be found! Using defaults.", Log::DEBUG);
 		Config::inGameLighting = true;
 		Config::FA2Mode = false;
 		Config::AIReferences = false;
 	}
-	Log::note("In-game lighting: " + Log::toString(Config::inGameLighting), Log::DEBUG);
-	Log::note("FA2 mode: " + Log::toString(Config::FA2Mode), Log::DEBUG);
-	Log::note("AI References: " + Log::toString(Config::AIReferences), Log::DEBUG);
-	Log::note();
+	Log::line("In-game lighting: " + Log::toString(Config::inGameLighting), Log::DEBUG);
+	Log::line("FA2 mode: " + Log::toString(Config::FA2Mode), Log::DEBUG);
+	Log::line("AI References: " + Log::toString(Config::AIReferences), Log::DEBUG);
+	Log::line();
 
 	INISection* configurations = configINI->getSection("Configurations");
 	std::stringstream number;
@@ -63,7 +63,7 @@ void ConfigLoader::parse()
 		}
 		else
 		{
-			Log::note("Configuration entry with name '" + number.str() + "' does not exist as a section!", Log::DEBUG);
+			Log::line("Configuration entry with name '" + number.str() + "' does not exist as a section!", Log::DEBUG);
 			break;
 		}
 	}
@@ -82,10 +82,11 @@ bool ConfigLoader::chooseConfig()
 	else if (configFiles.size() > 1)
 	{
 		std::cout << "\n==================================================================" << std::endl;
+		std::cout << "The last digit on the right refers to either Base (0), Expansion (1) or Undefined/Not supported (2)." << std::endl;
 		std::cout << "The following configuration files have been found, please select \nthe one you want to use by entering the corresponding number:" << std::endl;
 		for (unsigned int i = 0; i < configFiles.size(); ++i)
 		{
-			std::cout << i << ": " << configFiles[i]->Name << " (" << configFiles[i]->Path << ")" << std::endl;
+			std::cout << i << ": " << configFiles[i]->Name << " (" << configFiles[i]->Path << " -- " << (int) configFiles[i]->usedTitle << ")" << std::endl;
 		}
 		unsigned int index = 666;
 		std::cout << "Please enter the number of the game you want to load:\n" << std::endl;
@@ -96,7 +97,7 @@ bool ConfigLoader::chooseConfig()
 		
 		if (configFiles[index].get()->usedTitle == Game::Type::Undefined)
 		{
-			Log::note("The selected mod is for a game not supported by the editor, unable to continue!", Log::DEBUG);
+			Log::line("The selected mod is for a game not supported by the editor, unable to continue!", Log::DEBUG);
 			return false;
 		}
 
@@ -106,6 +107,6 @@ bool ConfigLoader::chooseConfig()
 		Config::parse(INIManager::getManager()->getRoot(configFiles[index].get()->Path));
 		return true;
 	}
-	Log::note("There are 0 configuration files listed, unable to continue!", Log::DEBUG);
+	Log::line("There are 0 configuration files listed, unable to continue!", Log::DEBUG);
 	return false;
 }

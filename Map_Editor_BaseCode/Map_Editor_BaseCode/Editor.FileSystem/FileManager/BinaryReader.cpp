@@ -32,7 +32,7 @@ BinaryReader::BinaryReader(const std::string& _fullFileName, bool logError /* = 
 	}
 	else if (logError)
 	{
-		Log::note("Unable to open file with path: " + _fullFileName, Log::DEBUG);
+		Log::line("Unable to open file with path: " + _fullFileName, Log::DEBUG);
 	}
 }
 

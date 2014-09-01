@@ -9,6 +9,7 @@ public:
 	ParamCollection();
 	void parse();
 	void applySpecialCases();
+	std::vector<std::string> getDefaultValues();
 
 	ParamType* get(int ID);
 

@@ -3,7 +3,7 @@
 #include <memory>
 
 class LineSplitter;
-class SActionTemplate;
+class SActionType;
 
 class ScriptAction
 {
@@ -13,6 +13,6 @@ public:
 	void assignActionType();
 
 	int actionType, parameter;
-	SActionTemplate* pActionType;
+	SActionType* pActionType;
 };
 

@@ -5,7 +5,7 @@
 #include "../../Log.hpp"
 #include <sstream>
 
-/* static */ ObjectList<House> House::Array;
+/* static */ MapObjectList<House> House::Array;
 
 House::House(const std::string& id)
 :ID(id)
@@ -18,6 +18,7 @@ void House::parse(INIFile* file, bool redundant)
 	INISection* houseSection = file->getSection(ID);
 	if (!houseSection) return;
 
+	Name = ID;
 	houseSection->readStringValue("Country", Country);
 	houseSection->readIntValue("TechLevel", TechLevel);
 	houseSection->readIntValue("Credits", Credits);

@@ -3,7 +3,7 @@
 #include "../../Log.hpp"
 #include "WarheadType.hpp"
 
-/* static */ List<ParticleType> ParticleType::Array;
+/* static */ WWList<ParticleType> ParticleType::Array;
 
 ParticleType::ParticleType(const std::string& id)
 :ObjectType(id)

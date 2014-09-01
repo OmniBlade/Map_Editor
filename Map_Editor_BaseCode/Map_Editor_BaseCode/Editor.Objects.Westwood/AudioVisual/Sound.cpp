@@ -3,7 +3,7 @@
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 
-/* static */ List<Sound> Sound::Array;
+/* static */ WWList<Sound> Sound::Array;
 
 Sound::Sound(const std::string& id)
 :ID(id)

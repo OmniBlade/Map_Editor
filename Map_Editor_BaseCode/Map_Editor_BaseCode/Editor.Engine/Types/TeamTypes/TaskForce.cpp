@@ -4,7 +4,7 @@
 #include "../../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../../Log.hpp"
 
-/* static */ ObjectList<TaskForce> TaskForce::Array;
+/* static */ MapObjectList<TaskForce> TaskForce::Array;
 
 TaskForce::TaskForce(const std::string& id)
 :ID(id)

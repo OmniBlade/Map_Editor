@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include <string>
 #include <vector>
 #include <memory>
@@ -11,7 +11,7 @@ class INIFile;
 class ScriptType
 {
 public:
-	static ObjectList<ScriptType> Array;
+	static MapObjectList<ScriptType> Array;
 
 	ScriptType(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);

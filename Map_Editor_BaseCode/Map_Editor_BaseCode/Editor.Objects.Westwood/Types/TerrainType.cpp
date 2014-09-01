@@ -2,7 +2,7 @@
 #include "TerrainType.hpp"
 #include "../../Log.hpp"
 
-/* static */ List<TerrainType> TerrainType::Array;
+/* static */ WWList<TerrainType> TerrainType::Array;
 
 TerrainType::TerrainType(const std::string& id)
 :ObjectType(id)

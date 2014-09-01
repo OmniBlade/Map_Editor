@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Managers/ObjectList.hpp"
+#include "../Managers/MapObjectList.hpp"
 #include <string>
 
 class ScriptType;
@@ -14,7 +14,7 @@ class Tag;
 class TeamType
 {
 public:
-	static ObjectList<TeamType> Array;
+	static MapObjectList<TeamType> Array;
 
 	TeamType(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);

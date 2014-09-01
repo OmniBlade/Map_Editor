@@ -4,7 +4,7 @@
 #include "../../Log.hpp"
 #include "Animation.hpp"
 
-/* static */ List<ProjectileType> ProjectileType::Array;
+/* static */ WWList<ProjectileType> ProjectileType::Array;
 
 ProjectileType::ProjectileType(const std::string& id)
 :AbstractType(id)

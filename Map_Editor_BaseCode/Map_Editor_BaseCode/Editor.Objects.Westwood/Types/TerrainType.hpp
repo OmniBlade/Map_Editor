@@ -1,12 +1,12 @@
 #pragma once
 
 #include "ObjectType.hpp"
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 
 class TerrainType : public ObjectType
 {
 public:
-	static List<TerrainType> Array;
+	static WWList<TerrainType> Array;
 	TerrainType(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

@@ -85,9 +85,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor.Engine\Lists\IList.h" />
+    <ClInclude Include="Editor.Engine\Lists\NothingList.h" />
+    <ClInclude Include="Editor.Engine\Lists\ObjectList.h" />
+    <ClInclude Include="Editor.Engine\Lists\TrivialList.h" />
+    <ClInclude Include="Editor.Engine\Lists\TypeList.h" />
     <ClInclude Include="GameDefinition.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp" />
-    <ClInclude Include="Editor.FileSystem\MapFile\ActionTemplate.hpp" />
+    <ClInclude Include="Editor.FileSystem\MapFile\ActionType.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ActionCollection.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\lzoconf.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\lzodefs.h" />
@@ -97,8 +102,8 @@
     <ClInclude Include="Editor.Map.Validator\AIValidator.hpp" />
     <ClInclude Include="Editor.Engine\Types\AI\AITriggerEnable.hpp" />
     <ClInclude Include="Editor.Engine\Types\AI\AITriggerType.hpp" />
-    <ClInclude Include="Editor.Engine\Types\Managers\ObjectList.hpp" />
-    <ClInclude Include="Editor.Engine\Types\Managers\ObjectListHelpers.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Managers\MapObjectList.hpp" />
+    <ClInclude Include="Editor.Engine\Types\Managers\MapObjectListHelpers.hpp" />
     <ClInclude Include="Editor.FileSystem\CsfFile\CSFEntry.hpp" />
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\CSFManager.hpp" />
     <ClInclude Include="Editor.FileSystem\CsfFile\CSFFile.hpp" />
@@ -116,7 +121,7 @@
     <ClInclude Include="Editor.Engine\Loading\MapLoaderHelpers.hpp" />
     <ClInclude Include="Editor.Engine\Map\Map.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\EntryHelper.hpp" />
-    <ClInclude Include="Editor.Objects.Westwood\Managers\ListHelpers.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Managers\WWListHelpers.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\Animation.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\AircraftType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\InfantryType.hpp" />
@@ -150,7 +155,7 @@
     <ClInclude Include="Editor.FileSystem\ShpFile\ShpImage.hpp" />
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\SHPManager.hpp" />
     <ClInclude Include="Editor.FileSystem\HvaFile\HVAFile.hpp" />
-    <ClInclude Include="Editor.Objects.Westwood\Managers\List.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\Managers\WWList.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\General.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Infantry.hpp" />
     <ClInclude Include="Editor.Engine\Types\House.hpp" />
@@ -160,11 +165,12 @@
     <ClInclude Include="Editor.Engine\Game\GameModeCollection.hpp" />
     <ClInclude Include="Editor.Engine\Basics\Lighting.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\EventCollection.hpp" />
-    <ClInclude Include="Editor.FileSystem\MapFile\EventTemplate.hpp" />
+    <ClInclude Include="Editor.FileSystem\MapFile\EventType.hpp" />
     <ClInclude Include="Editor.Engine\Map\IsoMapPack.hpp" />
     <ClInclude Include="Editor.FileSystem\EncFile\EncFile.hpp" />
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\EncManager.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\Format80.h" />
+    <ClInclude Include="Editor.Engine\Lists\ListProvider.h" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ParticleType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp" />
@@ -173,8 +179,8 @@
     <ClInclude Include="Editor.Objects.Westwood\General\Side.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\ScriptType.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\ScriptAction.hpp" />
-    <ClInclude Include="Editor.Objects.Westwood\Audio\Sound.hpp" />
-    <ClInclude Include="Editor.Objects.Westwood\Audio\Speech.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Sound.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Speech.hpp" />
     <ClInclude Include="Editor.Engine\Types\Smudge.hpp" />
     <ClInclude Include="Editor.Map.Validator\MiscValidator.hpp" />
     <ClInclude Include="Editor.Map.Validator\OverlayValidator.hpp" />
@@ -182,12 +188,13 @@
     <ClInclude Include="Editor.Engine\Basics\SpecialFlag.hpp" />
     <ClInclude Include="Editor.Map.Validator\MainValidator.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\SActionCollection.hpp" />
-    <ClInclude Include="Editor.FileSystem\MapFile\SActionTemplate.hpp" />
+    <ClInclude Include="Editor.FileSystem\MapFile\SActionType.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamCollection.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamType.hpp" />
     <ClInclude Include="Editor.Engine\Map\PackType.hpp" />
     <ClInclude Include="Editor.Engine\Map\OverlayDataPack.hpp" />
     <ClInclude Include="Editor.Engine\Types\Overlay.h" />
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Movie.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -214,7 +221,7 @@
     <ClInclude Include="Editor.Engine\Types\Objects\Terrain.hpp" />
     <ClInclude Include="Editor.Engine\Types\Tube.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\TFEntry.hpp" />
-    <ClInclude Include="Editor.Objects.Westwood\Audio\Theme.hpp" />
+    <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Theme.hpp" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector2D.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector3D.hpp" />
@@ -230,8 +237,9 @@
     <ClInclude Include="Editor.Map.Validator\ValidatorHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.Engine\Lists\ListProvider.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp" />
-    <ClCompile Include="Editor.FileSystem\MapFile\ActionTemplate.cpp" />
+    <ClCompile Include="Editor.FileSystem\MapFile\ActionType.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -285,7 +293,7 @@
     <ClCompile Include="Editor.Engine\Game\GameModeCollection.cpp" />
     <ClCompile Include="Editor.Engine\Basics\Lighting.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\EventCollection.cpp" />
-    <ClCompile Include="Editor.FileSystem\MapFile\EventTemplate.cpp" />
+    <ClCompile Include="Editor.FileSystem\MapFile\EventType.cpp" />
     <ClCompile Include="Editor.Engine\Map\IsoMapPack.cpp" />
     <ClCompile Include="Editor.FileSystem\EncFile\EncFile.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\EncManager.cpp" />
@@ -312,19 +320,20 @@
     <ClCompile Include="Editor.Objects.Westwood\General\Side.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\ScriptType.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\ScriptAction.cpp" />
-    <ClCompile Include="Editor.Objects.Westwood\Audio\Sound.cpp" />
-    <ClCompile Include="Editor.Objects.Westwood\Audio\Speech.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Sound.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Speech.cpp" />
     <ClCompile Include="Editor.Engine\Types\Smudge.cpp" />
     <ClCompile Include="Editor.Map.Validator\MiscValidator.cpp" />
     <ClCompile Include="Editor.Map.Validator\OverlayValidator.cpp" />
     <ClCompile Include="Editor.Engine\Basics\SpecialFlag.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\SActionCollection.cpp" />
-    <ClCompile Include="Editor.FileSystem\MapFile\SActionTemplate.cpp" />
+    <ClCompile Include="Editor.FileSystem\MapFile\SActionType.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ParamCollection.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ParamType.cpp" />
     <ClCompile Include="Editor.Engine\Map\PackType.cpp" />
     <ClCompile Include="Editor.Engine\Map\OverlayDataPack.cpp" />
     <ClCompile Include="Editor.Engine\Types\Overlay.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Movie.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -353,7 +362,7 @@
     <ClCompile Include="Editor.Engine\Types\Objects\Terrain.cpp" />
     <ClCompile Include="Editor.Engine\Types\Tube.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\TFEntry.cpp" />
-    <ClCompile Include="Editor.Objects.Westwood\Audio\Theme.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Theme.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector2D.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector3D.cpp" />

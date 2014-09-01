@@ -1,13 +1,13 @@
 #pragma once
 
 #include <string>
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include "TechnoType.hpp"
 
 class InfantryType : public TechnoType
 {
 public:
-	static List<InfantryType> Array;
+	static WWList<InfantryType> Array;
 	InfantryType(const std::string& id);
 
 	void loadRules(INIFile* rules) override;

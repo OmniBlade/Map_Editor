@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../Managers/List.hpp"
+#include "../Managers/WWList.hpp"
 #include "AbstractType.hpp"
 
 class Country : public AbstractType
 {
 public:
-	static List<Country> Array;
+	static WWList<Country> Array;
 	Country(const std::string& id);
 
 	void loadRules(INIFile* file) override;

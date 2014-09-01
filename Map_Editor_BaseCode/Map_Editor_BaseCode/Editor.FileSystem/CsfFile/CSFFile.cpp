@@ -20,7 +20,7 @@ void CSFFile::parse()
 
 	if (ID != Identifier_FSC)
 	{
-		Log::note("This is not a valid CSF file, the game will not read it.", Log::DEBUG);
+		Log::line("This is not a valid CSF file, the game will not read it.", Log::DEBUG);
 		return;
 	}
 
@@ -32,7 +32,7 @@ void CSFFile::parse()
 
 	if (Config::language != -1 && Config::language != Language)
 	{
-		Log::note("This CSF file has a language other than 'ra2md.csf' has, expected '" + Log::toString(Config::language)
+		Log::line("This CSF file has a language other than 'ra2md.csf' has, expected '" + Log::toString(Config::language)
 			+ "', got '" + Log::toString(Language) + "'.", Log::DEBUG);
 		return;
 	}
@@ -78,13 +78,13 @@ void CSFFile::parse()
 				}
 				else
 				{
-					Log::note("Found a value that's STR nor STRW, unable to tell what's going to be missing!", Log::DEBUG);
+					Log::line("Found a value that's STR nor STRW, unable to tell what's going to be missing!", Log::DEBUG);
 				}
 			}
 		}
 		else
 		{
-			Log::note("Found an invalid label, unable to tell what's going to be missing!", Log::DEBUG);
+			Log::line("Found an invalid label, unable to tell what's going to be missing!", Log::DEBUG);
 		}
 	}
 

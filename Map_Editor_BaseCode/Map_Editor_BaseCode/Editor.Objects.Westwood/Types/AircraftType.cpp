@@ -2,7 +2,7 @@
 #include "AircraftType.hpp"
 #include "../../Log.hpp"
 
-/* static */ List<AircraftType> AircraftType::Array;
+/* static */ WWList<AircraftType> AircraftType::Array;
 
 AircraftType::AircraftType(const std::string& id)
 :TechnoType(id)

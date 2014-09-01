@@ -2,7 +2,7 @@
 #include "SmudgeType.hpp"
 #include "../../Log.hpp"
 
-/* static */ List<SmudgeType> SmudgeType::Array;
+/* static */ WWList<SmudgeType> SmudgeType::Array;
 
 SmudgeType::SmudgeType(const std::string& id)
 :ObjectType(id)
