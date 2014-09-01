@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ConfigLoader.hpp"
 #include "../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
+#include "../Editor.FileSystem/FileManager/Managers/EncManager.hpp"
 #include "../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../Config.hpp"
@@ -18,6 +19,10 @@ void ConfigLoader::parse()
 {
 	std::string CONFIG = "CONFIGS";
 	INIFile* configINI = INIManager::getManager()->getRoot(CONFIG);
+	if (!configINI)
+	{
+		configINI = EncManager::getManager()->getAsINI(CONFIG);
+	}
 
 	if (!configINI)
 	{
@@ -29,6 +34,7 @@ void ConfigLoader::parse()
 	if (INISection* mainSection = configINI->getSection("Main"))
 	{
 		mainSection->readBoolValue("InGameLighting", Config::inGameLighting, true);
+		mainSection->readBoolValue("IsModSlave", isModSlave, false);
 		mainSection->readBoolValue("FA2Mode", Config::FA2Mode, false);
 		mainSection->readBoolValue("AIReferences", Config::AIReferences, false);
 	}
@@ -71,12 +77,23 @@ void ConfigLoader::parse()
 
 bool ConfigLoader::chooseConfig()
 {
-	if (configFiles.size() == 1)
+	if (configFiles.size() == 1 || isModSlave == true)
 	{
-		Game::title = configFiles.back()->usedTitle;
-		Config::installDir = configFiles.back()->InstallDir;
-		Config::configName = configFiles.back()->Path;
-		Config::parse(INIManager::getManager()->getRoot(configFiles.back().get()->Path));
+		int index = configFiles.size()-1;
+
+		if (isModSlave)
+		{
+			Log::line();
+			Log::line("This editor is supplied along with a mod, only 1 configuration will be loaded!", Log::DEBUG);
+			Log::line("Hopefully this is the entry of the mod, otherwise Mr. Professional Modder didn't set his CONFIGS up properly.", Log::EXTRA);
+			Log::line();
+			index = 0;
+		}
+
+		Game::title = configFiles[index]->usedTitle;
+		Config::installDir = configFiles[index]->InstallDir;
+		Config::configName = configFiles[index]->Path;
+		Config::parse(INIManager::getManager()->getRoot(configFiles[index].get()->Path));
 		return true;
 	}
 	else if (configFiles.size() > 1)

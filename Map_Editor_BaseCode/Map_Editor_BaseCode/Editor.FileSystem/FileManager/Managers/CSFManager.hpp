@@ -10,8 +10,11 @@ class CSFManager
 public:
 	static CSFManager* getManager();
 	CSFFile* get(const std::string& fileName);
+	CSFFile* get(unsigned int index);
 	CSFFile* cache(const std::string& fileName);
 	std::wstring getValue(const std::string& name);
+
+	int files();
 
 private:
 	static CSFManager* manager;

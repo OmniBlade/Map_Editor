@@ -29,12 +29,12 @@ public:
 protected:
 	void add(List &ret, std::string name, int value = 0, std::string ID = "", std::wstring displayName = L"")
 	{
-		ret.emplace_back(value, name, ID, displayName);
+		ret.emplace_back(value, std::move(name), std::move(ID), std::move(displayName));
 	};
 
-	void add(List &ret, value_type& item) 
+	void add(List &ret, value_type& item)
 	{
-		ret.emplace_back(item.Index, item.Name, item.ID, item.DisplayName);
+		ret.push_back(item);
 	};
 
 	void optional_none(List &ret, bool allowed)

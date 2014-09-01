@@ -85,9 +85,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor.Engine\Lists\AITypeList.h" />
+    <ClInclude Include="Editor.Engine\Lists\GroupList.h" />
     <ClInclude Include="Editor.Engine\Lists\IList.h" />
     <ClInclude Include="Editor.Engine\Lists\NothingList.h" />
     <ClInclude Include="Editor.Engine\Lists\ObjectList.h" />
+    <ClInclude Include="Editor.Engine\Lists\StringList.h" />
+    <ClInclude Include="Editor.Engine\Lists\TechnoList.h" />
     <ClInclude Include="Editor.Engine\Lists\TrivialList.h" />
     <ClInclude Include="Editor.Engine\Lists\TypeList.h" />
     <ClInclude Include="GameDefinition.h" />

@@ -2,8 +2,12 @@
 #include "ListProvider.h"
 #include "TypeList.h"
 #include "ObjectList.h"
+#include "AITypeList.h"
 #include "TrivialList.h"
+#include "StringList.h"
 #include "NothingList.h"
+#include "TechnoList.h"
+#include "GroupList.h"
 #include "../../Editor.Objects.Westwood/Types/AircraftType.hpp"
 #include "../../Editor.Objects.Westwood/Types/Animation.hpp"
 #include "../../Editor.Objects.Westwood/Types/BuildingType.hpp"
@@ -36,7 +40,7 @@ ListProvider::ListProvider()
 
 std::vector<ListItem> ListProvider::getListFor(int param)
 {
-	if (param < 0 || param > typeLists.size())
+	if (param < 0 || param > (int) typeLists.size())
 	{
 		Log::line(L"CRITICAL! - Attempt to get a list for ParamType '" + Log::toWString(param) + L"', it does not exist in ListProvider! Returning NothingList.", Log::DEBUG);
 		param = 0;
@@ -56,19 +60,18 @@ void ListProvider::fillListVector()
 	typeLists.emplace_back(std::make_shared<TypeList<AircraftType>>());
 	typeLists.emplace_back(std::make_shared<TypeList<Animation>>());
 	typeLists.emplace_back(std::make_shared<TypeList<BuildingType>>());
-	typeLists.emplace_back(std::make_shared<NothingList>());
-//	/* TODO */ typeLists.emplace_back(std::make_shared<NothingList>()); // TODO: remove it!
+	typeLists.emplace_back(std::make_shared<TypeList<BuildingType>>());
 	typeLists.emplace_back(std::make_shared<TypeList<Speech>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<House>>());
 	typeLists.emplace_back(std::make_shared<TypeList<InfantryType>>());
 	typeLists.emplace_back(std::make_shared<TypeList<Movie>>());
 	typeLists.emplace_back(std::make_shared<TypeList<ParticleType>>());
 	typeLists.emplace_back(std::make_shared<TypeList<Sound>>()); //10
-	/* TODO */ typeLists.emplace_back(std::make_shared<NothingList>());	// TODO: INVENT SOMETHING /*CSF STRINGS*/
+	typeLists.emplace_back(std::make_shared<StringList>());
 	typeLists.emplace_back(std::make_shared<TypeList<SuperWeaponType>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<Tag>>());
-	typeLists.emplace_back(std::make_shared<ObjectList<TeamType>>());
-	/* TODO */ typeLists.emplace_back(std::make_shared<NothingList>()); // TODO: INVENT SOMETHING
+	typeLists.emplace_back(std::make_shared<AITypeList<TeamType>>());
+	typeLists.emplace_back(std::make_shared<TechnoList>());
 	typeLists.emplace_back(std::make_shared<TypeList<Theme>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<Trigger>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<VehicleType>>());
@@ -84,7 +87,7 @@ void ListProvider::fillListVector()
 	typeLists.emplace_back(std::make_shared<QuarryList>());
 	typeLists.emplace_back(std::make_shared<NothingList>()); // SECONDS 
 	typeLists.emplace_back(std::make_shared<NothingList>()); // CREDITS //30
-	typeLists.emplace_back(std::make_shared<NothingList>()); // GROUP
+	typeLists.emplace_back(std::make_shared<GroupList>());
 	typeLists.emplace_back(std::make_shared<SpeedList>());
 	typeLists.emplace_back(std::make_shared<TypeList<VoxelAnimType>>());
 	typeLists.emplace_back(std::make_shared<CrateList>());
@@ -105,10 +108,10 @@ void ListProvider::fillListVector()
 	typeLists.emplace_back(std::make_shared<NothingList>()); // AMBIENT LEVEL
 	typeLists.emplace_back(std::make_shared<MissionList>()); // 50
 	typeLists.emplace_back(std::make_shared<FacingList>());
-	typeLists.emplace_back(std::make_shared<ObjectList<ScriptType>>());
+	typeLists.emplace_back(std::make_shared<AITypeList<ScriptType>>());
 	typeLists.emplace_back(std::make_shared<SplitList>());
 	/* TODO	*/typeLists.emplace_back(std::make_shared<NothingList>());	// SCRIPT LINE: TODO IMPLEMENT
 	typeLists.emplace_back(std::make_shared<NothingList>()); // CELL
 	typeLists.emplace_back(std::make_shared<TechLevelList>());
-	typeLists.emplace_back(std::make_shared<ObjectList<TaskForce>>());
+	typeLists.emplace_back(std::make_shared<AITypeList<TaskForce>>());
 }

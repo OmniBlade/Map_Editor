@@ -21,6 +21,7 @@ void Speech::load(INIFile* file)
 	}
 	
 	section->readStringValue("Text", text);
+	Name = text;
 	valid = true;
 
 }

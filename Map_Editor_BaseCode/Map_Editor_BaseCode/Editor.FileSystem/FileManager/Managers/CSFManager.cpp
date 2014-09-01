@@ -32,6 +32,17 @@ CSFFile* CSFManager::get(const std::string& fileName)
 		return cache(capsName);
 }
 
+CSFFile* CSFManager::get(unsigned int index)
+{
+	if (index < 0 || index > files())
+	{
+		Log::line("CRITICAL - Requesting CSF file at index '" + Log::toString(index) + "', out of bounds! Returning index 0.", Log::DEBUG);
+		index = 0;
+	}
+	return csfFiles[index].get();
+
+}
+
 CSFFile* CSFManager::cache(const std::string& fileName)
 {
 
@@ -65,4 +76,9 @@ std::wstring CSFManager::getValue(const std::string& name)
 		}
 	}
 	return value = L"<No Name>";
+}
+
+int CSFManager::files()
+{
+	return csfFiles.size();
 }

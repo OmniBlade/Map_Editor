@@ -1,9 +1,10 @@
 #pragma once
 
 #include "IList.h"
+#include "../../Config.hpp"
 
 template <typename T>
-class TypeList : public IList
+class AITypeList : public IList
 {
 public:
 	List getList()
@@ -14,9 +15,13 @@ public:
 		for (unsigned int i = 0; i < count; ++i)
 		{
 			T* item = T::Array.get(i);
-			if (item->valid)
+			if (Config::AIReferences)
 			{
-				add(items, item->Name, i, item->ID, item->WUIName);
+				add(items, item->Name, i, item->ID);
+			}
+			else if (item->isGlobal == false)
+			{
+				add(items, item->Name, i, item->ID);
 			}
 		}
 

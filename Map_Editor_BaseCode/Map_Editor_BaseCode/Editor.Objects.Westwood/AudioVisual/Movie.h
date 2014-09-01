@@ -11,5 +11,6 @@ public:
 	void parse(const std::string& id, const std::string& name);
 	std::string ID, Name;
 	std::wstring WUIName;
+	bool valid = true;
 };
 

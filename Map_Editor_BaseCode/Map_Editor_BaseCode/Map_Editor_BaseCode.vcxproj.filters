@@ -468,6 +468,18 @@
     <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Theme.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\AITypeList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\StringList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\TechnoList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\GroupList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

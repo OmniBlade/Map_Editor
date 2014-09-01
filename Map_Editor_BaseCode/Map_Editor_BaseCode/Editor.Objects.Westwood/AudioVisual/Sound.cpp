@@ -8,7 +8,7 @@
 Sound::Sound(const std::string& id)
 :ID(id)
 {
-
+	Name = ID;
 }
 
 void Sound::load(INIFile* file)

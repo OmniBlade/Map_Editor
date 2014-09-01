@@ -48,7 +48,7 @@ void initiateEditor()
 	if (!configLoader.chooseConfig())
 	{
 		Log::close();
-		std::cin.get();
+		system("pause");
 		exit(0);
 	}
 
@@ -183,9 +183,6 @@ void loadMap()
 	IsoMapPack isoPack(pack);
 	isoPack.read();
 
-	//std::string Base64StrEn = Base64_encode((unsigned char*) Base64Str.c_str(), Base64Str.length());
-	//Log::timerStart();
-
 	/*
 		Little side information:
 		Tiberian Sun's Firestorm Expansion pack will load exactly like below
@@ -197,7 +194,7 @@ void loadMap()
 	mapLoader.load(rules);
 	mapLoader.load(mode);
 	mapLoader.load(map);
-	mapLoader.loadGlobalVariable();
+	mapLoader.loadGlobalVariable(); // You fucking wanker! // Causes crash on exit when profiled as WWType
 	mapLoader.loadAI();
 	Log::line("Loading game's objects took: " + Log::getTimerValue(), Log::DEBUG);
 
@@ -244,6 +241,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	loadMap();
 	validateMap();
 
+	ListProvider testprovider;
+	auto kut = testprovider.getListFor(31);
+	auto kut2 = testprovider.getListFor(31);
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;

@@ -22,6 +22,7 @@ public:
 	*/
 	bool chooseConfig();
 
+	bool isModSlave = false;
 	std::vector<std::unique_ptr<ConfigFile>> configFiles;
 };
 

@@ -68,9 +68,10 @@ public:
 	int Language;
 	bool valid = false;
 
+	std::map<std::string, std::unique_ptr<CSFEntry>> entryList;
+
 private:
 	BinaryReader* csfReader;
 	std::string iniName, mixName;
-	std::map<std::string, std::unique_ptr<CSFEntry>> entryList;
 };
 
