@@ -171,62 +171,77 @@ std::vector<std::string> StartupLoader::getSubMixes()
 	std::cout << "WARNING! THEATER MIX NAMES ARE ONLY SUPPORTED FOR YR,\nREMOVE DEPENDENCY AND MOVE TO CONFIG FILE FOR THEATERS" << std::endl;
 	std::cout << "ISOGEN HAS TO BE LOADED FOR BOTH GAMES!" << std::endl;
 
-	if (Game::title == Game::Type::Expansion)
+	/*
+		RA2's list for files is COMPLETELY different than YR's
+	*/
+	if (Game::title == Game::Type::Base)
+	{
+		coreMixNames.push_back("CONQUER.MIX");
+		coreMixNames.push_back("MAPS01.MIX");
+		coreMixNames.push_back("MAPS02.MIX");
+		//Theater shit
+		//Temperate
+		coreMixNames.push_back("TEMPERAT.MIX");
+		coreMixNames.push_back("TEM.MIX");
+		coreMixNames.push_back("ISOTEMP.MIX");
+		//Snow
+		coreMixNames.push_back("SNOW.MIX");
+		coreMixNames.push_back("SNO.MIX");
+		coreMixNames.push_back("ISOSNOW.MIX");
+		//Urban
+		coreMixNames.push_back("URBAN.MIX");
+		coreMixNames.push_back("URB.MIX");
+		coreMixNames.push_back("ISOURB.MIX");
+
+		coreMixNames.push_back("GENERIC.MIX");
+		coreMixNames.push_back("ISOGEN.MIX");
+
+	}
+	else if (Game::title == Game::Type::Base)
 	{
 		coreMixNames.push_back("CONQMD.MIX");
 		coreMixNames.push_back("GENERMD.MIX");
-	}
-	
-	coreMixNames.push_back("GENERIC.MIX");
-	if (Game::title == Game::Type::Expansion)
+
+		coreMixNames.push_back("GENERIC.MIX");
 		coreMixNames.push_back("ISOGENMD.MIX");
-	coreMixNames.push_back("ISOGEN.MIX");
-	coreMixNames.push_back("CONQUER.MIX");
-	//Theater shit
-	if (Game::title == Game::Type::Expansion)
+		coreMixNames.push_back("ISOGEN.MIX");
+		coreMixNames.push_back("CONQUER.MIX");
+		//Theater shit
+		//Temperate
 		coreMixNames.push_back("TEMPERATMD.MIX");
-	coreMixNames.push_back("TEM.MIX");
-	if (Game::title == Game::Type::Expansion)
+		coreMixNames.push_back("TEM.MIX");
 		coreMixNames.push_back("ISOTEMMD.MIX");
-	coreMixNames.push_back("ISOTEMP.MIX");
-
-	if (Game::title == Game::Type::Expansion)
+		coreMixNames.push_back("ISOTEMP.MIX");
+		//Snow
 		coreMixNames.push_back("SNOWMD.MIX");
-	coreMixNames.push_back("SNO.MIX");
-	if (Game::title == Game::Type::Expansion)
+		coreMixNames.push_back("SNO.MIX");
 		coreMixNames.push_back("ISOSNOMD.MIX");
-	coreMixNames.push_back("ISOSNOW.MIX");
-
-	if (Game::title == Game::Type::Expansion)
+		coreMixNames.push_back("ISOSNOW.MIX");
+		//Urban
 		coreMixNames.push_back("URBANMD.MIX");
-	coreMixNames.push_back("URB.MIX");
-	if (Game::title == Game::Type::Expansion)
+		coreMixNames.push_back("URB.MIX");
 		coreMixNames.push_back("ISOURBMD.MIX");
-	coreMixNames.push_back("ISOURB.MIX");
-
-	if (Game::title == Game::Type::Expansion)
-	{
+		coreMixNames.push_back("ISOURB.MIX");
+		//Desert
 		coreMixNames.push_back("DESERTMD.MIX");
 		coreMixNames.push_back("DES.MIX");
 		coreMixNames.push_back("ISODESMD.MIX");
 		coreMixNames.push_back("ISODES.MIX");
-
+		//New Urban
 		coreMixNames.push_back("URBANNMD.MIX");
 		coreMixNames.push_back("UBN.MIX");
 		coreMixNames.push_back("ISOUBN.MIX");
 		coreMixNames.push_back("ISOUBNMD.MIX");
-
+		//Lunar
 		coreMixNames.push_back("LUNDARMD.MIX");
 		coreMixNames.push_back("LUN.MIX");
 		coreMixNames.push_back("ISOLUNMD.MIX");
 		coreMixNames.push_back("ISOLUN.MIX");
-	}
 
-	coreMixNames.push_back("MAPS01.MIX");
-	coreMixNames.push_back("MAPS02.MIX");
-	
-	if (Game::title == Game::Type::Expansion)
+		coreMixNames.push_back("MAPS01.MIX");
+		coreMixNames.push_back("MAPS02.MIX");
 		coreMixNames.push_back("MAPSMD03.MIX");
+	}
 
 	return coreMixNames;
 }

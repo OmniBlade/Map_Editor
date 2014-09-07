@@ -18,7 +18,7 @@ ConfigLoader::ConfigLoader()
 void ConfigLoader::parse()
 {
 	std::string CONFIG = "CONFIGS";
-	INIFile* configINI = INIManager::getManager()->getRoot(CONFIG);
+	configINI = INIManager::getManager()->getRoot(CONFIG);
 	if (!configINI)
 	{
 		configINI = EncManager::getManager()->getAsINI(CONFIG);
@@ -37,6 +37,7 @@ void ConfigLoader::parse()
 		mainSection->readBoolValue("IsModSlave", isModSlave, false);
 		mainSection->readBoolValue("FA2Mode", Config::FA2Mode, false);
 		mainSection->readBoolValue("AIReferences", Config::AIReferences, false);
+		mainSection->readBoolValue("ObsoleteSettings", Config::ObsoleteSettings, false);
 	}
 	else
 	{
@@ -48,6 +49,7 @@ void ConfigLoader::parse()
 	Log::line("In-game lighting: " + Log::toString(Config::inGameLighting), Log::DEBUG);
 	Log::line("FA2 mode: " + Log::toString(Config::FA2Mode), Log::DEBUG);
 	Log::line("AI References: " + Log::toString(Config::AIReferences), Log::DEBUG);
+	Log::line("Obsolete settings: " + Log::toString(Config::ObsoleteSettings), Log::DEBUG);
 	Log::line();
 
 	INISection* configurations = configINI->getSection("Configurations");
@@ -64,7 +66,7 @@ void ConfigLoader::parse()
 			aConfig->readStringValue("InstallDir", path);
 			aConfig->readStringValue("Game", gameType);
 
-			configFiles.push_back(std::make_unique<ConfigFile>(name, file, path, gameType));
+			configFiles.push_back(std::make_unique<ConfigFile>(aConfig->getSectionName(), name, file, path, gameType));
 			number.str(std::string());
 		}
 		else
@@ -77,6 +79,26 @@ void ConfigLoader::parse()
 
 bool ConfigLoader::chooseConfig()
 {
+	if (!Config::configName.empty())
+	{
+		INISection* argModSection = configINI->getSection(Config::configName);
+		if (argModSection)
+		{
+			for (unsigned int i = 0; i < configFiles.size(); ++i)
+			{
+				if (configFiles[i]->ID == Config::configName)
+				{
+					Game::title = configFiles[i]->usedTitle;
+					Config::installDir = configFiles[i]->InstallDir;
+					Config::configName = configFiles[i]->Path;
+					Config::parse(INIManager::getManager()->getRoot(configFiles[i].get()->Path));
+					break;
+				}
+			}
+		}
+		return true;
+	}
+	
 	if (configFiles.size() == 1 || isModSlave == true)
 	{
 		int index = configFiles.size()-1;

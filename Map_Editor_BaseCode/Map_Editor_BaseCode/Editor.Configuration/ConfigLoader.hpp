@@ -4,6 +4,8 @@
 #include <memory>
 #include "ConfigFile.hpp"
 
+class INIFile;
+
 class ConfigLoader
 {
 public:
@@ -22,6 +24,7 @@ public:
 	*/
 	bool chooseConfig();
 
+	INIFile* configINI;
 	bool isModSlave = false;
 	std::vector<std::unique_ptr<ConfigFile>> configFiles;
 };

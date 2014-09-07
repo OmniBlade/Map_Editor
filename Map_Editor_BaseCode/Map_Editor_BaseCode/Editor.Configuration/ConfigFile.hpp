@@ -6,9 +6,9 @@
 class ConfigFile
 {
 public:
-	ConfigFile(const std::string& name, const std::string& path, const std::string& installDir, const std::string& game);
+	ConfigFile(const std::string& id, const std::string& name, const std::string& path, const std::string& installDir, const std::string& game);
 
-	std::string Name, Path, InstallDir;
+	std::string ID, Name, Path, InstallDir;
 	Game::Type usedTitle;
 };
 

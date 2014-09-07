@@ -32,6 +32,7 @@ public:
 	static bool inGameLighting;				// Whether to render in-game lighting over the overlay (or rather just TMPs)
 	static bool FA2Mode;					// Disable any of the fancy elements and switch to antique mode
 	static bool AIReferences;				// Whether to reference AI control file TeamTypes, TaskForces and ScriptTypes in the editor
+	static bool ObsoleteSettings;			// Whether to enable unknown/not working settings
 
 	// [MIX]
 	static std::string missionDisk;			// Suffix used for Yuri's Revenge, default is 'md' but some mods (Mental Omega) have this set to 'mo'

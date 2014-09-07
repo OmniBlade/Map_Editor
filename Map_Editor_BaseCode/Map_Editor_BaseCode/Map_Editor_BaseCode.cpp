@@ -45,6 +45,7 @@ void initiateEditor()
 	FileSystem::getFileSystem()->assign(rawSystem);
 
 	ConfigLoader configLoader;
+
 	if (!configLoader.chooseConfig())
 	{
 		Log::close();
@@ -242,8 +243,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	validateMap();
 
 	ListProvider testprovider;
-	auto kut = testprovider.getListFor(31);
-	auto kut2 = testprovider.getListFor(31);
+	auto kut = testprovider.getListFor(22);
+
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;

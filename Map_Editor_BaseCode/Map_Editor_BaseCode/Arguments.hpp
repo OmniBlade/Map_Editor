@@ -50,6 +50,10 @@ bool handleAssignments(const std::string& argStr)
 		{
 			Config::mapName = argValue;
 		}
+		else if (argType == "-MODNAME")
+		{
+			Config::configName = argValue;
+		}
 
 	}
 	return false;

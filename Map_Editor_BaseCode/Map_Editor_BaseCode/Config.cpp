@@ -28,6 +28,8 @@ std::string Config::extraMix = "";
 bool Config::inGameLighting = true;
 bool Config::FA2Mode = false;
 bool Config::AIReferences = false;
+bool Config::ObsoleteSettings = false;
+
 
 // [INI]
 std::string Config::rules	= "RULESMD.INI";

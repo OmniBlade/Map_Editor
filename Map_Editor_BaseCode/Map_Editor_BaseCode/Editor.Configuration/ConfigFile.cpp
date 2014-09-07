@@ -3,8 +3,8 @@
 #include "../Log.hpp"
 
 
-ConfigFile::ConfigFile(const std::string& name, const std::string& path, const std::string& installDir, const std::string& game)
-	:Name(name), Path(path), InstallDir(installDir)
+ConfigFile::ConfigFile(const std::string& id, const std::string& name, const std::string& path, const std::string& installDir, const std::string& game)
+:ID(id), Name(name), Path(path), InstallDir(installDir)
 {
 	/*
 		Is this ugly?
