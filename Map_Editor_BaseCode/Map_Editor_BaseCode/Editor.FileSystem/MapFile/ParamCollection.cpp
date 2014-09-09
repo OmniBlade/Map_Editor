@@ -22,11 +22,11 @@ void ParamCollection::parse()
 	for (int i = 1; i < paramCount; ++i)
 	{
 		if (params->checkKeyExistance(Log::toString(i)))
-			paramList.push_back(std::make_unique<ParamType>(i, params->getValue(Log::toString(i))));
+			paramList.push_back(std::make_unique<ParamType>(i, params->getValue(Log::toString(i)), paramCount));
 		else
 		{
 			//Because the list is hardcoded, we can easily insert a missing name
-			paramList.push_back(std::make_unique<ParamType>(i, defaults[i]));
+			paramList.push_back(std::make_unique<ParamType>(i, defaults[i], paramCount));
 			Log::line("ParamType expected at index " + Log::toString(i) + " is not found, inserting default value.", Log::DEBUG);
 		}
 	}
@@ -62,63 +62,66 @@ std::vector<std::string> ParamCollection::getDefaultValues()
 {
 	std::vector<std::string> defaults;
 
-	defaults.push_back("AircraftType");
-	defaults.push_back("Animation");
-	defaults.push_back("BuildingType");
-	defaults.push_back("Building TechnoType");
-	defaults.push_back("Speech");
-	defaults.push_back("House");
-	defaults.push_back("Movie");
-	defaults.push_back("Particle");
-	defaults.push_back("Sound");
-	defaults.push_back("Text String");
-	defaults.push_back("SuperWeapon");
-	defaults.push_back("Tag");
-	defaults.push_back("TeamType");
-	defaults.push_back("TechnoType");
-	defaults.push_back("Theme");
-	defaults.push_back("Trigger");
-	defaults.push_back("VehicleType");
-	defaults.push_back("Local variable");
-	defaults.push_back("Global variable");
-	defaults.push_back("Waypoint");
-	defaults.push_back("WeaponType");
-	defaults.push_back("Activated");
-	defaults.push_back("Left");
-	defaults.push_back("Top");
-	defaults.push_back("Height");
-	defaults.push_back("Quarry");
-	defaults.push_back("Seconds");
-	defaults.push_back("Credits");
-	defaults.push_back("Group");
-	defaults.push_back("Speed");
-	defaults.push_back("Voxel Anim");
-	defaults.push_back("CrateType");
-	defaults.push_back("Speech bubble");
-	defaults.push_back("Light behavior");
-	defaults.push_back("Event");
-	defaults.push_back("Shower");
-	defaults.push_back("Number");
-	defaults.push_back("Frames");
-	defaults.push_back("Tab");
-	defaults.push_back("Percentage");
-	defaults.push_back("Zoom level");
-	defaults.push_back("Amount");
-	defaults.push_back("Ambient rate");
-	defaults.push_back("Retint value");
-	defaults.push_back("Lighting level");
-	defaults.push_back("Ambient step");
-	defaults.push_back("Ambient level");
+	defaults.push_back("Nothing,0");
+	defaults.push_back("AircraftType,1");
+	defaults.push_back("Animation,2");
+	defaults.push_back("BuildingType,3");
+	defaults.push_back("Building TechnoType,3");
+	defaults.push_back("Speech,4");
+	defaults.push_back("House,5");
+	defaults.push_back("InfantryType,6");
+	defaults.push_back("Movie,7");
+	defaults.push_back("Particle,8");
+	defaults.push_back("Sound,9");
+	defaults.push_back("Text String,10");
+	defaults.push_back("SuperWeapon,11");
+	defaults.push_back("Tag,12");
+	defaults.push_back("TeamType,13");
+	defaults.push_back("TechnoType,14");
+	defaults.push_back("Theme,15");
+	defaults.push_back("Trigger,16");
+	defaults.push_back("VehicleType,17");
+	defaults.push_back("Local variable,18");
+	defaults.push_back("Global variable,19");
+	defaults.push_back("Waypoint,20");
+	defaults.push_back("WeaponType,21");
+	defaults.push_back("Activated,22");
+	defaults.push_back("Left,0");
+	defaults.push_back("Top,0");
+	defaults.push_back("Width,0");
+	defaults.push_back("Height,0");
+	defaults.push_back("Quarry,23");
+	defaults.push_back("Seconds,0");
+	defaults.push_back("Credits,0");
+	defaults.push_back("Group,24");
+	defaults.push_back("Speed,25");
+	defaults.push_back("Voxel Anim,26");
+	defaults.push_back("CrateType,27");
+	defaults.push_back("Speech bubble,28");
+	defaults.push_back("Light behavior,29");
+	defaults.push_back("Event,30");
+	defaults.push_back("Size,31");
+	defaults.push_back("Number,0");
+	defaults.push_back("Frames,0");
+	defaults.push_back("Tab,32");
+	defaults.push_back("Percentage,0");
+	defaults.push_back("Zoom level,33");
+	defaults.push_back("Amount,0");
+	defaults.push_back("Ambient rate,0");
+	defaults.push_back("Value,0");
+	defaults.push_back("Lighting level,0");
+	defaults.push_back("Ambient step,0");
+	defaults.push_back("Ambient level,0");
 
 	//Mostly ScriptTypes actions
-	defaults.push_back("Mission");
-	defaults.push_back("Facing");
-	defaults.push_back("ScriptType");
-	defaults.push_back("Split Into");
-	defaults.push_back("Script Line");
-	defaults.push_back("Cell");
-	defaults.push_back("TechLevel");
-	defaults.push_back("TaskForce");
+	defaults.push_back("Mission,34");
+	defaults.push_back("Facing,35");
+	defaults.push_back("ScriptType,36");
+	defaults.push_back("Split Into,37");
+	defaults.push_back("Script Line,38");
+	defaults.push_back("Cell,0");
+	defaults.push_back("TechLevel,39");
+	defaults.push_back("TaskForce,40");
 	
 	return defaults;
 }

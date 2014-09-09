@@ -109,10 +109,6 @@ public:
 		@param amountOfBytes The amount of bytes to read out
 	*/
 	std::vector<byte> readByteBlockFromOffset(__int32 offset, unsigned int amountOfBytes);
-	/*
-		Reads a single line until 'new line' character is found, mainly used for text files
-	*/
-	std::string readTextLine(const int length = 2048, bool zeroTerminated = true);
 
 	/*
 		Reads a single wstring line

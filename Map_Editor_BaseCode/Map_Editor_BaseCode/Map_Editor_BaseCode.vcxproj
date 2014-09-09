@@ -226,6 +226,7 @@
     <ClInclude Include="Editor.Engine\Types\Tube.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\TFEntry.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Theme.hpp" />
+    <ClInclude Include="Editor.FileSystem\FileManager\TextReader.h" />
     <ClInclude Include="Utils.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector2D.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Vector3D.hpp" />
@@ -367,6 +368,7 @@
     <ClCompile Include="Editor.Engine\Types\Tube.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\TFEntry.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Theme.cpp" />
+    <ClCompile Include="Editor.FileSystem\FileManager\TextReader.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector2D.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Vector3D.cpp" />

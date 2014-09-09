@@ -344,7 +344,7 @@ public:
 		add(items, "8", 8);
 		add(items, "9", 9);
 		add(items, "10", 10);
-		add(items, "11 (Both AI and Player cannot build this)", 11);
+		add(items, "11 (Player and AI cannot build this)", 11);
 
 		return items;
 	};
@@ -399,13 +399,37 @@ public:
 	{
 		List items;
 
-		add(items, "less than", 0);
-		add(items, "less than or equal to", 1);
-		add(items, "equal to", 2);
-		add(items, "greater than or equal to", 3);
-		add(items, "greater than", 4);
-		add(items, "not equal to", 5);
+		add(items, "Less than", 0);
+		add(items, "Less than or equal to", 1);
+		add(items, "Equal to", 2);
+		add(items, "Greater than or equal to", 3);
+		add(items, "Greater than", 4);
+		add(items, "Not equal to", 5);
 
+		return items;
+	};
+};
+
+/*
+The list for the conditions of AITriggerTypes
+- Used in AITriggerTypes
+*/
+class AITrigger : public IList
+{
+public:
+	List getList()
+	{
+		List items;
+
+		add(items, "Enemy owns (condition) NUMBER of TECHNOTYPE", 0);
+		add(items, "Owner owns (condition) NUMBER of TECHNOTYPE", 1);
+		add(items, "Enemy is near low (yellow) power", 2);
+		add(items, "Enemy has low (red) power", 3);
+		add(items, "Enemy owns (condition) NUMBER of credits", 4);
+		add(items, "Owner's Iron Curtain is near ready", 5);
+		add(items, "Owner's Chronosphere is near ready", 6);
+		add(items, "Neutral owns (condition) NUMBER of TECHNOTYPE", 7);
+	
 		return items;
 	};
 };

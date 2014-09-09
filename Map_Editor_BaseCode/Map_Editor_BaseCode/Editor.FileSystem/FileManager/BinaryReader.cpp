@@ -117,12 +117,7 @@ byte BinaryReader::readByte()
 
 void BinaryReader::discardBytes(unsigned int amount)
 {
-	std::vector<byte> buffer(amount);
-	for(unsigned int i = 0; i < amount; ++i)
-	{
-		byte aByte;
-		fileStream.read(reinterpret_cast<char*>(&aByte), sizeof(char));
-	}
+	fileStream.seekg(amount, std::ios::cur);
 }
 
 std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
@@ -132,50 +127,6 @@ std::vector<byte> BinaryReader::readByteBlock(unsigned int amountOfBytes)
 		return buffer;
 	fileStream.read(reinterpret_cast<char*>(&buffer[0]), amountOfBytes);
 	return buffer;
-}
-
-std::string BinaryReader::readTextLine(const int length /* 2048 */, bool zeroTerminated /* = true */)
-{
-	char line[2048];
-
-	for (int i = 0; i < length; ++i)
-	{
-		readBlock(&line[i], 1);
-
-		if (sizeof(line) > 1 && line[i-1] == '\r' && line[i] == '\n') //This check saves an additional call to this function by INIFile
-		{
-			line[i-1] = '\0';
-			return line;
-		}
-		else if (line[i] == '\n' || line[i] == '\0')
-		{
-			line[i] = '\0';
-			return line;
-		}
-	}
-
-	if (!zeroTerminated)
-	{
-		line[length] = '\0';
-		return line;
-	}
-
-	bool endReached = false;
-	while (endReached == false)
-	{
-		char currentChar = readChar();
-
-		switch (currentChar)
-		{
-		case '\n':
-		case EOF:
-		case '\0':
-		case '\r': 
-			endReached = true;
-		}
-	}
-	line[2047] = '\0';
-	return line;
 }
 
 bool BinaryReader::checkEOF()

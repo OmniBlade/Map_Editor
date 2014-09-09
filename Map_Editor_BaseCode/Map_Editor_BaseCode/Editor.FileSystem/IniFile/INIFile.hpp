@@ -8,17 +8,15 @@
 #include "INISection.hpp"
 #include "INIFile.hpp"
 
-class BinaryReader;
 struct FileProperties;
 
 class INIFile {
 public:
 	INIFile(const FileProperties& props);
 	INIFile(const FileProperties& props, INIFile* parentINI);
-	INIFile(const std::vector<char>& file);
+	INIFile(const std::vector<char>& bytes);
 
-	void loadInclude(INIFile* parentINI);
-	void load(INIFile* parentINI);
+	void load(INIFile* parentINI, const FileProperties& props, const std::vector<char>* bytes = nullptr);
 	void SetValue(const char* section, std::string key, std::string value);
 	INISection* EnsureSection(const char* section);
 	INISection* getSection(const std::string &section) { return getSection(section.c_str()); };
@@ -26,7 +24,6 @@ public:
 	bool checkSectionExistance(const std::string &section);
 	bool getLoaded() const;
 	std::string& getININame();
-	bool checkEOF();
 
 	void dumpContent();
 
@@ -37,9 +34,6 @@ private:
 		ItemKey(const char* value) : Value(value) {} bool operator < (const ItemKey& rhs) const { return strcmp(this->Value, rhs.Value) < 0; }
 	};
 	
-	std::string readTextLine();
-
-	BinaryReader* iniReader;
 	int atEnc = 0;
 	bool isLoaded = false;
 	std::string iniName, mixName;

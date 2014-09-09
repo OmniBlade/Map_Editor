@@ -14,6 +14,6 @@ public:
 	ParamType* get(int ID);
 
 private:
-	const int paramCount = 57; // 1 - 57...
+	const int paramCount = 58; // 0 - 57...
 	std::vector<std::unique_ptr<ParamType>> paramList;
 };

@@ -37,6 +37,8 @@
 
 #include "Editor.Engine\Lists\ListProvider.h"
 
+ParamCollection* paramCollection;
+
 void initiateEditor()
 {
 	//TODO: Rename ambiguous functions
@@ -100,7 +102,7 @@ void initiateEditor()
 	bootLoader.initiateCSF();
 	Log::line();
 
-	ParamCollection* paramCollection = new ParamCollection();
+	paramCollection = new ParamCollection();
 	std::cout << "ParamCollection: Possible leak! Move when going to the GUI!" << std::endl;
 	ActionCollection::getInstance()->parse(paramCollection);
 	EventCollection::getInstance()->parse(paramCollection);
@@ -132,6 +134,7 @@ void initiateAMap()
 
 void loadMap()
 {
+	Log::timerStart();
 	Log::openOutput(); // Can't move, requires map INI name in file's name!	
 	std::wstring info = L"Game: " + CSFManager::getManager()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
 	size_t found = info.find_first_of(L"\n");
@@ -191,16 +194,14 @@ void loadMap()
 		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
 		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
 	*/
-	Log::timerStart();
+	//Log::timerStart();
 	mapLoader.load(rules);
 	mapLoader.load(mode);
 	mapLoader.load(map);
 	mapLoader.loadGlobalVariable(); // You fucking wanker! // Causes crash on exit when profiled as WWType
 	mapLoader.loadAI();
-	Log::line("Loading game's objects took: " + Log::getTimerValue(), Log::DEBUG);
 
 	//Log::line("Going to load all objects now!", Log::DEBUG);
-	Log::timerStart();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
 	mapAssetLoader.loadOverlay(map);
@@ -241,9 +242,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	initiateAMap();
 	loadMap();
 	validateMap();
-
-	ListProvider testprovider;
-	auto kut = testprovider.getListFor(22);
 
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);

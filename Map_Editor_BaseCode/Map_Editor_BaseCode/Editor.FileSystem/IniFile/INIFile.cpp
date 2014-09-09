@@ -11,41 +11,49 @@
 #include "../../Config.hpp"
 #include "../FileManager/FileSystem.hpp"
 #include "../FileManager/BinaryReader.hpp"
+#include "../FileManager/TextReader.h"
 #include "../FileManager/Managers/INIManager.hpp"
 #include "../../Log.hpp"
 
 INIFile::INIFile(const FileProperties& props)
-:iniReader(props.reader)
 {
-	iniReader->setOffset(props.offset);
-	iniReader->setSize(props.size);
-	load(this);
+	load(this, props);
 }
 
 INIFile::INIFile(const FileProperties& props, INIFile* parentINI)
-:iniReader(props.reader)
 {
-	iniReader->setOffset(props.offset);
-	iniReader->setSize(props.size);
-	load(parentINI);
+	load(parentINI, props);
 }
 
-INIFile::INIFile(const std::vector<char>& file)
-:enc(file)
+
+INIFile::INIFile(const std::vector<char>& bytes)
 {
-	load(this);
+	FileProperties props;
+
+	load(this, props, &bytes);
 }
 
-void INIFile::load(INIFile* parentINI)
+
+void INIFile::load(INIFile* parentINI, const FileProperties& props, const std::vector<char>* bytes /* = nullptr */)
 {
+	TextReader* iniReader;
+	if (bytes)
+	{
+		iniReader = new TextReader(*bytes);
+	}
+	else
+	{
+		iniReader = new TextReader(props);
+	}
+	
 	std::string currentSection;
 	std::string line;
 
 	Log::timerStart();
 
-	while (checkEOF() == false)
+	while (!iniReader->checkEOF())
 	{
-		line = readTextLine();
+		line = iniReader->readTextLine();
 	
 		auto comment = line.find_first_of(";");
 		if (comment != std::string::npos)
@@ -109,6 +117,8 @@ void INIFile::load(INIFile* parentINI)
 	}
 	Log::line("Loading of file (name below this line) took: " + Log::getTimerValue(), Log::DEBUG);
 	isLoaded = true;
+	
+	delete iniReader;
 }
 
 void INIFile::SetValue(const char* section, std::string key, const std::string value)
@@ -159,62 +169,6 @@ bool INIFile::getLoaded() const
 std::string& INIFile::getININame()
 {
 	return iniName;
-}
-
-std::string INIFile::readTextLine()
-{
-	if (iniReader)
-		return iniReader->readTextLine();
-
-	char line[2048];
-
-	for (int i = 0; i < 2048; ++i)
-	{
-		line[i] = enc[atEnc];
-		atEnc++;
-		
-		if (sizeof(line) > 1 && line[i - 1] == '\r' && line[i] == '\n') //This check saves an additional call to this function by INIFile
-		{
-			line[i - 1] = '\0';
-			return line;
-		}
-		else if (line[i] == '\n' || line[i] == '\0')
-		{
-			line[i] = '\0';
-			return line;
-		}
-	}
-
-	bool endReached = false;
-	while (endReached == false)
-	{
-		char currentChar = enc[atEnc];
-
-		switch (currentChar)
-		{
-		case '\n':
-		case EOF:
-		case '\0':
-		case '\r':
-			endReached = true;
-		}
-		atEnc++;
-	}
-	line[2047] = '\0';
-	return line;
-}
-
-bool INIFile::checkEOF()
-{
-	if (iniReader)
-	{
-		return iniReader->checkEOF();
-	}
-	else if (atEnc == enc.size()-1)
-	{
-		return true;
-	}
-	return false;
 }
 
 void INIFile::dumpContent()

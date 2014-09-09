@@ -11,6 +11,7 @@
 #include "../../Editor.Objects.Westwood/Types/AircraftType.hpp"
 #include "../../Editor.Objects.Westwood/Types/Animation.hpp"
 #include "../../Editor.Objects.Westwood/Types/BuildingType.hpp"
+#include "../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../../Editor.Objects.Westwood/Types/InfantryType.hpp"
 #include "../../Editor.Objects.Westwood/Types/ParticleType.hpp"
 #include "../../Editor.Objects.Westwood/Types/SuperWeaponType.hpp"
@@ -60,13 +61,12 @@ void ListProvider::fillListVector()
 	typeLists.emplace_back(std::make_shared<TypeList<AircraftType>>());
 	typeLists.emplace_back(std::make_shared<TypeList<Animation>>());
 	typeLists.emplace_back(std::make_shared<TypeList<BuildingType>>());
-	typeLists.emplace_back(std::make_shared<TypeList<BuildingType>>());
 	typeLists.emplace_back(std::make_shared<TypeList<Speech>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<House>>());
 	typeLists.emplace_back(std::make_shared<TypeList<InfantryType>>());
 	typeLists.emplace_back(std::make_shared<TypeList<Movie>>());
 	typeLists.emplace_back(std::make_shared<TypeList<ParticleType>>());
-	typeLists.emplace_back(std::make_shared<TypeList<Sound>>()); //10
+	typeLists.emplace_back(std::make_shared<TypeList<Sound>>());
 	typeLists.emplace_back(std::make_shared<StringList>());
 	typeLists.emplace_back(std::make_shared<TypeList<SuperWeaponType>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<Tag>>());
@@ -76,17 +76,11 @@ void ListProvider::fillListVector()
 	typeLists.emplace_back(std::make_shared<ObjectList<Trigger>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<VehicleType>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<VariableName>>());
-	typeLists.emplace_back(std::make_shared<ObjectList<GlobalVariableName>>()); //20
+	typeLists.emplace_back(std::make_shared<ObjectList<GlobalVariableName>>());
 	typeLists.emplace_back(std::make_shared<ObjectList<Waypoint>>());
 	typeLists.emplace_back(std::make_shared<TypeList<WeaponType>>());
 	typeLists.emplace_back(std::make_shared<BoolList>());
-	typeLists.emplace_back(std::make_shared<NothingList>()); // LEFT
-	typeLists.emplace_back(std::make_shared<NothingList>()); // TOP
-	typeLists.emplace_back(std::make_shared<NothingList>()); // WIDTH
-	typeLists.emplace_back(std::make_shared<NothingList>()); // HEIGHT
 	typeLists.emplace_back(std::make_shared<QuarryList>());
-	typeLists.emplace_back(std::make_shared<NothingList>()); // SECONDS 
-	typeLists.emplace_back(std::make_shared<NothingList>()); // CREDITS //30
 	typeLists.emplace_back(std::make_shared<GroupList>());
 	typeLists.emplace_back(std::make_shared<SpeedList>());
 	typeLists.emplace_back(std::make_shared<TypeList<VoxelAnimType>>());
@@ -95,23 +89,14 @@ void ListProvider::fillListVector()
 	typeLists.emplace_back(std::make_shared<LBehaviorList>());
 	typeLists.emplace_back(std::make_shared<REventList>());
 	typeLists.emplace_back(std::make_shared<ShowerList>());
-	typeLists.emplace_back(std::make_shared<NothingList>()); // NUMBER
-	typeLists.emplace_back(std::make_shared<NothingList>()); // FRAMES // 40
 	typeLists.emplace_back(std::make_shared<TabList>());
-	typeLists.emplace_back(std::make_shared<NothingList>()); // PERCENTAGE
 	typeLists.emplace_back(std::make_shared<ZoomList>());
-	typeLists.emplace_back(std::make_shared<NothingList>()); // AMOUNT
-	typeLists.emplace_back(std::make_shared<NothingList>()); // AMBIENT RATE
-	typeLists.emplace_back(std::make_shared<NothingList>()); // RETINT VALUE
-	typeLists.emplace_back(std::make_shared<NothingList>()); // LIGHTING LEVEL
-	typeLists.emplace_back(std::make_shared<NothingList>()); // AMBIENT STEP
-	typeLists.emplace_back(std::make_shared<NothingList>()); // AMBIENT LEVEL
-	typeLists.emplace_back(std::make_shared<MissionList>()); // 50
+	typeLists.emplace_back(std::make_shared<MissionList>());
 	typeLists.emplace_back(std::make_shared<FacingList>());
 	typeLists.emplace_back(std::make_shared<AITypeList<ScriptType>>());
 	typeLists.emplace_back(std::make_shared<SplitList>());
 	/* TODO	*/typeLists.emplace_back(std::make_shared<NothingList>());	// SCRIPT LINE: TODO IMPLEMENT
-	typeLists.emplace_back(std::make_shared<NothingList>()); // CELL
 	typeLists.emplace_back(std::make_shared<TechLevelList>());
 	typeLists.emplace_back(std::make_shared<AITypeList<TaskForce>>());
+	typeLists.emplace_back(std::make_shared<TypeList<Country>>());
 }

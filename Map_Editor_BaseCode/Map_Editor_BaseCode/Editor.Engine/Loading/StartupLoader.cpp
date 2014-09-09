@@ -197,7 +197,7 @@ std::vector<std::string> StartupLoader::getSubMixes()
 		coreMixNames.push_back("ISOGEN.MIX");
 
 	}
-	else if (Game::title == Game::Type::Base)
+	else if (Game::title == Game::Type::Expansion)
 	{
 		coreMixNames.push_back("CONQMD.MIX");
 		coreMixNames.push_back("GENERMD.MIX");

@@ -480,6 +480,9 @@
     <ClInclude Include="Editor.Engine\Lists\GroupList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\TextReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -882,6 +885,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Theme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\TextReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

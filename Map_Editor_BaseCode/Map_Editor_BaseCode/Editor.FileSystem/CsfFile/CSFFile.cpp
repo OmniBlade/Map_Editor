@@ -48,7 +48,9 @@ void CSFFile::parse()
 			int stringPairs = csfReader->readInt();
 			int labelLength = csfReader->readInt();
 			int poop2 = csfReader->getOffset();
-			std::string name = csfReader->readTextLine(labelLength, false);
+			std::string name;
+			name.resize(labelLength);
+			csfReader->readBlock(&name[0], labelLength);
 			int poop3 = csfReader->getOffset();
 
 			for (int j = 0; j < stringPairs; ++j)
@@ -65,7 +67,8 @@ void CSFFile::parse()
 					if (bExtraValue)
 					{
 						unsigned int extraLength = csfReader->readUInt();
-						extraValue = csfReader->readTextLine(extraLength, false);
+						extraValue.resize(extraLength);
+						csfReader->readBlock(&extraValue[0], extraLength);
 					}
 
 					int ValueDataLength = length << 1;
