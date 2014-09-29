@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClInclude Include="Editor.Engine\Lists\ScriptList.h" />
     <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\INameHelper.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h" />
     <ClInclude Include="Editor.Map.Validator\Trigger\ActionValidator.h" />
     <ClInclude Include="Editor.Engine\Lists\AITypeList.h" />

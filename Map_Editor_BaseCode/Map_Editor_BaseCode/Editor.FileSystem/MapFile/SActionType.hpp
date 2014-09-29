@@ -1,15 +1,18 @@
 #pragma once
-#include <string>
+#include "INameHelper.h"
 
 class INISection;
 class ParamType;
 class ParamCollection;
 
-class SActionType
+class SActionType : public INameHelper
 {
 public:
 	SActionType(INISection* section, ParamCollection* params);
 	void parse(INISection* section, ParamCollection* params);
+
+	/* From up top at INameHelper */
+	std::string getNameWithParams();
 
 	//Stuff from the file
 	int identifier;

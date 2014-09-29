@@ -36,12 +36,19 @@ void ParamCollection::applySpecialCases()
 {
 	for (unsigned int i = 0; i < paramList.size(); ++i)
 	{
-		if (paramList[i]->paramID == 14)	  // TeamTypes (diff global AI and local AI)
-			paramList[i]->diffGlobal = true;
-		else if (paramList[i]->paramID == 52) // ScriptTypes (diff global AI and local AI)
-			paramList[i]->diffGlobal = true;
-		else if (paramList[i]->paramID == 57) // TaskForces (diff global AI and local AI)
-			paramList[i]->diffGlobal = true;
+		auto it = paramList[i].get();
+		switch (paramList[i]->paramID)
+		{
+		case 0x0E: //TTypes
+			it->diffGlobal = true;
+			break;
+		case 0x34: //STypes
+			it->diffGlobal = true;
+			break;
+		case 0x39: //TForces
+			it->diffGlobal = true;
+			break;
+		}
 	}
 }
 

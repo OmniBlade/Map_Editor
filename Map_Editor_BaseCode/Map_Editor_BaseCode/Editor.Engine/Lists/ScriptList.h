@@ -20,7 +20,7 @@ public:
 		
 		for (unsigned int i = 0; i < pScript->actionList.size(); ++i)
 		{
-			add(items, pScript->actionList[i]->pActionType->name, i+1);
+			add(items, pScript->actionList[i]->pActionType->getNameWithParams(), i+1);
 		}
 
 		return items;

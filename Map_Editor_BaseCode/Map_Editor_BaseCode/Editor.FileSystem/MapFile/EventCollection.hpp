@@ -18,8 +18,8 @@ private:
 
 	ParamCollection* paramColl;
 	int rExpCount, rBaseCount, count;
-	const int BaseCount = 59; // 0 - 58...
-	const int ExpCount = 62; // 0 - 61...
+	const int BaseCount = 0x3B;
+	const int ExpCount = 0x3E;
 	std::vector<std::unique_ptr<EventType>> eventList;
 };
 

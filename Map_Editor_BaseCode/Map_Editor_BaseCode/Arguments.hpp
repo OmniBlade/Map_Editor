@@ -52,6 +52,7 @@ bool handleAssignments(const std::string& argStr)
 		}
 		else if (argType == "-MODNAME")
 		{
+			//Hah, confusion. Takes the ID of the mod, not the actual file (Yuri's Revenge --> YR, not CONFIG_YR)
 			Config::configName = argValue;
 		}
 

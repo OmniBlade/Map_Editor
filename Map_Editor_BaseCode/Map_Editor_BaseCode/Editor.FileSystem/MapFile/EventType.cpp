@@ -5,6 +5,7 @@
 #include "ParamCollection.hpp"
 #include "ParamType.hpp"
 #include "../../Log.hpp"
+#include <sstream>
 
 EventType::EventType(INISection* section, ParamCollection* params)
 {
@@ -24,7 +25,13 @@ void EventType::parse(INISection* section, ParamCollection* params)
 	LineSplitter split(paramString);
 	for (unsigned int i = 0; i < split.size(); ++i)
 	{
-		paramList.push_back(params->get(split.peekFromIndex_int(i)));
+		auto it = params->get(split.peekFromIndex_int(i));
+		paramList.push_back(it);
+		
+		if (it && it->listIndex > 0)
+		{
+			nonZeroParamList.push_back(it);
+		}
 	}
 
 	if (split.pop(P1) && split.pop(P2))
@@ -47,4 +54,27 @@ void EventType::parse(INISection* section, ParamCollection* params)
 	{
 		Log::line("Unable to parse Event with ID '" + section->getSectionName() + "', invalid ParamString.", Log::DEBUG);
 	}
+}
+
+std::string EventType::getNameWithParams()
+{
+	unsigned int replacerNum = 1;
+	std::string ret = this->name;
+
+	for (unsigned int i = 0; i < nonZeroParamList.size(); ++i)
+	{
+		std::string replacer = INameHelper::getReplacer(replacerNum);
+
+		std::size_t pos = ret.find(replacer);
+		if (pos != std::string::npos)
+		{
+			std::string rep1 = ret.substr(0, pos);
+			std::string rep2 = ret.substr(pos + 4, ret.size());
+
+			ret = rep1 + nonZeroParamList[i]->name + rep2;
+		}
+		replacerNum++;
+	}
+
+	return ret;
 }

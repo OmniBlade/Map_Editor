@@ -21,7 +21,7 @@ public:
 		@param params The list of params used to get the lists for (AKA List Types, see PARAMS file)
 		@return The list of all combined items
 	*/
-	std::vector<ListItem> getCombinedList(std::vector<int> params);
+	std::vector<ListItem> getCombinedList(std::vector<int> params, ScriptType* scr = nullptr);
 
 private:
 	static ListProvider* provider;

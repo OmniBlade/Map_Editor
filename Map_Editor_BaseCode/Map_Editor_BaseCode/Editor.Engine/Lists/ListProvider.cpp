@@ -63,7 +63,7 @@ std::vector<ListItem> ListProvider::getListFor(int param, ScriptType* scr /* = n
 		ScriptList list;
 		return list.getList(scr); //38 = only one that takes ScriptType
 	}
-	else if (param == 38 && !scr)
+	else if (param == 0x26 && !scr)
 	{
 		//Param 38 is ScriptType action line list, requires ScriptType pointer
 		//Can't return something that isn't there, throw error and return nothing
@@ -76,23 +76,30 @@ std::vector<ListItem> ListProvider::getListFor(int param, ScriptType* scr /* = n
 	}
 }
 
-std::vector<ListItem> ListProvider::getCombinedList(std::vector<int> params)
+std::vector<ListItem> ListProvider::getCombinedList(std::vector<int> params, ScriptType* scr /* = nullptr */)
 {
 	std::vector<ListItem> lists;
 
 	for (unsigned int i = 0; i < params.size(); ++i)
 	{
-		std::vector<ListItem> tempList = typeLists[params[i]].get()->getList();
-		lists.insert(lists.end(), tempList.begin(), tempList.end());
-
-		if (params[i] == 38)
+		if (params[i] == 0x26)
 		{
-			/*
-				"Why?", I hear you say, "Why not?"
-				Simply because this list requires a ScriptType pointer, and you don't pass that on when calling for a combined list
-				(hence the parameters)
-			*/
-			Log::line(L"SEVERE! - Attempt to combine a list for ScriptType lines, it simple doesn't work like that!", Log::DEBUG);
+			if (scr)
+			{
+				ScriptList list;
+				std::vector<ListItem> tempList = list.getList(scr);
+				lists.insert(lists.end(), tempList.begin(), tempList.end());
+			}
+			else
+			{
+				Log::line(L"WARN - Attempt to get a combined list for a ScriptType which doesn't exist! Appending NothingList.", Log::DEBUG);
+			}
+
+		}
+		else
+		{
+			std::vector<ListItem> tempList = typeLists[params[i]].get()->getList();
+			lists.insert(lists.end(), tempList.begin(), tempList.end());
 		}
 	}
 

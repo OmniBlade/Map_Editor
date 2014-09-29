@@ -227,6 +227,10 @@ void validateMap()
 }
 
 #include "Editor.Engine\Types\TeamTypes\ScriptType.hpp"
+#include "Editor.Engine\Types\Triggers\Event.hpp"
+#include "Editor.Engine\Types\Triggers\SubEvent.hpp"
+#include "Editor.Engine\Types\Triggers\Action.hpp"
+#include "Editor.Engine\Types\Triggers\SubAction.hpp"
 
 /*
 	Main function
@@ -248,17 +252,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	initiateAMap();
 	loadMap();
 	validateMap();
+	std::vector<int> keklist;
+	keklist.push_back(38);
+	auto scr = ScriptType::Array.get(15);
+	auto konst = ListProvider::getProvider()->getCombinedList(keklist, scr);
 
-	SpecialOverlays::isCruentus(Overlay::Array.objectTypeList.front().get());
-	SpecialOverlays::isRiparius(Overlay::Array.objectTypeList.front().get());
-	SpecialOverlays::isVinifera(Overlay::Array.objectTypeList.front().get());
-	SpecialOverlays::isHighBridge(Overlay::Array.objectTypeList.front().get());
-
-
-	auto scr = ScriptType::Array.get(16);
-	auto konst = ListProvider::getProvider()->getListFor(0, scr);
-	auto konst2 = ListProvider::getProvider()->getListFor(38);
-
+	auto action = Action::Array.get(208)->actionList[0]->pActionType->getNameWithParams();
+	
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;

@@ -20,7 +20,7 @@ private:
 	ParamCollection* paramColl;
 
 	int rBaseCount, rExpCount, count;
-	const int expCount = 65; // 0 - 64...
-	const int BaseCount = 59; // 0 - 58...
+	const int expCount = 0x41;
+	const int BaseCount = 0x3B;
 	std::vector<std::unique_ptr<SActionType>> actionList;
 };
