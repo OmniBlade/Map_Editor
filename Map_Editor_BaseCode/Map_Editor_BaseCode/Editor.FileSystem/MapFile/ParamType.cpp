@@ -14,9 +14,10 @@ ParamType::ParamType(int paramID_, const std::string& name_, int maxList)
 		split.pop(listIndex);
 
 		/*  */
-		if (listIndex < maxList || listIndex < 0)
+		if (listIndex > maxList || listIndex < 0)
+		{
 			listIndex = 0;
-
+		}
 	}
 	else
 	{

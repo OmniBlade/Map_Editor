@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #include "ObjectValidator.hpp"
-#include "../Log.hpp"
-#include "../Config.hpp"
+#include "../../Log.hpp"
+#include "../../Config.hpp"
 
-#include "../Editor.Engine/Types/Objects/Aircraft.hpp"
-#include "../Editor.Engine/Types/Objects/Infantry.hpp"
-#include "../Editor.Engine/Types/Objects/Terrain.hpp"
-#include "../Editor.Engine/Types/Objects/Structure.hpp"
-#include "../Editor.Engine/Types/Objects/Unit.hpp"
-#include "../Editor.Objects.Westwood/Types/Country.hpp"
+#include "../../Editor.Engine/Types/Objects/Aircraft.hpp"
+#include "../../Editor.Engine/Types/Objects/Infantry.hpp"
+#include "../../Editor.Engine/Types/Objects/Terrain.hpp"
+#include "../../Editor.Engine/Types/Objects/Structure.hpp"
+#include "../../Editor.Engine/Types/Objects/Unit.hpp"
+#include "../../Editor.Objects.Westwood/Types/Country.hpp"
 
 ObjectValidator::ObjectValidator()
 {

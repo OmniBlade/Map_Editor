@@ -9,8 +9,9 @@ struct ListItem
 	std::string Name;
 	std::string ID;
 	std::wstring DisplayName;
-	ListItem(int index, const std::string& name, const std::string& id = "", const std::wstring& displayName = L"")
-	:Index(index), Name(name), ID(id), DisplayName(displayName)
+	bool valid;
+	ListItem(int index, const std::string& name, const std::string& id = "", bool isValid = true, const std::wstring& displayName = L"")
+		:Index(index), Name(name), ID(id), DisplayName(displayName), valid(isValid)
 	{
 		
 	}
@@ -27,9 +28,9 @@ public:
 	virtual List getList() = 0;
 
 protected:
-	void add(List &ret, std::string name, int value = 0, std::string ID = "", std::wstring displayName = L"")
+	void add(List &ret, std::string name, int value = 0, std::string ID = "", bool isValid = true, std::wstring displayName = L"")
 	{
-		ret.emplace_back(value, std::move(name), std::move(ID), std::move(displayName));
+		ret.emplace_back(value, std::move(name), std::move(ID), isValid, std::move(displayName));
 	};
 
 	void add(List &ret, value_type& item)

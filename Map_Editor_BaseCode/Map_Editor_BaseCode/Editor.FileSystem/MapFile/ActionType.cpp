@@ -26,11 +26,17 @@ void ActionType::parse(INISection* section, ParamCollection* params)
 		return;
 
 	LineSplitter split(paramString);
+	for (unsigned int i = 0; i < split.size(); ++i)
+	{
+		paramList.push_back(params->get(split.peekFromIndex_int(i)));
+	}
+
+
 	if (split.pop(P1) && split.pop(P2) && split.pop(P3) && split.pop(P4)
 		&& split.pop(P5) && split.pop(P6) && split.pop(P7))
 	{
 		//Add paramTypes for the specific parameters
-		if (P1 > 0)
+		/*if (P1 > 0)
 			paramList.push_back(params->get(P1));
 		if (P2 > 0)
 			paramList.push_back(params->get(P2));
@@ -42,7 +48,7 @@ void ActionType::parse(INISection* section, ParamCollection* params)
 			paramList.push_back(params->get(P5));
 		if (P6 > 0)
 			paramList.push_back(params->get(P6));
-
+			*/
 		/*
 			P7 is a special case!
 			In usual cases the input will be a waypoint, that is why P7 is usually a 1
@@ -71,7 +77,7 @@ void ActionType::parse(INISection* section, ParamCollection* params)
 		case -11:
 			//5, 9, 11 require a numeric input, thus get the actual ParamType
 			if (P7 > 0)
-				paramList.push_back(params->get(P7));
+				//paramList.push_back(params->get(P7));
 			break;
 		default:
 			//All other cases require waypoint input

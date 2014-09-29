@@ -39,6 +39,7 @@ INIFile* INIManager::cache(const std::string& fileName)
 	{
 		iniFiles[fileName] = std::make_unique<INIFile>(props);
 		Log::line("INI: " + fileName + " succesfully cached.", Log::DEBUG);
+		std::cout << "INI " << fileName << " cached" << std::endl;
 		return iniFiles[fileName].get();
 	}
 	else

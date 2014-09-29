@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "AIValidator.hpp"
-#include "../Log.hpp"
-#include "../Config.hpp"
+#include "../../Log.hpp"
+#include "../../Config.hpp"
 
-#include "../Editor.Engine/Types/AI/AITriggerType.hpp"
-#include "../Editor.Engine/Types/AI/AITriggerEnable.hpp"
+#include "../../Editor.Engine/Types/AI/AITriggerType.hpp"
+#include "../../Editor.Engine/Types/AI/AITriggerEnable.hpp"
 
 AIValidator::AIValidator()
 {

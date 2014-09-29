@@ -17,6 +17,7 @@ ScriptAction::ScriptAction()
 
 	if (parts.pop(ret->actionType))
 	{
+		ret->assignActionType();
 		if (parts.pop(ret->parameter))
 		{
 			return ret;
@@ -29,5 +30,5 @@ void ScriptAction::assignActionType()
 {
 	pActionType = SActionCollection::getInstance()->get(actionType);
 	if (!pActionType)
-		Log::line("Unable to get ActionType for SubAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
+		Log::line("Unable to get ActionType for ScriptAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
 }

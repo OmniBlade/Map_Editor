@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "MiscValidator.hpp"
-#include "../Log.hpp"
-#include "../Config.hpp"
+#include "../../Log.hpp"
+#include "../../Config.hpp"
 
-#include "../Editor.Engine/Types/Smudge.hpp"
-#include "../Editor.Engine/Types/Tube.hpp"
-#include "../Editor.Engine/Types/Waypoint.hpp"
-#include "../Editor.Engine/Types/VariableName.hpp"
+#include "../../Editor.Engine/Types/Smudge.hpp"
+#include "../../Editor.Engine/Types/Tube.hpp"
+#include "../../Editor.Engine/Types/Waypoint.hpp"
+#include "../../Editor.Engine/Types/VariableName.hpp"
 
 MiscValidator::MiscValidator()
 {

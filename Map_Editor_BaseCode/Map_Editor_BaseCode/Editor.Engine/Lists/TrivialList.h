@@ -19,6 +19,26 @@ public:
 	};
 };
 
+class MPHouseList : public IList
+{
+public:
+	List getList()
+	{
+		List items;
+
+		add(items, "MP Player 1", 4475, "<Player @ A>");
+		add(items, "MP Player 2", 4476, "<Player @ B>");
+		add(items, "MP Player 3", 4477, "<Player @ C>");
+		add(items, "MP Player 4", 4478, "<Player @ D>");
+		add(items, "MP Player 5", 4479, "<Player @ E>");
+		add(items, "MP Player 6", 4480, "<Player @ F>");
+		add(items, "MP Player 7", 4481, "<Player @ G>");
+		add(items, "MP Player 8", 4482, "<Player @ H>");
+
+		return items;
+	}
+};
+
 /*
 	List of targeting types used by the game
 	Name 'Quarry' comes from the game, taking over the name

@@ -16,7 +16,11 @@ public:
 			T* item = T::Array.get(i);
 			if (item->valid)
 			{
-				add(items, item->Name, i, item->ID, item->WUIName);
+				add(items, item->Name, i, item->ID, true, item->WUIName);
+			}
+			else
+			{
+				add(items, item->Name, i, item->ID, false, item->WUIName);
 			}
 		}
 

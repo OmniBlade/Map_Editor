@@ -276,7 +276,7 @@ void MapLoader::insertNukePayload()
 		}
 	}
 
-	if (WeaponType::Array.find("NukePayload") == nullptr)
+	if (WeaponType::Array.find("NukePayload") == nullptr && WeaponType::Array.count() >= 3)
 		WeaponType::Array.typeList.insert(WeaponType::Array.typeList.begin() + 2, std::make_unique<WeaponType>("NukePayload"));
 }
 

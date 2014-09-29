@@ -8,6 +8,7 @@
 #include "NothingList.h"
 #include "TechnoList.h"
 #include "GroupList.h"
+#include "ScriptList.h"
 #include "../../Editor.Objects.Westwood/Types/AircraftType.hpp"
 #include "../../Editor.Objects.Westwood/Types/Animation.hpp"
 #include "../../Editor.Objects.Westwood/Types/BuildingType.hpp"
@@ -33,20 +34,69 @@
 #include "../../Log.hpp"
 
 /* static */ std::vector<std::shared_ptr<IList>> ListProvider::typeLists;
+/* static */ ListProvider* ListProvider::provider;
+/* static */ ListProvider* ListProvider::getProvider()
+{
+	if (provider)
+		return provider;
+	else
+		provider = new ListProvider();
+
+	return provider;
+}
 
 ListProvider::ListProvider()
 {
 	fillListVector();
 }
 
-std::vector<ListItem> ListProvider::getListFor(int param)
+std::vector<ListItem> ListProvider::getListFor(int param, ScriptType* scr /* = nullptr */)
 {
 	if (param < 0 || param > (int) typeLists.size())
 	{
-		Log::line(L"CRITICAL! - Attempt to get a list for ParamType '" + Log::toWString(param) + L"', it does not exist in ListProvider! Returning NothingList.", Log::DEBUG);
+		Log::line(L"CRIT - Attempt to get a list for ParamType '" + Log::toWString(param) + L"', it does not exist in ListProvider! Returning NothingList.", Log::DEBUG);
 		param = 0;
 	}
-	return typeLists[param].get()->getList();
+	
+	if (scr)
+	{
+		ScriptList list;
+		return list.getList(scr); //38 = only one that takes ScriptType
+	}
+	else if (param == 38 && !scr)
+	{
+		//Param 38 is ScriptType action line list, requires ScriptType pointer
+		//Can't return something that isn't there, throw error and return nothing
+		Log::line(L"WARN - Attempt to get a list for a ScriptType which doesn't exist! Returning NothingList.", Log::DEBUG);
+		return getListFor(0);
+	}
+	else
+	{
+		return typeLists[param]->getList();
+	}
+}
+
+std::vector<ListItem> ListProvider::getCombinedList(std::vector<int> params)
+{
+	std::vector<ListItem> lists;
+
+	for (unsigned int i = 0; i < params.size(); ++i)
+	{
+		std::vector<ListItem> tempList = typeLists[params[i]].get()->getList();
+		lists.insert(lists.end(), tempList.begin(), tempList.end());
+
+		if (params[i] == 38)
+		{
+			/*
+				"Why?", I hear you say, "Why not?"
+				Simply because this list requires a ScriptType pointer, and you don't pass that on when calling for a combined list
+				(hence the parameters)
+			*/
+			Log::line(L"SEVERE! - Attempt to combine a list for ScriptType lines, it simple doesn't work like that!", Log::DEBUG);
+		}
+	}
+
+	return lists;
 }
 
 /*
@@ -95,8 +145,9 @@ void ListProvider::fillListVector()
 	typeLists.emplace_back(std::make_shared<FacingList>());
 	typeLists.emplace_back(std::make_shared<AITypeList<ScriptType>>());
 	typeLists.emplace_back(std::make_shared<SplitList>());
-	/* TODO	*/typeLists.emplace_back(std::make_shared<NothingList>());	// SCRIPT LINE: TODO IMPLEMENT
+	typeLists.emplace_back(std::make_shared<ScriptList>());
 	typeLists.emplace_back(std::make_shared<TechLevelList>());
 	typeLists.emplace_back(std::make_shared<AITypeList<TaskForce>>());
-	typeLists.emplace_back(std::make_shared<TypeList<Country>>());
+	typeLists.emplace_back(std::make_shared<TypeList<Country>>());		// This will probably never used, maybe in MP?
+	typeLists.emplace_back(std::make_shared<MPHouseList>());
 }

@@ -168,9 +168,6 @@ std::vector<std::string> StartupLoader::getSubMixes()
 {
 	std::vector<std::string> coreMixNames;
 
-	std::cout << "WARNING! THEATER MIX NAMES ARE ONLY SUPPORTED FOR YR,\nREMOVE DEPENDENCY AND MOVE TO CONFIG FILE FOR THEATERS" << std::endl;
-	std::cout << "ISOGEN HAS TO BE LOADED FOR BOTH GAMES!" << std::endl;
-
 	/*
 		RA2's list for files is COMPLETELY different than YR's
 	*/
@@ -208,7 +205,7 @@ std::vector<std::string> StartupLoader::getSubMixes()
 		coreMixNames.push_back("CONQUER.MIX");
 		//Theater shit
 		//Temperate
-		coreMixNames.push_back("TEMPERATMD.MIX");
+		//coreMixNames.push_back("TEMPERATMD.MIX");
 		coreMixNames.push_back("TEM.MIX");
 		coreMixNames.push_back("ISOTEMMD.MIX");
 		coreMixNames.push_back("ISOTEMP.MIX");
@@ -218,22 +215,22 @@ std::vector<std::string> StartupLoader::getSubMixes()
 		coreMixNames.push_back("ISOSNOMD.MIX");
 		coreMixNames.push_back("ISOSNOW.MIX");
 		//Urban
-		coreMixNames.push_back("URBANMD.MIX");
+		//coreMixNames.push_back("URBANMD.MIX");
 		coreMixNames.push_back("URB.MIX");
 		coreMixNames.push_back("ISOURBMD.MIX");
 		coreMixNames.push_back("ISOURB.MIX");
 		//Desert
-		coreMixNames.push_back("DESERTMD.MIX");
+		//coreMixNames.push_back("DESERTMD.MIX");
 		coreMixNames.push_back("DES.MIX");
 		coreMixNames.push_back("ISODESMD.MIX");
 		coreMixNames.push_back("ISODES.MIX");
 		//New Urban
-		coreMixNames.push_back("URBANNMD.MIX");
+		//coreMixNames.push_back("URBANNMD.MIX");
 		coreMixNames.push_back("UBN.MIX");
 		coreMixNames.push_back("ISOUBN.MIX");
 		coreMixNames.push_back("ISOUBNMD.MIX");
 		//Lunar
-		coreMixNames.push_back("LUNDARMD.MIX");
+		coreMixNames.push_back("LUNAR.MIX");
 		coreMixNames.push_back("LUN.MIX");
 		coreMixNames.push_back("ISOLUNMD.MIX");
 		coreMixNames.push_back("ISOLUN.MIX");

@@ -1,13 +1,16 @@
 #include "stdafx.h"
 #include "TriggerValidator.hpp"
-#include "../Log.hpp"
-#include "../Config.hpp"
+#include "../../Log.hpp"
+#include "../../Config.hpp"
 
-#include "../Editor.Engine/Types/Triggers/Action.hpp"
-#include "../Editor.Engine/Types/Triggers/Event.hpp"
-#include "../Editor.Engine/Types/Triggers/CellTag.hpp"
-#include "../Editor.Engine/Types/Triggers/Tag.hpp"
-#include "../Editor.Engine/Types/Triggers/Trigger.hpp"
+#include "../../Editor.Engine/Types/Triggers/Action.hpp"
+#include "../../Editor.Engine/Types/Triggers/Event.hpp"
+#include "../../Editor.Engine/Types/Triggers/CellTag.hpp"
+#include "../../Editor.Engine/Types/Triggers/Tag.hpp"
+#include "../../Editor.Engine/Types/Triggers/Trigger.hpp"
+
+#include "EventValidator.h"
+#include "ActionValidator.h"
 
 TriggerValidator::TriggerValidator()
 {
@@ -28,7 +31,7 @@ TriggerValidator::TriggerValidator()
 	Log::finishErrorRound();
 	Log::finishWarningRound();
 	//Actions
-	validateActions();
+	//validateActions();
 	Log::finishErrorRound();
 	Log::finishWarningRound();
 }
@@ -86,12 +89,45 @@ void TriggerValidator::validateActions()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [Actions] now...", Log::INFO);
-	Log::validatorLine("Nothing to validate!", Log::CRITICAL);
+
+	for (const auto& it : Action::Array.objectTypeList)
+	{
+		std::string tagID = getTagIDFor(it->ID);
+		if (tagID.empty())
+		{
+			Log::validatorLine("Action with ID '" + it->ID + "' has an invalid Tag! Unable to validate!", Log::WARNING_BUFFER);
+		}
+		else
+		{
+			ActionValidator validator(it->ID, tagID);
+		}
+	}
+
 }
 
 void TriggerValidator::validateEvents()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [Events] now...", Log::INFO);
-	Log::validatorLine("Nothing to validate!", Log::CRITICAL);
+
+	for (const auto& it : Event::Array.objectTypeList)
+	{
+		std::string tagID = getTagIDFor(it->ID);
+		if (tagID.empty())
+		{
+			Log::validatorLine("Event with ID '" + it->ID + "' has an invalid Tag! Unable to validate!", Log::WARNING_BUFFER);
+		}
+		else
+		{
+			EventValidator validator(it->ID, tagID);
+		}
+	}
+
+}
+
+std::string TriggerValidator::getTagIDFor(const std::string& id)
+{
+	Trigger* pTrigger = Trigger::Array.find(id);
+	
+	return pTrigger->getUpperParentID();
 }

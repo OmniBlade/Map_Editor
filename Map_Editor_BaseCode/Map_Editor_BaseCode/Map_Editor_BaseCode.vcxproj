@@ -72,6 +72,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -85,6 +86,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor.Engine\Lists\ScriptList.h" />
+    <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h" />
+    <ClInclude Include="Editor.Map.Validator\Trigger\ActionValidator.h" />
     <ClInclude Include="Editor.Engine\Lists\AITypeList.h" />
     <ClInclude Include="Editor.Engine\Lists\GroupList.h" />
     <ClInclude Include="Editor.Engine\Lists\IList.h" />
@@ -94,6 +99,8 @@
     <ClInclude Include="Editor.Engine\Lists\TechnoList.h" />
     <ClInclude Include="Editor.Engine\Lists\TrivialList.h" />
     <ClInclude Include="Editor.Engine\Lists\TypeList.h" />
+    <ClInclude Include="Editor.Map.Validator\Trigger\EventValidator.h" />
+    <ClInclude Include="Editor.Objects.Westwood\General\GameColor.h" />
     <ClInclude Include="GameDefinition.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ActionType.hpp" />
@@ -101,9 +108,9 @@
     <ClInclude Include="Editor.FileSystem\MapFile\lzoconf.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\lzodefs.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\minilzo.h" />
-    <ClInclude Include="Editor.Map.Validator\BasicValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\Basic\BasicValidator.hpp" />
     <ClInclude Include="Editor.Engine\Basics\Basic.hpp" />
-    <ClInclude Include="Editor.Map.Validator\AIValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\AI\AIValidator.hpp" />
     <ClInclude Include="Editor.Engine\Types\AI\AITriggerEnable.hpp" />
     <ClInclude Include="Editor.Engine\Types\AI\AITriggerType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Managers\MapObjectList.hpp" />
@@ -179,15 +186,15 @@
     <ClInclude Include="Editor.Objects.Westwood\Types\ParticleType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\SpecialWeapon.hpp" />
-    <ClInclude Include="Editor.Map.Validator\ObjectValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\Object\ObjectValidator.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\Side.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\ScriptType.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\ScriptAction.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Sound.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Speech.hpp" />
     <ClInclude Include="Editor.Engine\Types\Smudge.hpp" />
-    <ClInclude Include="Editor.Map.Validator\MiscValidator.hpp" />
-    <ClInclude Include="Editor.Map.Validator\OverlayValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\Basic\MiscValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\Object\OverlayValidator.hpp" />
     <ClInclude Include="Editor.Engine\Basics\MapStats.hpp" />
     <ClInclude Include="Editor.Engine\Basics\SpecialFlag.hpp" />
     <ClInclude Include="Editor.Map.Validator\MainValidator.hpp" />
@@ -216,8 +223,8 @@
     <ClInclude Include="Editor.Engine\Game\Theater.hpp" />
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\TMPManager.hpp" />
     <ClInclude Include="Editor.Engine\Map\TileSet.hpp" />
-    <ClInclude Include="Editor.Map.Validator\TeamValidator.hpp" />
-    <ClInclude Include="Editor.Map.Validator\TriggerValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\AI\TeamValidator.hpp" />
+    <ClInclude Include="Editor.Map.Validator\Trigger\TriggerValidator.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Unit.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\TaskForce.hpp" />
     <ClInclude Include="Editor.Engine\Types\TeamTypes\TeamType.hpp" />
@@ -239,19 +246,20 @@
     <ClInclude Include="Editor.Objects.Westwood\Types\WarheadType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Waypoint.hpp" />
     <ClInclude Include="Editor.Engine\Types\VariableName.hpp" />
-    <ClInclude Include="Editor.Map.Validator\ValidatorHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor.Map.Validator\Trigger\ActionValidator.cpp" />
     <ClCompile Include="Editor.Engine\Lists\ListProvider.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ActionType.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\BasicValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\Basic\BasicValidator.cpp" />
     <ClCompile Include="Editor.Engine\Basics\Basic.cpp" />
-    <ClCompile Include="Editor.Map.Validator\AIValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\AI\AIValidator.cpp" />
     <ClCompile Include="Editor.Engine\Types\AI\AITriggerEnable.cpp" />
     <ClCompile Include="Editor.Engine\Types\AI\AITriggerType.cpp" />
     <ClCompile Include="Editor.FileSystem\CsfFile\CSFEntry.cpp" />
@@ -303,6 +311,8 @@
     <ClCompile Include="Editor.FileSystem\EncFile\EncFile.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\EncManager.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Format80.cpp" />
+    <ClCompile Include="Editor.Map.Validator\Trigger\EventValidator.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\General\GameColor.cpp" />
     <ClCompile Include="GameDefinition.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
@@ -321,15 +331,15 @@
     <ClCompile Include="Editor.Objects.Westwood\Types\ParticleType.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\ProjectileType.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\General\SpecialWeapon.cpp" />
-    <ClCompile Include="Editor.Map.Validator\ObjectValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\Object\ObjectValidator.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\General\Side.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\ScriptType.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\ScriptAction.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Sound.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Speech.cpp" />
     <ClCompile Include="Editor.Engine\Types\Smudge.cpp" />
-    <ClCompile Include="Editor.Map.Validator\MiscValidator.cpp" />
-    <ClCompile Include="Editor.Map.Validator\OverlayValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\Basic\MiscValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\Object\OverlayValidator.cpp" />
     <ClCompile Include="Editor.Engine\Basics\SpecialFlag.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\SActionCollection.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\SActionType.cpp" />
@@ -354,8 +364,8 @@
     <ClCompile Include="Editor.FileSystem\FileManager\Managers\TMPManager.cpp" />
     <ClCompile Include="Editor.Engine\Map\TileSet.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\SuperWeaponType.cpp" />
-    <ClCompile Include="Editor.Map.Validator\TeamValidator.cpp" />
-    <ClCompile Include="Editor.Map.Validator\TriggerValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\AI\TeamValidator.cpp" />
+    <ClCompile Include="Editor.Map.Validator\Trigger\TriggerValidator.cpp" />
     <ClCompile Include="Editor.Engine\Types\Objects\Structure.cpp" />
     <ClCompile Include="Editor.Engine\Types\Objects\Unit.cpp" />
     <ClCompile Include="Editor.Engine\Types\TeamTypes\TaskForce.cpp" />
@@ -381,7 +391,6 @@
     <ClCompile Include="Editor.Objects.Westwood\Types\WarheadType.cpp" />
     <ClCompile Include="Editor.Engine\Types\Waypoint.cpp" />
     <ClCompile Include="Editor.Engine\Types\VariableName.cpp" />
-    <ClCompile Include="Editor.Map.Validator\ValidatorHelper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

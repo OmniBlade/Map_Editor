@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <vector>
+#include "../../../Editor.FileSystem/MapFile/ParamContent.h"
 
 class EventType;
 class LineSplitter;
@@ -12,8 +14,8 @@ public:
 	static std::shared_ptr<SubEvent> parse(LineSplitter& parts);
 	void assignEventType();
 
-	int eventType, parseType, param1;
-	std::string param1S, param2;
+	int eventType = 0, parseType = 0;
+	std::vector<ParamContent> params;
 	
 	EventType* pEventType;
 };

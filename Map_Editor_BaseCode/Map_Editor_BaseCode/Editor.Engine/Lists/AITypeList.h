@@ -15,13 +15,13 @@ public:
 		for (unsigned int i = 0; i < count; ++i)
 		{
 			T* item = T::Array.get(i);
-			if (Config::AIReferences)
+			if (item->isGlobal == true)
 			{
-				add(items, item->Name, i, item->ID);
+				add(items, item->Name, i, item->ID, false);
 			}
-			else if (item->isGlobal == false)
+			else
 			{
-				add(items, item->Name, i, item->ID);
+				add(items, item->Name, i, item->ID, true);
 			}
 		}
 

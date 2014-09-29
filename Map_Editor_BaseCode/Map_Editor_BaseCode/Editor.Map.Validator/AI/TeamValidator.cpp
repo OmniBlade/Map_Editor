@@ -1,16 +1,16 @@
 #include "stdafx.h"
 #include "TeamValidator.hpp"
-#include "../Log.hpp"
-#include "../Config.hpp" 
-#include "../GameDefinition.h"
+#include "../../Log.hpp"
+#include "../../Config.hpp" 
+#include "../../GameDefinition.h"
 #include <algorithm>
 
 //#include "../Editor.Engine/Types/House.hpp"
 //#include "../Editor.Engine/Types/Waypoint.hpp"
 //#include "../Editor.Engine/Types/Triggers/Tag.hpp"
-#include "../Editor.Engine/Types/TeamTypes/ScriptType.hpp"
-#include "../Editor.Engine/Types/TeamTypes/TaskForce.hpp"
-#include "../Editor.Engine/Types/TeamTypes/TeamType.hpp"
+#include "../../Editor.Engine/Types/TeamTypes/ScriptType.hpp"
+#include "../../Editor.Engine/Types/TeamTypes/TaskForce.hpp"
+#include "../../Editor.Engine/Types/TeamTypes/TeamType.hpp"
 
 TeamValidator::TeamValidator()
 {
@@ -80,9 +80,9 @@ void TeamValidator::validateTaskForce()
 					break;
 
 				if (subIt->count < 1)
-					Log::validatorLine("TaskForce with ID '" + it->ID + "' has an invalid Unit Count set for entry '" + Log::toString(index)  + "'.", Log::WARNING_BUFFER);
+					Log::validatorLine("TaskForce with ID '" + it->ID + "' has an invalid Unit Count set for entry " + Log::toString(index+1)  + ".", Log::WARNING_BUFFER);
 				if (!subIt->aircraft && !subIt->infantry && !subIt->vehicle)
-					Log::validatorLine("TaskForce with ID '" + it->ID + "' has an invalid TechType set set for entry '" + Log::toString(index) + "'.", Log::ERROR_BUFFER);
+					Log::validatorLine("TaskForce with ID '" + it->ID + "' has an invalid TechType set set for entry " + Log::toString(index+1) + ".", Log::ERROR_BUFFER);
 
 				index++;
 			}

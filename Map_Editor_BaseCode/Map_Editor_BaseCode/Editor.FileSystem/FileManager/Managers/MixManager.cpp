@@ -47,10 +47,10 @@ void MIXManager::cache(const std::string& _mixName)
 		-> YES: Easy! Let RawManager create a reader and return it
 		-> NO: Find the upper parent and have RawManager return it
 		*/
-	if (rawSystem->fileIsInGameRoot(mixName))
+	if (rawSystem->inGameRoot(mixName))
 		mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(mixName), 0, 0, mixName));
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfFile(mixName), 0, 0, mixName));
-	else if (rawSystem->fileIsInEditorRoot(mixName))
+	else if (rawSystem->inEditorRoot(mixName))
 		mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfEditorFile(mixName), 0, 0, mixName));
 		//mixFiles.push_back(std::make_unique<MixFile>(rawSystem->getReaderOfEditorFile(mixName), 0, 0, mixName));
 	else
@@ -206,12 +206,12 @@ int MIXManager::getSizeForFile(const std::string& fileName)
 
 bool MIXManager::extract(const std::string& fileName, const std::string& mixName /* = "" */)
 {
-	if (rawSystem->fileIsInGameRoot(fileName))
+	if (rawSystem->inGameRoot(fileName))
 	{
 		Log::line("EXTRACTION - File with name '" + fileName + "' already exists in the game's root!", Log::DEBUG);
 		return true;
 	}
-	else if (rawSystem->fileIsInEditorRoot(fileName))
+	else if (rawSystem->inEditorRoot(fileName))
 	{
 		Log::line("EXTRACTION - File with name '" + fileName + "' already exists in the editor's root!", Log::DEBUG);
 		return true;

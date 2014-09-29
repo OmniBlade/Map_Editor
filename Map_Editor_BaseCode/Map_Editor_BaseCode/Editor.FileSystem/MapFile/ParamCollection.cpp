@@ -19,7 +19,7 @@ void ParamCollection::parse()
 
 	std::vector<std::string>& defaults = getDefaultValues();
 
-	for (int i = 1; i < paramCount; ++i)
+	for (int i = 0; i < paramCount; ++i)
 	{
 		if (params->checkKeyExistance(Log::toString(i)))
 			paramList.push_back(std::make_unique<ParamType>(i, params->getValue(Log::toString(i)), paramCount));
@@ -66,7 +66,7 @@ std::vector<std::string> ParamCollection::getDefaultValues()
 	defaults.push_back("AircraftType,1");
 	defaults.push_back("Animation,2");
 	defaults.push_back("BuildingType,3");
-	defaults.push_back("Building TechnoType,3");
+	defaults.push_back("Country,41");
 	defaults.push_back("Speech,4");
 	defaults.push_back("House,5");
 	defaults.push_back("InfantryType,6");

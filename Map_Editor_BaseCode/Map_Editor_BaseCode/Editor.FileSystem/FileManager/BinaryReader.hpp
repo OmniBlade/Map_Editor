@@ -93,6 +93,7 @@ public:
 
 		return aChar;
 	};
+
 	/*
 		Kind of obsolete, skips the amount of bytes given
 		@param amount The amount of bytes to skip

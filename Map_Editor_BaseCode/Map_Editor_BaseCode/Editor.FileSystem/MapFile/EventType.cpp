@@ -21,16 +21,14 @@ void EventType::parse(INISection* section, ParamCollection* params)
 	section->readBoolValue("RequiresAres", requiresAres, false);
 	section->readBoolValue("Works", works, true);
 
-	if (paramString == "0,0")
-		return;
-
 	LineSplitter split(paramString);
+	for (unsigned int i = 0; i < split.size(); ++i)
+	{
+		paramList.push_back(params->get(split.peekFromIndex_int(i)));
+	}
+
 	if (split.pop(P1) && split.pop(P2))
 	{
-		//Add a ParamType for the Event
-		if (P2 > 0)
-			paramList.push_back(params->get(P2));
-
 		//Load the third parameter for special YR Events
 		if (P1 == -2)
 		{

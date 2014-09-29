@@ -49,7 +49,7 @@ void INIFile::load(INIFile* parentINI, const FileProperties& props, const std::v
 	std::string currentSection;
 	std::string line;
 
-	Log::timerStart();
+	//Log::timerStart();
 
 	while (!iniReader->checkEOF())
 	{
@@ -115,7 +115,7 @@ void INIFile::load(INIFile* parentINI, const FileProperties& props, const std::v
 			}
 		}
 	}
-	Log::line("Loading of file (name below this line) took: " + Log::getTimerValue(), Log::DEBUG);
+	//Log::line("Loading of file (name below this line) took: " + Log::getTimerValue(), Log::DEBUG);
 	isLoaded = true;
 	
 	delete iniReader;
@@ -154,7 +154,7 @@ INISection* INIFile::getSection(const char* section)
 
 bool INIFile::checkSectionExistance(const std::string &section)
 {
-	if (getSection(section) != nullptr)
+	if (getSection(section))
 	{
 		return true;
 	}

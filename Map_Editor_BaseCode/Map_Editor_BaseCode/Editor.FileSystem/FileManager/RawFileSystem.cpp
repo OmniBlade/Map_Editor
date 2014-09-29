@@ -53,7 +53,7 @@ BinaryReader* RawFileSystem::getReaderOfEditorFile(const std::string &fileName)
 //Used solely for the files in the root of the game!
 BinaryReader* RawFileSystem::createReader(const std::string& fileName)
 {
-	if (!fileIsInGameRoot(fileName))
+	if (!inGameRoot(fileName))
 		return nullptr;
 
 	readerList[fileName] = std::make_unique<BinaryReader>(Config::installDir + Config::backSlash + fileName);
@@ -69,7 +69,7 @@ BinaryReader* RawFileSystem::createReader(const std::string& fileName)
 //Used solely for the files in the root of the map editor!
 BinaryReader* RawFileSystem::createEditorRootReader(const std::string& fileName)
 {
-	if (!fileIsInEditorRoot(fileName))
+	if (!inEditorRoot(fileName))
 		return nullptr;
 
 	std::string filePath = Config::editorRoot + Config::backSlash + fileName;
@@ -84,7 +84,7 @@ BinaryReader* RawFileSystem::createEditorRootReader(const std::string& fileName)
 	}
 }
 
-bool RawFileSystem::fileIsInGameRoot(const std::string& fileName)
+bool RawFileSystem::inGameRoot(const std::string& fileName)
 {
 	std::string capsFileName = fileName;
 	std::transform(capsFileName.begin(), capsFileName.end(), capsFileName.begin(), ::toupper);
@@ -98,7 +98,7 @@ bool RawFileSystem::fileIsInGameRoot(const std::string& fileName)
 	return false;
 }
 
-bool RawFileSystem::fileIsInEditorRoot(const std::string& fileName)
+bool RawFileSystem::inEditorRoot(const std::string& fileName)
 {
 	std::string capsFileName = fileName;
 	std::transform(capsFileName.begin(), capsFileName.end(), capsFileName.begin(), ::toupper);

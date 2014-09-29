@@ -46,8 +46,58 @@ void Trigger::parse(const std::string& id, const std::string& list)
 
 void Trigger::assignChild()
 {
+
 	if (child != "<None>")
 	{
 		pChild = Trigger::Array.find(child);
 	}
+	assignTag();
+}
+
+void Trigger::assignTag()
+{
+	for (const auto& it : Tag::Array.objectTypeList)
+	{
+		if (it->trigger == ID)
+		{
+			pTag = it.get();
+			break;
+		}
+	}
+}
+
+std::string Trigger::getUpperParentID()
+{
+	Trigger* current = this;
+	while (true)
+	{
+		Trigger* currentFallBack = current;
+		for (const auto& it : Trigger::Array.objectTypeList)
+		{
+			if (it->pChild == current)
+			{
+				current = it->pChild;
+				break;
+			}
+		}
+
+		if (current == currentFallBack)
+		{
+			return current->ID;
+		}
+	}
+
+	return std::string();
+}
+
+std::string Trigger::getParentID()
+{
+	for (const auto& it : Trigger::Array.objectTypeList)
+	{
+		if (it->pChild == this)
+		{
+			return it->ID;
+		}
+	}
+	return std::string();
 }

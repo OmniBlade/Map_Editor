@@ -109,7 +109,7 @@ int FileSystem::getEditorFileSize(const std::string& fileName)
 
 int FileSystem::getFileOffset(const std::string& fileName)
 {
-	if (rawSystem->fileIsInGameRoot(fileName))
+	if (rawSystem->inGameRoot(fileName))
 		return 0;
 	else
 		return MIXManager::getManager()->getOffsetForFile(fileName);
@@ -117,7 +117,7 @@ int FileSystem::getFileOffset(const std::string& fileName)
 
 int FileSystem::getEditorFileOffset(const std::string& fileName)
 {
-	if (rawSystem->fileIsInEditorRoot(fileName))
+	if (rawSystem->inEditorRoot(fileName))
 		return 0;
 	else
 		return MIXManager::getManager()->getOffsetForFile(fileName);

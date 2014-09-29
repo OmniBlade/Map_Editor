@@ -32,12 +32,16 @@
 #include <Windows.h>
 #include <sstream>
 #include <iostream>
+#include <memory>
 #include <vector>
 #include <string>
 
 #include "Editor.Engine\Lists\ListProvider.h"
+#include "Editor.Engine\Types\SpecialOverlays.h"
 
 ParamCollection* paramCollection;
+MainValidator* mainValidator;
+
 
 void initiateEditor()
 {
@@ -76,7 +80,7 @@ void initiateEditor()
 		break;
 	case Game::Type::Undefined:
 		Log::line();
-		Log::line("Setting scope to MEMLEAK_0x8523 - INVOKING BSOD STOP 0A", Log::DEBUG);
+		Log::line("Undefined game detected! Unable to set scope.", Log::DEBUG);
 		break;
 	}
 
@@ -102,8 +106,8 @@ void initiateEditor()
 	bootLoader.initiateCSF();
 	Log::line();
 
-	paramCollection = new ParamCollection();
 	std::cout << "ParamCollection: Possible leak! Move when going to the GUI!" << std::endl;
+	paramCollection = new ParamCollection();
 	ActionCollection::getInstance()->parse(paramCollection);
 	EventCollection::getInstance()->parse(paramCollection);
 	SActionCollection::getInstance()->parse(paramCollection);
@@ -209,7 +213,6 @@ void loadMap()
 
 	mapLoader.dumpLists();
 	mapAssetLoader.dumpTypes();
-
 }
 
 void validateMap()
@@ -218,9 +221,12 @@ void validateMap()
 	Log::line();
 	Log::line("Going to validate the map now!", Log::DEBUG);
 	Log::timerStart();
-	MainValidator mainValidator;
+	mainValidator = new MainValidator(paramCollection);
+	mainValidator->validateAll();
 	Log::line("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
 }
+
+#include "Editor.Engine\Types\TeamTypes\ScriptType.hpp"
 
 /*
 	Main function
@@ -242,6 +248,16 @@ int _tmain(int argc, _TCHAR* argv[])
 	initiateAMap();
 	loadMap();
 	validateMap();
+
+	SpecialOverlays::isCruentus(Overlay::Array.objectTypeList.front().get());
+	SpecialOverlays::isRiparius(Overlay::Array.objectTypeList.front().get());
+	SpecialOverlays::isVinifera(Overlay::Array.objectTypeList.front().get());
+	SpecialOverlays::isHighBridge(Overlay::Array.objectTypeList.front().get());
+
+
+	auto scr = ScriptType::Array.get(16);
+	auto konst = ListProvider::getProvider()->getListFor(0, scr);
+	auto konst2 = ListProvider::getProvider()->getListFor(38);
 
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);

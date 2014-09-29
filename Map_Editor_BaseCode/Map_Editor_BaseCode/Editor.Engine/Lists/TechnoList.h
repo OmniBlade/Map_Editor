@@ -19,8 +19,10 @@ public:
 			BuildingType* item = BuildingType::Array.get(i);
 			if (item->valid)
 			{
-				add(items, item->Name, i, item->ID, item->WUIName);
+				add(items, item->Name, i, item->ID, true, item->WUIName);
 			}
+			else
+				add(items, item->Name, i, item->ID, false, item->WUIName);
 		}
 
 		unsigned int countAT = AircraftType::Array.count();
@@ -29,7 +31,11 @@ public:
 			AircraftType* item = AircraftType::Array.get(i);
 			if (item->valid)
 			{
-				add(items, item->Name, i, item->ID, item->WUIName);
+				add(items, item->Name, i, item->ID, true, item->WUIName);
+			}
+			else
+			{
+				add(items, item->Name, i, item->ID, false, item->WUIName);
 			}
 		}
 
@@ -39,8 +45,10 @@ public:
 			InfantryType* item = InfantryType::Array.get(i);
 			if (item->valid)
 			{
-				add(items, item->Name, i, item->ID, item->WUIName);
+				add(items, item->Name, i, item->ID, true, item->WUIName);
 			}
+			else
+				add(items, item->Name, i, item->ID, false, item->WUIName);
 		}
 
 		unsigned int countVT = VehicleType::Array.count();
@@ -49,8 +57,10 @@ public:
 			VehicleType* item = VehicleType::Array.get(i);
 			if (item->valid)
 			{
-				add(items, item->Name, i, item->ID, item->WUIName);
+				add(items, item->Name, i, item->ID, true, item->WUIName);
 			}
+			else
+				add(items, item->Name, i, item->ID, false, item->WUIName);
 		}
 
 

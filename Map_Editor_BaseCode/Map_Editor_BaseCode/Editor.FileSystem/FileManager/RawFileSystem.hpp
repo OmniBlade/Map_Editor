@@ -48,14 +48,14 @@ public:
 		@param fileName The name of the file to check the existance of
 		@return True if the file exists, false if it doesn't
 	*/
-	bool fileIsInGameRoot(const std::string& fileName);
+	bool inGameRoot(const std::string& fileName);
 	
 	/*
 		Checks whether the file given in the parameter exists in the EDITOR'S ROOT
 		@param fileName The name of the file to check the existance of
 		@return True if the file exists, false if it doesn't
 	*/
-	bool fileIsInEditorRoot(const std::string& fileName);
+	bool inEditorRoot(const std::string& fileName);
 	
 	/*
 		Locates all the file's in the GAME'S ROOT and puts them in a vector

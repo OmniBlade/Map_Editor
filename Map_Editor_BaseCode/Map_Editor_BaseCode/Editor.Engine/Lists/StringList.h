@@ -24,7 +24,7 @@ public:
 			for (auto& it : file->entryList)
 			{
 				if (it.second)
-					add(items, it.first, -1, it.first, it.second.get()->Value);
+					add(items, it.first, -1, it.first, true, it.second.get()->Value);
 			}
 		}
 

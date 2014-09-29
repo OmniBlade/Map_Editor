@@ -16,6 +16,9 @@ public:
 	Trigger();
 	void parse(const std::string& id, const std::string& list);
 	void assignChild();
+	void assignTag();
+	std::string getUpperParentID();
+	std::string getParentID();
 
 	std::string ID, Name, owner, child;
 	bool Disabled;
@@ -34,7 +37,7 @@ public:
 		cannot even resolve the Tag of a parent Trigger without first
 		having to click on that Trigger...
 	*/
-	//Tag* attachedTag; 
+	Tag* pTag; 
 
 
 };

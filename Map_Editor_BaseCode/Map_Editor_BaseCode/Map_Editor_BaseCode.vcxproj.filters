@@ -219,15 +219,6 @@
     <ClInclude Include="Editor.Objects.Westwood\Types\Country.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\TriggerValidator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\TeamValidator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\ObjectValidator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Game\Theater.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -336,15 +327,6 @@
     <ClInclude Include="Editor.Engine\Types\Smudge.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\MiscValidator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\OverlayValidator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\AIValidator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Basics\Basic.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -355,9 +337,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Basics\Lighting.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\BasicValidator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Map.Validator\MainValidator.hpp">
@@ -409,9 +388,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Types\Overlay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Map.Validator\ValidatorHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameDefinition.h">
@@ -481,6 +457,45 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.FileSystem\FileManager\TextReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\Trigger\ActionValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\Trigger\EventValidator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\Trigger\TriggerValidator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\AI\AIValidator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\Basic\BasicValidator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\Basic\MiscValidator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\AI\TeamValidator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\Object\ObjectValidator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Map.Validator\Object\OverlayValidator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Lists\ScriptList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Objects.Westwood\General\GameColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -677,15 +692,6 @@
     <ClCompile Include="Editor.Objects.Westwood\Types\Country.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\TriggerValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\TeamValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\ObjectValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Game\Theater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -791,15 +797,6 @@
     <ClCompile Include="Editor.Engine\Types\Smudge.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\MiscValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\OverlayValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\AIValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Basics\Basic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -810,9 +807,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Basics\Lighting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\BasicValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp">
@@ -831,9 +825,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Map\PackType.cpp">
@@ -855,9 +846,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Types\Overlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Map.Validator\ValidatorHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameDefinition.cpp">
@@ -888,6 +876,39 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\FileManager\TextReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\Trigger\ActionValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\Trigger\EventValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\Trigger\TriggerValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\AI\AIValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\Basic\BasicValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\Basic\MiscValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\AI\TeamValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\Object\ObjectValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Map.Validator\Object\OverlayValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Objects.Westwood\General\GameColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
