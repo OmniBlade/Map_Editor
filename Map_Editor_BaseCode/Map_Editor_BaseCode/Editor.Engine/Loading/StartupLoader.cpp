@@ -51,7 +51,7 @@ void StartupLoader::initiateMIX()
 	//Finally cache everything
 	for (unsigned int i = 0; i < mixList.size(); ++i)
 	{
-		MIXManager::getManager()->cache(mixList[i]);
+		MIXManager::instance()->cache(mixList[i]);
 	}
 }
 
@@ -60,7 +60,7 @@ void StartupLoader::initiateINI()
 	std::vector<std::string> iniFilenames = getFilesWithExtension("INI");
 
 	std::vector<std::string>& iniFiles = getIniNames();
-	INIManager* iniManager = INIManager::getManager();
+	INIManager* iniManager = INIManager::instance();
 
 	//Finally cache everything
 	for (unsigned int i = 0; i < iniFiles.size(); ++i)
@@ -97,7 +97,7 @@ void StartupLoader::initiateCSF()
 	//Finally cache everything
 	for (unsigned int i = 0; i < csfFiles.size(); ++i)
 	{
-		CSFManager::getManager()->cache(csfFiles[i]);
+		CSFManager::instance()->cache(csfFiles[i]);
 	}
 }
 
@@ -119,7 +119,7 @@ void StartupLoader::findCSFFiles(std::vector<std::string>& list, const std::vect
 
 		std::string stringtableNumbered = stringtable + number.str() + ".CSF";
 
-		if (inRoot(stringtableNumbered, csfFilenames) || MIXManager::getManager()->inAMix(stringtableNumbered))
+		if (inRoot(stringtableNumbered, csfFilenames) || MIXManager::instance()->inAMix(stringtableNumbered))
 		{
 			list.push_back(stringtableNumbered);
 		}

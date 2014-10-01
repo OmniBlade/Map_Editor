@@ -79,7 +79,7 @@ BinaryReader* FileSystem::getReaderForFile(const std::string& fileName)
 	if (auto res = rawSystem->getReaderOfFile(fileName))
 		return res;
 	else
-		return MIXManager::getManager()->getReader(fileName);
+		return MIXManager::instance()->getReader(fileName);
 }
 
 BinaryReader* FileSystem::getReaderForEditorFile(const std::string& fileName)
@@ -96,7 +96,7 @@ int FileSystem::getFileSize(const std::string& fileName)
 	if (auto res = rawSystem->getReaderOfFile(fileName)) //rawSystem->fileIsInGameRoot(fileName))
 		return res->getFileSize();
 	else
-		return MIXManager::getManager()->getSizeForFile(fileName);
+		return MIXManager::instance()->getSizeForFile(fileName);
 }
 
 int FileSystem::getEditorFileSize(const std::string& fileName)
@@ -112,7 +112,7 @@ int FileSystem::getFileOffset(const std::string& fileName)
 	if (rawSystem->inGameRoot(fileName))
 		return 0;
 	else
-		return MIXManager::getManager()->getOffsetForFile(fileName);
+		return MIXManager::instance()->getOffsetForFile(fileName);
 }
 
 int FileSystem::getEditorFileOffset(const std::string& fileName)
@@ -120,5 +120,5 @@ int FileSystem::getEditorFileOffset(const std::string& fileName)
 	if (rawSystem->inEditorRoot(fileName))
 		return 0;
 	else
-		return MIXManager::getManager()->getOffsetForFile(fileName);
+		return MIXManager::instance()->getOffsetForFile(fileName);
 }

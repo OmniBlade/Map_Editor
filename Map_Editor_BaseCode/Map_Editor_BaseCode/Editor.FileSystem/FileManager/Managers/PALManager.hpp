@@ -7,7 +7,7 @@
 class PALManager
 {
 public:
-	static PALManager* getManager();
+	static PALManager* instance();
 
 	PaletteFile* get(const std::string& fileName);
 	PaletteFile* cache(const std::string& fileName);

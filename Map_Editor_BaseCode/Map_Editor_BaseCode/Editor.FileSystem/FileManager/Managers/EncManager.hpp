@@ -9,7 +9,7 @@ class INIFile;
 class EncManager
 {
 public:
-	static EncManager* getManager();
+	static EncManager* instance();
 
 	EncFile* get(const std::string& fileName);
 	EncFile* cache(const std::string& fileName);

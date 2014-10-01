@@ -62,19 +62,19 @@ void TileSet::collectTiles()
 		}
 		number << i;
 
-		if (TMPManager::getManager()->get(FileName + number.str() + '.' + extension))
+		if (TMPManager::instance()->get(FileName + number.str() + '.' + extension))
 		{
-			//tiles.push_back(TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension));
+			//tiles.push_back(TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension));
 			std::cout << "Hey there, should the tiles be pushed into the tiles vector in collectTiles()?" << std::endl;
 			
 			//Search for a-b-c-d-e-f-g
 			for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
 			{
-				if (!TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension))
+				if (!TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension))
 					break;
 				else
 				{
-					//tiles.push_back(TMPManager::getManager()->get(FileName + number.str() + (char)i + '.' + extension));
+					//tiles.push_back(TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension));
 				}
 				//else
 					//std::cout << "Now parsing: " << FileName << number.str() << (char)i << '.' << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;

@@ -7,7 +7,7 @@
 class SHPManager
 {
 public:
-	static SHPManager* getManager();
+	static SHPManager* instance();
 
 	ShpFile* cache(const std::string& fileName);
 	ShpFile* get(const std::string& fileName);

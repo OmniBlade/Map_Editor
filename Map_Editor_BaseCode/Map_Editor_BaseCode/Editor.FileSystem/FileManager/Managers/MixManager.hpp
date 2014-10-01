@@ -18,7 +18,7 @@
 
 class MIXManager {
 public:
-	static MIXManager* getManager();
+	static MIXManager* instance();
 
 	void assign(RawFileSystem* _rawSystem);
 

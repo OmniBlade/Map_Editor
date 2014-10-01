@@ -22,6 +22,7 @@ public:
 	static std::string configName;
 	static bool enableDebug;				// Can we please get a debug file?
 	static bool dumpTypes;
+	static bool explicitOverlayTypeValidation;
 	static bool isSP;						// WHether this map is SP or MP, about 75% is MP, so default to false
 	static std::string mapName;
 

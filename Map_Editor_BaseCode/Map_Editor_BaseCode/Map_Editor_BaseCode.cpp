@@ -38,6 +38,7 @@
 
 #include "Editor.Engine\Lists\ListProvider.h"
 #include "Editor.Engine\Types\SpecialOverlays.h"
+#include "Editor.Objects.Westwood\OverlayTypeValidator.h"
 
 ParamCollection* paramCollection;
 MainValidator* mainValidator;
@@ -47,7 +48,7 @@ void initiateEditor()
 {
 	//TODO: Rename ambiguous functions
 	RawFileSystem* rawSystem = new RawFileSystem();;
-	MIXManager::getManager()->assign(rawSystem);
+	MIXManager::instance()->assign(rawSystem);
 	FileSystem::getFileSystem()->assign(rawSystem);
 
 	ConfigLoader configLoader;
@@ -89,7 +90,7 @@ void initiateEditor()
 	Log::line("Loading MIX files:", Log::DEBUG);
 	bootLoader.initiateMIX();
 
-	if (MIXManager::getManager()->get("RA2MD.MIX") == nullptr && MIXManager::getManager()->get("RA2.MIX") == nullptr)
+	if (MIXManager::instance()->get("RA2MD.MIX") == nullptr && MIXManager::instance()->get("RA2.MIX") == nullptr)
 	{
 		Log::line("Invalid directory set, terminating now...", Log::DEBUG);
 		Log::close();
@@ -113,7 +114,7 @@ void initiateEditor()
 	SActionCollection::getInstance()->parse(paramCollection);
 
 	GameModeCollection::getInstance()->parse();
-	TheaterCollection::getInstance()->initiate(INIManager::getManager()->get(Config::configName));
+	TheaterCollection::getInstance()->initiate(INIManager::instance()->get(Config::configName));
 }
 
 void initiateAMap()
@@ -127,7 +128,7 @@ void initiateAMap()
 		std::cout << std::endl;
 	}
 
-	if (!MIXManager::getManager()->extract(Config::mapName))
+	if (!MIXManager::instance()->extract(Config::mapName))
 	{
 		Log::line("Map to load does not exist, unable to continue what so ever!");
 		Log::close();
@@ -140,7 +141,7 @@ void loadMap()
 {
 	Log::timerStart();
 	Log::openOutput(); // Can't move, requires map INI name in file's name!	
-	std::wstring info = L"Game: " + CSFManager::getManager()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
+	std::wstring info = L"Game: " + CSFManager::instance()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
 	size_t found = info.find_first_of(L"\n");
 	if (found != std::wstring::npos)
 		info.erase(found, found + 1);
@@ -149,7 +150,7 @@ void loadMap()
 
 	if (Config::hasAres)
 	{
-		INIFile* uimd = INIManager::getManager()->get(Config::UI);
+		INIFile* uimd = INIManager::instance()->get(Config::UI);
 		INISection* info = uimd->getSection("VersionInfo");
 		if (info)
 		{
@@ -161,15 +162,15 @@ void loadMap()
 
 	MapLoader mapLoader;
 	MapAssetLoader mapAssetLoader;
-	INIFile* map = INIManager::getManager()->get(Config::mapName);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
+	INIFile* map = INIManager::instance()->get(Config::mapName);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
 	Basic::getBasic()->parse();
 	INIFile* mode = nullptr;
 	if (mapLoader.locateGameMode(map))
 	{
-		mode = INIManager::getManager()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
+		mode = INIManager::instance()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
 	}
 
-	INIFile* rules = INIManager::getManager()->get(Config::rules);
+	INIFile* rules = INIManager::instance()->get(Config::rules);
 
 	Log::validatorLine("---- Map information ----", Log::INFO);
 	Log::validatorLine("Scenario name: " + Config::mapName, Log::EXTRAS);
@@ -202,8 +203,10 @@ void loadMap()
 	mapLoader.load(rules);
 	mapLoader.load(mode);
 	mapLoader.load(map);
-	mapLoader.loadGlobalVariable(); // You fucking wanker! // Causes crash on exit when profiled as WWType
+	mapLoader.loadGlobalVariable(); // Causes crash on exit when profiled as WWType
 	mapLoader.loadAI();
+
+	OverlayTypeValidator otv;
 
 	//Log::line("Going to load all objects now!", Log::DEBUG);
 	mapAssetLoader.load(mode);
@@ -252,12 +255,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	initiateAMap();
 	loadMap();
 	validateMap();
-	std::vector<int> keklist;
-	keklist.push_back(38);
-	auto scr = ScriptType::Array.get(15);
-	auto konst = ListProvider::getProvider()->getCombinedList(keklist, scr);
-
-	auto action = Action::Array.get(208)->actionList[0]->pActionType->getNameWithParams();
 	
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);

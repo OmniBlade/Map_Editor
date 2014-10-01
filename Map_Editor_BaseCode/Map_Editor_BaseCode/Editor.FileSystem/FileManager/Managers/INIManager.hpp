@@ -10,7 +10,7 @@ struct FileProperties;
 class INIManager
 {
 public:
-	static INIManager* getManager();
+	static INIManager* instance();
 
 	INIFile* get(const std::string& fileName);
 	INIFile* cache(const std::string& fileName);

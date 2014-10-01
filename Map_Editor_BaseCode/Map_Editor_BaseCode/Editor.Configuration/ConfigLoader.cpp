@@ -18,10 +18,10 @@ ConfigLoader::ConfigLoader()
 void ConfigLoader::parse()
 {
 	std::string CONFIG = "CONFIGS";
-	configINI = INIManager::getManager()->getRoot(CONFIG);
+	configINI = INIManager::instance()->getRoot(CONFIG);
 	if (!configINI)
 	{
-		configINI = EncManager::getManager()->getAsINI(CONFIG);
+		configINI = EncManager::instance()->getAsINI(CONFIG);
 	}
 
 	if (!configINI)
@@ -91,7 +91,7 @@ bool ConfigLoader::chooseConfig()
 					Game::title = configFiles[i]->usedTitle;
 					Config::installDir = configFiles[i]->InstallDir;
 					Config::configName = configFiles[i]->Path;
-					Config::parse(INIManager::getManager()->getRoot(configFiles[i].get()->Path));
+					Config::parse(INIManager::instance()->getRoot(configFiles[i].get()->Path));
 					break;
 				}
 			}
@@ -115,7 +115,7 @@ bool ConfigLoader::chooseConfig()
 		Game::title = configFiles[index]->usedTitle;
 		Config::installDir = configFiles[index]->InstallDir;
 		Config::configName = configFiles[index]->Path;
-		Config::parse(INIManager::getManager()->getRoot(configFiles[index].get()->Path));
+		Config::parse(INIManager::instance()->getRoot(configFiles[index].get()->Path));
 		return true;
 	}
 	else if (configFiles.size() > 1)
@@ -143,7 +143,7 @@ bool ConfigLoader::chooseConfig()
 		Game::title = configFiles[index].get()->usedTitle;
 		Config::configName = configFiles[index]->Path;
 		Config::installDir = configFiles[index]->InstallDir;
-		Config::parse(INIManager::getManager()->getRoot(configFiles[index].get()->Path));
+		Config::parse(INIManager::instance()->getRoot(configFiles[index].get()->Path));
 		return true;
 	}
 	Log::line("There are 0 configuration files listed, unable to continue!", Log::DEBUG);

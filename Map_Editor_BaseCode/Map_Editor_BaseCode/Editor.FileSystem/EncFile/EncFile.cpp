@@ -20,7 +20,7 @@ void EncFile::load(const std::string& fileName)
 {
 	d();
 	INIFile* file = new INIFile(fb);
-	INIManager::getManager()->insert(fileName, file);
+	INIManager::instance()->insert(fileName, file);
 
 	//Don't need the vector anymore, so might as well empty it :)
 	fb.clear();

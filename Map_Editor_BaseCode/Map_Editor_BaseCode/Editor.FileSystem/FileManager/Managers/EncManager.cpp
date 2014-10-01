@@ -7,7 +7,7 @@
 //#include "../../IniFile/INIFile.hpp"
 
 /* static */ EncManager* EncManager::manager;
-/* static */ EncManager* EncManager::getManager()
+/* static */ EncManager* EncManager::instance()
 {
 	if (manager)
 		return manager;
@@ -44,8 +44,8 @@ INIFile* EncManager::getAsINI(const std::string& fileName)
 	std::string capsName = fileName;
 	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
 
-	if (INIManager::getManager()->exists(capsName))
-		return INIManager::getManager()->get(capsName);
+	if (INIManager::instance()->exists(capsName))
+		return INIManager::instance()->get(capsName);
 	else
 		return cacheAsINI(capsName);
 }
@@ -54,5 +54,5 @@ INIFile* EncManager::cacheAsINI(const std::string& fileName)
 {
 	encFiles[fileName] = std::make_unique<EncFile>(FileSystem::getFileSystem()->getRootFile(fileName), fileName, true);
 	Log::line("ENC: " + fileName + " succesfully cached.", Log::DEBUG);
-	return INIManager::getManager()->get(fileName);
+	return INIManager::instance()->get(fileName);
 }

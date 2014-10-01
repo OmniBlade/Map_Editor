@@ -69,9 +69,9 @@ public:
 		for (unsigned int i = 0; i < typeList.size(); ++i)
 		{
 			if (typeList[i]->valid)
-				Log::validatorLine("V - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
+				Log::line("V - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRA);
 			else
-				Log::validatorLine("X - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRAS);
+				Log::line("X - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRA);
 		}
 	}
 

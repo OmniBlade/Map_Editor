@@ -207,6 +207,7 @@
     <ClInclude Include="Editor.Engine\Map\OverlayDataPack.hpp" />
     <ClInclude Include="Editor.Engine\Types\Overlay.h" />
     <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Movie.h" />
+    <ClInclude Include="Editor.Objects.Westwood\OverlayTypeValidator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -350,6 +351,7 @@
     <ClCompile Include="Editor.Engine\Map\OverlayDataPack.cpp" />
     <ClCompile Include="Editor.Engine\Types\Overlay.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Movie.cpp" />
+    <ClCompile Include="Editor.Objects.Westwood\OverlayTypeValidator.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

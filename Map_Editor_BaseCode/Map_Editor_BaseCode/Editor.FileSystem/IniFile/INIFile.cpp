@@ -104,7 +104,7 @@ void INIFile::load(INIFile* parentINI, const FileProperties& props, const std::v
 					{
 						if (Config::hasAres && currentSection == "#include")
 						{
-							INIManager::getManager()->loadIncludeINI(value, includeINIs, parentINI);							
+							INIManager::instance()->loadIncludeINI(value, includeINIs, parentINI);							
 						}
 						else
 						{

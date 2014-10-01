@@ -4,7 +4,7 @@
 #include "../FileSystem.hpp"
 
 /* static */ TMPManager* TMPManager::manager;
-/* static */ TMPManager* TMPManager::getManager()
+/* static */ TMPManager* TMPManager::instance()
 {
 	if (manager)
 		return manager;

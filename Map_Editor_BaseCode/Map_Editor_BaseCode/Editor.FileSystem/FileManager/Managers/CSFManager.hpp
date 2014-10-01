@@ -8,7 +8,7 @@ struct FileProperties;
 class CSFManager
 {
 public:
-	static CSFManager* getManager();
+	static CSFManager* instance();
 	CSFFile* get(const std::string& fileName);
 	CSFFile* get(unsigned int index);
 	CSFFile* cache(const std::string& fileName);

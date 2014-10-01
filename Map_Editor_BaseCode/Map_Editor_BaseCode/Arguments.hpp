@@ -25,6 +25,12 @@ bool handleBoolArguments(const std::string& argStr)
 		Config::dumpTypes = true;
 		return true;
 	}
+
+	if (argStr == "-OTVALIDATION")
+	{
+		Config::explicitOverlayTypeValidation = true;
+		return true;
+	}
 	return false;
 }
 

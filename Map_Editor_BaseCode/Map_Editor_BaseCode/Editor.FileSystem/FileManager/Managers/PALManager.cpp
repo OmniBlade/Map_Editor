@@ -4,7 +4,7 @@
 #include "../FileSystem.hpp"
 
 /* static */ PALManager* PALManager::manager;
-/* static */ PALManager* PALManager::getManager()
+/* static */ PALManager* PALManager::instance()
 {
 	if (manager)
 		return manager;

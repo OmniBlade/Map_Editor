@@ -30,7 +30,7 @@ GameModeCollection::~GameModeCollection()
 void GameModeCollection::parse()
 {
 	//The INI file with the game modes
-	INIFile* file = INIManager::getManager()->get(Config::modes);
+	INIFile* file = INIManager::instance()->get(Config::modes);
 	if (!file)
 	{
 		return;

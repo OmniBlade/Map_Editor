@@ -5,7 +5,7 @@
 #include "../../VoxelFile/VPLFile.hpp"
 
 /* static */ VXLManager* VXLManager::manager;
-/* static */ VXLManager* VXLManager::getManager()
+/* static */ VXLManager* VXLManager::instance()
 {
 	if (manager)
 		return manager;

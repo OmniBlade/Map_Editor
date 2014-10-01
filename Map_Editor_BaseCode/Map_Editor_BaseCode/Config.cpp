@@ -12,6 +12,7 @@ int Config::language = -1;
 std::string Config::configName = "";
 bool Config::enableDebug = false;
 bool Config::dumpTypes = false;
+bool Config::explicitOverlayTypeValidation = false;
 bool Config::isSP = false;
 std::string Config::mapName = "";
 

@@ -92,7 +92,7 @@ void MapLoader::allocateMainRules(INIFile* file)
 
 void MapLoader::loadAll(INIFile* file)
 {
-	INIFile* art = INIManager::getManager()->get(Config::art);
+	INIFile* art = INIManager::instance()->get(Config::art);
 
 	Log::line("Loading main rules now...", Log::DEBUG);
 	//3 times for rules / gamemode mode / mapmod
@@ -124,10 +124,10 @@ void MapLoader::loadAll(INIFile* file)
 
 void MapLoader::loadAudio()
 {
-	INIFile* speech = INIManager::getManager()->get(Config::eva);
-	INIFile* sound = INIManager::getManager()->get(Config::sound);
-	INIFile* theme = INIManager::getManager()->get(Config::theme);
-	INIFile* art = INIManager::getManager()->get(Config::art);
+	INIFile* speech = INIManager::instance()->get(Config::eva);
+	INIFile* sound = INIManager::instance()->get(Config::sound);
+	INIFile* theme = INIManager::instance()->get(Config::theme);
+	INIFile* art = INIManager::instance()->get(Config::art);
 	
 	allocateAll(Speech::Array, speech, "DialogList");
 	allocateAll(Sound::Array, sound, "SoundList");//
@@ -148,7 +148,7 @@ void MapLoader::loadAudio()
 
 void MapLoader::loadAI()
 {
-	INIFile* aimd = INIManager::getManager()->get(Config::AI);
+	INIFile* aimd = INIManager::instance()->get(Config::AI);
 
 	allocateAll(TeamType::Array, aimd, "TeamTypes");
 	allocateAll(TaskForce::Array, aimd, "TaskForces");
@@ -162,7 +162,7 @@ void MapLoader::loadAI()
 
 void MapLoader::loadGlobalVariable()
 {
-	INIFile* rules = INIManager::getManager()->get(Config::rules);
+	INIFile* rules = INIManager::instance()->get(Config::rules);
 	INISection* globals = rules->getSection("VariableNames");
 
 	INISection& uglySection = *globals;
@@ -212,49 +212,49 @@ void MapLoader::dumpLists()
 {
 	if (!Config::dumpTypes) return;
 
-	Log::line("Dumping parsed types to output file, refer to that file for types reference", Log::DEBUG);
-	Log::validatorLine("Dumping types, 'X' means the object is invalid and will be hidden from", Log::INFO);
-	Log::validatorLine("the actual lists in the editor. 'V' means the object is valid and visible", Log::EXTRAS);
-	Log::validatorLine("in the lists. Content should be very close to the game's representation.", Log::EXTRAS);
+	Log::line(" === PARSED DATA DUMP === ", Log::DEBUG);
+	Log::line("Dumping types, 'X' means the object is invalid and will be hidden from", Log::DEBUG);
+	Log::line("the actual lists in the editor. 'V' means the object is valid and visible", Log::EXTRA);
+	Log::line("in the lists. Content should be very close to the game's representation.", Log::EXTRA);
 
-	Log::validatorLine();
-	Log::validatorLine("[Animations]", Log::INFO);
+	Log::line();
+	Log::line("[Animations]", Log::DEBUG);
 	Animation::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[WeaponTypes]", Log::INFO);
+	Log::line();
+	Log::line("[WeaponTypes]", Log::DEBUG);
 	WeaponType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[Warheads]", Log::INFO);
+	Log::line();
+	Log::line("[Warheads]", Log::DEBUG);
 	WarheadType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[Projectiles]", Log::INFO);
+	Log::line();
+	Log::line("[Projectiles]", Log::DEBUG);
 	ProjectileType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[Countries]", Log::INFO);
+	Log::line();
+	Log::line("[Countries]", Log::DEBUG);
 	Country::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[InfantryTypes]", Log::INFO);
+	Log::line();
+	Log::line("[InfantryTypes]", Log::DEBUG);
 	InfantryType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[VehicleTypes]", Log::INFO);
+	Log::line();
+	Log::line("[VehicleTypes]", Log::DEBUG);
 	VehicleType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[AircraftTypes]", Log::INFO);
+	Log::line();
+	Log::line("[AircraftTypes]", Log::DEBUG);
 	AircraftType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[BuildingTypes]", Log::INFO);
+	Log::line();
+	Log::line("[BuildingTypes]", Log::DEBUG);
 	BuildingType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[SuperWeaponTypes]", Log::INFO);
+	Log::line();
+	Log::line("[SuperWeaponTypes]", Log::DEBUG);
 	SuperWeaponType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[SmudgeTypes]", Log::INFO);
+	Log::line();
+	Log::line("[SmudgeTypes]", Log::DEBUG);
 	SmudgeType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[OverlayTypes]", Log::INFO);
+	Log::line();
+	Log::line("[OverlayTypes]", Log::DEBUG);
 	OverlayType::Array.dumpContent();
-	Log::validatorLine();
-	Log::validatorLine("[Particles]", Log::INFO);
+	Log::line();
+	Log::line("[Particles]", Log::DEBUG);
 	ParticleType::Array.dumpContent();
 }
 

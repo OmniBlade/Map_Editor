@@ -14,7 +14,7 @@ ParamCollection::ParamCollection()
 
 void ParamCollection::parse()
 {
-	INIFile* file = INIManager::getManager()->getRoot("PARAMS");
+	INIFile* file = INIManager::instance()->getRoot("PARAMS");
 	INISection* params = file->getSection("ParamTypes");
 
 	std::vector<std::string>& defaults = getDefaultValues();

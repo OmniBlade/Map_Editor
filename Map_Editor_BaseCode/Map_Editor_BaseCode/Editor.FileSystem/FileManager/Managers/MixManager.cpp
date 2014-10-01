@@ -17,7 +17,7 @@
 #include <sstream>
 
 /* static */ MIXManager* MIXManager::manager;
-/* static */ MIXManager* MIXManager::getManager()
+/* static */ MIXManager* MIXManager::instance()
 {
 	if (manager)
 		return manager;

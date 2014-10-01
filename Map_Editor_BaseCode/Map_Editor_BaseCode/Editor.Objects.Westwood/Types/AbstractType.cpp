@@ -19,7 +19,7 @@ void AbstractType::loadRules(INIFile* rules)
 
 	if (!UIName.empty())
 	{
-		WUIName = CSFManager::getManager()->getValue(UIName);
+		WUIName = CSFManager::instance()->getValue(UIName);
 	}
 	valid = true;
 }

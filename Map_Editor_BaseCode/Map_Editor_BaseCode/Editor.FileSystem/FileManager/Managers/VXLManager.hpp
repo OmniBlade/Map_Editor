@@ -7,7 +7,7 @@
 class VXLManager
 {
 public:
-	static VXLManager* getManager();
+	static VXLManager* instance();
 
 	VXLFile* get(const std::string& fileName);
 	VXLFile* cache(const std::string& fileName);

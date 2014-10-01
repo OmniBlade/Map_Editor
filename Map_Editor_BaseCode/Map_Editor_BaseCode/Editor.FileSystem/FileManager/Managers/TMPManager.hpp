@@ -7,7 +7,7 @@
 class TMPManager
 {
 public:
-	static TMPManager* getManager();
+	static TMPManager* instance();
 
 	TMPFile* get(const std::string& fileName);
 	TMPFile* cache(const std::string& fileName);

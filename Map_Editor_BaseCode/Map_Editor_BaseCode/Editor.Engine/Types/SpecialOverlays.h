@@ -1,10 +1,11 @@
-#include "stdafx.h"
+#pragma once
 #include "Overlay.h"
+#include "../../Editor.Objects.Westwood/Types/OverlayType.hpp"
+#include "../../Config.hpp"
 
 class SpecialOverlays
 {
-
-private:
+public:
 	/* == WALLS == */
 	/*
 		Purely used for WallTower and Gates!
@@ -25,6 +26,13 @@ private:
 	static const byte IDX_VEINHOLE = 0xA7;		// Veinhole
 	static const byte IDX_VEINHOLEDUMMY = 0xB2;	// Veinhole dummy
 
+	/* == TRACKS == */
+	/*
+		Not used in Red Alert 2 and Yuri's Revenge, but still valid
+		16 pieces
+	*/
+	static const byte IDX_TRACKS_MIN = 0x27;	
+	static const byte IDX_TRACKS_MAX = 0x36;	
 
 	/* == TIBERIUMS == */
 	/*
@@ -63,18 +71,16 @@ private:
 	static const byte IDX_LOBRIDGE3 = 0x7C;	// Low bridge end 3 Concrete?
 	static const byte IDX_LOBRIDGE4 = 0x7D;	// Low bridge end 4 Concrete?
 
-	static const byte IDX_LOBRDGB_MIN = 0xCD; // Low-Concrete bridge 01
-	static const byte IDX_LOBRDGB_MAX = 0xE8; // Low-Concrete bridge 28
+	static const byte IDX_LOBRDB_MIN = 0xCD; // Low-Concrete bridge 01
+	static const byte IDX_LOBRDB_MAX = 0xE8; // Low-Concrete bridge 28
 	static const byte IDX_LOBRDG_MIN = 0x4A;  // Low-Wooden bridge 01
 	static const byte IDX_LOBRDG_MAX = 0x65;  // Low-Wooden bridge 28
-
-public:
 	
 	static bool isRiparius(Overlay* pOverlay) 
 	{
 		if (!pOverlay) return false;
 
-		return pOverlay->overlayIndex >= IDX_RIPARIUS_MIN && pOverlay->overlayIndex <= IDX_RIPARIUS_MAX);
+		return pOverlay->overlayIndex >= IDX_RIPARIUS_MIN && pOverlay->overlayIndex <= IDX_RIPARIUS_MAX;
 	}
 
 	static bool isCruentus(Overlay* pOverlay) 
@@ -101,8 +107,7 @@ public:
 	{
 		if (!pOverlay) return false;
 
-		return pOverlay->overlayIndex == IDX_BRIDGE1 || pOverlay->overlayIndex == IDX_BRIDGE2
-			|| pOverlay->overlayIndex == IDX_BRIDGEB1 || pOverlay->overlayIndex == IDX_BRIDGEB2;
+		return isHighConcreteBridge(pOverlay) || isHighWoodenBridge(pOverlay);
 	}
 
 	static bool isLowBridge(Overlay* pOverlay)
@@ -112,14 +117,49 @@ public:
 		return isLowConcreteBridge(pOverlay) || isLowWoodenBridge(pOverlay);
 	}
 
+	static bool isTrack(Overlay* pOverlay)
+	{
+		if (!pOverlay) return false;
+		
+		return pOverlay->overlayIndex >= IDX_TRACKS_MIN && pOverlay->overlayIndex <= IDX_TRACKS_MAX;
+	}
+
 	/*
-		Can a gate connect to this overlay (hardcoded walls only)?
+		Can a gate be slammed onto this overlay (hardcoded walls only)?
 	*/
-	static bool canGateConnect(Overlay* pOverlay)
+	static bool canGateSlam(Overlay* pOverlay)
 	{
 		if (!pOverlay) return false;
 
-		return pOverlay->overlayIndex == IDX_GASAND || pOverlay->overlayIndex == IDX_GAWALL || pOverlay->overlayIndex == IDX_NAWALL;
+		/* Ares allows Wall=yes OverlayTypes to have a gate slammed onto them */
+		if (Config::hasAres)
+		{
+			return pOverlay->pOverlayType->Wall;
+		}
+		else
+		{
+			return pOverlay->overlayIndex == IDX_GASAND || pOverlay->overlayIndex == IDX_GAWALL || pOverlay->overlayIndex == IDX_NAWALL;
+		}
+	}
+
+	/*
+		Only GDIGateOne/Two work on GASAND and GAWALL
+	*/
+	static bool canGateConnectGDI(Overlay* pOverlay)
+	{
+		if (!pOverlay) return false;
+
+		return pOverlay->overlayIndex == IDX_GASAND || pOverlay->overlayIndex == IDX_GAWALL;
+	}
+
+	/*
+		Only NodGateOne/Two work on NAWALL
+	*/
+	static bool canGateConnectNOD(Overlay* pOverlay)
+	{
+		if (!pOverlay) return false;
+
+		return pOverlay->overlayIndex == IDX_NAWALL;
 	}
 
 	/*
@@ -133,11 +173,25 @@ public:
 		return pOverlay->overlayIndex == IDX_GASAND || pOverlay->overlayIndex == IDX_GAWALL;
 	}
 
+	static bool isHighConcreteBridge(Overlay* pOverlay)
+	{
+		if (!pOverlay) return false;
+
+		return pOverlay->overlayIndex == IDX_BRIDGE1 && pOverlay->overlayIndex == IDX_BRIDGE2;
+	}
+
+	static bool isHighWoodenBridge(Overlay* pOverlay)
+	{
+		if (!pOverlay) return false;
+
+		return pOverlay->overlayIndex == IDX_BRIDGEB1 && pOverlay->overlayIndex == IDX_BRIDGEB2;
+	}
+
 	static bool isLowConcreteBridge(Overlay* pOverlay)
 	{
 		if (!pOverlay) return false;
 
-		return pOverlay->overlayIndex >= IDX_LOBRDGB_MIN && pOverlay->overlayIndex <= IDX_LOBRDGB_MAX;
+		return pOverlay->overlayIndex >= IDX_LOBRDB_MIN && pOverlay->overlayIndex <= IDX_LOBRDB_MAX;
 	}
 
 	static bool isLowWoodenBridge(Overlay* pOverlay)

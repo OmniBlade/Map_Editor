@@ -22,7 +22,7 @@ void Theme::load(INIFile* file)
 	}
 
 	Name = section->getValue("Name");
-	WUIName = CSFManager::getManager()->getValue(Name);
+	WUIName = CSFManager::instance()->getValue(Name);
 	
 	valid = true;
 }

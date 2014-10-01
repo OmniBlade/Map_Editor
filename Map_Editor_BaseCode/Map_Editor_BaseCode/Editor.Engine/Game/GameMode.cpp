@@ -18,12 +18,12 @@ void GameMode::parse(const std::string& line)
 	{
 		if (!GUIName.empty())
 		{
-			WGUIName = CSFManager::getManager()->getValue(GUIName);
+			WGUIName = CSFManager::instance()->getValue(GUIName);
 		}
 
 		if (!STTName.empty())
 		{
-			WSTTName = CSFManager::getManager()->getValue(STTName);
+			WSTTName = CSFManager::instance()->getValue(STTName);
 		}
 
 		if (!split.empty())

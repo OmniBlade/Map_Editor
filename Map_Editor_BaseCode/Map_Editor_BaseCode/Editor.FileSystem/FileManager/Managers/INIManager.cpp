@@ -6,7 +6,7 @@
 #include "../../../Log.hpp"
 
 /* static */ INIManager* INIManager::manager;
-/* static */ INIManager* INIManager::getManager()
+/* static */ INIManager* INIManager::instance()
 {
 	if (manager)
 		return manager;

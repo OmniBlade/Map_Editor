@@ -17,10 +17,10 @@ public:
 		}
 
 		items.reserve(10000);
-		unsigned int count = CSFManager::getManager()->files();
+		unsigned int count = CSFManager::instance()->files();
 		for (unsigned int i = 0; i < count; ++i)
 		{
-			CSFFile* file = CSFManager::getManager()->get(i);
+			CSFFile* file = CSFManager::instance()->get(i);
 			for (auto& it : file->entryList)
 			{
 				if (it.second)

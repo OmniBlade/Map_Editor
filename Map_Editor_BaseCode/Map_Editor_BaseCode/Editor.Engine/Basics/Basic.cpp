@@ -21,7 +21,7 @@ Basic::Basic()
 
 void Basic::parse()
 {
-	INIFile* map = INIManager::getManager()->get(Config::mapName);
+	INIFile* map = INIManager::instance()->get(Config::mapName);
 	INISection* basic = map->getSection("Basic");
 
 	basic->readStringValue("Name", name);

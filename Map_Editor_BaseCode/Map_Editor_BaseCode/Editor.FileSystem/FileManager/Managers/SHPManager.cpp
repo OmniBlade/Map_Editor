@@ -4,7 +4,7 @@
 #include "../FileSystem.hpp"
 
 /* static */ SHPManager* SHPManager::manager;
-/* static */ SHPManager* SHPManager::getManager()
+/* static */ SHPManager* SHPManager::instance()
 {
 	if (manager)
 		return manager;

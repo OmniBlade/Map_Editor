@@ -6,7 +6,7 @@
 #include "../../../Config.hpp"
 
 /* static */ CSFManager* CSFManager::manager;
-/* static */ CSFManager* CSFManager::getManager()
+/* static */ CSFManager* CSFManager::instance()
 {
 	if (manager)
 		return manager;
