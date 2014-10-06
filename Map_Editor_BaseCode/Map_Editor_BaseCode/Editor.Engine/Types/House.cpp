@@ -2,6 +2,7 @@
 #include "House.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../Editor.FileSystem/MapFile/WriterHelper.h"
 #include "../../Log.hpp"
 #include <sstream>
 
@@ -11,6 +12,46 @@ House::House(const std::string& id)
 :ID(id)
 {
 
+}
+
+void House::writeToINI(INIFile& file)
+{
+	//Write section [Houses]
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		number << i;
+		file.SetValue("Houses", number.str(), it->ID);
+		++i;
+		number.str(std::string());
+	}
+	
+	//Write each House
+	for (auto& it : Array.objectTypeList)
+	{
+		if (!it->Country.empty())
+			file.SetValue(it->ID.c_str(), "Country", it->Country);
+		file.SetValue(it->ID.c_str(), "TechLevel", Log::toString(it->TechLevel));
+		file.SetValue(it->ID.c_str(), "Credits", Log::toString(it->Credits));
+		file.SetValue(it->ID.c_str(), "IQ", Log::toString(it->IQ));
+		file.SetValue(it->ID.c_str(), "Edge", it->Edge);
+		file.SetValue(it->ID.c_str(), "PlayerControl", WriterHelper::getBoolString(it->PlayerControl, WriterHelper::BoolType::YESNO));
+		file.SetValue(it->ID.c_str(), "Color", it->Color);
+		file.SetValue(it->ID.c_str(), "PercentBuilt", Log::toString(it->PercentBuilt));
+		file.SetValue(it->ID.c_str(), "Allies", it->alliesAsString());
+	
+		if (it->NodeCount > 0)
+		{
+			file.SetValue(it->ID.c_str(), "NodeCount", Log::toString(it->NodeCount));
+			for (int i = 0; i < it->NodeCount; ++i)
+			{
+				number << i;
+				file.SetValue(it->ID.c_str(), number.str(), it->baseNodes[i]->asString());
+				number.str(std::string());
+			}
+		}
+	}
 }
 
 void House::parse(INIFile* file, bool redundant)
@@ -59,8 +100,25 @@ void House::loadNodes(INISection* section)
 
 		section->readStringValue(number.str(), node);
 		LineSplitter split(node);
-		baseNodes.push_back(std::make_unique<BaseNode>(split.pop_string(), split.pop_int(), split.pop_int()));
 
+		std::string btype = split.pop_string();
+		int x = split.pop_int();
+		int y = split.pop_int();
+		baseNodes.push_back(std::make_unique<BaseNode>(btype, x, y));
+		
+		node = "";
 		number.str(std::string());
 	}
+}
+
+std::string House::alliesAsString()
+{
+	std::string ret;
+
+	for (auto& it : Allies)
+	{
+		ret.append("," + it);
+	}
+
+	return ret.substr(1, ret.size());
 }

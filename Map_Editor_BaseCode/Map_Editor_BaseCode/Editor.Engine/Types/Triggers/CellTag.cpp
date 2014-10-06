@@ -3,6 +3,7 @@
 #include "Tag.hpp"
 #include "../../../Log.hpp"
 #include <cstdlib>
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<CellTag> CellTag::Array;
 
@@ -16,4 +17,15 @@ void CellTag::parse(const std::string& location, const std::string& tag)
 	pTag = Tag::Array.find(tag);
 	loc.x = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
 	loc.y = atoi(Location.substr(0, Location.length() - 3).c_str());
+}
+
+void CellTag::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		if (it->pTag)
+		{
+			file.SetValue("CellTags", it->loc.asString(), it->pTag->ID);
+		}
+	}
 }

@@ -12,7 +12,7 @@ public:
 		BIT
 	};
 
-	std::string getBoolString(bool state, BoolType type)
+	static std::string getBoolString(bool state, BoolType type)
 	{
 		std::string ret;
 

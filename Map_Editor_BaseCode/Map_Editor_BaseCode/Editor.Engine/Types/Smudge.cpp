@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Smudge.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.Objects.Westwood/Types/SmudgeType.hpp"
+#include <sstream>
 
 /* static */ MapObjectList<Smudge> Smudge::Array;
 
@@ -23,11 +25,24 @@ void Smudge::parse(const std::string& id, const std::string& list)
 	}
 }
 
+void Smudge::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		number << i;
+		file.SetValue("Smudge", number.str(), it->asString());
+		++i;
+		number.str(std::string());
+	}
+}
+
 std::string Smudge::asString()
 {
 	char buffer[512];
 	sprintf_s(buffer, 512, "%s,%d,%d,%d",
-		this->pSmudgeType->ID,
+		this->pSmudgeType->ID.c_str(),
 		this->loc.x,
 		this->loc.y,
 		0

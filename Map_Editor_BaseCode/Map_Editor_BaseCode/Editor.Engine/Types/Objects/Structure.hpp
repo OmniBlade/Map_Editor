@@ -8,11 +8,13 @@ class BuildingType;
 class Tag;
 class Country;
 class House;
+class INIFile;
 
 class Structure
 {
 public:
 	static MapObjectList<Structure> Array;
+	static void writeToINI(INIFile& file);
 
 	Structure();
 

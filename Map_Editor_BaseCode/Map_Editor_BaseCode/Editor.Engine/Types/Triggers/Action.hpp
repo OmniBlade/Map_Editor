@@ -6,10 +6,13 @@
 #include <vector>
 #include <memory>
 
+class INIFile;
+
 class Action
 {
 public:
 	static MapObjectList<Action> Array;
+	static void writeToINI(INIFile& file);
 
 	Action();
 	void parse(const std::string& id, const std::string& list);

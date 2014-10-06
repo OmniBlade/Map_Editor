@@ -4,11 +4,13 @@
 #include "Managers\MapObjectList.hpp"
 
 class SmudgeType;
+class INIFile;
 
 class Smudge
 {
 public:
 	static MapObjectList<Smudge> Array;
+	static void writeToINI(INIFile& file);
 
 	Smudge();
 	void parse(const std::string& id, const std::string& list);

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Event.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<Event> Event::Array;
 
@@ -35,6 +36,14 @@ void Event::parseEvents()
 	if (eventList.size() != count)
 	{
 		Log::line("Event with ID '" + ID + "' does not have the amount of SubEvents it is supposed to have.", Log::DEBUG);
+	}
+}
+
+void Event::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		file.SetValue("Events", it->ID, it->asString());
 	}
 }
 

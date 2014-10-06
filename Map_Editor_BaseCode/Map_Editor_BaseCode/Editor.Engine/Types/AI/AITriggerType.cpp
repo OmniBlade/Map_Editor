@@ -10,6 +10,7 @@
 #include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<AITriggerType> AITriggerType::Array;
 
@@ -81,11 +82,22 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 	}
 }
 
+void AITriggerType::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		if (!it->isGlobal) // AIMD.INI should NOT go into the map file
+		{
+			file.SetValue("AITriggerTypes", it->ID, it->asString());
+		}
+	}
+}
+
 std::string AITriggerType::asString()
 {
 	char buffer[512];
 	//Don't need to include the ID, so no "%s = "
-	sprintf_s(buffer, 512, "%s,%s,%s,%d,%d,%s,%s,%lf,%lf,%lf,%d,%d,%d,%d,%s,%d,%d,%d\n",
+	sprintf_s(buffer, 512, "%s,%s,%s,%d,%d,%s,%s,%lf,%lf,%lf,%d,%d,%d,%d,%s,%d,%d,%d",
 		this->Name.c_str(),
 		teamTypeAsString(teamtype1).c_str(),
 		this->owner.c_str(),

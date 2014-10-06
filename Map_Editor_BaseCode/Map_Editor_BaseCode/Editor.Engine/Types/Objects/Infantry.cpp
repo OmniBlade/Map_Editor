@@ -6,6 +6,7 @@
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Triggers//Tag.hpp"
 #include "../House.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<Infantry> Infantry::Array;
 
@@ -28,6 +29,19 @@ void Infantry::parse(const std::string& index, const std::string& list)
 	else
 	{
 		Log::line("Unable to parse Infantry with entry number '" + index + "'.", Log::DEBUG);
+	}
+}
+
+void Infantry::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		number << i;
+		file.SetValue("Infantry", number.str(), it->asString());
+		++i;
+		number.str(std::string());
 	}
 }
 

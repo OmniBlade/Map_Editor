@@ -6,6 +6,7 @@
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Triggers/Tag.hpp"
 #include "../House.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<Structure> Structure::Array;
 
@@ -35,11 +36,24 @@ void Structure::parse(const std::string& index, const std::string& list)
 	}
 }
 
+void Structure::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		number << i;
+		file.SetValue("Structures", number.str(), it->asString());
+		++i;
+		number.str(std::string());
+	}
+}
+
 std::string Structure::asString() const
 {
 	char buffer[512];
 	//Don't need to include the ID, so no "%s = "
-	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%s,%d,%d,%d,%d",
+	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%d,%d,%d,%d,%d,%s,%s,%s,%d,%d",
 		this->owner.c_str(),
 		this->buildingType.c_str(),
 		this->health,
@@ -52,9 +66,9 @@ std::string Structure::asString() const
 		this->powered != 0,
 		this->powerupCount,
 		this->spotlight,
-		this->powerupOne,
-		this->powerupTwo,
-		this->powerupThree,
+		this->powerupOne.c_str(),
+		this->powerupTwo.c_str(),
+		this->powerupThree.c_str(),
 		this->rebuild != 0,
 		this->showName != 0
 		);

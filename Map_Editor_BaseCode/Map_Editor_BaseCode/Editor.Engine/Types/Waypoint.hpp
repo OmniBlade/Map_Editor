@@ -4,10 +4,13 @@
 #include "../../Editor.Objects.Westwood/Vector2D.hpp"
 #include <string>
 
+class INIFile;
+
 class Waypoint
 {
 public:
 	static MapObjectList<Waypoint> Array;
+	static void writeToINI(INIFile& file);
 
 	Waypoint();
 	void parse(const std::string& id, const std::string& list);

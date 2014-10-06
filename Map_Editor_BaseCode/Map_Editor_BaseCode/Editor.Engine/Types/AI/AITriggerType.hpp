@@ -9,11 +9,13 @@ class InfantryType;
 class BuildingType;
 class AircraftType;
 class Country;
+class INIFile;
 
 class AITriggerType
 {
 public:
 	static MapObjectList<AITriggerType> Array;
+	static void writeToINI(INIFile& file);
 
 	AITriggerType();
 	void parse(const std::string& id, const std::string& list, bool isGlobal_ = false);

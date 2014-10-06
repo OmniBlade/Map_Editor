@@ -102,6 +102,14 @@ std::string Trigger::getParentID()
 	return std::string();
 }
 
+void Trigger::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		file.SetValue("Triggers", it->ID, it->asString());
+	}
+}
+
 std::string Trigger::asString()
 {
 	char buffer[512];

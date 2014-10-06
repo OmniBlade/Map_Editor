@@ -8,11 +8,13 @@ class Tag;
 class VehicleType;
 class Country;
 class House;
+class INIFile;
 
 class Unit
 {
 public:
 	static MapObjectList<Unit> Array;
+	static void writeToINI(INIFile& file);
 
 	Unit();
 

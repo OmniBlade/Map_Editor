@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Action.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<Action> Action::Array;
 
@@ -34,6 +35,14 @@ void Action::parseActions()
 	if (actionList.size() != count)
 	{
 		Log::line("Action with ID '" + ID + "' does not have the amount of SubActions it is supposed to have.", Log::DEBUG);
+	}
+}
+
+void Action::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		file.SetValue("Actions", it->ID, it->asString());
 	}
 }
 

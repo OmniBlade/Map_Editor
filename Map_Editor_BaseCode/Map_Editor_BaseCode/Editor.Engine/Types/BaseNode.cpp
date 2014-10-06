@@ -13,7 +13,7 @@ std::string BaseNode::asString()
 {
 	char buffer[512];
 	sprintf_s(buffer, 512, "%s,%d,%d",
-		this->buildingType,
+		this->buildingType.c_str(),
 		this->loc.x,
 		this->loc.y
 		);

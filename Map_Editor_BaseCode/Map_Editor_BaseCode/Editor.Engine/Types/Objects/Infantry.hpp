@@ -8,11 +8,13 @@ class InfantryType;
 class Tag;
 class House;
 class Country;
+class INIFile;
 
 class Infantry
 {
 public:
 	static MapObjectList<Infantry> Array;
+	static void writeToINI(INIFile& file);
 	Infantry();
 
 	void parse(const std::string& index, const std::string& list);

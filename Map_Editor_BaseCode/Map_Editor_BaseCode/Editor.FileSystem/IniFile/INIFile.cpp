@@ -9,11 +9,17 @@
 #include "stdafx.h"
 #include "CStringHelper.hpp"
 #include "../../Config.hpp"
+#include "../FileManager/FileWriter.h"
 #include "../FileManager/FileSystem.hpp"
 #include "../FileManager/BinaryReader.hpp"
 #include "../FileManager/TextReader.h"
 #include "../FileManager/Managers/INIManager.hpp"
 #include "../../Log.hpp"
+
+INIFile::INIFile()
+{
+
+}
 
 INIFile::INIFile(const FileProperties& props)
 {
@@ -139,6 +145,7 @@ INISection* INIFile::EnsureSection(const char* section)
 	auto &ret = sectionList[_strdup(section)];
 
 	ret = std::make_unique<INISection>(section);
+	sections.push_back(section);
 	return ret.get();
 }
 
@@ -179,4 +186,52 @@ void INIFile::dumpContent()
 	//{
 //		iter->second->dumpContent();
 //	}
+}
+
+void INIFile::writeToFile(const std::string& fullpath, bool alphabetic /* = true */, bool closeOnEnd /* = false */)
+{
+	FileWriter iniWriter(fullpath);
+
+	if (alphabetic)
+	{
+		//Write A Section
+		for (const auto& it : sectionList)
+		{
+			INISection* section = it.second.get();
+			std::string sectionName = "\n[" + section->getSectionName() + "]\n";
+			iniWriter.writeBuffer(sectionName.c_str(), sectionName.size());
+
+			//Write A Key-Value pair
+			for (unsigned int i = 0; i < section->size(); ++i)
+			{
+				std::string keyvalue = section->getKeyValue(i);
+				iniWriter.writeBuffer(keyvalue.c_str(), keyvalue.size());
+			}
+
+			iniWriter.flush();
+		}
+	}
+	else
+	{
+		//Write A Section
+		for (const auto& it : sections)
+		{
+			INISection* section = getSection(it);
+			std::string sectionName = "\n[" + section->getSectionName() + "]\n";
+			iniWriter.writeBuffer(sectionName.c_str(), sectionName.size());
+
+			//Write A Key-Value pair
+			for (unsigned int i = 0; i < section->size(); ++i)
+			{
+				std::string keyvalue = section->getKeyValue(i);
+				iniWriter.writeBuffer(keyvalue.c_str(), keyvalue.size());
+			}
+
+			iniWriter.flush();
+		}
+	}
+	if (closeOnEnd)
+	{
+		iniWriter.close();
+	}
 }

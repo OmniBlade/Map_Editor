@@ -6,6 +6,7 @@
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Triggers/Tag.hpp"
 #include "../House.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<Aircraft> Aircraft::Array;
 
@@ -34,6 +35,19 @@ void Aircraft::parse(const std::string& index, const std::string& list)
 	else
 	{
 		Log::line("Unable to parse Aircraft with entry number '" + index + "'.", Log::DEBUG);
+	}
+}
+
+void Aircraft::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		number << i;
+		file.SetValue("Aircraft", number.str(), it->asString());
+		++i;
+		number.str(std::string());
 	}
 }
 

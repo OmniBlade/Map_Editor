@@ -7,11 +7,13 @@ class Tag;
 class Action;
 class Event;
 class Country;
+class INIFile;
 
 class Trigger
 {
 public:
 	static MapObjectList<Trigger> Array;
+	static void writeToINI(INIFile& file);
 
 	Trigger();
 	void parse(const std::string& id, const std::string& list);

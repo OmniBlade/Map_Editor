@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "AITriggerEnable.hpp"
 #include "AITriggerType.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<AITriggerEnable> AITriggerEnable::Array;
 
@@ -25,6 +26,15 @@ void AITriggerEnable::parse(const std::string& id, const std::string& state)
 	{
 		enabled = true;
 	}
+
+	assignAITrigger();
+}
+void AITriggerEnable::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		file.SetValue("AITriggerTypesEnable", it->ID, it->asString());
+	}
 }
 
 std::string AITriggerEnable::asString()
@@ -37,4 +47,9 @@ std::string AITriggerEnable::asString()
 	{
 		return "no";
 	}
+}
+
+void AITriggerEnable::assignAITrigger()
+{
+	aiTrigger = AITriggerType::Array.find(ID);
 }

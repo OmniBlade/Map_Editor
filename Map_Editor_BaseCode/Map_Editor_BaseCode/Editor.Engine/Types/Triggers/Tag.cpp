@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Tag.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../../Log.hpp"
 #include "Trigger.hpp"
 
@@ -23,6 +24,14 @@ void Tag::parse(const std::string& id, const std::string& list)
 	else
 	{
 		Log::line("Unable to parse Tag with ID '" + ID + "'.", Log::DEBUG);
+	}
+}
+
+void Tag::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		file.SetValue("Tags", it->ID, it->asString());
 	}
 }
 

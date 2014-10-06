@@ -3,13 +3,17 @@
 #include "Managers/MapObjectList.hpp"
 #include <vector>
 
+class INIFile;
+
 class Tube
 {
 public:
 	static MapObjectList<Tube> Array;
+	static void writeToINI(INIFile& file);
 
 	Tube();
 	void parse(const std::string& id, const std::string& list);
+	std::string asString();
 
 	/*
 		startX - Starting X-coordinate of the tube

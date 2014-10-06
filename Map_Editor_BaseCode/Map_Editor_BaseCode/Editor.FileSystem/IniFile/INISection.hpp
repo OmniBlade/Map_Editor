@@ -16,7 +16,7 @@ class INISection {
 public:
 	INISection(const std::string &id);
 
-	unsigned int size() const {	return this->keyValueMap.size(); };
+	unsigned int size() const {	return this->keys.size(); };
 	unsigned int totalSize() const;
 	const std::string& getSectionName() const { return sectionName; };
 	std::vector<std::string>::const_iterator begin() const { return keys.begin(); };
@@ -74,6 +74,9 @@ public:
 
 	bool checkKeyExistance(const std::string& _key);
 	bool checkValueExistance(const std::string& _key);
+
+	std::string getKeyValue(int index) { return keys[index] + "=" + getValue(keys[index].c_str()) + "\n"; };
+
 	void dumpContent();
 
 private:

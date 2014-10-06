@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Waypoint.hpp"
 #include "../../Log.hpp"
+#include "../../Editor.FileSystem/IniFile/INIFile.hpp"
+#include <sstream>
 
 /* static */ MapObjectList<Waypoint> Waypoint::Array;
 
@@ -20,6 +22,17 @@ void Waypoint::parse(const std::string& id, const std::string& list)
 	loc.y = coords / 1000;
 
 	Name = Log::toString(loc.x) + " / " + Log::toString(loc.y);
+}
+
+void Waypoint::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	for (auto& it : Array.objectTypeList)
+	{
+		number << it->index;
+		file.SetValue("Waypoints", number.str(), it->loc.asString());
+		number.str(std::string());
+	}
 }
 
 int Waypoint::getIndex()

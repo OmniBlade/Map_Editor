@@ -39,6 +39,7 @@
 #include "Editor.Engine\Lists\ListProvider.h"
 #include "Editor.Engine\Types\SpecialOverlays.h"
 #include "Editor.Objects.Westwood\OverlayTypeValidator.h"
+#include "Editor.FileSystem\MapFile\MapWriter.h"
 
 ParamCollection* paramCollection;
 MainValidator* mainValidator;
@@ -249,6 +250,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	loadMap();
 	validateMap();
 	
+	MapWriter writer;
+	writer.writeMap("C:\\Users\\Rik\\Desktop\\map_write_test.ini");
+
+
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;

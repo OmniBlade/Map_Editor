@@ -3,6 +3,7 @@
 #include "../../../Editor.Objects.Westwood/Types/TerrainType.hpp"
 #include "../../../Log.hpp"
 #include <cstdlib>
+#include "../../../Editor.FileSystem/IniFile/INIFile.hpp"
 
 /* static */ MapObjectList<Terrain> Terrain::Array;
 
@@ -18,4 +19,27 @@ void Terrain::parse(const std::string& index, const std::string& list)
 
 	terrainType = list;
 	pTerrainType = TerrainType::Array.find(terrainType);
+}
+
+void Terrain::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		if (it->pTerrainType)
+		{
+			file.SetValue("Terrain", it->loc.asString(), it->asString());
+		}
+	}
+}
+
+std::string Terrain::asString()
+{
+	std::string ret;
+
+	if (pTerrainType)
+	{
+		ret = pTerrainType->ID;
+	}
+	
+	return ret;
 }

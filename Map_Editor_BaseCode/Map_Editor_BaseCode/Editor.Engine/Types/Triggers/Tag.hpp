@@ -4,11 +4,13 @@
 #include <string>
 
 class Trigger;
+class INIFile;
 
 class Tag
 {
 public:
 	static MapObjectList<Tag> Array;
+	static void writeToINI(INIFile& file);
 
 	/*
 		Called when a Tag from a map file is added (pre-existing)

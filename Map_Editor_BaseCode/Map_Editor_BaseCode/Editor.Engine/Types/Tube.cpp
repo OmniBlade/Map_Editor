@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "Tube.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Log.hpp"
+#include <sstream>
 
 /* static */ MapObjectList<Tube> Tube::Array;
 
@@ -28,4 +30,41 @@ void Tube::parse(const std::string& id, const std::string& entry)
 			break;
 		}
 	}
+}
+
+void Tube::writeToINI(INIFile& file)
+{
+	for (auto& it : Array.objectTypeList)
+	{
+		std::stringstream number;
+		int i = 0;
+		for (auto& it : Array.objectTypeList)
+		{
+			number << i;
+			file.SetValue("Tubes", number.str(), it->asString());
+			++i;
+			number.str(std::string());
+		}
+	}
+}
+
+std::string Tube::asString()
+{
+	std::stringstream ret;
+
+	ret << startX << ',' << startY << ',' << direction << ',' << endX << ',' << endY;
+
+	for (auto& it : steps)
+	{
+		if (it == -1)
+		{
+			break;
+		}
+		else
+		{
+			ret << ',' << it;
+		}
+	}
+
+	return ret.str();
 }

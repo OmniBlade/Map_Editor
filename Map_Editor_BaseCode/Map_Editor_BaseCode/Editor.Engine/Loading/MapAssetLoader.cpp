@@ -67,8 +67,8 @@ void MapAssetLoader::loadAll(INIFile* mapFile)
 	loadAllocatedINI(TeamType::Array, *mapFile); //WARNING, this is a FOA thing!
 	loadAllocatedINI(ScriptType::Array, *mapFile); //WARNING, this is a FOA thing!
 	loadAllocatedINI(TaskForce::Array, *mapFile); //WARNING, this is a FOA thing!
-	loadFromINI(AITriggerEnable::Array, *mapFile, "AITriggerEnable");
 	loadFromINI(AITriggerType::Array, *mapFile, "AITriggerTypes");
+	loadFromINI(AITriggerEnable::Array, *mapFile, "AITriggerTypesEnable");
 	loadFromINI(Aircraft::Array, *mapFile, "Aircraft");
 	loadFromINI(Infantry::Array, *mapFile, "Infantry");
 	loadFromINI(Unit::Array, *mapFile, "Units");

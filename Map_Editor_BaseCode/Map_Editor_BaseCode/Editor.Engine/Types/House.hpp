@@ -11,12 +11,15 @@ class House
 {
 public:
 	static MapObjectList<House> Array;
+	static void writeToINI(INIFile& file);
 
 	House(const std::string& id);
 
 	void parse(INIFile* file, bool redundant);
 	void loadAllies(const std::string& alliesList);
 	void loadNodes(INISection* section);
+
+	std::string alliesAsString();
 
 	std::string ID, Name;
 	std::string Country;

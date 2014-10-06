@@ -1,16 +1,19 @@
 #pragma once
 
 #include "Managers/MapObjectList.hpp"
-#include "../../Editor.Objects.Westwood/Managers/WWList.hpp"
 #include <string>
+
+class INIFile;
 
 class VariableName
 {
 public:
 	static MapObjectList<VariableName> Array;
+	static void writeToINI(INIFile& file);
 
 	VariableName();
 	void parse(const std::string& id, const std::string& list);
+	std::string asString();
 	std::string Name, ID;
 	bool state;
 };

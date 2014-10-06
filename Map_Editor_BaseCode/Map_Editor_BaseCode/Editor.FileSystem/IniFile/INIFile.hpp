@@ -12,6 +12,7 @@ struct FileProperties;
 
 class INIFile {
 public:
+	INIFile();
 	INIFile(const FileProperties& props);
 	INIFile(const FileProperties& props, INIFile* parentINI);
 	INIFile(const std::vector<char>& bytes);
@@ -26,6 +27,7 @@ public:
 	std::string& getININame();
 
 	void dumpContent();
+	void writeToFile(const std::string& fullpath, bool alphabetic = true, bool closeOnEnd = false);
 
 private:
 	struct ItemKey
@@ -39,6 +41,7 @@ private:
 	std::string iniName, mixName;
 	std::map<ItemKey, std::unique_ptr<INISection>> sectionList;
 	std::vector<std::string> includeINIs;
+	std::vector<std::string> sections;
 	std::vector<char> enc;
 };
 
