@@ -17,6 +17,7 @@ public:
 	*/
 	Tag();
 	void parse(const std::string& id, const std::string& list);
+	std::string asString();
 
 	std::string ID, Name, trigger;
 	int Repeating;

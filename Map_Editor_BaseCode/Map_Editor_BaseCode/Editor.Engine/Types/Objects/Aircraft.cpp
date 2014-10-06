@@ -39,11 +39,24 @@ void Aircraft::parse(const std::string& index, const std::string& list)
 
 std::string Aircraft::asString() const
 {
-	std::stringstream aircraftStream;
-	aircraftStream << owner << ',' << aircraftType << ',' << health << ',' << loc.x << ',' << loc.y << ',' << direction
-		<< ',' << mission << ',' << tag << ',' << veterancy << ',' << group << ',' << recruitable << ',' << aiRecruitable;
+	char buffer[512];
+	//Don't need to include the ID, so no "%s = "
+	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%s,%d,%d,%d,%d",
+		this->owner.c_str(),
+		this->aircraftType.c_str(),
+		this->health,
+		this->loc.x,
+		this->loc.y,
+		this->direction,
+		this->mission.c_str(),
+		this->tag.c_str(),
+		this->veterancy,
+		this->group,
+		this->recruitable != 0,
+		this->aiRecruitable != 0
+		);
 
-	return aircraftStream.str();
+	return buffer;
 }
 
 void Aircraft::setAircraftType()

@@ -25,3 +25,15 @@ void Tag::parse(const std::string& id, const std::string& list)
 		Log::line("Unable to parse Tag with ID '" + ID + "'.", Log::DEBUG);
 	}
 }
+
+std::string Tag::asString()
+{
+	char buffer[512];
+	sprintf_s(buffer, 512, "%d,%s,%s",
+		this->Repeating,
+		this->Name.c_str(),
+		this->pTrigger->ID.c_str()
+		);
+
+	return buffer;
+}

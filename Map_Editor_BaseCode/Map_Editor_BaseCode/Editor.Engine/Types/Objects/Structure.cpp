@@ -37,12 +37,29 @@ void Structure::parse(const std::string& index, const std::string& list)
 
 std::string Structure::asString() const
 {
-	std::stringstream structureStream;
-	structureStream << owner << ',' << buildingType << ',' << health << ',' << loc.x << ',' << loc.y << ',' << direction
-		<< ',' << tag << ',' << sellable << ',' << aiRepair << ',' << powered << ',' << powerupCount << ',' << spotlight
-		<< ',' << powerupOne << ',' << powerupTwo << ',' << powerupThree << ',' << rebuild << ',' << showName;
+	char buffer[512];
+	//Don't need to include the ID, so no "%s = "
+	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%s,%d,%d,%d,%d",
+		this->owner.c_str(),
+		this->buildingType.c_str(),
+		this->health,
+		this->loc.x,
+		this->loc.y,
+		this->direction,
+		this->tag.c_str(),
+		this->sellable != 0,
+		this->aiRepair != 0,
+		this->powered != 0,
+		this->powerupCount,
+		this->spotlight,
+		this->powerupOne,
+		this->powerupTwo,
+		this->powerupThree,
+		this->rebuild != 0,
+		this->showName != 0
+		);
 
-	return structureStream.str();
+	return buffer;
 }
 
 void Structure::setBuildingType()

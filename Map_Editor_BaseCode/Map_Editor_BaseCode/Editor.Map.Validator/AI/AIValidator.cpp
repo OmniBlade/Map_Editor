@@ -51,9 +51,9 @@ void AIValidator::validateAITrigger()
 				//TechType's
 				if (it->aiTriggerType == 0 || it->aiTriggerType == 1 || it->aiTriggerType == 7)
 				{
-					if (it->paramEquation < 0 || it->paramEquation > 6)
+					if (it->paramCondition < 0 || it->paramCondition > 6)
 						Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid Condition Type set.", Log::ERROR_BUFFER);
-					if (it->paramNumber < 0)
+					if (it->paramValue < 0)
 						Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid Condition Value set.", Log::ERROR_BUFFER);
 					if (!checkTechType(it.get()))
 						Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid TechType set.", Log::ERROR_BUFFER);
@@ -61,10 +61,10 @@ void AIValidator::validateAITrigger()
 				//Cash
 				else if (it->aiTriggerType == 4)
 				{
-					if (it->paramEquation < 0 || it->paramEquation > 6)
+					if (it->paramCondition < 0 || it->paramCondition > 6)
 						Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid Condition Type set.", Log::ERROR_BUFFER);
 
-					if (it->paramNumber < 0)
+					if (it->paramCondition < 0)
 						Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid Condition Value set.", Log::ERROR_BUFFER);
 				}
 			}

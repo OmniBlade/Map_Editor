@@ -15,6 +15,8 @@ public:
 	static void parseTrivialParams(LineSplitter& parts, std::shared_ptr<SubAction> pAction);
 
 	void assignActionType();
+	std::string asString();
+	std::string paramAsString(int paramNumber);
 
 	int actionType = 0, parseType = 0;
 	std::vector<ParamContent> params;

@@ -59,3 +59,15 @@ void TheaterDefinition::dumpContent()
 	std::cout << "Unit: " << UnitPalette << std::endl;
 	std::cout << "Overlay: " << OverlayPalette << std::endl;
 }
+
+/*
+[22:27:44] <@RP> Starkku, just to confirm; I need to load ALL tiles from ALL tilesets into one big list for TileTypeIndex
+[22:27:54] <Starkku> Yeeep
+[22:27:55] <@RP> And then frame index in the tile for TileSubtypeIndex
+[22:27:56] <@RP> Or rather
+[22:28:04] <@RP> If you have a road piece, index 0 - 1 - 2 refer to which piece
+[22:28:21] <Starkku> Yeah 1x3 tile file would have sub tile indices 0,1,2
+[22:28:22] <@RP> "Paved roads" by default IIRC
+[22:28:34] <@RP> Aha, so TMPFiles, not Frames
+[22:28:38] <@RP> I should have it sorte then
+*/

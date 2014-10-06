@@ -14,6 +14,9 @@ public:
 	static std::shared_ptr<SubEvent> parse(LineSplitter& parts);
 	void assignEventType();
 
+	std::string asString();
+	std::string paramAsString(int paramNumber);
+
 	int eventType = 0, parseType = 0;
 	std::vector<ParamContent> params;
 	

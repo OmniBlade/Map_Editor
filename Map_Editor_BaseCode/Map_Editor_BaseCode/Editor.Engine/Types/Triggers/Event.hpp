@@ -14,6 +14,7 @@ public:
 	Event();
 	void parse(const std::string& id, const std::string& list);
 	void parseEvents();
+	std::string asString();
 
 	std::string ID, List;
 	unsigned int count;

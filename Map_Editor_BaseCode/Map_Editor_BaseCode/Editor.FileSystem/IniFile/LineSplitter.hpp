@@ -20,6 +20,7 @@ public:
 	const std::string& peek_string();
 	const std::string& peekFromIndex_string(unsigned int index);
 	bool pop(int& out);
+	bool pop(unsigned int& out);
 	int pop_int();
 	int peek_int();
 	int peekFromIndex_int(unsigned int index);
@@ -27,7 +28,7 @@ public:
 	bool pop_bool();
 	bool peek_bool();
 	bool peekFromIndex_bool(unsigned int index);
-	bool pop(double out);
+	bool pop(double& out);
 	double pop_double();
 	double peek_double();
 	double peekFromIndex_double(unsigned int index);

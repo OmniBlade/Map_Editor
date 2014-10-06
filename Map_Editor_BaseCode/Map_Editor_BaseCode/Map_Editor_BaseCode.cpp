@@ -43,7 +43,6 @@
 ParamCollection* paramCollection;
 MainValidator* mainValidator;
 
-
 void initiateEditor()
 {
 	//TODO: Rename ambiguous functions
@@ -228,12 +227,6 @@ void validateMap()
 	mainValidator->validateAll();
 	Log::line("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
 }
-
-#include "Editor.Engine\Types\TeamTypes\ScriptType.hpp"
-#include "Editor.Engine\Types\Triggers\Event.hpp"
-#include "Editor.Engine\Types\Triggers\SubEvent.hpp"
-#include "Editor.Engine\Types\Triggers\Action.hpp"
-#include "Editor.Engine\Types\Triggers\SubAction.hpp"
 
 /*
 	Main function

@@ -3,6 +3,7 @@
 #include "../TeamTypes/TeamType.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include <sstream>
+#include <stdio.h>
 #include "../../../Log.hpp"
 #include "../../../Editor.Objects.Westwood/Types/AircraftType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/BuildingType.hpp"
@@ -39,8 +40,8 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 				unsigned char* byte2 = reinterpret_cast<unsigned char*>(&bytes[0]);
 				byte2[i] = byte;
 			}
-			paramNumber = (int)bytes[0];
-			paramEquation = (int)bytes[1];
+			paramValue = (int)bytes[0];
+			paramCondition = (int)bytes[1];
 		}
 		else
 		{
@@ -82,20 +83,71 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 
 std::string AITriggerType::asString()
 {
-	std::stringstream returnString;
-	
-	returnString << Name << ',' << tt1 << ',' << owner << ',' << techlevel << ',' << aiTriggerType << ',' << techType << ','
-		<< createParameters() << ',' << weight << ',' << minWeight << ',' << maxWeight << ',' << skirmish << ',' << unknown
-		<< ',' << side << ',' << baseDefense << ',' << tt2 << ',' << easy << ',' << medium << ',' << hard;
+	char buffer[512];
+	//Don't need to include the ID, so no "%s = "
+	sprintf_s(buffer, 512, "%s,%s,%s,%d,%d,%s,%s,%lf,%lf,%lf,%d,%d,%d,%d,%s,%d,%d,%d\n",
+		this->Name.c_str(),
+		teamTypeAsString(teamtype1).c_str(),
+		this->owner.c_str(),
+		this->techlevel,
+		this->aiTriggerType,
+		this->techType.c_str(),
+		createParameters().c_str(),
+		this->weight,
+		this->minWeight,
+		this->maxWeight,
+		this->skirmish != 0,
+		0,
+		this->side,
+		this->baseDefense != 0,
+		teamTypeAsString(teamtype2).c_str(),
+		this->easy != 0,
+		this->medium != 0,
+		this->hard != 0
+		);
 
-	return returnString.str();
+	return buffer;
+
 }
 
 std::string AITriggerType::createParameters()
 {
+	std::string retStr;
+	//Herp derp
+	const byte MAX = 8;
+
+	//Wooh, tricky hardcoding but AITriggerType expansion will probably never see daylight anyhow...
+	int params[MAX] = { paramValue, paramCondition, 0, 0, 0, 0, 0, 0 };
+	for (unsigned int i = 0; i < MAX; ++i)
+	{
+		retStr.append(paramToString(params[i]));
+	}
+
+	return retStr;
+}
+
+std::string AITriggerType::paramToString(int param)
+{
 	std::string ret;
-
-
-
+	ret.resize(9);
+	for (unsigned int i = 0; i < 4; ++i)
+	{
+		auto bytes = reinterpret_cast<byte*>(&param);
+		sprintf_s(&ret[2 * i], ret.size() - 2 * i, "%02X", bytes[i]);
+	}
+	
+	ret.resize(8);
 	return ret;
+}
+
+std::string AITriggerType::teamTypeAsString(TeamType* pTeamType)
+{
+	if (!pTeamType)
+	{
+		return "<none>";
+	}
+	else
+	{
+		return pTeamType->ID;
+	}
 }

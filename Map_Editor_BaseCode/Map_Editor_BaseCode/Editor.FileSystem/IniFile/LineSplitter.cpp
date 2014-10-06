@@ -66,6 +66,16 @@ const std::string& LineSplitter::peekFromIndex_string(unsigned int index)
 		return this->paramVector[paramVector.size()-1];
 }
 
+bool LineSplitter::pop(unsigned int& out)
+{
+	if (this->empty())
+	{
+		return false;
+	}
+	out = pop_int();
+	return true;
+}
+
 bool LineSplitter::pop(int& out)
 {
 	if(this->empty())
@@ -142,7 +152,7 @@ bool LineSplitter::peekFromIndex_bool(unsigned int index)
 	return false;
 }
 
-bool LineSplitter::pop(double out)
+bool LineSplitter::pop(double& out)
 {
 	if(this->empty())
 	{
@@ -165,15 +175,15 @@ double LineSplitter::peek_double()
 	if (index >= paramVector.size())
 		return 1.0f;
 
-	return atof(this->paramVector[index].c_str());
+	return std::stod(this->paramVector[index].c_str());
 }
 
 double LineSplitter::peekFromIndex_double(unsigned int index)
 {
 	if(index < paramVector.size())
-		return atof(this->paramVector[index].c_str());
+		return std::stod(this->paramVector[index].c_str());
 	else
-		return atof(this->paramVector[paramVector.size()-1].c_str());
+		return std::stod(this->paramVector[paramVector.size()-1].c_str());
 }
 
 unsigned int LineSplitter::size() const

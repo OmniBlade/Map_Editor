@@ -33,12 +33,26 @@ void Infantry::parse(const std::string& index, const std::string& list)
 
 std::string Infantry::asString() const
 {
-	std::stringstream infantryStream;
-	infantryStream << owner << ',' << infantryType << ',' << health << ',' << loc.x << ',' << loc.y << ',' << subCell
-		<< ',' << mission << ',' << direction << ',' << tag << ',' << veterancy << ',' << group << ',' << onBridge
-		<< ',' << recruitable << ',' << aiRecruitable;
+	char buffer[512];
+	//Don't need to include the ID, so no "%s = "
+	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%d,%s,%d,%d,%d,%d,%d",
+		this->owner.c_str(),
+		this->infantryType.c_str(),
+		this->health,
+		this->loc.x,
+		this->loc.y,
+		this->subCell,
+		this->mission.c_str(),
+		this->direction,
+		this->tag.c_str(),
+		this->veterancy,
+		this->group,
+		this->onBridge != 0,
+		this->recruitable != 0,
+		this->aiRecruitable != 0
+		);
 
-	return infantryStream.str();
+	return buffer;
 }
 
 void ::Infantry::setInfantryType()

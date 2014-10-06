@@ -12,8 +12,8 @@ public:
 	{
 		List items;
 
-		add(items, "False / No", 0);
-		add(items, "True / Yes", 1);
+		add(items, "False / No", 0, "no");
+		add(items, "True / Yes", 1, "yes");
 
 		return items;
 	};
@@ -60,7 +60,7 @@ public:
 		add(items, "Vehicles", 5);
 		add(items, "Factories", 6);
 		add(items, "Base Defenses", 7);
-		add(items, "Base Threats", 8);
+		add(items, "Base Threats", 8); //Unknown in YRPP, maybe need to remove it?
 		add(items, "Power Plants", 9);
 		add(items, "Occupiable", 10);
 		add(items, "Tech Buildings", 11);
@@ -109,19 +109,19 @@ public:
 		add(items, "Cloak", 3);
 		add(items, "Explosion", 4);
 		add(items, "Napalm", 5);
-		add(items, "Squad (not working)", 6);
+		add(items, "Squad (not working)", 6, "", false);
 		add(items, "Darkness", 7);
 		add(items, "Reveal", 8);
 		add(items, "Armor", 9);
 		add(items, "Speed", 10);
 		add(items, "Firepower", 11);
 		add(items, "ICBM", 12);
-		add(items, "Invulnerability (not working)", 13);
+		add(items, "Invulnerability (not working)", 13, "", false);
 		add(items, "Veteran", 14);
-		add(items, "IonStorm (not working)", 15);
+		add(items, "IonStorm (not working)", 15, "", false);
 		add(items, "Gas", 16);
 		add(items, "Tiberium", 17);
-		add(items, "Pod (not working)", 18);
+		add(items, "Pod (not working)", 18, "", false);
 
 		return items;
 	};

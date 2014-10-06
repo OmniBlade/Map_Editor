@@ -504,6 +504,12 @@
     <ClInclude Include="Editor.Objects.Westwood\OverlayTypeValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\MapWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\WriterHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -918,6 +924,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\OverlayTypeValidator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\MapWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

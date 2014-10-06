@@ -77,3 +77,36 @@ void SubAction::assignActionType()
 	if (!pActionType)
 		Log::line("Unable to get ActionType for SubAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
 }
+
+std::string SubAction::asString()
+{
+	char buffer[512];
+	sprintf_s(buffer, 512, ",%d,%d,%s,%d,%d,%d,%d,%s",
+		this->actionType,
+		this->parseType,
+		paramAsString(0).c_str(),
+		this->params[1].Index,
+		this->params[2].Index,
+		this->params[3].Index,
+		this->params[4].Index,
+		paramAsString(5).c_str()
+		);
+
+	return buffer;
+}
+
+std::string SubAction::paramAsString(int paramNumber)
+{
+	std::string ret;
+
+	if (params[paramNumber].ID.empty())
+	{
+		ret = Log::toString(params[paramNumber].Index);
+	}
+	else
+	{
+		ret = params[paramNumber].ID;
+	}
+
+	return ret;
+}

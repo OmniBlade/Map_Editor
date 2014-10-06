@@ -33,12 +33,26 @@ void Unit::parse(const std::string& index, const std::string& list)
 
 std::string Unit::asString() const
 {
-	std::stringstream unitStream;
-	unitStream << owner << ',' << vehicleType << ',' << health << ',' << loc.x << ',' << loc.y << ',' << direction
-		<< ',' << mission << ',' << tag << ',' << veterancy << ',' << group << ',' << onBridge << ',' << followsID
-		<< ',' << recruitable << ',' << aiRecruitable;
+	char buffer[512];
+	//Don't need to include the ID, so no "%s = "
+	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%s,%d,%d,%d,%d",
+		this->owner.c_str(),
+		this->vehicleType.c_str(),
+		this->health,
+		this->loc.x,
+		this->loc.y,
+		this->direction,
+		this->mission.c_str(),
+		this->tag.c_str(),
+		this->veterancy,
+		this->group,
+		this->onBridge != 0,
+		this->followsID,
+		this->recruitable != 0,
+		this->aiRecruitable != 0
+		);
 
-	return unitStream.str();
+	return buffer;
 }
 
 void Unit::setVehicleType()

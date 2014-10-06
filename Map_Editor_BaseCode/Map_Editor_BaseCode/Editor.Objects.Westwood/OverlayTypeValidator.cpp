@@ -184,6 +184,7 @@ void OverlayTypeValidator::dumpOverlayTypes()
 	if (!dumpItAll) return;
 
 	Log::line();
+	Log::line(" === PARSED DATA DUMP === ", Log::DEBUG);
 	Log::line("One or more errors were found, therefore the entire OverlayTypes list will be dumped.", Log::DEBUG);
 	Log::line("Use this list to compare it to the knowledge about OverlayTypes to fix the issue(s).", Log::DEBUG);
 	OverlayType::Array.dumpContent();

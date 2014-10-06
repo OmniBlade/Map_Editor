@@ -130,8 +130,8 @@ void MapLoader::loadAudio()
 	INIFile* art = INIManager::instance()->get(Config::art);
 	
 	allocateAll(Speech::Array, speech, "DialogList");
-	allocateAll(Sound::Array, sound, "SoundList");//
-	allocateAll(Theme::Array, theme, "Themes");//
+	allocateAll(Sound::Array, sound, "SoundList");
+	allocateAll(Theme::Array, theme, "Themes");
 	loadFromSingleINI(Speech::Array, *speech);
 	loadFromSingleINI(Sound::Array, *sound);
 	loadFromSingleINI(Theme::Array, *theme);
@@ -212,6 +212,7 @@ void MapLoader::dumpLists()
 {
 	if (!Config::dumpTypes) return;
 
+	Log::line();
 	Log::line(" === PARSED DATA DUMP === ", Log::DEBUG);
 	Log::line("Dumping types, 'X' means the object is invalid and will be hidden from", Log::DEBUG);
 	Log::line("the actual lists in the editor. 'V' means the object is valid and visible", Log::EXTRA);
@@ -270,6 +271,9 @@ void MapLoader::insertNukePayload()
 
 		if (WeaponType::Array.typeList.at(i).get()->ID == "NukePayload")
 		{
+			/*
+				Something is wrong here... it is set to valid = true, but still dumped as valid = false
+			*/
 			WeaponType::Array.typeList.erase(WeaponType::Array.typeList.begin() + i);
 			WeaponType::Array.typeList.insert(WeaponType::Array.typeList.begin() + 2, std::make_unique<WeaponType>("NukePayload"));
 			return;

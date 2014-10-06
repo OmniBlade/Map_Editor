@@ -12,6 +12,7 @@ public:
 
 	Smudge();
 	void parse(const std::string& id, const std::string& list);
+	std::string asString();
 
 	int unknown;
 	std::string smudge;

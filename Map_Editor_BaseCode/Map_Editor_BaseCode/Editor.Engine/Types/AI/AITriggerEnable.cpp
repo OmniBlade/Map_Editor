@@ -17,7 +17,7 @@ void AITriggerEnable::parse(const std::string& id, const std::string& state)
 	int ret2 = _strcmpi(state.c_str(), "y");
 	int ret3 = _strcmpi(state.c_str(), "1");
 
-	if (ret1 == 0 || ret2 == 0 || ret3 != 0)
+	if (ret1 == 0 || ret2 == 0 || ret3 == 0)
 	{
 		enabled = false;
 	}

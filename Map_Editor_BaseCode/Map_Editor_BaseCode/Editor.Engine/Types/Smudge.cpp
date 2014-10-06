@@ -22,3 +22,17 @@ void Smudge::parse(const std::string& id, const std::string& list)
 		Log::line("Unable to parse Smudge with index '" + id + "'.", Log::DEBUG);
 	}
 }
+
+std::string Smudge::asString()
+{
+	char buffer[512];
+	sprintf_s(buffer, 512, "%s,%d,%d,%d",
+		this->pSmudgeType->ID,
+		this->loc.x,
+		this->loc.y,
+		0
+		);
+
+	return buffer;
+
+}

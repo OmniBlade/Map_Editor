@@ -90,6 +90,7 @@
     <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\INameHelper.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\WriterHelper.h" />
     <ClInclude Include="Editor.Map.Validator\Trigger\ActionValidator.h" />
     <ClInclude Include="Editor.Engine\Lists\AITypeList.h" />
     <ClInclude Include="Editor.Engine\Lists\GroupList.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Editor.FileSystem\FileManager\Managers\EncManager.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\Format80.h" />
     <ClInclude Include="Editor.Engine\Lists\ListProvider.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\MapWriter.h" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ParticleType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp" />
@@ -316,6 +318,7 @@
     <ClCompile Include="Editor.Map.Validator\Trigger\EventValidator.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\General\GameColor.cpp" />
     <ClCompile Include="GameDefinition.cpp" />
+    <ClCompile Include="Editor.FileSystem\MapFile\MapWriter.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />

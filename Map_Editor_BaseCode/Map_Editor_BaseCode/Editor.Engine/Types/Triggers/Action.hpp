@@ -14,6 +14,7 @@ public:
 	Action();
 	void parse(const std::string& id, const std::string& list);
 	void parseActions();
+	std::string asString();
 	
 	std::string ID, List;
 	unsigned int count;

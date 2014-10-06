@@ -36,3 +36,22 @@ void Action::parseActions()
 		Log::line("Action with ID '" + ID + "' does not have the amount of SubActions it is supposed to have.", Log::DEBUG);
 	}
 }
+
+std::string Action::asString()
+{
+	std::string params;
+	
+	for (auto& it : actionList)
+	{
+		params.append(it->asString());
+	}
+
+	char buffer[512];
+	sprintf_s(buffer, 512, "%d%s",
+		this->count,
+		params.c_str()
+		);
+
+	return buffer;
+
+}

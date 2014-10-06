@@ -101,3 +101,21 @@ std::string Trigger::getParentID()
 	}
 	return std::string();
 }
+
+std::string Trigger::asString()
+{
+	char buffer[512];
+	sprintf_s(buffer, 512, "%s,%s,%s,%d,%d,%d,%d,%d",
+		this->pOwner->ID.c_str(),
+		this->child.c_str(),
+		this->Name.c_str(),
+		this->Disabled != 0,
+		this->EasyEnabled != 0,
+		this->MedEnabled != 0,
+		this->HardEnabled != 0,
+		this->Unknown
+		);
+
+	return buffer;
+
+}

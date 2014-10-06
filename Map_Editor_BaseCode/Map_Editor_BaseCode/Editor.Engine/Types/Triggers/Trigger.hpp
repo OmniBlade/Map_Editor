@@ -19,6 +19,7 @@ public:
 	void assignTag();
 	std::string getUpperParentID();
 	std::string getParentID();
+	std::string asString();
 
 	std::string ID, Name, owner, child;
 	bool Disabled;

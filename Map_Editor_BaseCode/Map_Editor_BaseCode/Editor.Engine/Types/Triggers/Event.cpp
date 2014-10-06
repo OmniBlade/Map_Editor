@@ -37,3 +37,22 @@ void Event::parseEvents()
 		Log::line("Event with ID '" + ID + "' does not have the amount of SubEvents it is supposed to have.", Log::DEBUG);
 	}
 }
+
+std::string Event::asString()
+{
+	std::string params;
+
+	for (auto& it : eventList)
+	{
+		params.append(it->asString());
+	}
+
+	char buffer[512];
+	sprintf_s(buffer, 512, "%d%s",
+		this->count,
+		params.c_str()
+		);
+
+	return buffer;
+
+}

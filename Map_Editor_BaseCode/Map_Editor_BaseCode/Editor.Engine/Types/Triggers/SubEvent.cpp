@@ -51,3 +51,47 @@ void SubEvent::assignEventType()
 	if (!pEventType)
 		Log::line("Unable to get EventType for SubEvent with ID " + Log::toString(eventType) + ".", Log::DEBUG);
 }
+
+std::string SubEvent::asString()
+{
+	char buffer[512];
+
+	if (parseType == 2)
+	{
+		char buffer[512];
+		sprintf_s(buffer, 512, ",%d,%d,%d,%s",
+			this->eventType,
+			this->parseType,
+			this->params[0].Index,
+			paramAsString(1).c_str()
+			);
+
+		return buffer;
+	}
+	else
+	{
+		sprintf_s(buffer, 512, ",%d,%d,%s",
+			this->eventType,
+			this->parseType,
+			paramAsString(0).c_str()
+			);
+
+		return buffer;
+	}
+}
+
+std::string SubEvent::paramAsString(int paramNumber)
+{
+	std::string ret;
+
+	if (params[paramNumber].ID.empty())
+	{
+		ret = Log::toString(params[paramNumber].Index);
+	}
+	else
+	{
+		ret = params[paramNumber].ID;
+	}
+
+	return ret;
+}
