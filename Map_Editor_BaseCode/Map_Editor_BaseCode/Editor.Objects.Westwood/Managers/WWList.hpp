@@ -70,7 +70,7 @@ public:
 		{
 			if (typeList[i]->valid)
 				Log::line("V - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRA);
-			else
+			if (!typeList[i]->valid)
 				Log::line("X - " + Log::toString(i) + " = " + typeList[i]->ID, Log::EXTRA);
 		}
 	}
