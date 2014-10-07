@@ -72,6 +72,11 @@ public:
 	*/
 	void insertDAnimation();
 
+	/*
+	
+	*/
+	void setGlobalCountries();
+
 	//void loadMPCountries();
 
 private:

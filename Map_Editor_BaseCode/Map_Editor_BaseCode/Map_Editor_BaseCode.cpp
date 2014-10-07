@@ -17,6 +17,7 @@
 #include "Editor.Engine\Game\GameModeCollection.hpp"
 #include "Editor.Map.Validator\MainValidator.hpp"
 #include "Editor.Engine\Basics\Basic.hpp"
+#include "Editor.Engine\Basics\Lighting.hpp"
 #include "Editor.FileSystem\MapFile\ParamCollection.hpp"
 #include "Editor.FileSystem\MapFile\SActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\ActionCollection.hpp"
@@ -174,8 +175,8 @@ void loadMap()
 
 	Log::validatorLine("---- Map information ----", Log::INFO);
 	Log::validatorLine("Scenario name: " + Config::mapName, Log::EXTRAS);
-	Log::validatorLine("Map name: " + Basic::getBasic()->name, Log::EXTRAS);
-	if (!Basic::getBasic()->player.empty())
+	Log::validatorLine("Map name: " + Basic::getBasic()->Name, Log::EXTRAS);
+	if (!Basic::getBasic()->Player.empty())
 	{
 		Log::validatorLine("This is a singleplayer map.", Log::EXTRAS);
 		Config::isSP = true;
@@ -201,6 +202,7 @@ void loadMap()
 	*/
 	//Log::timerStart();
 	mapLoader.load(rules);
+	mapLoader.setGlobalCountries();
 	mapLoader.load(mode);
 	mapLoader.load(map);
 	mapLoader.loadGlobalVariable(); // Causes crash on exit when profiled as WWType
@@ -209,9 +211,15 @@ void loadMap()
 	OverlayTypeValidator otv;
 
 	//Log::line("Going to load all objects now!", Log::DEBUG);
+
+	Basic::getBasic()->parse();
+	Lighting::instance()->parse();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
 	mapAssetLoader.loadOverlay(map);
+
+	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
+
 	Log::line("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
 
 	mapLoader.dumpLists();

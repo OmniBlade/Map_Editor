@@ -269,11 +269,15 @@ void MapLoader::insertNukePayload()
 	{
 		if (Config::hasAres) break;
 
-		if (WeaponType::Array.typeList.at(i).get()->ID == "NukePayload")
+		/*
+			Because every time it is re-inserted into the list, it isn't valid at the last run
+			This check, to see if NukePayload is already at index 2, should fix the issue
+		*/
+		if (i == 2 && WeaponType::Array.typeList[i]->ID == "NukePayload")
+			return;
+
+		if (WeaponType::Array.typeList.at(i).get()->ID == "NukePayload" && i != 2)
 		{
-			/*
-				Something is wrong here... it is set to valid = true, but still dumped as valid = false
-			*/
 			WeaponType::Array.typeList.erase(WeaponType::Array.typeList.begin() + i);
 			WeaponType::Array.typeList.insert(WeaponType::Array.typeList.begin() + 2, std::make_unique<WeaponType>("NukePayload"));
 			return;
@@ -287,6 +291,14 @@ void MapLoader::insertNukePayload()
 void MapLoader::insertDAnimation()
 {
 	Animation::Array.findOrAllocate("D");
+}
+
+void MapLoader::setGlobalCountries()
+{
+	for (auto& it : Country::Array.typeList)
+	{
+		it->setGlobal(true);
+	}
 }
 
 /*void MapLoader::loadMPCountries()

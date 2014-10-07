@@ -25,31 +25,32 @@ void House::writeToINI(INIFile& file)
 		file.SetValue("Houses", number.str(), it->ID);
 		++i;
 		number.str(std::string());
+		it->writeContentToINI(file);
 	}
-	
-	//Write each House
-	for (auto& it : Array.objectTypeList)
+}
+
+void House::writeContentToINI(INIFile& file)
+{
+	if (Country.empty())
+		file.SetValue(ID.c_str(), "Country", Country);
+	file.SetValue(ID.c_str(), "TechLevel", Log::toString(TechLevel));
+	file.SetValue(ID.c_str(), "Credits", Log::toString(Credits));
+	file.SetValue(ID.c_str(), "IQ", Log::toString(IQ));
+	file.SetValue(ID.c_str(), "Edge", Edge);
+	file.SetValue(ID.c_str(), "PlayerControl", WriterHelper::getBoolString(PlayerControl, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Color", Color);
+	file.SetValue(ID.c_str(), "PercentBuilt", Log::toString(PercentBuilt));
+	file.SetValue(ID.c_str(), "Allies", alliesAsString());
+
+	std::stringstream number;
+	if (NodeCount > 0)
 	{
-		if (!it->Country.empty())
-			file.SetValue(it->ID.c_str(), "Country", it->Country);
-		file.SetValue(it->ID.c_str(), "TechLevel", Log::toString(it->TechLevel));
-		file.SetValue(it->ID.c_str(), "Credits", Log::toString(it->Credits));
-		file.SetValue(it->ID.c_str(), "IQ", Log::toString(it->IQ));
-		file.SetValue(it->ID.c_str(), "Edge", it->Edge);
-		file.SetValue(it->ID.c_str(), "PlayerControl", WriterHelper::getBoolString(it->PlayerControl, WriterHelper::BoolType::YESNO));
-		file.SetValue(it->ID.c_str(), "Color", it->Color);
-		file.SetValue(it->ID.c_str(), "PercentBuilt", Log::toString(it->PercentBuilt));
-		file.SetValue(it->ID.c_str(), "Allies", it->alliesAsString());
-	
-		if (it->NodeCount > 0)
+		file.SetValue(ID.c_str(), "NodeCount", Log::toString(NodeCount));
+		for (int i = 0; i < NodeCount; ++i)
 		{
-			file.SetValue(it->ID.c_str(), "NodeCount", Log::toString(it->NodeCount));
-			for (int i = 0; i < it->NodeCount; ++i)
-			{
-				number << i;
-				file.SetValue(it->ID.c_str(), number.str(), it->baseNodes[i]->asString());
-				number.str(std::string());
-			}
+			number << i;
+			file.SetValue(ID.c_str(), number.str(), baseNodes[i]->asString());
+			number.str(std::string());
 		}
 	}
 }

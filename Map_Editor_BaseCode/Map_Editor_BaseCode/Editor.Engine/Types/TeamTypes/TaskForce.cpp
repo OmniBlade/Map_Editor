@@ -45,3 +45,38 @@ void TaskForce::parse(INIFile* file, bool isGlobal_)
 		}
 	}
 }
+
+void TaskForce::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		if (!it->isGlobal)
+		{
+			number << i;
+			file.SetValue("TaskForces", number.str(), it->ID);
+			++i;
+			number.str(std::string());
+			it->writeContentToINI(file);
+		}
+	}
+}
+
+void TaskForce::writeContentToINI(INIFile& file)
+{
+	file.SetValue(ID.c_str(), "Name", Name);
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : this->unitList)
+	{
+		number << i;
+		file.SetValue(ID.c_str(), number.str(), it->asString());
+		++i;
+		number.str(std::string());
+
+		if (i == 6) //Only write 0 - 5!
+			break;
+	}
+	file.SetValue(ID.c_str(), "Group", Log::toString(Group));
+}

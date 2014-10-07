@@ -11,6 +11,7 @@ public:
 	ScriptAction();
 	static std::shared_ptr<ScriptAction> parse(LineSplitter& parts);
 	void assignActionType();
+	std::string asString();
 
 	int actionType, parameter;
 	SActionType* pActionType;

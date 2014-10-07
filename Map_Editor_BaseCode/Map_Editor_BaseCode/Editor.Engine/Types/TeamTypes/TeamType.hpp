@@ -15,9 +15,12 @@ class TeamType
 {
 public:
 	static MapObjectList<TeamType> Array;
+	static void writeToINI(INIFile& file);
 
 	TeamType(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);
+	void writeContentToINI(INIFile& file);
+
 	std::string ID, Name, tag, owner, taskForce, script, waypoint, transWaypoint;
 	
 	House* houseOwner; //SP!

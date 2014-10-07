@@ -7,14 +7,20 @@ class Country : public AbstractType
 {
 public:
 	static WWList<Country> Array;
+	static void writeToINI(INIFile& file);
+
 	Country(const std::string& id);
 
 	void loadRules(INIFile* file) override;
 	void loadArt(INIFile* file) override;
+	void setGlobal(bool state) { isGlobal = state; };
+	void writeContentToINI(INIFile& file);
 
+	bool isGlobal = false;
 	std::string Suffix = "";
 	std::string Prefix = "";
 	std::string Color = "";
+	std::string ParentCountry = "";
 	bool Multiplay = false;
 	bool MultiplayPassive = false;
 	std::string Side = "";

@@ -32,3 +32,14 @@ void ScriptAction::assignActionType()
 	if (!pActionType)
 		Log::line("Unable to get ActionType for ScriptAction with ID " + Log::toString(actionType) + ".", Log::DEBUG);
 }
+
+std::string ScriptAction::asString()
+{
+	char buffer[512];
+	sprintf_s(buffer, 512, "%d,%d",
+		this->actionType,
+		this->parameter
+		);
+
+	return buffer;
+}

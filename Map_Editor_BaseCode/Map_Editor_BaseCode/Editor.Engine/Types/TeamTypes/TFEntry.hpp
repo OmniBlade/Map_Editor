@@ -9,6 +9,7 @@ class TFEntry
 {
 public:
 	TFEntry(const std::string& list);
+	std::string asString();
 
 	int count;
 	std::string unit;

@@ -19,3 +19,14 @@ TFEntry::TFEntry(const std::string& list)
 		vehicle = VehicleType::Array.find(unit);
 	}
 }
+
+std::string TFEntry::asString()
+{
+	char buffer[512];
+	sprintf_s(buffer, 512, "%d,%s",
+		this->count,
+		this->unit.c_str()
+		);
+
+	return buffer;
+}

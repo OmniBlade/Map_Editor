@@ -1,18 +1,28 @@
 #pragma once
+
+class INIFile;
+
 class Lighting
 {
 public:
-	Lighting();
-	~Lighting();
+	static Lighting* instance();
+	static void writeToINI(INIFile& file);
+
+	void parse();
+
 
 	//Normal lighting
-	float red, green, blue, ambient, ground, level;
+	float Red, Green, Blue, Ambient, Ground, Level;
 	//Lightning Storm
-	float ionRed, ionGreen, ionBlue, ionAmbient, ionGround, ionLevel;
+	float IonRed, IonGreen, IonBlue, IonAmbient, IonGround, IonLevel;
 	//Dominator
-	float domRed, domGreen, domBlue, domAmbient, domGround, domLevel, domChangeRate;
+	float DomRed, DomGreen, DomBlue, DomAmbient, DomGround, DomLevel, DomChangeRate;
 	//Nuke change rate
-	float nukeChangeRate;
+	float NukeChangeRate;
+
+private:
+	static Lighting* it;
+	Lighting();
 
 };
 

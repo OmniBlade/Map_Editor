@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Country.hpp"
 #include "../../Config.hpp"
+#include "../../Editor.FileSystem/MapFile/WriterHelper.h"
 
 /* static */ WWList<Country> Country::Array;
 
@@ -17,6 +18,7 @@ void Country::loadRules(INIFile* file)
 
 	AbstractType::loadRules(file);
 
+	rulesSection->readStringValue("ParentCountry", ParentCountry);
 	rulesSection->readStringValue("Suffix", Suffix);
 	rulesSection->readStringValue("Prefix", Prefix);
 	rulesSection->readStringValue("Color", Color);
@@ -61,3 +63,35 @@ void Country::loadArt(INIFile* art)
 
 	AbstractType::loadArt(art);
 }
+
+void Country::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.typeList)
+	{
+		if (!it->isGlobal)
+		{
+			number << i;
+			file.SetValue("Countries", number.str(), it->ID);
+			++i;
+			number.str(std::string());
+			it->writeContentToINI(file);
+		}
+	}
+}
+
+void Country::writeContentToINI(INIFile& file)
+{
+	if (!ParentCountry.empty())
+		file.SetValue(ID.c_str(), "ParentCountry", ParentCountry);
+	file.SetValue(ID.c_str(), "Name", Name);
+	file.SetValue(ID.c_str(), "Suffix", Suffix);
+	file.SetValue(ID.c_str(), "Prefix", Prefix);
+	file.SetValue(ID.c_str(), "Color", Color);
+	file.SetValue(ID.c_str(), "Side", Side);
+	file.SetValue(ID.c_str(), "MultiplayPassive", WriterHelper::getBoolString(MultiplayPassive, WriterHelper::BoolType::TRUEFALSE));
+	file.SetValue(ID.c_str(), "SmartAI", WriterHelper::getBoolString(SmartAI, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Side", Side);
+}
+

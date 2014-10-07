@@ -66,11 +66,16 @@ void INIFile::load(INIFile* parentINI, const FileProperties& props, const std::v
 		{
 			line = line.substr(0, comment);
 		}
+		/*auto commentC = line.find_first_of("//");
+		if (commentC != std::string::npos)
+		{
+			line = line.substr(0, commentC);
+		}*/
 		if (line.length())
 		{
 			line = StringHelper::trim(line);
 			//std::cout << "Line: " << line << std::endl;
-			if (line.front() == '[' && line.back() == ']')
+			if (line.front() == '[' && line.find_first_of("]") != std::string::npos)
 			{
 				//Fuck INI inheritance!
 				std::string& preLineSub = line;

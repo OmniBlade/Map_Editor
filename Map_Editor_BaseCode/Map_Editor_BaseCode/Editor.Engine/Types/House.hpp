@@ -20,6 +20,7 @@ public:
 	void loadNodes(INISection* section);
 
 	std::string alliesAsString();
+	void writeContentToINI(INIFile& file);
 
 	std::string ID, Name;
 	std::string Country;

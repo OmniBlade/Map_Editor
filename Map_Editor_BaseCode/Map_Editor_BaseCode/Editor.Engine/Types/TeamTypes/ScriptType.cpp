@@ -51,3 +51,37 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 		}
 	}
 }
+
+void ScriptType::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		if (!it->isGlobal)
+		{
+			number << i;
+			file.SetValue("ScriptTypes", number.str(), it->ID);
+			++i;
+			number.str(std::string());
+			it->writeContentToINI(file);
+		}
+	}
+}
+
+void ScriptType::writeContentToINI(INIFile& file)
+{
+	file.SetValue(ID.c_str(), "Name", Name);
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : this->actionList)
+	{
+		number << i;
+		file.SetValue(ID.c_str(), number.str(), it->asString());	
+		++i;
+		number.str(std::string());
+
+		if (i == 50) //Only write 0 - 49!
+			break;
+	}
+}

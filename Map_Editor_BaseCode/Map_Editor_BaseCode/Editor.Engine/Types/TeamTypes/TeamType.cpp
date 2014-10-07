@@ -10,6 +10,7 @@
 #include "../../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../Waypoint.hpp"
 #include "../Triggers/Tag.hpp"
+#include "../../../Editor.FileSystem/MapFile/WriterHelper.h"
 
 /* static */ MapObjectList<TeamType> TeamType::Array;
 
@@ -100,4 +101,66 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	{
 		pTransportWaypoint = Waypoint::Array.find(transWaypoint);
 	}
+}
+
+void TeamType::writeToINI(INIFile& file)
+{
+	std::stringstream number;
+	int i = 0;
+	for (auto& it : Array.objectTypeList)
+	{
+		if (!it->isGlobal)
+		{
+			number << i;
+			file.SetValue("TeamTypes", number.str(), it->ID);
+			++i;
+			number.str(std::string());
+			it->writeContentToINI(file);
+		}
+	}
+}
+
+void TeamType::writeContentToINI(INIFile& file)
+{
+	file.SetValue(ID.c_str(), "Name", Name);
+	file.SetValue(ID.c_str(), "VeteranLevel", Log::toString(VeteranLevel));
+	if(Game::title == Game::Type::Expansion) file.SetValue(ID.c_str(), "MindControlDecision", Log::toString(MindControlDecision));
+	file.SetValue(ID.c_str(), "Loadable", WriterHelper::getBoolString(Loadable, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Full", WriterHelper::getBoolString(Full, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Annoyance", WriterHelper::getBoolString(Annoyance, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "GuardSlower", WriterHelper::getBoolString(GuardSlower, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "House", owner);
+	file.SetValue(ID.c_str(), "Recruiter", WriterHelper::getBoolString(Recruiter, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Autocreate", WriterHelper::getBoolString(Autocreate, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Prebuild", WriterHelper::getBoolString(Prebuild, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Reinforce", WriterHelper::getBoolString(Reinforce, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Droppod", WriterHelper::getBoolString(Droppod, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "UseTransportOrigin", WriterHelper::getBoolString(UseTransportOrigin, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Whiner", WriterHelper::getBoolString(Whiner, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "LooseRecruit", WriterHelper::getBoolString(LooseRecruit, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Agressive", WriterHelper::getBoolString(Agressive, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Suicide", WriterHelper::getBoolString(Suicide, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "Priority", Log::toString(Priority));
+	file.SetValue(ID.c_str(), "Max", Log::toString(Max));
+	file.SetValue(ID.c_str(), "TechLevel", Log::toString(TechLevel));
+	file.SetValue(ID.c_str(), "Group", Log::toString(Group));
+	file.SetValue(ID.c_str(), "OnTransOnly", WriterHelper::getBoolString(OnTransOnly, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "AvoidThreats", WriterHelper::getBoolString(AvoidThreats, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "IonImmune", WriterHelper::getBoolString(IonImmune, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "TransportsReturnOnUnload", WriterHelper::getBoolString(TransportsReturnOnUnload, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "AreTeamMembersRecruitable", WriterHelper::getBoolString(AreTeamMembersRecruitable, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "IsBaseDefense", WriterHelper::getBoolString(IsBaseDefense, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "OnlyTargetHouseEnemy", WriterHelper::getBoolString(OnlyTargetHouseEnemy, WriterHelper::BoolType::YESNO));
+	
+	if (!tag.empty())
+		file.SetValue(ID.c_str(), "Tag", pTag->ID);
+	if (!waypoint.empty())
+		file.SetValue(ID.c_str(), "Waypoint", pWaypoint->getLetterIndex());
+	if (!transWaypoint.empty())
+		file.SetValue(ID.c_str(), "TransportWaypoint", pTransportWaypoint->getLetterIndex());
+	if (!script.empty())
+		file.SetValue(ID.c_str(), "Script", pScriptType->ID);
+	if (!taskForce.empty())
+		file.SetValue(ID.c_str(), "TaskForce", pTaskForce->ID);
+
 }
