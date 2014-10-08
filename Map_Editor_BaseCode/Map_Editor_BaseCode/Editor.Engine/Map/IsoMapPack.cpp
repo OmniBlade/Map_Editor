@@ -53,12 +53,4 @@ void IsoMapPack::writeToINI(INIFile& file)
 		file.SetValue("IsoMapPack5", Log::toString(keyNumber), value);
 		++keyNumber;
 	}
-
-	/*
-	int rowNum = 1;
-			for (int i = 0; i < image_base64.Length; i += 70) {
-				section.SetValue(rowNum++.ToString(CultureInfo.InvariantCulture), image_base64.Substring(i, Math.Min(70, image_base64.Length - i)));
-			}
-	*/
-
 }
