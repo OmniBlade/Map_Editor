@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 class INISection;
 
@@ -24,7 +25,6 @@ public:
 		== Decompression ==
 	*/
 	void decompress();
-	std::vector<byte>& getDest() { return dest; };
 	
 	/*
 		Decompresses a LZO compressed section
@@ -39,11 +39,26 @@ public:
 	/*
 		== Compression ==
 	*/
+	void compress();
+	void compressLZO();
+	void compressF80();
+
 	void encode64();
+	/* Decodes the INISection* provided, automatically sets readSrc */
+	void decode64();
+
+	void setWriteSrc(const std::vector<byte>& bytes) { this->writeSrc = bytes; };
+	std::vector<byte>& getWriteDest() { return writeDest; };
+	void setReadSrc(const std::vector<byte>& bytes) { this->readSrc = bytes; };
+	std::vector<byte>& getReadDest() { return readDest; };
+
+	std::string getEncodedString() { return this->encoded64; };
+	void clearEncodedString() { this->encoded64.clear(); };
 
 private:
 	INISection* packSection;
-	std::vector<byte> src, dest;
+	std::vector<byte> readSrc, readDest, writeSrc, writeDest;
+	std::string encoded64;
 	Type compression;
 	int srcIndex, destIndex;
 

@@ -226,6 +226,19 @@ TheaterDefinition* TheaterCollection::getCurrent()
 	return currentTheater;
 }
 
+TheaterDefinition* TheaterCollection::getByININame(const std::string& name)
+{
+	for (unsigned int i = 0; i < theaters.size(); ++i)
+	{
+		if (theaters[i]->ININame == name)
+		{
+			return theaters[i].get();
+		}
+	}
+
+	return nullptr;
+}
+
 void TheaterCollection::setCurrent(const std::string& theaterName)
 {
 	for (unsigned int i = 0; i < theaters.size(); ++i)

@@ -4,6 +4,7 @@
 #include "../IniFile/INIFile.hpp"
 #include "../../Editor.Engine/Basics/Basic.hpp"
 #include "../../Editor.Engine/Basics/Lighting.hpp"
+#include "../../Editor.Engine/Basics/SpecialFlag.hpp"
 #include "../../Editor.Engine/Types/VariableName.hpp"
 #include "../../Editor.Engine/Types/House.hpp"
 #include "../../Editor.Objects.Westwood/Types/Country.hpp"
@@ -24,11 +25,14 @@
 #include "../../Editor.Engine/Types/Objects/Terrain.hpp"
 #include "../../Editor.Engine/Types/Objects/Unit.hpp"
 #include "../../Editor.Engine/Types/Smudge.hpp"
+#include "../../Editor.Engine/Basics/MapStats.hpp"
+#include "../../Editor.Engine/Map/IsoMapPack.hpp"
 
 void MapWriter::writeMap(const std::string& fullFileName)
 {
 	INIFile aFile;
 	Basic::writeToINI(aFile);
+	SpecialFlag::writeToINI(aFile);
 	Lighting::writeToINI(aFile);
 	VariableName::writeToINI(aFile);
 	House::writeToINI(aFile);
@@ -50,12 +54,14 @@ void MapWriter::writeMap(const std::string& fullFileName)
 	Waypoint::writeToINI(aFile);
 	Terrain::writeToINI(aFile);
 	Smudge::writeToINI(aFile);
+	MapStats::writeToINI(aFile);
+	IsoMapPack::instance->writeToINI(aFile);
 
 	aFile.writeToFile(fullFileName, false, true);
 }
 	/*
 		V[Basic]
-		[SpecialFlags]
+		V[SpecialFlags]
 		V[Lighting]
 		V[VariableNames]
 		V[Houses]
@@ -82,10 +88,10 @@ void MapWriter::writeMap(const std::string& fullFileName)
 		V[Waypoints]
 		V[Terrain]
 		V[Smudge]
-		[Map]
+		V[Map]
 		[Header]
-		[Preview]
-		[PreviewPack]
+		[Preview] -- Size of the picture
+		[PreviewPack] -- Size.x * Size.y sized
 		[IsoMapPack5]
 		[OverlayPack]
 		[OverlayDataPack]

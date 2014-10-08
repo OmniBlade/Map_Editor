@@ -4,6 +4,8 @@
 #include <sstream>
 #include "../Map/TheaterCollection.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/TMPManager.hpp"
+#include "../Basics/MapStats.hpp"
+#include "../../Log.hpp"
 /*
 	NOTE: Not sure where to place this yet, it's just working ahead really...
 */
@@ -11,7 +13,7 @@
 TileSet::TileSet(int _ID, INISection* _section)
 :ID(_ID), section(_section)
 {
-	std::cout << "---------------------------------------------\nParsing tileset with ID: " << ID << std::endl;
+	//std::cout << "---------------------------------------------\nParsing tileset with ID: " << ID << std::endl;
 	//std::cout << "Name: " << section->sectionName << " current theater extension: " << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
 	parse();
 	collectTiles();
@@ -48,7 +50,7 @@ void TileSet::parse()
 
 void TileSet::collectTiles()
 {
-	std::string& extension = TheaterCollection::getInstance()->getCurrent()->TileExtension;
+	std::string extension = MapStats::instance()->pTheaterDef->TileExtension;
 	std::stringstream number;
 	
 	for (int i = 1; i <= TilesInSet; ++i)
@@ -57,7 +59,7 @@ void TileSet::collectTiles()
 			number << '0';
 		if (i > 99)
 		{
-			std::cout << "More than 99 tiles were found in this set, only 00-99 can exist!" << std::endl;
+			Log::line("TILESET - More than 99 tiles were found in TileSet with name: " + SetName, Log::DEBUG);
 			break;
 		}
 		number << i;
@@ -65,8 +67,7 @@ void TileSet::collectTiles()
 		if (TMPManager::instance()->get(FileName + number.str() + '.' + extension))
 		{
 			//tiles.push_back(TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension));
-			std::cout << "Hey there, should the tiles be pushed into the tiles vector in collectTiles()?" << std::endl;
-			
+		
 			//Search for a-b-c-d-e-f-g
 			for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
 			{

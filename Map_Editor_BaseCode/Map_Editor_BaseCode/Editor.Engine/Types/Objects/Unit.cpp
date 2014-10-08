@@ -49,7 +49,7 @@ std::string Unit::asString() const
 {
 	char buffer[512];
 	//Don't need to include the ID, so no "%s = "
-	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%s,%d,%d,%d,%d",
+	sprintf_s(buffer, 512, "%s,%s,%d,%d,%d,%d,%s,%s,%d,%d,%d,%d,%d,%d",
 		this->owner.c_str(),
 		this->vehicleType.c_str(),
 		this->health,

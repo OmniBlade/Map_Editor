@@ -115,8 +115,8 @@ void MapAssetLoader::loadOverlay(INIFile* mapFile)
 	anOverlayDataPack.decompress();
 	anOverlayPack.decompress();
 
-	overlayData = anOverlayDataPack.getDest();
-	overlayPack = anOverlayPack.getDest();
+	overlayData = anOverlayDataPack.getReadDest();
+	overlayPack = anOverlayPack.getReadDest();
 
 	int x = 0, y = 0;
 

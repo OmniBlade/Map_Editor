@@ -2,10 +2,20 @@
 #include "Theater.hpp"
 #include <iostream>
 #include <sstream>
+#include "../../Editor.FileSystem/INIFile/INIFile.hpp"
+#include "../../Editor.FileSystem/INIFile/INISection.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
+#include "../../Log.hpp"
 
-Theater::Theater(INIFile* _controlFile)
-:controlFile(_controlFile)
+Theater::Theater(const std::string& file)
 {
+	controlFile = INIManager::instance()->get(file);
+	if (!controlFile)
+	{
+		Log::line("THEATER - Unable to get control file with name: " + file, Log::DEBUG);
+		return;
+	}
+	
 	readGeneral();
 	readTileSets();
 }
@@ -86,6 +96,7 @@ void Theater::readGeneral()
 
 void Theater::readTileSets()
 {
+	Log::timerStart();
 	std::string tileset = "TileSet";
 	std::stringstream setNumber;
 	for (unsigned int i = 0; i < 9999; ++i)
@@ -105,10 +116,11 @@ void Theater::readTileSets()
 			tileSets.push_back(std::make_unique<TileSet>(i, ret));
 		else
 		{
-			std::cout << "Last tile read: " << i-1 << std::endl;
 			break; //Loop until done
 		}
 
 		setNumber.str(std::string());
 	}
+
+	Log::line("Parsing Theater Control File took: " + Log::getTimerValue(), Log::DEBUG);
 }

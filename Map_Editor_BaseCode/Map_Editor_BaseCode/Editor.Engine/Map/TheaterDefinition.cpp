@@ -33,7 +33,6 @@ void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defa
 	//Section does exist, use section's values with default values as fall back
 		sectionName = theaterSection->getSectionName();
 
-		//std::cout << "Hey there, why are the default value fall backs converted to a char* in parseTheaterValues?" << std::endl;
 		theaterSection->readStringValue("Name", Name, _defaultTheater[0].c_str());
 		theaterSection->readStringValue("ININame", ININame, _defaultTheater[1].c_str());
 		theaterSection->readStringValue("INIFileName", INIFile, _defaultTheater[2].c_str());
@@ -44,6 +43,8 @@ void TheaterDefinition::parseTheaterValues(const std::vector<std::string>& _defa
 		theaterSection->readStringValue("UnitPalette", UnitPalette, _defaultTheater[7].c_str());
 		theaterSection->readStringValue("OverlayPalette", OverlayPalette, _defaultTheater[8].c_str());
 	}
+
+	//pTheater = std::make_unique<Theater>(INIFile);
 }
 
 void TheaterDefinition::dumpContent()

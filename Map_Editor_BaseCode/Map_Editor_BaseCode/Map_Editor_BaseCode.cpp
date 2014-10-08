@@ -18,6 +18,8 @@
 #include "Editor.Map.Validator\MainValidator.hpp"
 #include "Editor.Engine\Basics\Basic.hpp"
 #include "Editor.Engine\Basics\Lighting.hpp"
+#include "Editor.Engine\Basics\SpecialFlag.hpp"
+#include "Editor.Engine\Basics\MapStats.hpp"
 #include "Editor.FileSystem\MapFile\ParamCollection.hpp"
 #include "Editor.FileSystem\MapFile\SActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\ActionCollection.hpp"
@@ -190,8 +192,9 @@ void loadMap()
 	Log::validatorLine();
 
 	INISection* pack = map->getSection("IsoMapPack5");
-	IsoMapPack isoPack(pack);
-	isoPack.read();
+	IsoMapPack* isoPack = new IsoMapPack(pack);
+	isoPack->read();
+	isoPack->write();
 
 	/*
 		Little side information:
@@ -212,7 +215,9 @@ void loadMap()
 
 	//Log::line("Going to load all objects now!", Log::DEBUG);
 
+	MapStats::instance()->parse();
 	Basic::getBasic()->parse();
+	SpecialFlag::instance()->parse();
 	Lighting::instance()->parse();
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
@@ -260,7 +265,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 	MapWriter writer;
 	writer.writeMap("C:\\Users\\Rik\\Desktop\\map_write_test.ini");
-
+	delete IsoMapPack::instance;
 
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);

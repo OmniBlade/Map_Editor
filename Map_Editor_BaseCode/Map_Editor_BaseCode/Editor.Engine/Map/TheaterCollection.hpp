@@ -63,7 +63,7 @@ public:
 		@return Pointer to the theater
 	*/
 	TheaterDefinition* getCurrent();
-	
+	TheaterDefinition* getByININame(const std::string& name);
 	/*
 		Based on the given theater name in the parameter, the currently used theater is set
 		@param theaterName The name of the theater that will be used

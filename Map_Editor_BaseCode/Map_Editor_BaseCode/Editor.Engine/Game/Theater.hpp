@@ -1,15 +1,14 @@
 #pragma once
-
-#include "../../Editor.FileSystem/INIFile/INIFile.hpp"
-#include "../../Editor.FileSystem/INIFile/INISection.hpp"
 #include "../Map/TileSet.hpp"
 #include <vector>
 #include <memory>
 
+class INIFile;
+
 class Theater
 {
 public:
-	Theater(INIFile* _controlFile);
+	Theater(const std::string& file);
 	~Theater();
 
 	/*

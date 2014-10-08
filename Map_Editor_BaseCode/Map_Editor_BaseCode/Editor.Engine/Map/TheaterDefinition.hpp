@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include "../Game/Theater.hpp"
 
 class INISection;
 
@@ -35,5 +36,6 @@ public:
 
 private:
 	INISection* theaterSection;
+	std::unique_ptr<Theater> pTheater;
 };
 

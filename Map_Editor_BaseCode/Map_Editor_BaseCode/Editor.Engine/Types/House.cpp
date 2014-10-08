@@ -48,6 +48,10 @@ void House::writeContentToINI(INIFile& file)
 		file.SetValue(ID.c_str(), "NodeCount", Log::toString(NodeCount));
 		for (int i = 0; i < NodeCount; ++i)
 		{
+			if (i < 10)
+				number << '0';
+			if (i < 100)
+				number << '0';
 			number << i;
 			file.SetValue(ID.c_str(), number.str(), baseNodes[i]->asString());
 			number.str(std::string());
@@ -100,15 +104,23 @@ void House::loadNodes(INISection* section)
 		number << i;
 
 		section->readStringValue(number.str(), node);
-		LineSplitter split(node);
+		if (!node.empty())
+		{
+			LineSplitter split(node);
 
-		std::string btype = split.pop_string();
-		int x = split.pop_int();
-		int y = split.pop_int();
-		baseNodes.push_back(std::make_unique<BaseNode>(btype, x, y));
-		
-		node = "";
-		number.str(std::string());
+			std::string btype = split.pop_string();
+			int x = split.pop_int();
+			int y = split.pop_int();
+			baseNodes.push_back(std::make_unique<BaseNode>(btype, x, y));
+
+			node = "";
+			number.str(std::string());
+		}
+		else
+		{
+			//Don't look for stuff that isn't there!
+			break;
+		}
 	}
 }
 

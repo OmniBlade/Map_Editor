@@ -69,7 +69,10 @@ INIFile* INIManager::cacheRoot(const std::string& fileName)
 		return iniFiles[fileName].get();
 	}
 	else
+	{
 		iniFiles[fileName] = nullptr;
+		Log::line("Requested file '" + fileName + "' is unlocatable in %GAME% (misspelled name?).", Log::DEBUG);
+	}
 
 	return nullptr;
 }
@@ -83,7 +86,11 @@ void INIManager::cacheIncluded(const std::string& fileName, INIFile* parent)
 		Log::line("INI: " + fileName + " (include) succesfully cached.", Log::DEBUG);
 	}
 	else
+	{
 		iniFiles[fileName] = nullptr;
+		Log::line("Requested file '" + fileName + "' is unlocatable in %GAME% (misspelled name?).", Log::DEBUG);
+	}
+
 }
 
 void INIManager::loadIncludeINI(const std::string& fileName, std::vector<std::string>& includes, INIFile* parent)

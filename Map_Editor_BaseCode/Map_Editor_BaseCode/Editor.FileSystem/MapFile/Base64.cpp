@@ -74,6 +74,11 @@ std::vector<byte> base64_decodeSection(INISection* section)
 	return decodedPack;
 }
 
+std::string base64_encodeBytes(const std::vector<byte>& bytes)
+{
+	return base64_encode(&bytes[0], bytes.size());
+}
+
 std::string base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
 	std::string ret;
 	ret.reserve(in_len);
