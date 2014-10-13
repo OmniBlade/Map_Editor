@@ -52,6 +52,8 @@ public:
 	*/
 	std::wstring getFileVersion(const std::string& fullFileName);
 
+	bool exists(const std::string& fileName);
+
 private:
 	static FileSystem* system;
 	FileSystem();

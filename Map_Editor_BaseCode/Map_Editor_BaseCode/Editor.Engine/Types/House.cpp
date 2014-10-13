@@ -16,6 +16,12 @@ House::House(const std::string& id)
 
 void House::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Houses does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	//Write section [Houses]
 	std::stringstream number;
 	int i = 0;

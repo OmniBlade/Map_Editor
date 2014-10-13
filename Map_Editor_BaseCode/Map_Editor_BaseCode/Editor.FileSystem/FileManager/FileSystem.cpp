@@ -68,6 +68,11 @@ std::wstring FileSystem::getFileVersion(const std::string& fullFileName)
 	return L"YR - UNKNOWN... MODIFIED?";
 }
 
+bool FileSystem::exists(const std::string& fileName)
+{
+	return !getReaderForFile(fileName) ? true : false;
+}
+
 BinaryReader* FileSystem::getReaderForFile(const std::string& fileName)
 {
 	if (auto res = rawSystem->getReaderOfFile(fileName))

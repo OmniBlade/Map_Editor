@@ -43,6 +43,13 @@ bool Basic::isCoop()
 void Basic::writeToINI(INIFile& file)
 {
 	Basic* it = getBasic();
+
+	if (!it)
+	{
+		Log::line("SECTION - Basic does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	file.SetValue("Basic", "Name", it->Name);
 	if (isSP()) file.SetValue("Basic", "Player", it->Player);
 	if (it->Briefing != "<none>" && isSP()) file.SetValue("Basic", "Briefing", it->Briefing);

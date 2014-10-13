@@ -62,17 +62,19 @@ void PackType::decompressLZO()
 
 void PackType::dumpReadDest()
 {
-	for (unsigned int i = 0; i < 10000; ++i)
+	Log::validatorLine("READ DEST DUMP ====================", Log::INFO);
+	for (unsigned int i = 0; i < readDest.size(); ++i)
 	{
-		Log::line(Log::toString(i) + " - " + Log::toString((int)readDest[i]), Log::DEBUG);
+		Log::validatorLine(Log::toString(i) + " - " + Log::toString((int)readDest[i]), Log::INFO);
 	}
 }
 
 void PackType::dumpWriteSrc()
 {
-	for (unsigned int i = 0; i < 10000; ++i)
+	Log::validatorLine("WRITE SRC DUMP ===================", Log::INFO);
+	for (unsigned int i = 0; i < writeSrc.size(); ++i)
 	{
-		Log::line(Log::toString(i) + " - " + Log::toString((int) writeSrc[i]), Log::DEBUG);
+		Log::validatorLine(Log::toString(i) + " - " + Log::toString((int) writeSrc[i]), Log::INFO);
 	}
 }
 

@@ -23,6 +23,12 @@ void Terrain::parse(const std::string& index, const std::string& list)
 
 void Terrain::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Terrain does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		if (it->pTerrainType)

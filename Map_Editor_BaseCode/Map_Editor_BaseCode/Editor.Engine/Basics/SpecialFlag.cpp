@@ -5,6 +5,7 @@
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/MapFile/WriterHelper.h"
 #include "../../Config.hpp"
+#include "../../Log.hpp"
 
 /* static */ SpecialFlag* SpecialFlag::it;
 /* static */ SpecialFlag* SpecialFlag::instance()
@@ -23,6 +24,12 @@ SpecialFlag::SpecialFlag()
 void SpecialFlag::writeToINI(INIFile& file)
 {
 	SpecialFlag* it = instance();
+
+	if (!it)
+	{
+		Log::line("SECTION - SpecialFlags does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
 
 	file.SetValue("SpecialFlags", "TiberiumGrows", WriterHelper::getBoolString(it->TiberiumGrows, WriterHelper::BoolType::YESNO));
 	file.SetValue("SpecialFlags", "TiberiumSpreads", WriterHelper::getBoolString(it->TiberiumSpreads, WriterHelper::BoolType::YESNO));

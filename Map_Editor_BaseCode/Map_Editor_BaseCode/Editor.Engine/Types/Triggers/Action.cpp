@@ -40,6 +40,12 @@ void Action::parseActions()
 
 void Action::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Actions does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Actions", it->ID, it->asString());

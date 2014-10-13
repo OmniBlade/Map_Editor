@@ -89,7 +89,11 @@ void OverlayPack::createOverlayFromData()
 
 void OverlayPack::writeToINI(INIFile& file)
 {
-	if (!instance->useOverlay) return;
+	if (!instance->useOverlay)
+	{
+		Log::line("SECTION - OverlayData and OverlayDataPack don't exist, will not write to map.", Log::DEBUG);
+		return;
+	}
 	//OverlayPack, then OverlayDataPack
 	instance->writeContentToINI(file, instance->pOverlayPack, "OverlayPack");
 	instance->writeContentToINI(file, instance->pOverlayDataPack, "OverlayDataPack");

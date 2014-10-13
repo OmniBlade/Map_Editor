@@ -34,6 +34,13 @@ void Infantry::parse(const std::string& index, const std::string& list)
 
 void Infantry::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Infantry does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
+
 	std::stringstream number;
 	int i = 0;
 	for (auto& it : Array.objectList)

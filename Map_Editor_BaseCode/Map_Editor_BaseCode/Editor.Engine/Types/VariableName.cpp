@@ -24,6 +24,12 @@ void VariableName::parse(const std::string& id, const std::string& list)
 
 void VariableName::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - VariableNames does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		std::stringstream number;

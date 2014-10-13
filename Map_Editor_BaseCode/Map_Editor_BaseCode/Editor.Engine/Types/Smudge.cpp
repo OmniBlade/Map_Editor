@@ -27,6 +27,12 @@ void Smudge::parse(const std::string& id, const std::string& list)
 
 void Smudge::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Smudge does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	std::stringstream number;
 	int i = 0;
 	for (auto& it : Array.objectList)

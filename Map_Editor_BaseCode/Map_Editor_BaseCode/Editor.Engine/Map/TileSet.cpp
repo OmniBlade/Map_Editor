@@ -64,14 +64,14 @@ void TileSet::collectTiles()
 		}
 		number << i;
 
-		if (TMPManager::instance()->get(FileName + number.str() + '.' + extension))
+		if (TMPManager::instance()->exists(FileName + number.str() + '.' + extension))
 		{
 			//tiles.push_back(TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension));
 		
 			//Search for a-b-c-d-e-f-g
 			for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
 			{
-				if (!TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension))
+				if (!TMPManager::instance()->exists(FileName + number.str() + (char)i + '.' + extension))
 					break;
 				else
 				{

@@ -26,6 +26,7 @@
 #include "Editor.FileSystem\MapFile\EventCollection.hpp"
 #include "Editor.Engine\Map\IsoMapPack.hpp"
 #include "Editor.Engine\Map\OverlayPack.hpp"
+#include "Editor.Engine\Map\PreviewPack.h"
 #include "Editor.FileSystem\FileManager\Managers\EncManager.hpp"
 #include "Editor.FileSystem\EncFile\EncFile.hpp"
 #include "Config.hpp"
@@ -199,6 +200,8 @@ void loadMap()
 	OverlayPack* opack = new OverlayPack(map);
 	opack->read();
 
+	PreviewPack* pPack = new PreviewPack(map);
+	pPack->read();
 
 	/*
 		Little side information:
@@ -229,6 +232,7 @@ void loadMap()
 	mapAssetLoader.loadOverlay(map);
 	opack->createOverlayFromData();
 	opack->write();
+	pPack->write();
 
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 

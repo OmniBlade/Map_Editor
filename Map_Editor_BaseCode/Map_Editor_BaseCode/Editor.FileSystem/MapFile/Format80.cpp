@@ -95,14 +95,12 @@ int Format80::encodeInto(byte* src, size_t src_len, byte* dest)
 	int finalDestSize = 0;
 	byte* pDest = &dest[0];
 	auto offset = 0;
-	auto left = src_len-2;
+	auto left = src_len;// -2;
 	auto blockStart = 0;
-
-	finalDestSize += writeC1(&src[offset], &pDest[finalDestSize], offset, 1);
 
 	while (offset < left)
 	{
-		auto repeatCount = countSame(src, src_len-1, offset, 0xFFFF);
+		auto repeatCount = countSame(src, src_len, offset, 0xFFFF);
 
 		if (repeatCount >= 4)
 		{
@@ -119,8 +117,6 @@ int Format80::encodeInto(byte* src, size_t src_len, byte* dest)
 			finalDestSize += writeC1(&src[offset], &pDest[finalDestSize], offset, repeatCount);
 		}
 	}
-
-	finalDestSize += writeC1(&src[offset], &pDest[finalDestSize], offset, 1);
 
 	//Write what we haven't written up to now
 

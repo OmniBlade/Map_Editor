@@ -29,6 +29,12 @@ void Tag::parse(const std::string& id, const std::string& list)
 
 void Tag::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Tags does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Tags", it->ID, it->asString());

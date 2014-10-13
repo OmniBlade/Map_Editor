@@ -41,6 +41,12 @@ void Event::parseEvents()
 
 void Event::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Events does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Events", it->ID, it->asString());

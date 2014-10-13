@@ -21,6 +21,12 @@ void CellTag::parse(const std::string& location, const std::string& tag)
 
 void CellTag::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - CellTags does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		if (it->pTag)

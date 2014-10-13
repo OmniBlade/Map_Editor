@@ -31,6 +31,12 @@ void AITriggerEnable::parse(const std::string& id, const std::string& state)
 }
 void AITriggerEnable::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - AITriggerTypesEnable does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		file.SetValue("AITriggerTypesEnable", it->ID, it->asString());

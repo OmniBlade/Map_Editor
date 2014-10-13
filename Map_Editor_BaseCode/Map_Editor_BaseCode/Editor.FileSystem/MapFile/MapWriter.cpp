@@ -28,6 +28,7 @@
 #include "../../Editor.Engine/Basics/MapStats.hpp"
 #include "../../Editor.Engine/Map/IsoMapPack.hpp"
 #include "../../Editor.Engine/Map/OverlayPack.hpp"
+#include "../../Editor.Engine/Map/PreviewPack.h"
 
 void MapWriter::writeMap(const std::string& fullFileName)
 {
@@ -56,6 +57,7 @@ void MapWriter::writeMap(const std::string& fullFileName)
 	Terrain::writeToINI(aFile);
 	Smudge::writeToINI(aFile);
 	MapStats::writeToINI(aFile);
+	PreviewPack::writeToINI(aFile);
 	IsoMapPack::writeToINI(aFile);
 	OverlayPack::writeToINI(aFile);
 
@@ -92,10 +94,10 @@ void MapWriter::writeMap(const std::string& fullFileName)
 		V[Smudge]
 		V[Map]
 		[Header]
-		[Preview] -- Size of the picture
-		[PreviewPack] -- Size.x * Size.y sized
-		[IsoMapPack5]
-		[OverlayPack]
-		[OverlayDataPack]
+		V[Preview] -- Size of the picture
+		V[PreviewPack] -- Size.x * Size.y sized
+		V[IsoMapPack5]
+		V[OverlayPack]
+		V[OverlayDataPack]
 		[Digest]
 	*/

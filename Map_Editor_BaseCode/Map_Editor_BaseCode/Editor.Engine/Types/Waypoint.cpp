@@ -26,6 +26,12 @@ void Waypoint::parse(const std::string& id, const std::string& list)
 
 void Waypoint::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Waypoints does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	std::stringstream number;
 	for (auto& it : Array.objectList)
 	{

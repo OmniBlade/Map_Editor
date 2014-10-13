@@ -104,6 +104,12 @@ std::string Trigger::getParentID()
 
 void Trigger::writeToINI(INIFile& file)
 {
+	if (Array.objectList.size() == 0)
+	{
+		Log::line("SECTION - Triggers does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Triggers", it->ID, it->asString());

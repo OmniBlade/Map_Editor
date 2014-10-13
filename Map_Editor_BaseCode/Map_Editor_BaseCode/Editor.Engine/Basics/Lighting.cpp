@@ -24,6 +24,13 @@ Lighting::Lighting()
 void Lighting::writeToINI(INIFile& file)
 {
 	Lighting* it = instance();
+
+	if (!it)
+	{
+		Log::line("SECTION - Lighting does not exist, will not write to map.", Log::DEBUG);
+		return;
+	}
+
 	file.SetValue("Lighting", "Ambient", Log::toString(it->Ambient));
 	file.SetValue("Lighting", "Red", Log::toString(it->Red));
 	file.SetValue("Lighting", "Green", Log::toString(it->Green));

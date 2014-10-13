@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "PackType.hpp"
 
 class INISection;
 class INIFile;
+class PackType;
 
 class IsoMapPack
 {
@@ -15,7 +15,7 @@ public:
 	//Trailing issues...
 	#pragma pack(push, 1)
 	struct IsoMapPack5Tile 
-	{
+	{//Size is 11, this is correct
 		__int16 X, Y;
 		__int32 TileTypeIndex;
 		byte TileSubtypeIndex;
@@ -41,6 +41,7 @@ public:
 	PackType* getPack() { return this->pack; };
 
 private:
+	bool hasIsoData = false;
 	INISection* isoPack;
 	PackType* pack;
 	std::vector<IsoMapPack5Tile> tiles;

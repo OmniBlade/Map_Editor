@@ -11,6 +11,7 @@ public:
 
 	TMPFile* get(const std::string& fileName);
 	TMPFile* cache(const std::string& fileName);
+	bool exists(const std::string& fileName);
 
 private:
 	static TMPManager* manager;
