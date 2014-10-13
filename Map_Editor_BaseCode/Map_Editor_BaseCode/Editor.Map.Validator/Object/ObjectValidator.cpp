@@ -43,7 +43,7 @@ void ObjectValidator::validateAircraft()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Aircraft] now...", Log::INFO);
 	unsigned int index = 0;
-	for (const auto& it : Aircraft::Array.objectTypeList)
+	for (const auto& it : Aircraft::Array.objectList)
 	{
 		//Owner
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
@@ -82,7 +82,7 @@ void ObjectValidator::validateInfantry()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Infantry] now...", Log::INFO);
 	unsigned int index = 0;
-	for (const auto& it : Infantry::Array.objectTypeList)
+	for (const auto& it : Infantry::Array.objectList)
 	{
 		//Owner
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
@@ -124,7 +124,7 @@ void ObjectValidator::validateUnit()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Units] now...", Log::INFO);
 	unsigned int index = 0;
-	for (const auto& it : Unit::Array.objectTypeList)
+	for (const auto& it : Unit::Array.objectList)
 	{
 		//Owner
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
@@ -163,7 +163,7 @@ void ObjectValidator::validateTerrain()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Terrain] now...", Log::INFO);
 	unsigned int index = 0;
-	for (const auto& it : Terrain::Array.objectTypeList)
+	for (const auto& it : Terrain::Array.objectList)
 	{
 		//TerrainType
 		if (!it->pTerrainType)
@@ -183,7 +183,7 @@ void ObjectValidator::validateStructure()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Structures] now...", Log::INFO);
 	unsigned int index = 0;
-	for (const auto& it : Structure::Array.objectTypeList)
+	for (const auto& it : Structure::Array.objectList)
 	{
 		//Owner
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))

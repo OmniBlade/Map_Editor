@@ -7,7 +7,7 @@ Overlay::Overlay()
 {
 }
 
-Overlay::Overlay(int x, int y, int overlayIndex, int overlayFrame)
+Overlay::Overlay(int x, int y, byte overlayIndex, byte overlayFrame)
 :overlayIndex(overlayIndex), overlayFrame(overlayFrame)
 {
 	loc.x = x;

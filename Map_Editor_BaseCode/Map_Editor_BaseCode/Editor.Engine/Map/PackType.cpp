@@ -21,6 +21,7 @@ PackType::~PackType()
 
 void PackType::decompress()
 {
+	readDest.clear();
 	switch (compression)
 	{
 	case LZO:
@@ -59,11 +60,26 @@ void PackType::decompressLZO()
 	}
 }
 
+void PackType::dumpReadDest()
+{
+	for (unsigned int i = 0; i < 10000; ++i)
+	{
+		Log::line(Log::toString(i) + " - " + Log::toString((int)readDest[i]), Log::DEBUG);
+	}
+}
+
+void PackType::dumpWriteSrc()
+{
+	for (unsigned int i = 0; i < 10000; ++i)
+	{
+		Log::line(Log::toString(i) + " - " + Log::toString((int) writeSrc[i]), Log::DEBUG);
+	}
+}
 
 //OverlayPack and OverlayDataPack use this!
 void PackType::decompressF80()
 {
-	readDest.resize(262144); //Test stuff for OverlayPack
+	readDest.resize(262144);
 	auto srcIter = readSrc.begin();
 	auto destIter = readDest.begin();
 	auto destBegin = readDest.begin();
@@ -84,6 +100,7 @@ void PackType::decompressF80()
 
 void PackType::compress()
 {
+	writeDest.clear();
 	switch (compression)
 	{
 	case LZO:
@@ -108,7 +125,8 @@ void PackType::compressLZO()
 	writeDest.resize(Size + (Size / 16) + 64 + 3 + (Size / MaxBlockSize + 4));
 
 	size_t WriteOffset = 0;
-	for (size_t i = 0; i < Size;) {
+	for (size_t i = 0; i < Size;) 
+	{
 		const auto BlockSize = std::min(Size - i, MaxBlockSize);
 
 		const size_t HeaderAt = WriteOffset;
@@ -132,6 +150,30 @@ void PackType::compressLZO()
 
 void PackType::compressF80()
 {
+	static const size_t MaxBlockSize = 8192;
+	const auto Size = writeSrc.size();
+
+	writeDest.resize((64 * writeSrc.size() + 62) / 63 + (4 * writeSrc.size() / MaxBlockSize) + 4);
+
+	size_t WriteOffset = 0;
+	for (size_t i = 0; i < Size;) 
+	{
+		//Determine chunk size
+		const auto BlockSize = std::min(Size - i, MaxBlockSize);
+		
+		//Compress the bytes
+		size_t out_len = Format80::encodeInto(&writeSrc[i], BlockSize, &writeDest[WriteOffset + 4]);
+
+		auto Header = reinterpret_cast<word*>(&writeDest[WriteOffset]);
+		Header[0] = out_len;
+		Header[1] = BlockSize;
+
+		//Move offset to the next spot to get bytes from
+		i += BlockSize;
+		WriteOffset += out_len + 4;
+	}
+
+	writeDest.resize(WriteOffset);
 
 }
 

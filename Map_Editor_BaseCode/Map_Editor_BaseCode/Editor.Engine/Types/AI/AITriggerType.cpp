@@ -84,7 +84,7 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 
 void AITriggerType::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		if (!it->isGlobal) // AIMD.INI should NOT go into the map file
 		{

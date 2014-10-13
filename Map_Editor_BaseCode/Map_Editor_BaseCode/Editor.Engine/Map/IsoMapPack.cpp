@@ -21,6 +21,17 @@ void IsoMapPack::read()
 	pack->decompress();
 	std::vector<byte>& rawData = pack->getReadDest();
 
+	pack->dumpReadDest();
+
+	pack->setWriteSrc(pack->getReadDest());
+	pack->compress();
+
+	pack->setReadSrc(pack->getWriteDest());
+	pack->compress();
+
+	pack->dumpReadDest();
+
+
 	auto pTile = reinterpret_cast<IsoMapPack5Tile*>(&rawData[0]);
 	tiles.assign(pTile, pTile + rawData.size() / sizeof(IsoMapPack5Tile));	
 }
@@ -34,9 +45,6 @@ void IsoMapPack::write()
 
 	pack->setWriteSrc(src);
 	pack->compress();
-
-	//word header[] = { pack->getWriteDest().size(), src.size() };
-	//src.insert(src.begin(), reinterpret_cast<byte*>(header), reinterpret_cast<byte*>(header)+4);
 
 	pack->encode64();
 }

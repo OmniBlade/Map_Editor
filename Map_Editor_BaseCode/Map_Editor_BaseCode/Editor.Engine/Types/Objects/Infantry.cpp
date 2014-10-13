@@ -36,7 +36,7 @@ void Infantry::writeToINI(INIFile& file)
 {
 	std::stringstream number;
 	int i = 0;
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		number << i;
 		file.SetValue("Infantry", number.str(), it->asString());

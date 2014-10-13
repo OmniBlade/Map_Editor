@@ -27,7 +27,7 @@ void Waypoint::parse(const std::string& id, const std::string& list)
 void Waypoint::writeToINI(INIFile& file)
 {
 	std::stringstream number;
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		number << it->index;
 		file.SetValue("Waypoints", number.str(), it->loc.asString());

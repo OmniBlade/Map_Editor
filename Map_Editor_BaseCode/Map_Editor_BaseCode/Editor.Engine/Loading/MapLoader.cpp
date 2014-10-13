@@ -170,7 +170,7 @@ void MapLoader::loadGlobalVariable()
 	for (const auto& it : uglySection)
 	{
 		GlobalVariableName::Array.make();
-		GlobalVariableName::Array.objectTypeList[GlobalVariableName::Array.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
+		GlobalVariableName::Array.objectList[GlobalVariableName::Array.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
 	}
 }
 

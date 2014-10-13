@@ -56,7 +56,7 @@ void Trigger::assignChild()
 
 void Trigger::assignTag()
 {
-	for (const auto& it : Tag::Array.objectTypeList)
+	for (const auto& it : Tag::Array.objectList)
 	{
 		if (it->trigger == ID)
 		{
@@ -72,7 +72,7 @@ std::string Trigger::getUpperParentID()
 	while (true)
 	{
 		Trigger* currentFallBack = current;
-		for (const auto& it : Trigger::Array.objectTypeList)
+		for (const auto& it : Trigger::Array.objectList)
 		{
 			if (it->pChild == current)
 			{
@@ -92,7 +92,7 @@ std::string Trigger::getUpperParentID()
 
 std::string Trigger::getParentID()
 {
-	for (const auto& it : Trigger::Array.objectTypeList)
+	for (const auto& it : Trigger::Array.objectList)
 	{
 		if (it->pChild == this)
 		{
@@ -104,7 +104,7 @@ std::string Trigger::getParentID()
 
 void Trigger::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Triggers", it->ID, it->asString());
 	}

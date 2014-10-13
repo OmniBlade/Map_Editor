@@ -23,7 +23,7 @@ void Terrain::parse(const std::string& index, const std::string& list)
 
 void Terrain::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		if (it->pTerrainType)
 		{

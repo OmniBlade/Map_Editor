@@ -107,7 +107,7 @@ void TeamType::writeToINI(INIFile& file)
 {
 	std::stringstream number;
 	int i = 0;
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		if (!it->isGlobal)
 		{

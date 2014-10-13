@@ -39,7 +39,7 @@ void TeamValidator::validateScriptType()
 	Log::validatorLine();
 	Log::validatorLine("Validating [ScriptTypes] now...", Log::INFO);
 	Log::validatorLine("Nothing to validate!", Log::CRITICAL);
-	for (const auto& it : ScriptType::Array.objectTypeList)
+	for (const auto& it : ScriptType::Array.objectList)
 	{
 		if (!it->isGlobal)
 		{
@@ -64,7 +64,7 @@ void TeamValidator::validateTaskForce()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [TaskForces] now...", Log::INFO);
-	for (const auto& it : TaskForce::Array.objectTypeList)
+	for (const auto& it : TaskForce::Array.objectList)
 	{
 		if (!it->isGlobal)
 		{
@@ -94,7 +94,7 @@ void TeamValidator::validateTeamType()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [TeamTypes] now...", Log::INFO);
-	for (const auto& it : TeamType::Array.objectTypeList)
+	for (const auto& it : TeamType::Array.objectList)
 	{
 		if (!it->isGlobal)
 		{

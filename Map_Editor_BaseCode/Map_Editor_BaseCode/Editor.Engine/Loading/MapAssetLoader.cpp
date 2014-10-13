@@ -85,7 +85,7 @@ Why? Because Trigger at index 2 can refer to a Trigger at index 8 (which is obvi
 */
 void MapAssetLoader::updateTriggerChilds()
 {
-	for (const auto& it : Trigger::Array.objectTypeList)
+	for (const auto& it : Trigger::Array.objectList)
 	{
 		it.get()->assignChild();
 	}
@@ -95,22 +95,29 @@ void MapAssetLoader::dumpTypes()
 {
 	Log::line();
 	Log::line("Dumping the count of map types!");
-	Log::line("Tags: " + Log::toString(Tag::Array.objectTypeList.size()), Log::DEBUG);
-	Log::line("Triggers: " + Log::toString(Trigger::Array.objectTypeList.size()), Log::DEBUG);
-	Log::line("Events: " + Log::toString(Event::Array.objectTypeList.size()), Log::DEBUG);
-	Log::line("Actions: " + Log::toString(Action::Array.objectTypeList.size()), Log::DEBUG);
-	Log::line("TeamTypes: " + Log::toString(TeamType::Array.objectTypeList.size()), Log::DEBUG);
-	Log::line("ScriptType: " + Log::toString(ScriptType::Array.objectTypeList.size()), Log::DEBUG);
-	Log::line("TaskForces: " + Log::toString(TaskForce::Array.objectTypeList.size()), Log::DEBUG);
+	Log::line("Tags: " + Log::toString(Tag::Array.objectList.size()), Log::DEBUG);
+	Log::line("Triggers: " + Log::toString(Trigger::Array.objectList.size()), Log::DEBUG);
+	Log::line("Events: " + Log::toString(Event::Array.objectList.size()), Log::DEBUG);
+	Log::line("Actions: " + Log::toString(Action::Array.objectList.size()), Log::DEBUG);
+	Log::line("TeamTypes: " + Log::toString(TeamType::Array.objectList.size()), Log::DEBUG);
+	Log::line("ScriptType: " + Log::toString(ScriptType::Array.objectList.size()), Log::DEBUG);
+	Log::line("TaskForces: " + Log::toString(TaskForce::Array.objectList.size()), Log::DEBUG);
 	Log::line();
 }
 
 void MapAssetLoader::loadOverlay(INIFile* mapFile)
 {
+
+	return;
+
+	Log::line("KEKEKEKE", Log::DEBUG);
 	std::vector<byte> overlayData, overlayPack;
 
 	PackType anOverlayPack(mapFile->getSection("OverlayPack"), PackType::F80);
 	PackType anOverlayDataPack(mapFile->getSection("OverlayDataPack"), PackType::F80);
+
+	anOverlayDataPack.decode64();
+	anOverlayPack.decode64();
 
 	anOverlayDataPack.decompress();
 	anOverlayPack.decompress();
@@ -130,4 +137,18 @@ void MapAssetLoader::loadOverlay(INIFile* mapFile)
 			}
 		}
 	}
+
+	auto dest = anOverlayPack.getReadDest();
+
+	anOverlayPack.setWriteSrc(anOverlayPack.getReadDest());
+
+	anOverlayPack.setWriteSrc(anOverlayPack.getReadDest());
+	anOverlayPack.compress();
+
+	anOverlayPack.setReadSrc(anOverlayPack.getWriteDest());
+	anOverlayPack.decompress();
+
+	auto dest2 = anOverlayPack.getReadDest();
+
+
 }

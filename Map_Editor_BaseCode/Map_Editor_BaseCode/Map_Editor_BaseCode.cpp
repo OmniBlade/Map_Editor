@@ -25,7 +25,7 @@
 #include "Editor.FileSystem\MapFile\ActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\EventCollection.hpp"
 #include "Editor.Engine\Map\IsoMapPack.hpp"
-#include "Editor.Engine\Map\OverlayDataPack.hpp"
+#include "Editor.Engine\Map\OverlayPack.hpp"
 #include "Editor.FileSystem\FileManager\Managers\EncManager.hpp"
 #include "Editor.FileSystem\EncFile\EncFile.hpp"
 #include "Config.hpp"
@@ -196,6 +196,10 @@ void loadMap()
 	isoPack->read();
 	isoPack->write();
 
+	OverlayPack* opack = new OverlayPack(map);
+	opack->read();
+
+
 	/*
 		Little side information:
 		Tiberian Sun's Firestorm Expansion pack will load exactly like below
@@ -205,6 +209,7 @@ void loadMap()
 	*/
 	//Log::timerStart();
 	mapLoader.load(rules);
+
 	mapLoader.setGlobalCountries();
 	mapLoader.load(mode);
 	mapLoader.load(map);
@@ -222,6 +227,8 @@ void loadMap()
 	mapAssetLoader.load(mode);
 	mapAssetLoader.load(map);
 	mapAssetLoader.loadOverlay(map);
+	opack->createOverlayFromData();
+	opack->write();
 
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 

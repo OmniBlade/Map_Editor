@@ -41,7 +41,7 @@ void Event::parseEvents()
 
 void Event::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Events", it->ID, it->asString());
 	}

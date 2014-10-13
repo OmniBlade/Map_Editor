@@ -10,12 +10,10 @@ public:
 	static MapObjectList<Overlay> Array;
 
 	Overlay();
-	Overlay(int x, int y, int overlayIndex, int overlayFrame);
-	
-
+	Overlay(int x, int y, byte overlayIndex, byte overlayFrame);
 
 	Vector2D loc;
 	OverlayType* pOverlayType;
-	int overlayIndex, overlayFrame;
+	byte overlayIndex, overlayFrame;
 };
 

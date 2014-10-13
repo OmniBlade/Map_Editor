@@ -26,7 +26,7 @@ void AIValidator::validateAITrigger()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [AITriggerTypes] now...", Log::INFO);
-	for (const auto& it : AITriggerType::Array.objectTypeList)
+	for (const auto& it : AITriggerType::Array.objectList)
 	{
 		if (!it->isGlobal)
 		{
@@ -71,7 +71,7 @@ void AIValidator::validateAITrigger()
 			//Weight
 			if (it->weight < it->minWeight || it->weight > it->maxWeight)
 				Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid Weight set.", Log::ERROR_BUFFER);
-			if (it->minWeight < 0 || it->maxWeight)
+			if (it->minWeight < 0 || it->minWeight > it->maxWeight)
 				Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid Minimal Weight set.", Log::ERROR_BUFFER);
 			if (it->maxWeight < 0 || it->maxWeight < it->minWeight)
 				Log::validatorLine("AITriggerType with ID '" + it->ID + "' has an invalid Maximum Weight set.", Log::ERROR_BUFFER);
@@ -89,7 +89,7 @@ void AIValidator::validateAIEnable()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [AITriggerTypesEnable] now...", Log::INFO);
-	for (const auto& it : AITriggerEnable::Array.objectTypeList)
+	for (const auto& it : AITriggerEnable::Array.objectList)
 	{
 		if (!it->aiTrigger)
 			Log::validatorLine("AITriggerEnable with ID '" + it->ID + "' has an invalid AITriggerType set.", Log::ERROR_BUFFER);

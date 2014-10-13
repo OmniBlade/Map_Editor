@@ -29,7 +29,7 @@ void Tag::parse(const std::string& id, const std::string& list)
 
 void Tag::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Tags", it->ID, it->asString());
 	}

@@ -21,7 +21,7 @@ void CellTag::parse(const std::string& location, const std::string& tag)
 
 void CellTag::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		if (it->pTag)
 		{

@@ -26,32 +26,32 @@ public:
 		if (auto ptr = find(name))
 			return ptr;
 
-		objectTypeList.push_back(std::make_unique<T>(name));
-		return objectTypeList.back().get();
+		objectList.push_back(std::make_unique<T>(name));
+		return objectList.back().get();
 	}
 
 
 	int findIndex(const std::string& name) const
 	{
-		auto it = std::find_if(objectTypeList.begin(), objectTypeList.end(), [&](const std::unique_ptr<T>& ptr)
+		auto it = std::find_if(objectList.begin(), objectList.end(), [&](const std::unique_ptr<T>& ptr)
 		{
 			return !_strcmpi(ptr->ID.c_str(), name.c_str());
 		});
 
-		if (it != objectTypeList.end())
-			return std::distance(objectTypeList.begin(), it);
+		if (it != objectList.end())
+			return std::distance(objectList.begin(), it);
 		else
 			return -1;
 	}
 
 	unsigned int count()
 	{
-		return objectTypeList.size();
+		return objectList.size();
 	}
 
 	T* get(unsigned int index)
 	{
-		return objectTypeList[index].get();
+		return objectList[index].get();
 	}
 
 	/*
@@ -59,14 +59,14 @@ public:
 	*/
 	void make()
 	{
-		objectTypeList.push_back(std::make_unique<T>());
+		objectList.push_back(std::make_unique<T>());
 	}
 
 	void createOverlay(int x, int y, int index, int frame)
 	{
-		objectTypeList.push_back(std::make_unique<T>(x, y, index, frame));
+		objectList.push_back(std::make_unique<T>(x, y, index, frame));
 	}
 
-	std::vector<std::unique_ptr<T>> objectTypeList;
+	std::vector<std::unique_ptr<T>> objectList;
 	int lastParsedItem = 0;
 };

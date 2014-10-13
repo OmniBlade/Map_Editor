@@ -44,7 +44,7 @@ void TriggerValidator::validateCellTags()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [CellTags] now...", Log::INFO);
-	for (const auto& it : CellTag::Array.objectTypeList)
+	for (const auto& it : CellTag::Array.objectList)
 	{
 		if (it->loc.x < 0)
 			Log::validatorLine("CellTag with ID / coords '" + it->Location + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
@@ -59,7 +59,7 @@ void TriggerValidator::validateTags()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [Tags] now...", Log::INFO);
-	for (const auto& it : Tag::Array.objectTypeList)
+	for (const auto& it : Tag::Array.objectList)
 	{
 		if (it->Repeating < 0 || it->Repeating > 2)
 			Log::validatorLine("Tag with ID '" + it->ID + "' has an invalid Repeating type set.", Log::ERROR_BUFFER);
@@ -72,7 +72,7 @@ void TriggerValidator::validateTriggers()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [Triggers] now...", Log::INFO);
-	for (const auto& it : Trigger::Array.objectTypeList)
+	for (const auto& it : Trigger::Array.objectList)
 	{
 		if (!it->pOwner)
 			Log::validatorLine("Trigger with ID '" + it->ID + "' has an invalid Owner set.", Log::ERROR_BUFFER);
@@ -90,7 +90,7 @@ void TriggerValidator::validateActions()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Actions] now...", Log::INFO);
 
-	for (const auto& it : Action::Array.objectTypeList)
+	for (const auto& it : Action::Array.objectList)
 	{
 		std::string tagID = getTagIDFor(it->ID);
 		if (tagID.empty())
@@ -110,7 +110,7 @@ void TriggerValidator::validateEvents()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Events] now...", Log::INFO);
 
-	for (const auto& it : Event::Array.objectTypeList)
+	for (const auto& it : Event::Array.objectList)
 	{
 		std::string tagID = getTagIDFor(it->ID);
 		if (tagID.empty())

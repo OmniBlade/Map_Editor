@@ -375,9 +375,6 @@
     <ClInclude Include="Editor.Engine\Map\IsoMapPack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\OverlayDataPack.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.FileSystem\EncFile\EncFile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -511,6 +508,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.FileSystem\FileManager\FileWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\OverlayPack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -848,9 +848,6 @@
     <ClCompile Include="Editor.Engine\Map\IsoMapPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\OverlayDataPack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.FileSystem\EncFile\EncFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -933,6 +930,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\FileManager\FileWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\OverlayPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

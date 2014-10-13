@@ -166,7 +166,7 @@ bool ActionValidator::attachedTagIsValid(ActionType* type)
 bool ActionValidator::existsInCellTag()
 {
 	Tag* pTag = nullptr;
-	for (auto& it : Tag::Array.objectTypeList)
+	for (auto& it : Tag::Array.objectList)
 	{
 		if (it->ID == tagID)
 		{
@@ -181,7 +181,7 @@ bool ActionValidator::existsInCellTag()
 	}
 
 
-	for (auto& it : CellTag::Array.objectTypeList)
+	for (auto& it : CellTag::Array.objectList)
 	{
 		if (it->pTag == pTag)
 		{

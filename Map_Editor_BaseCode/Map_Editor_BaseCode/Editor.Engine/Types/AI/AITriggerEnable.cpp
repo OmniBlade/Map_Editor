@@ -31,7 +31,7 @@ void AITriggerEnable::parse(const std::string& id, const std::string& state)
 }
 void AITriggerEnable::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		file.SetValue("AITriggerTypesEnable", it->ID, it->asString());
 	}

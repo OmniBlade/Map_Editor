@@ -34,11 +34,11 @@ void Tube::parse(const std::string& id, const std::string& entry)
 
 void Tube::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		std::stringstream number;
 		int i = 0;
-		for (auto& it : Array.objectTypeList)
+		for (auto& it : Array.objectList)
 		{
 			number << i;
 			file.SetValue("Tubes", number.str(), it->asString());

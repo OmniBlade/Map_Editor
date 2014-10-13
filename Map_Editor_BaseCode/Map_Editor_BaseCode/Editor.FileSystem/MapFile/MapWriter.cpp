@@ -27,6 +27,7 @@
 #include "../../Editor.Engine/Types/Smudge.hpp"
 #include "../../Editor.Engine/Basics/MapStats.hpp"
 #include "../../Editor.Engine/Map/IsoMapPack.hpp"
+#include "../../Editor.Engine/Map/OverlayPack.hpp"
 
 void MapWriter::writeMap(const std::string& fullFileName)
 {
@@ -55,7 +56,8 @@ void MapWriter::writeMap(const std::string& fullFileName)
 	Terrain::writeToINI(aFile);
 	Smudge::writeToINI(aFile);
 	MapStats::writeToINI(aFile);
-	IsoMapPack::instance->writeToINI(aFile);
+	IsoMapPack::writeToINI(aFile);
+	OverlayPack::writeToINI(aFile);
 
 	aFile.writeToFile(fullFileName, false, true);
 }

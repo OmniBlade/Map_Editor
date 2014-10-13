@@ -214,7 +214,7 @@ bool EventValidator::tagIsValid()
 bool EventValidator::existsInCellTag()
 {
 	Tag* pTag = nullptr;
-	for (auto& it : Tag::Array.objectTypeList)
+	for (auto& it : Tag::Array.objectList)
 	{
 		if (it->ID == tagID)
 		{
@@ -229,7 +229,7 @@ bool EventValidator::existsInCellTag()
 	}
 
 
-	for (auto& it : CellTag::Array.objectTypeList)
+	for (auto& it : CellTag::Array.objectList)
 	{
 		if (it->pTag == pTag)
 		{

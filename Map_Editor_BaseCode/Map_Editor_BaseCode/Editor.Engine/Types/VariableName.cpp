@@ -24,11 +24,11 @@ void VariableName::parse(const std::string& id, const std::string& list)
 
 void VariableName::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		std::stringstream number;
 		int i = 0;
-		for (auto& it : Array.objectTypeList)
+		for (auto& it : Array.objectList)
 		{
 			number << i;
 			file.SetValue("VariableNames", number.str(), it->asString());

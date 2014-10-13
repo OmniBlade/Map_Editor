@@ -90,7 +90,8 @@ void Country::writeContentToINI(INIFile& file)
 	file.SetValue(ID.c_str(), "Prefix", Prefix);
 	file.SetValue(ID.c_str(), "Color", Color);
 	file.SetValue(ID.c_str(), "Side", Side);
-	file.SetValue(ID.c_str(), "MultiplayPassive", WriterHelper::getBoolString(MultiplayPassive, WriterHelper::BoolType::TRUEFALSE));
+	if (Multiplay) file.SetValue(ID.c_str(), "Multiplay", WriterHelper::getBoolString(Multiplay, WriterHelper::BoolType::TRUEFALSE));
+	if (MultiplayPassive) file.SetValue(ID.c_str(), "MultiplayPassive", WriterHelper::getBoolString(MultiplayPassive, WriterHelper::BoolType::TRUEFALSE));
 	file.SetValue(ID.c_str(), "SmartAI", WriterHelper::getBoolString(SmartAI, WriterHelper::BoolType::YESNO));
 	file.SetValue(ID.c_str(), "Side", Side);
 }

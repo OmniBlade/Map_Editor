@@ -27,12 +27,12 @@ void findOrAllocateAll(MapObjectList<T>& list, INISection& section)
 template<typename T>
 void loadAllocatedINI(MapObjectList<T>& list, INIFile& file, bool isGlobal = false)
 {
-	for (unsigned int i = list.lastParsedItem; i < list.objectTypeList.size(); ++i)
+	for (unsigned int i = list.lastParsedItem; i < list.objectList.size(); ++i)
 	{
-		list.objectTypeList[i].get()->parse(&file, isGlobal);
+		list.objectList[i].get()->parse(&file, isGlobal);
 	
 	}
-	list.lastParsedItem = list.objectTypeList.size();
+	list.lastParsedItem = list.objectList.size();
 }
 
 template<typename T>
@@ -46,7 +46,7 @@ void loadFromINI(MapObjectList<T>& list, INIFile& file, const std::string& secti
 	for (const auto& it : uglySection)
 	{
 		list.make();
-		list.objectTypeList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
+		list.objectList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
 	}
 }
 
@@ -61,6 +61,6 @@ void loadAIFromINI(MapObjectList<T>& list, INIFile& file, const std::string& sec
 	for (const auto& it : uglySection)
 	{
 		list.make();
-		list.objectTypeList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()), isGlobal);
+		list.objectList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()), isGlobal);
 	}
 }

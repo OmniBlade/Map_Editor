@@ -20,7 +20,8 @@ public:
 	PackType(INISection* packSection, Type = Type::UNKNOWN);
 	~PackType();
 
-
+	void dumpReadDest();
+	void dumpWriteSrc();
 	/*
 		== Decompression ==
 	*/
@@ -51,6 +52,8 @@ public:
 	std::vector<byte>& getWriteDest() { return writeDest; };
 	void setReadSrc(const std::vector<byte>& bytes) { this->readSrc = bytes; };
 	std::vector<byte>& getReadDest() { return readDest; };
+	void clearReadDest() { readDest.clear(); };
+	void clearWriteDest() { writeDest.clear(); };
 
 	std::string getEncodedString() { return this->encoded64; };
 	void clearEncodedString() { this->encoded64.clear(); };

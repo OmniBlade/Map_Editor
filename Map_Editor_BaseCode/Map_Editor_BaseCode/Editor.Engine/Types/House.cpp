@@ -19,7 +19,7 @@ void House::writeToINI(INIFile& file)
 	//Write section [Houses]
 	std::stringstream number;
 	int i = 0;
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		number << i;
 		file.SetValue("Houses", number.str(), it->ID);
@@ -31,8 +31,7 @@ void House::writeToINI(INIFile& file)
 
 void House::writeContentToINI(INIFile& file)
 {
-	if (Country.empty())
-		file.SetValue(ID.c_str(), "Country", Country);
+	file.SetValue(ID.c_str(), "Country", Country);
 	file.SetValue(ID.c_str(), "TechLevel", Log::toString(TechLevel));
 	file.SetValue(ID.c_str(), "Credits", Log::toString(Credits));
 	file.SetValue(ID.c_str(), "IQ", Log::toString(IQ));

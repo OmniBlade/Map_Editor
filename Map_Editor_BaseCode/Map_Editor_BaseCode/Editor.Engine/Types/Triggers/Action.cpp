@@ -40,7 +40,7 @@ void Action::parseActions()
 
 void Action::writeToINI(INIFile& file)
 {
-	for (auto& it : Array.objectTypeList)
+	for (auto& it : Array.objectList)
 	{
 		file.SetValue("Actions", it->ID, it->asString());
 	}

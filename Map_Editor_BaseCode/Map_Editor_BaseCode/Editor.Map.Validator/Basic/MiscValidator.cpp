@@ -36,7 +36,7 @@ void MiscValidator::validateWaypoint()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [Waypoints] now...", Log::INFO);
-	for (const auto& it : Waypoint::Array.objectTypeList)
+	for (const auto& it : Waypoint::Array.objectList)
 	{
 		if (it->index < 0 || it->index > 701)
 			Log::validatorLine("Waypoint with ID '" + it->ID + "' has an invalid index set.", Log::ERROR_BUFFER);
@@ -49,7 +49,7 @@ void MiscValidator::validateWaypoint()
 
 void MiscValidator::validateLocals()
 {
-	for (const auto& it : VariableName::Array.objectTypeList)
+	for (const auto& it : VariableName::Array.objectList)
 	{
 
 	}
@@ -59,7 +59,7 @@ void MiscValidator::validateTube()
 {
 	Log::validatorLine();
 	Log::validatorLine("Validating [Tubes] now...", Log::INFO);
-	for (const auto& it : Tube::Array.objectTypeList)
+	for (const auto& it : Tube::Array.objectList)
 	{
 		const std::string& oppositeID = getOppositeTube(it.get());
 		if (oppositeID == "")
@@ -73,7 +73,7 @@ void MiscValidator::validateSmudge()
 	Log::validatorLine();
 	Log::validatorLine("Validating [Smudge] now...", Log::INFO);
 	unsigned int index = 0;
-	for (const auto& it : Smudge::Array.objectTypeList)
+	for (const auto& it : Smudge::Array.objectList)
 	{
 		if (!it->pSmudgeType)
 			Log::validatorLine("Smudge at index '" + Log::toString(index) + "' has an invalid SmudgeType set.", Log::ERROR_BUFFER);
@@ -89,7 +89,7 @@ void MiscValidator::validateSmudge()
 
 std::string const& MiscValidator::getOppositeTube(Tube* tube)
 {
-	for (const auto& it : Tube::Array.objectTypeList)
+	for (const auto& it : Tube::Array.objectList)
 	{
 		if (it->startX == tube->endX && it->startY == tube->endY && it->endX == tube->startX && it->endY == tube->startY)
 		{

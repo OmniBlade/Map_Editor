@@ -207,7 +207,7 @@
     <ClInclude Include="Editor.FileSystem\MapFile\ParamCollection.hpp" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamType.hpp" />
     <ClInclude Include="Editor.Engine\Map\PackType.hpp" />
-    <ClInclude Include="Editor.Engine\Map\OverlayDataPack.hpp" />
+    <ClInclude Include="Editor.Engine\Map\OverlayPack.hpp" />
     <ClInclude Include="Editor.Engine\Types\Overlay.h" />
     <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Movie.h" />
     <ClInclude Include="Editor.Objects.Westwood\OverlayTypeValidator.h" />
@@ -353,7 +353,7 @@
     <ClCompile Include="Editor.FileSystem\MapFile\ParamCollection.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\ParamType.cpp" />
     <ClCompile Include="Editor.Engine\Map\PackType.cpp" />
-    <ClCompile Include="Editor.Engine\Map\OverlayDataPack.cpp" />
+    <ClCompile Include="Editor.Engine\Map\OverlayPack.cpp" />
     <ClCompile Include="Editor.Engine\Types\Overlay.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Movie.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\OverlayTypeValidator.cpp" />
