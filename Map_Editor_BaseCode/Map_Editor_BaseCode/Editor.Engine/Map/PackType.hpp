@@ -17,40 +17,20 @@ public:
 		UNKNOWN = 2,
 	};
 
-	PackType(INISection* packSection, Type = Type::UNKNOWN);
+	PackType(Type = Type::UNKNOWN);
 	~PackType();
 
-	void dumpReadDest();
-	void dumpWriteSrc();
 	/*
 		== Decompression ==
 	*/
-	void decompress();
-	
-	/*
-		Decompresses a LZO compressed section
-	*/
-	void decompressLZO();
-
-	/*
-		Decompresses a Format80 compressed section
-	*/
-	void decompressF80();
-	
+	void decompress(byte* src, size_t src_len);
+		
 	/*
 		== Compression ==
 	*/
-	void compress();
-	void compressLZO();
-	void compressF80();
+	void compress(byte* src, size_t src_len);
 
-	void encode64();
-	/* Decodes the INISection* provided, automatically sets readSrc */
-	void decode64();
-
-	void setWriteSrc(const std::vector<byte>& bytes) { this->writeSrc = bytes; };
 	std::vector<byte>& getWriteDest() { return writeDest; };
-	void setReadSrc(const std::vector<byte>& bytes) { this->readSrc = bytes; };
 	std::vector<byte>& getReadDest() { return readDest; };
 	void clearReadDest() { readDest.clear(); };
 	void clearWriteDest() { writeDest.clear(); };
@@ -59,11 +39,10 @@ public:
 	void clearEncodedString() { this->encoded64.clear(); };
 
 private:
-	INISection* packSection;
-	std::vector<byte> readSrc, readDest, writeSrc, writeDest;
+	std::vector<byte> readDest, writeDest;
 	std::string encoded64;
 	Type compression;
-	int srcIndex, destIndex;
+	const static int F80_MAX = 262144;
 
 };
 

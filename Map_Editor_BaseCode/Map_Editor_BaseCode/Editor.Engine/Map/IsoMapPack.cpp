@@ -2,6 +2,7 @@
 #include "IsoMapPack.hpp"
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
+#include "../../Editor.FileSystem/MapFile/Base64.hpp"
 #include "PackType.hpp"
 #include <sstream>
 #include "../../Log.hpp"
@@ -22,15 +23,20 @@ IsoMapPack::IsoMapPack(INISection* isoPack)
 		Log::line("IsoMapPack5 isn't available, cannot read its data!", Log::DEBUG);
 	}
 
-	pack = new PackType(isoPack, PackType::LZO);
+	pack = new PackType(PackType::LZO);
+}
+
+IsoMapPack::~IsoMapPack()
+{
+	delete pack;
 }
 
 void IsoMapPack::read()
 {
 	if (!hasIsoData) return;
 
-	pack->decode64();
-	pack->decompress();
+	auto impSrc = base64_decodeSection(isoPack);
+	pack->decompress(&impSrc[0], impSrc.size());
 	std::vector<byte>& rawData = pack->getReadDest();
 
 	auto pTile = reinterpret_cast<IsoMapPack5Tile*>(&rawData[0]);
@@ -46,10 +52,8 @@ void IsoMapPack::write()
 
 	memcpy(&src[0], &tiles[0], tiles.size() * structSize);
 
-	pack->setWriteSrc(src);
-	pack->compress();
+	pack->compress(&src[0], src.size());
 
-	pack->encode64();
 }
 
 void IsoMapPack::writeToINI(INIFile& file)
@@ -60,8 +64,10 @@ void IsoMapPack::writeToINI(INIFile& file)
 		return;
 	}
 
+	instance->write();
 	PackType* pack = instance->getPack();
-	std::string base64data = std::move(pack->getEncodedString());
+	std::string base64data = base64_encodeBytes(pack->getWriteDest());
+	pack->clearWriteDest();
 	
 	unsigned int keyNumber = 0;
 	for (unsigned int i = 0; i < base64data.length(); i += 70)

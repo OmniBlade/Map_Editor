@@ -108,47 +108,5 @@ void MapAssetLoader::dumpTypes()
 void MapAssetLoader::loadOverlay(INIFile* mapFile)
 {
 
-	return;
-
-	Log::line("KEKEKEKE", Log::DEBUG);
-	std::vector<byte> overlayData, overlayPack;
-
-	PackType anOverlayPack(mapFile->getSection("OverlayPack"), PackType::F80);
-	PackType anOverlayDataPack(mapFile->getSection("OverlayDataPack"), PackType::F80);
-
-	anOverlayDataPack.decode64();
-	anOverlayPack.decode64();
-
-	anOverlayDataPack.decompress();
-	anOverlayPack.decompress();
-
-	overlayData = anOverlayDataPack.getReadDest();
-	overlayPack = anOverlayPack.getReadDest();
-
-	int x = 0, y = 0;
-
-	for (unsigned int i = 0; i < 511; ++i, ++x)
-	{
-		for (unsigned int j = 0; j < 511; ++j, ++y)
-		{
-			if (overlayPack[x + y] != 0xFF)
-			{
-				Overlay::Array.createOverlay(x, j, overlayPack[x + y], overlayData[x+y]);
-			}
-		}
-	}
-
-	auto dest = anOverlayPack.getReadDest();
-
-	anOverlayPack.setWriteSrc(anOverlayPack.getReadDest());
-
-	anOverlayPack.setWriteSrc(anOverlayPack.getReadDest());
-	anOverlayPack.compress();
-
-	anOverlayPack.setReadSrc(anOverlayPack.getWriteDest());
-	anOverlayPack.decompress();
-
-	auto dest2 = anOverlayPack.getReadDest();
-
 
 }

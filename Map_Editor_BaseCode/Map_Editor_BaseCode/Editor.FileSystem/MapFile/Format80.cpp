@@ -7,22 +7,22 @@ Format80::Format80()
 {
 }
 
-/* static */  void Format80::decodeInto(std::vector<byte>::iterator& srcIter, std::vector<byte>::iterator& itEnd, std::vector<byte>::iterator& destBegin, std::vector<byte>::iterator& destIter)
+/* static */  void Format80::decompressInto(byte* src, size_t src_len, byte* destStart, byte* dest)
 {
-	while (srcIter != itEnd)
+	while (--src_len > 0)
 	{
-		byte code = *srcIter++;
+		byte code = *src++;
 
 		//Bit 1 = 0
 		if ((code & 0x80) == 0)
 		{//Case 2 - command 2
 			short count = (code >> 4) + 3;
-			int relPos = ((code & 0xf) << 8) | *srcIter++;
-			auto copyIter = destIter - relPos;
+			int relPos = ((code & 0xf) << 8) | *src++;
+			auto copyIter = dest - relPos;
 
 			while (count-- != 0)
 			{
-				*destIter++ = *copyIter++;
+				*dest++ = *copyIter++;
 			}
 		}
 		//Bit 1 = 1
@@ -39,57 +39,57 @@ Format80::Format80()
 
 				while (count-- != 0)
 				{
-					*destIter++ = *srcIter++;
+					*dest++ = *src++;
 				}
 			}
 			else if (code == 0xFE) // Last bit 0
 			{//Case 4 - command 4 - fill
 				word temp = 0;
-				temp |= *srcIter++;
-				temp |= *srcIter++ << 8;
+				temp |= *src++;
+				temp |= *src++ << 8;
 				count = temp;
-				code = *srcIter++;
+				code = *src++;
 
 				while (count-- != 0)
 				{
-					*destIter++ = code;
+					*dest++ = code;
 				}
 			}
 			else if (code == 0xFF)
 			{//Case 5 - command 5 - copy
 				word temp2 = 0;
-				temp2 |= *srcIter++;
-				temp2 |= *srcIter++ << 8;
+				temp2 |= *src++;
+				temp2 |= *src++ << 8;
 				count = temp2;
 
 				word temp = 0;
-				temp |= *srcIter++;
-				temp |= *srcIter++ << 8;
-				auto copyIter = destBegin + temp;
+				temp |= *src++;
+				temp |= *src++ << 8;
+				auto copyIter = destStart + temp;
 
 				while (count-- != 0)
 				{
-					*destIter++ = *copyIter++;
+					*dest++ = *copyIter++;
 				}
 			}
 			else
 			{//Case 3 - command 3 - bit 6 = 1
 				count += 3;
 				word pos = 0;
-				pos |= *srcIter++;
-				pos |= *srcIter++ << 8;
-				auto copyIter = destBegin + pos;
+				pos |= *src++;
+				pos |= *src++ << 8;
+				auto copyIter = destStart + pos;
 
 				while (count-- != 0)
 				{
-					*destIter++ = *copyIter++;
+					*dest++ = *copyIter++;
 				}
 			}
 		}
 	}
 }
 
-int Format80::encodeInto(byte* src, size_t src_len, byte* dest)
+int Format80::compressInto(byte* src, size_t src_len, byte* dest)
 {
 	//std::vector<byte> dest(src.size());
 	int finalDestSize = 0;

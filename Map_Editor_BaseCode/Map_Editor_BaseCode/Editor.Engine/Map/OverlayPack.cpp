@@ -2,6 +2,7 @@
 #include "OverlayPack.hpp"
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
+#include "../../Editor.FileSystem/MapFile/Base64.hpp"
 #include "../Types/Overlay.h"
 #include "PackType.hpp"
 
@@ -31,14 +32,14 @@ void OverlayPack::read()
 		return;
 	}
 
-	pOverlayDataPack = new PackType(dataPack, PackType::F80);
-	pOverlayPack = new PackType(pack, PackType::F80);
+	pOverlayDataPack = new PackType(PackType::F80);
+	pOverlayPack = new PackType(PackType::F80);
 
-	pOverlayPack->decode64();
-	pOverlayDataPack->decode64();
+	std::vector<byte> opSrc = base64_decodeSection(pack);
+	std::vector<byte> opdSrc = base64_decodeSection(dataPack);
 
-	pOverlayPack->decompress();
-	pOverlayDataPack->decompress();
+	pOverlayPack->decompress(&opSrc[0], opSrc.size());
+	pOverlayDataPack->decompress(&opdSrc[0], opdSrc.size());
 
 	//map_write_test.ini
 }
@@ -50,13 +51,9 @@ void OverlayPack::write()
 		return;
 	}
 
-	prepareDataForWriting();
+	pOverlayPack->compress(&prepareDataForWriting(0xFF, true)[0], F80_MAX);
+	pOverlayDataPack->compress(&prepareDataForWriting(0, false)[0], F80_MAX);
 
-	pOverlayPack->compress();
-	pOverlayDataPack->compress();
-
-	pOverlayPack->encode64();
-	pOverlayDataPack->encode64();
 }
 
 void OverlayPack::createOverlayFromData()
@@ -70,8 +67,6 @@ void OverlayPack::createOverlayFromData()
 
 	for (unsigned int y = 0; y < 511; ++y)
 	{
-		//int x = 512 * 2 - 2; x >= 0; x--
-		//unsigned int x = 0; x < 511; ++x
 		for (unsigned int x = 0; x < 511; ++x)
 		{
 			int index = x + y * 512;
@@ -81,10 +76,6 @@ void OverlayPack::createOverlayFromData()
 			}
 		}
 	}
-
-	//All parsing is done, no need for the bytes to occupy the memory for so long
-	//pOverlayPack->clearReadDest();
-	//pOverlayDataPack->clearReadDest();
 }
 
 void OverlayPack::writeToINI(INIFile& file)
@@ -94,6 +85,7 @@ void OverlayPack::writeToINI(INIFile& file)
 		Log::line("SECTION - OverlayData and OverlayDataPack don't exist, will not write to map.", Log::DEBUG);
 		return;
 	}
+	instance->write();
 	//OverlayPack, then OverlayDataPack
 	instance->writeContentToINI(file, instance->pOverlayPack, "OverlayPack");
 	instance->writeContentToINI(file, instance->pOverlayDataPack, "OverlayDataPack");
@@ -101,7 +93,8 @@ void OverlayPack::writeToINI(INIFile& file)
 
 void OverlayPack::writeContentToINI(INIFile& file, PackType* pack, const std::string& sectionName)
 {
-	std::string base64data = std::move(pack->getEncodedString());
+	std::string base64data = base64_encodeBytes(pack->getWriteDest());
+	pack->clearWriteDest();
 
 	unsigned int keyNumber = 0;
 	for (unsigned int i = 0; i < base64data.length(); i += 70)
@@ -112,17 +105,14 @@ void OverlayPack::writeContentToINI(INIFile& file, PackType* pack, const std::st
 	}
 }
 
-void OverlayPack::prepareDataForWriting()
+std::vector<byte> OverlayPack::prepareDataForWriting(byte defaultByte, bool useIndex)
 {
-	std::vector<byte> rawDataBytes(262144, 0);		//OverlayDataPack
-	std::vector<byte> rawBytes(262144, 0xFF);		//OverlayPack
+	std::vector<byte> ret(262144, defaultByte);
 
 	for (auto& it : Overlay::Array.objectList)
 	{
-		rawDataBytes[it->loc.x + it->loc.y * 512] = it->overlayFrame;
-		rawBytes[it->loc.x + it->loc.y * 512] = it->overlayIndex;
+		ret[it->loc.x + it->loc.y * 512] = useIndex ? it->overlayIndex : it->overlayFrame;
 	}
 
-	pOverlayDataPack->setWriteSrc(rawDataBytes);
-	pOverlayPack->setWriteSrc(rawBytes);
+	return ret;
 }

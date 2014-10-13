@@ -25,7 +25,7 @@ public:
 	#pragma pack(pop)
 
 	IsoMapPack(INISection* section);
-	~IsoMapPack() { delete pack; };
+	~IsoMapPack();
 
 	/*
 		Reads the encoded IsoMapPack section and decodes it

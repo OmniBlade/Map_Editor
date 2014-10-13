@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 class INIFile;
 class PackType;
@@ -18,12 +19,13 @@ public:
 	void createOverlayFromData();
 	void writeContentToINI(INIFile& file, PackType* pack, const std::string& sectionName);
 
-	void prepareDataForWriting();
+	std::vector<byte> prepareDataForWriting(byte defaultByte, bool useIndex);
 
 private:
 	bool useOverlay = true;
 	PackType* pOverlayPack;
 	PackType* pOverlayDataPack;
 	INIFile* file;
+	const static int F80_MAX = 262144;
 };
 

@@ -5,6 +5,7 @@
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../Editor.FileSystem/MapFile/Base64.hpp"
 
 /* static */ PreviewPack* PreviewPack::instance;
 
@@ -24,7 +25,7 @@ PreviewPack::PreviewPack(INIFile* map)
 		return;
 	}
 
-	pack = new PackType(pPreviewPack, PackType::LZO);
+	pack = new PackType(PackType::LZO);
 }
 
 
@@ -45,8 +46,8 @@ void PreviewPack::read()
 	split.pop(size.Width);
 	split.pop(size.Height);
 
-	pack->decode64();
-	pack->decompress();
+	auto decoded = base64_decodeSection(pPreviewPack);
+	pack->decompress(&decoded[0], decoded.size());
 	std::vector<byte>& rawData = pack->getReadDest();
 
 	auto pColor = reinterpret_cast<ColorEntry*>(&rawData[0]);
@@ -62,10 +63,8 @@ void PreviewPack::write()
 
 	memcpy(&src[0], &imageBytes[0], imageBytes.size() * structSize);
 
-	pack->setWriteSrc(src);
-	pack->compress();
+	pack->compress(&src[0], src.size());
 
-	pack->encode64();
 }
 
 void PreviewPack::writeToINI(INIFile& file)
@@ -78,8 +77,10 @@ void PreviewPack::writeToINI(INIFile& file)
 
 	file.SetValue("Preview", "Size", instance->sizeAsString());
 
+	instance->write();
 	PackType* pack = instance->getPack();
-	std::string base64data = std::move(pack->getEncodedString());
+	std::string base64data = base64_encodeBytes(pack->getWriteDest());
+	pack->getWriteDest();
 
 	unsigned int keyNumber = 0;
 	for (unsigned int i = 0; i < base64data.length(); i += 70)

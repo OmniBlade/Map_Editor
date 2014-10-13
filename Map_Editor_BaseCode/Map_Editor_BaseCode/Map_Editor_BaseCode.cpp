@@ -195,7 +195,6 @@ void loadMap()
 	INISection* pack = map->getSection("IsoMapPack5");
 	IsoMapPack* isoPack = new IsoMapPack(pack);
 	isoPack->read();
-	isoPack->write();
 
 	OverlayPack* opack = new OverlayPack(map);
 	opack->read();
@@ -231,8 +230,6 @@ void loadMap()
 	mapAssetLoader.load(map);
 	mapAssetLoader.loadOverlay(map);
 	opack->createOverlayFromData();
-	opack->write();
-	pPack->write();
 
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 

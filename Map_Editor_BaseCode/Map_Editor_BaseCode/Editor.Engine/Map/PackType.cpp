@@ -8,8 +8,8 @@
 #include <iostream>
 #include <algorithm>
 
-PackType::PackType(INISection* packSection, Type compressionType)
-:packSection(packSection), compression(compressionType)
+PackType::PackType(Type compressionType)
+:compression(compressionType)
 {
 
 }
@@ -19,124 +19,74 @@ PackType::~PackType()
 	
 }
 
-void PackType::decompress()
+void PackType::decompress(byte* src, size_t src_len)
 {
-	readDest.clear();
-	switch (compression)
-	{
-	case LZO:
-		decompressLZO();
-		break;
-	case F80:
-		decompressF80();
-		break;
-	case UNKNOWN:
-	default:
-		Log::line("Unable to decompress section with name '" + packSection->getSectionName() + "', unknown compression type set." , Log::DEBUG);
-		readDest.push_back(0); //lol srsly?
-		break;
-	}
-}
+	byte* destStart = nullptr;
+	byte* dest = nullptr;
 
-//IsoMapPack5 and PreviewPack use this!
-void PackType::decompressLZO()
-{
-	size_t i = 0;
-	while (i < readSrc.size())
+	if (compression == Type::F80)
 	{
-		auto header = reinterpret_cast<unsigned short*>(&readSrc[i]);
+		readDest.resize(F80_MAX);
+		destStart = &readDest[0];
+		dest = &readDest[0];
+	}
+
+	size_t i = 0;
+	while (i < src_len)
+	{
+		auto header = reinterpret_cast<unsigned short*>(&src[i]);
 		auto InputSize = header[0];
 		auto OutputSize = header[1];
 		i += 4;
 
-		auto size = readSrc.size();
 		auto dSize = readDest.size();
 
-		readDest.resize(readDest.size() + OutputSize);
+		if (compression == Type::LZO)
+			readDest.resize(readDest.size() + OutputSize);
 
 		unsigned long len = 0;
-		lzo1x_decompress(&readSrc[i], InputSize, &readDest[dSize], &len, NULL);
+		if (compression == Type::F80)
+			Format80::decompressInto(&src[i], InputSize, destStart, dest);
+		else
+			lzo1x_decompress(&src[i], InputSize, &readDest[dSize], &len, NULL);
+
 		i += InputSize;
+		if (compression == Type::F80)
+		{
+			dest += OutputSize;
+			destStart += OutputSize;
+		}
 	}
 }
 
-void PackType::dumpReadDest()
-{
-	Log::validatorLine("READ DEST DUMP ====================", Log::INFO);
-	for (unsigned int i = 0; i < readDest.size(); ++i)
-	{
-		Log::validatorLine(Log::toString(i) + " - " + Log::toString((int)readDest[i]), Log::INFO);
-	}
-}
-
-void PackType::dumpWriteSrc()
-{
-	Log::validatorLine("WRITE SRC DUMP ===================", Log::INFO);
-	for (unsigned int i = 0; i < writeSrc.size(); ++i)
-	{
-		Log::validatorLine(Log::toString(i) + " - " + Log::toString((int) writeSrc[i]), Log::INFO);
-	}
-}
-
-//OverlayPack and OverlayDataPack use this!
-void PackType::decompressF80()
-{
-	readDest.resize(262144);
-	auto srcIter = readSrc.begin();
-	auto destIter = readDest.begin();
-	auto destBegin = readDest.begin();
-
-	while (srcIter < readSrc.end())
-	{
-		unsigned short InputSize = 0, OutputSize = 0;
-
-		InputSize |= *srcIter++;
-		InputSize |= *srcIter++ << 8;
-		OutputSize |= *srcIter++;
-		OutputSize |= *srcIter++ << 8;
-
-		Format80::decodeInto(srcIter, readSrc.end(), destBegin, destIter);
-		destBegin += OutputSize;
-	}
-}
-
-void PackType::compress()
-{
-	writeDest.clear();
-	switch (compression)
-	{
-	case LZO:
-		compressLZO();
-		break;
-	case F80:
-		compressF80();
-		break;
-	case UNKNOWN:
-	default:
-		Log::line("Unable to compress section with name '" + packSection->getSectionName() + "', unknown compression type set.", Log::DEBUG);
-		readDest.push_back(0); //lol srsly?
-		break;
-	}
-}
-
-void PackType::compressLZO()
+void PackType::compress(byte* src, size_t src_len)
 {
 	static const size_t MaxBlockSize = 8192;
-	const auto Size = writeSrc.size();
+	const auto Size = src_len;
 
-	writeDest.resize(Size + (Size / 16) + 64 + 3 + (Size / MaxBlockSize + 4));
+	if (compression == Type::F80)
+		writeDest.resize((64 * Size + 62) / 63 + (4 * Size / MaxBlockSize) + 4);
+	else
+		writeDest.resize(Size + (Size / 16) + 64 + 3 + (Size / MaxBlockSize + 4));
 
 	size_t WriteOffset = 0;
-	for (size_t i = 0; i < Size;) 
+	for (size_t i = 0; i < Size;)
 	{
 		const auto BlockSize = std::min(Size - i, MaxBlockSize);
 
 		const size_t HeaderAt = WriteOffset;
 		WriteOffset += 4;
-
+	
 		unsigned long out_len = 0;
-		byte wrkmem[4 * 16384];
-		lzo1x_1_compress(&writeSrc[i], BlockSize, &writeDest[WriteOffset], &out_len, wrkmem);
+		if (compression == Type::F80)
+		{
+			out_len = Format80::compressInto(&src[i], BlockSize, &writeDest[WriteOffset]);;
+		}
+		else
+		{
+			byte wrkmem[4 * 16384];
+			lzo1x_1_compress(&src[i], BlockSize, &writeDest[WriteOffset], &out_len, wrkmem);
+		}
 
 		auto Header = reinterpret_cast<word*>(&writeDest[HeaderAt]);
 		Header[0] = out_len;
@@ -147,44 +97,4 @@ void PackType::compressLZO()
 	}
 
 	writeDest.resize(WriteOffset);
-}
-
-
-void PackType::compressF80()
-{
-	static const size_t MaxBlockSize = 8192;
-	const auto Size = writeSrc.size();
-
-	writeDest.resize((64 * writeSrc.size() + 62) / 63 + (4 * writeSrc.size() / MaxBlockSize) + 4);
-
-	size_t WriteOffset = 0;
-	for (size_t i = 0; i < Size;) 
-	{
-		//Determine chunk size
-		const auto BlockSize = std::min(Size - i, MaxBlockSize);
-		
-		//Compress the bytes
-		size_t out_len = Format80::encodeInto(&writeSrc[i], BlockSize, &writeDest[WriteOffset + 4]);
-
-		auto Header = reinterpret_cast<word*>(&writeDest[WriteOffset]);
-		Header[0] = out_len;
-		Header[1] = BlockSize;
-
-		//Move offset to the next spot to get bytes from
-		i += BlockSize;
-		WriteOffset += out_len + 4;
-	}
-
-	writeDest.resize(WriteOffset);
-
-}
-
-void PackType::encode64()
-{
-	encoded64 = base64_encodeBytes(writeDest);
-}
-
-void PackType::decode64()
-{
-	readSrc = base64_decodeSection(packSection);
 }
