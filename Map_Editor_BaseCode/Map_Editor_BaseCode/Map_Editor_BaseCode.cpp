@@ -20,6 +20,7 @@
 #include "Editor.Engine\Basics\Lighting.hpp"
 #include "Editor.Engine\Basics\SpecialFlag.hpp"
 #include "Editor.Engine\Basics\MapStats.hpp"
+#include "Editor.FileSystem\MapFile\MapMods.h"
 #include "Editor.FileSystem\MapFile\ParamCollection.hpp"
 #include "Editor.FileSystem\MapFile\SActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\ActionCollection.hpp"
@@ -210,11 +211,10 @@ void loadMap()
 		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
 	*/
 	//Log::timerStart();
-	mapLoader.load(rules);
-
+	mapLoader.load(rules, "Rules");
+	mapLoader.load(mode, "Gamemode");
 	mapLoader.setGlobalCountries();
-	mapLoader.load(mode);
-	mapLoader.load(map);
+	mapLoader.load(map, "Map");
 	mapLoader.loadGlobalVariable(); // Causes crash on exit when profiled as WWType
 	mapLoader.loadAI();
 
@@ -226,11 +226,14 @@ void loadMap()
 	Basic::getBasic()->parse();
 	SpecialFlag::instance()->parse();
 	Lighting::instance()->parse();
-	mapAssetLoader.load(mode);
-	mapAssetLoader.load(map);
-	mapAssetLoader.loadOverlay(map);
+	mapAssetLoader.load(mode, "Gamemode");
+	mapAssetLoader.setGlobalValues();
+	mapAssetLoader.load(map, "Map");
 	opack->createOverlayFromData();
 
+	MapMods* mods = new MapMods();
+	mods->parse(map);
+	
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 
 	Log::line("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);

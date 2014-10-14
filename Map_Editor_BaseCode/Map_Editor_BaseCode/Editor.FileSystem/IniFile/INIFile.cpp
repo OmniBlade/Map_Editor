@@ -193,9 +193,24 @@ void INIFile::dumpContent()
 //	}
 }
 
-void INIFile::writeToFile(const std::string& fullpath, bool alphabetic /* = true */, bool closeOnEnd /* = false */)
+void INIFile::deleteSection(const char* section)
 {
-	FileWriter iniWriter(fullpath);
+	auto it_map = sectionList.find(section);
+	auto it_vector = std::find(sections.begin(), sections.end(), section);
+	//auto it = std::find(sectionList.begin(), sectionList.end(), section);
+	sectionList.erase(it_map);
+	sections.erase(it_vector);
+}
+
+void INIFile::writeToFile(const std::string& fullPath, bool alphabetic /* = true */)
+{
+	FileWriter iniWriter(fullPath);
+
+	for (auto& it : comments)
+	{
+		std::string line = "; " + it + "\n";
+		iniWriter.writeBuffer(line.c_str(), line.size());
+	}
 
 	if (alphabetic)
 	{
@@ -235,8 +250,5 @@ void INIFile::writeToFile(const std::string& fullpath, bool alphabetic /* = true
 			iniWriter.flush();
 		}
 	}
-	if (closeOnEnd)
-	{
-		iniWriter.close();
-	}
+	iniWriter.close();
 }

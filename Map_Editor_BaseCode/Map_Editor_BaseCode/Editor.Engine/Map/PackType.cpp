@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "PackType.hpp"
-#include "../../Editor.FileSystem/MapFile/Base64.hpp"
 #include "../../Editor.FileSystem/MapFile/minilzo.h"
 #include "../../Editor.FileSystem/MapFile/Format80.h"
-#include "../../Log.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
+#include "../../Log.hpp"
 #include <iostream>
 #include <algorithm>
 
@@ -89,8 +88,8 @@ void PackType::compress(byte* src, size_t src_len)
 		}
 
 		auto Header = reinterpret_cast<word*>(&writeDest[HeaderAt]);
-		Header[0] = out_len;
-		Header[1] = BlockSize;
+		Header[0] = static_cast<unsigned short>(out_len);
+		Header[1] = static_cast<unsigned short>(BlockSize);
 
 		WriteOffset += out_len;
 		i += BlockSize;

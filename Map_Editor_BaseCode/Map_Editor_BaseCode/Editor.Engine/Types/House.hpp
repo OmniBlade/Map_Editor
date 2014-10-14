@@ -22,6 +22,7 @@ public:
 	std::string alliesAsString();
 	void writeContentToINI(INIFile& file);
 
+	bool isGlobal = false;
 	std::string ID, Name;
 	std::string Country;
 	int TechLevel;

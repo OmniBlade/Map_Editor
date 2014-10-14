@@ -13,19 +13,19 @@ class MapLoader
 {
 public:
 	MapLoader();
-	void load(INIFile* file);
+	void load(INIFile* file, const std::string& name = "");
 	/*
 		Allocates the main rules data as presented by DCoder (used to create proper lists)
 		@param file The rules / map file to parse
 	*/
-	void allocateMainRules(INIFile* file);
+	void allocateMainRules(INIFile* file, const std::string& name = "");
 
 	/*
 		Loads the rules (and art) data as presented by DCoder (used to fill proper lists)
 		@param file The rules / map file to parse
 		@param art The artmd.ini file (always the same!)
 	*/
-	void loadAll(INIFile* file);
+	void loadAll(INIFile* file, const std::string& name = "");
 
 	/*
 		Loads the audio stuff from the game, this includes EVA speeches (Eva, Sofia), themes (music) and sound effects

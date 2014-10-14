@@ -67,6 +67,17 @@ public:
 		objectList.push_back(std::make_unique<T>(x, y, index, frame));
 	}
 
+	std::vector<std::string> getIDOfLocalObjects()
+	{
+		std::vector<std::string> ret;
+		for (auto& it : objectList)
+		{
+			if (!it->isGlobal)
+				ret.push_back(it->ID);
+		}
+		return ret;
+	}
+
 	std::vector<std::unique_ptr<T>> objectList;
 	int lastParsedItem = 0;
 };

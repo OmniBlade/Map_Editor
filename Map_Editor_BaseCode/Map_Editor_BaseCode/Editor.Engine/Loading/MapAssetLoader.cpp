@@ -31,29 +31,31 @@ MapAssetLoader::MapAssetLoader()
 {
 }
 
-void MapAssetLoader::load(INIFile* mapFile)
+void MapAssetLoader::load(INIFile* mapFile, const std::string& name)
 {
 	if (!mapFile)
 	{
-		Log::line("Unable to allocate map objects, file doesn't exist!", Log::DEBUG);
+		Log::line("Unable to allocate map objects, '" + name + "' file doesn't exist!", Log::DEBUG);
 		return;
 	}
 
-	allocateMainData(mapFile);
-	loadAll(mapFile);
+	allocateMainData(mapFile, name);
+	loadAll(mapFile, name);
 }
 
-void MapAssetLoader::allocateMainData(INIFile* mapFile)
+void MapAssetLoader::allocateMainData(INIFile* mapFile, const std::string& name)
 {
+	Log::line("Allocating map objects now for '" + name + "'...", Log::DEBUG);
+
 	allocateAll(House::Array, mapFile, "Houses");
 	allocateAll(TeamType::Array, mapFile, "TeamTypes");
 	allocateAll(TaskForce::Array, mapFile, "TaskForces");
 	allocateAll(ScriptType::Array, mapFile, "ScriptTypes");
 }
 
-void MapAssetLoader::loadAll(INIFile* mapFile)
+void MapAssetLoader::loadAll(INIFile* mapFile, const std::string& name)
 {
-	Log::line("Loading map objects now...", Log::DEBUG);
+	Log::line("Loading map objects now for '" + name + "'...", Log::DEBUG);
 
 	loadFromINI(Waypoint::Array, *mapFile, "Waypoints");
 	loadFromINI(VariableName::Array, *mapFile, "VariableNames");
@@ -105,8 +107,26 @@ void MapAssetLoader::dumpTypes()
 	Log::line();
 }
 
-void MapAssetLoader::loadOverlay(INIFile* mapFile)
+void MapAssetLoader::setGlobalValues()
 {
+	for (auto& it : House::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
 
+	for (auto& it : TeamType::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
+	for (auto& it : TaskForce::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
+	for (auto& it : ScriptType::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
 
 }

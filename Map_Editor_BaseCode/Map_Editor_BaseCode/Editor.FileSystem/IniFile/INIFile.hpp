@@ -7,6 +7,7 @@
 #include <string>
 #include "INISection.hpp"
 #include "INIFile.hpp"
+#include "../FileManager/FileWriter.h"
 
 struct FileProperties;
 
@@ -26,8 +27,17 @@ public:
 	bool getLoaded() const;
 	std::string& getININame();
 
+	std::vector<std::string> getSectionList() { return sections; };
+
+	void addSectionByCopy(INISection* section) { for (const auto& it : *section) { SetValue(section->getSectionName().c_str(), it, section->getValue(it)); } };
+	void deleteSection(const char* section);
+
 	void dumpContent();
-	void writeToFile(const std::string& fullpath, bool alphabetic = true, bool closeOnEnd = false);
+
+	void writeToFile(const std::string& fullPath, bool alphabetic = true);
+
+	/* Adds a comment to the start of the map file, ONLY at the start of the map file! */
+	void addCommentAtTop(const std::string& comment) { comments.push_back(comment); };
 
 private:
 	struct ItemKey
@@ -39,10 +49,12 @@ private:
 	int atEnc = 0;
 	bool isLoaded = false;
 	std::string iniName, mixName;
-	std::map<ItemKey, std::unique_ptr<INISection>> sectionList;
+	std::map<ItemKey, std::shared_ptr<INISection>> sectionList;
 	std::vector<std::string> includeINIs;
 	std::vector<std::string> sections;
+	std::vector<std::string> comments;
 	std::vector<char> enc;
+	FileWriter* iniWriter;
 };
 
 #endif /* INIFILE_HPP_ */

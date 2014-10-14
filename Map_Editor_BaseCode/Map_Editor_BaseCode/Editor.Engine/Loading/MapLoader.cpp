@@ -49,21 +49,21 @@ MapLoader::MapLoader()
 	loadAudio();
 }
 
-void MapLoader::load(INIFile* file)
+void MapLoader::load(INIFile* file, const std::string& name)
 {
 	if (!file)
 	{
-		Log::line("Unable to allocate rules, file doesn't exist!", Log::DEBUG);
+		Log::line("Unable to allocate rules, '" + name + "' file doesn't exist!", Log::DEBUG);
 		return;
 	}
 
-	allocateMainRules(file);
-	loadAll(file);
+	allocateMainRules(file, name);
+	loadAll(file, name);
 }
 
-void MapLoader::allocateMainRules(INIFile* file)
+void MapLoader::allocateMainRules(INIFile* file, const std::string& name)
 {
-	Log::line("Allocating main rules now...", Log::DEBUG);
+	Log::line("Allocating main rules now for '" + name + "'...", Log::DEBUG);
 
 	allocateAll(Country::Array, file, "Countries");
 	allocateAll(OverlayType::Array, file, "OverlayTypes");
@@ -90,11 +90,11 @@ void MapLoader::allocateMainRules(INIFile* file)
 
 }
 
-void MapLoader::loadAll(INIFile* file)
+void MapLoader::loadAll(INIFile* file, const std::string& name)
 {
 	INIFile* art = INIManager::instance()->get(Config::art);
 
-	Log::line("Loading main rules now...", Log::DEBUG);
+	Log::line("Loading main rules now for '" + name + "'...", Log::DEBUG);
 	//3 times for rules / gamemode mode / mapmod
 	loadFromINI(Country::Array, *file, *art);
 	sides->loadRules(file);

@@ -37,7 +37,7 @@ bool Basic::isSP()
 
 bool Basic::isCoop()
 {
-	return getBasic()->isCoop && isMP();
+	return getBasic()->isACoop && isMP();
 }
 
 void Basic::writeToINI(INIFile& file)

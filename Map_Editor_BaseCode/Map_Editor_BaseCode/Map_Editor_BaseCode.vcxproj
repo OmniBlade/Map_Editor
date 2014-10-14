@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClInclude Include="Editor.Engine\Lists\ScriptList.h" />
     <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\MapModsHelper.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\INameHelper.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\WriterHelper.h" />
@@ -212,6 +213,7 @@
     <ClInclude Include="Editor.Objects.Westwood\AudioVisual\Movie.h" />
     <ClInclude Include="Editor.Objects.Westwood\OverlayTypeValidator.h" />
     <ClInclude Include="Editor.Engine\Map\PreviewPack.h" />
+    <ClInclude Include="Editor.FileSystem\MapFile\MapMods.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -324,6 +326,7 @@
     <ClCompile Include="Editor.FileSystem\MapFile\MapWriter.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
+    <ClCompile Include="Editor.FileSystem\MapFile\MapMods.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\OverlayType.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\BinaryReader.cpp" />

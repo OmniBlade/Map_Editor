@@ -90,6 +90,16 @@ public:
 		typeList.push_back(std::make_unique<T>());
 	}
 
+	std::vector<std::string> getIDOfLocalObjects()
+	{
+		std::vector<std::string> ret;
+		for (auto& it : typeList)
+		{
+			ret.push_back(it->ID);
+		}
+		return ret;
+	}
+
 	std::vector<std::unique_ptr<T>> typeList;
 };
 

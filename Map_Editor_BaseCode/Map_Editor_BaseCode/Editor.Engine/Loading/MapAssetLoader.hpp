@@ -7,20 +7,20 @@ class MapAssetLoader
 public:
 	MapAssetLoader();
 
-	void load(INIFile* mapFile);
+	void load(INIFile* mapFile, const std::string& name = "");
 
 	/*
 		This function is used to load sections like TeamTypes, TaskForces, ScriptTypes and Houses
 		These sections use a FOA-ish way to get loaded (like with BuildingTypes and friends)
 		@param mapFile The INI file that contains map 'code'
 	*/
-	void allocateMainData(INIFile* mapFile);
+	void allocateMainData(INIFile* mapFile, const std::string& name = "");
 
 	/*
 		Loads all the content from the given INI file
 		@param mapFile The INI file that contains map 'code'
 	*/
-	void loadAll(INIFile* mapFile);
+	void loadAll(INIFile* mapFile, const std::string& name = "");
 
 	/*
 		Updates all Triggers that have an attached Trigger set,
@@ -34,12 +34,7 @@ public:
 	*/
 	void dumpTypes();
 
-	/* 
-		Probably temporary code!
-		Loads the Overlay from the two encoded packed sections OverlayPack and OverlayDataPack
-		@param mapFile The INI file that contains map 'code'
-	*/
-	void loadOverlay(INIFile* mapFile);
+	void setGlobalValues();
 
 };
 

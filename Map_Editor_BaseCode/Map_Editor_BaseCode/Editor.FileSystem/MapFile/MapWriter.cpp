@@ -25,14 +25,26 @@
 #include "../../Editor.Engine/Types/Objects/Terrain.hpp"
 #include "../../Editor.Engine/Types/Objects/Unit.hpp"
 #include "../../Editor.Engine/Types/Smudge.hpp"
+#include "../../Editor.Engine/Types/Tube.hpp"
 #include "../../Editor.Engine/Basics/MapStats.hpp"
 #include "../../Editor.Engine/Map/IsoMapPack.hpp"
 #include "../../Editor.Engine/Map/OverlayPack.hpp"
 #include "../../Editor.Engine/Map/PreviewPack.h"
+#include "MapMods.h"
 
 void MapWriter::writeMap(const std::string& fullFileName)
 {
 	INIFile aFile;
+
+	Log::line();
+	Log::line("Writing map now!", Log::DEBUG);
+
+	aFile.addCommentAtTop("Map Editor 2014 - Red Alert 2 & Yuri's Revenge build");
+	aFile.addCommentAtTop("This tool is open-source, find it on GitHub");
+	aFile.addCommentAtTop("All hail the Mapping God RP!");
+	aFile.addCommentAtTop("THIS IS A MAP CREATED BY AN UNSTABLE BUILD OF THE EDITOR - BUGS ARE TO BE EXPECTED");
+
+	MapMods::writeToINI(aFile);
 	Basic::writeToINI(aFile);
 	SpecialFlag::writeToINI(aFile);
 	Lighting::writeToINI(aFile);
@@ -56,12 +68,16 @@ void MapWriter::writeMap(const std::string& fullFileName)
 	Waypoint::writeToINI(aFile);
 	Terrain::writeToINI(aFile);
 	Smudge::writeToINI(aFile);
+	Tube::writeToINI(aFile);
 	MapStats::writeToINI(aFile);
 	PreviewPack::writeToINI(aFile);
 	IsoMapPack::writeToINI(aFile);
 	OverlayPack::writeToINI(aFile);
 
-	aFile.writeToFile(fullFileName, false, true);
+	aFile.writeToFile(fullFileName, false);
+
+	Log::line("Map succesfully written!", Log::DEBUG);
+
 }
 	/*
 		V[Basic]
@@ -92,6 +108,7 @@ void MapWriter::writeMap(const std::string& fullFileName)
 		V[Waypoints]
 		V[Terrain]
 		V[Smudge]
+		V[Tubes]
 		V[Map]
 		[Header]
 		V[Preview] -- Size of the picture
