@@ -39,7 +39,6 @@ INIFile* INIManager::cache(const std::string& fileName)
 	{
 		iniFiles[fileName] = std::make_unique<INIFile>(props);
 		Log::line("INI: " + fileName + " succesfully cached.", Log::DEBUG);
-		std::cout << "INI " << fileName << " cached" << std::endl;
 		return iniFiles[fileName].get();
 	}
 	else
@@ -113,6 +112,15 @@ void INIManager::insert(const std::string& fileName, INIFile* file)
 	if (iniFiles[capsName].get() == nullptr)
 	{
 		iniFiles[capsName] = std::unique_ptr<INIFile>(file);
-	}
-		
+	}	
+}
+
+INIFile* INIManager::insertEmpty(const std::string& fileName)
+{
+	std::string capsName = fileName;
+	std::transform(capsName.begin(), capsName.end(), capsName.begin(), ::toupper);
+
+	iniFiles[capsName] = std::make_unique<INIFile>();
+	
+	return iniFiles[capsName].get();
 }

@@ -108,7 +108,7 @@ void BuildingType::loadArt(INIFile* art)
 	artSection->readIntValue("OccupyHeight", OccupyHeight);
 	artSection->readStringValue("ToOverlay", ToOverlay);
 	OverlayType::Array.findOrAllocate(ToOverlay);
-	Foundation; //TODO: implement foundations
+	Foundation.parse(artSection);
 	artSection->readBoolValue("TerrainPalette", TerrainPalette);
 	//Active Anim1
 	artSection->readStringValue("ActiveAnim", ActiveAnim);

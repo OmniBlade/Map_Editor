@@ -21,6 +21,7 @@ std::string Config::editorRoot = "";
 std::string Config::installDir = "";
 std::string Config::executable = "GAMEMD.EXE";
 std::string Config::backSlash = "\\";
+std::string Config::mapModsName = ".%.MM.%.";
 std::string Config::missionDisk = "MD";
 std::string Config::expand = "EXPAND";
 std::string Config::ecache = "ECACHE";

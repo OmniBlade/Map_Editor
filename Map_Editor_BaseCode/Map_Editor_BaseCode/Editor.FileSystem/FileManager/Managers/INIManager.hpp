@@ -19,6 +19,7 @@ public:
 	void loadIncludeINI(const std::string& fileName, std::vector<std::string>& includes, INIFile* parent);
 	void cacheIncluded(const std::string& fileName, INIFile* parent);
 	void insert(const std::string& fileName, INIFile* file);
+	INIFile* insertEmpty(const std::string& fileName);
 
 	bool exists(const std::string& fileName) { if (iniFiles[fileName]) return true; return false; };
 

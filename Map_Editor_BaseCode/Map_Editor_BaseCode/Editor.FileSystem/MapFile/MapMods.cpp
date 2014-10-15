@@ -4,6 +4,7 @@
 #include "../../Editor.Objects.Westwood/Managers/WWList.hpp"
 #include "MapModsHelper.h"
 #include "../INIFile/INIFile.hpp"
+#include "../FileManager/Managers/INIManager.hpp"
 #include "../../Editor.Engine/Types/House.hpp"
 #include "../../Editor.Objects.Westwood/Types/Country.hpp"
 #include "../../Editor.Engine/Types/AI/AITriggerType.hpp"
@@ -11,6 +12,7 @@
 #include "../../Editor.Engine/Types/TeamTypes/TeamType.hpp"
 #include "../../Editor.Engine/Types/TeamTypes/TaskForce.hpp"
 #include "../FileManager/Managers/INIManager.hpp"
+#include "../../Config.hpp"
 
 /* static */ MapMods* MapMods::instance;
 
@@ -18,6 +20,8 @@ MapMods::MapMods()
 {
 	instance = this;
 	fillMapSections();
+
+	modsFile = INIManager::instance()->insertEmpty(Config::mapModsName);
 }
 
 
@@ -27,9 +31,9 @@ MapMods::~MapMods()
 
 void MapMods::writeToINI(INIFile& file)
 {
-	for (auto& it : instance->modsFile.getSectionList())
+	for (auto& it : instance->modsFile->getSectionList())
 	{
-		file.addSectionByCopy(instance->modsFile.getSection(it));
+		file.addSectionByCopy(instance->modsFile->getSection(it));
 	}
 }
 
@@ -41,7 +45,7 @@ void MapMods::parse(INIFile* map)
 		if (!isAMapSection(it))
 		{
 			//This might need a rework
-			modsFile.addSectionByCopy(map->getSection(it));
+			modsFile->addSectionByCopy(map->getSection(it));
 		}
 	}
 }

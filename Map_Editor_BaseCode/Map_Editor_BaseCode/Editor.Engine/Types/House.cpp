@@ -92,7 +92,10 @@ void House::loadAllies(const std::string& alliesList)
 	LineSplitter split(alliesList);
 	for (unsigned int i = 0; i < split.size(); ++i)
 	{
-		Allies.push_back(split.peekFromIndex_string(i));
+		if (split.peekFromIndex_string(i) != ID)
+		{
+			Allies.push_back(split.peekFromIndex_string(i));
+		}
 	}
 }
 
@@ -138,5 +141,12 @@ std::string House::alliesAsString()
 		ret.append("," + it);
 	}
 
-	return ret.substr(1, ret.size());
+	if (ret.length() > 1)
+	{
+		return ret.substr(1, ret.size());
+	}
+	else
+	{
+		return "";
+	}
 }
