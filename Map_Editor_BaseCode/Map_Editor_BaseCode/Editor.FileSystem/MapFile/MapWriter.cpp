@@ -30,6 +30,7 @@
 #include "../../Editor.Engine/Map/IsoMapPack.hpp"
 #include "../../Editor.Engine/Map/OverlayPack.hpp"
 #include "../../Editor.Engine/Map/PreviewPack.h"
+#include "../../Editor.Engine/Map/DigestClass.h"
 #include "MapMods.h"
 
 void MapWriter::writeMap(const std::string& fullFileName)
@@ -38,41 +39,46 @@ void MapWriter::writeMap(const std::string& fullFileName)
 
 	Log::line();
 	Log::line("Writing map now!", Log::DEBUG);
+	Log::line("Writing to: " + fullFileName, Log::DEBUG);
 
 	aFile.addCommentAtTop("Map Editor 2014 - Red Alert 2 & Yuri's Revenge build");
-	aFile.addCommentAtTop("This tool is open-source, find it on GitHub");
 	aFile.addCommentAtTop("All hail the Mapping God RP!");
+	aFile.addCommentAtTop("You've viewed all map modifications when Basic section starts.");
+	aFile.addCommentAtTop("");
 	aFile.addCommentAtTop("THIS IS A MAP CREATED BY AN UNSTABLE BUILD OF THE EDITOR - BUGS ARE TO BE EXPECTED");
 
 	MapMods::writeToINI(aFile);
-	Basic::writeToINI(aFile);
-	SpecialFlag::writeToINI(aFile);
-	Lighting::writeToINI(aFile);
-	VariableName::writeToINI(aFile);
-	House::writeToINI(aFile);
 	Country::writeToINI(aFile);
-	Aircraft::writeToINI(aFile);
+	//Header
+	SpecialFlag::writeToINI(aFile);
+	//Ranking
+	Basic::writeToINI(aFile);
+	VariableName::writeToINI(aFile);
+	Lighting::writeToINI(aFile);	
+	PreviewPack::writeToINI(aFile);
+	House::writeToINI(aFile);
+	MapStats::writeToINI(aFile);
+	Waypoint::writeToINI(aFile);
+	CellTag::writeToINI(aFile);
+	IsoMapPack::writeToINI(aFile);
+	Tube::writeToINI(aFile);
+	Terrain::writeToINI(aFile);
+	Unit::writeToINI(aFile);
 	Infantry::writeToINI(aFile);
 	Structure::writeToINI(aFile);
-	Unit::writeToINI(aFile);
-	AITriggerEnable::writeToINI(aFile);
-	AITriggerType::writeToINI(aFile);
+	Aircraft::writeToINI(aFile);
+	OverlayPack::writeToINI(aFile);
+	Smudge::writeToINI(aFile);
 	ScriptType::writeToINI(aFile);
-	TaskForce::writeToINI(aFile);
+	TaskForce::writeToINI(aFile);	
 	TeamType::writeToINI(aFile);
-	Tag::writeToINI(aFile);
+	AITriggerType::writeToINI(aFile);
+	AITriggerEnable::writeToINI(aFile);
 	Trigger::writeToINI(aFile);
 	Event::writeToINI(aFile);
 	Action::writeToINI(aFile);
-	CellTag::writeToINI(aFile);
-	Waypoint::writeToINI(aFile);
-	Terrain::writeToINI(aFile);
-	Smudge::writeToINI(aFile);
-	Tube::writeToINI(aFile);
-	MapStats::writeToINI(aFile);
-	PreviewPack::writeToINI(aFile);
-	IsoMapPack::writeToINI(aFile);
-	OverlayPack::writeToINI(aFile);
+	Tag::writeToINI(aFile);
+	DigestClass::writeToINI(aFile);
 
 	aFile.writeToFile(fullFileName, false);
 

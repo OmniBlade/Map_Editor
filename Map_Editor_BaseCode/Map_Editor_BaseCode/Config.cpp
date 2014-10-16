@@ -4,10 +4,11 @@
 #include "GameDefinition.h"
 #include "Editor.FileSystem\FileManager\Managers\INIManager.hpp"
 #include "Editor.FileSystem\IniFile\INISection.hpp"
+#include "Editor.FileSystem\MapFile\WriterHelper.h"
 
 // This is FIXED for Red Alert 2 and Yuri's Revenge. Only changed for TS/FS
-unsigned int Config::tileWidth = 60;
-unsigned int Config::tileHeight = 30;
+const unsigned int Config::tileWidth = 60;
+const unsigned int Config::tileHeight = 30;
 int Config::language = -1;
 std::string Config::configName = "";
 bool Config::enableDebug = false;
@@ -17,11 +18,12 @@ bool Config::isSP = false;
 std::string Config::mapName = "";
 
 // [MAIN]
+std::string Config::name = "Unknown: RA2, YR?";
 std::string Config::editorRoot = "";
 std::string Config::installDir = "";
 std::string Config::executable = "GAMEMD.EXE";
 std::string Config::backSlash = "\\";
-std::string Config::mapModsName = ".%.MM.%.";
+std::string const Config::mapModsName = ".%.MM.%.";
 std::string Config::missionDisk = "MD";
 std::string Config::expand = "EXPAND";
 std::string Config::ecache = "ECACHE";
@@ -48,25 +50,32 @@ std::string Config::coop	= "COOPCAMPMD.INI";
 // [GameExtension]
 bool Config::hasAres = false;
 
-void Config::parse(INIFile* configINI)
+void Config::parse(INIFile* configINI, const std::string& nameDefault)
 {
-	Log::line();
-	Log::line("Showing configuration file flags below:", Log::DEBUG);
+	if (!nameDefault.empty())
+	{
+		name = nameDefault;
+		Log::line("Setting up editor for: " + nameDefault + ".", Log::DEBUG);
+	}
+
 	if (configINI != nullptr)
 	{
 		if (INISection* mainSection = configINI->getSection("Main"))
 		{
-			std::string defE;
+			std::string defE, defN;
 			if (Game::title == Game::Type::Base)
 			{
 				defE = "GAME.EXE";
+				defN = "Red Alert 2";
 			}
 			else
 			{
 				defE = "GAMEMD.EXE";
+				defN = "Yuri's Revenge";
 			}
 
-			mainSection->readStringValue("Executable", Config::executable, defE, true);
+			mainSection->readStringValue("Name", Config::name, defN, false);
+			if(!nameDefault.empty()) mainSection->readStringValue("Executable", Config::executable, defN, true);
 			if (Game::title == Game::Type::Expansion)
 			{
 				mainSection->readStringValue("MissionDisk", Config::missionDisk, "MD", true);
@@ -81,11 +90,26 @@ void Config::parse(INIFile* configINI)
 			Log::line("Section [Main] (" + configName + ") could not be found! Using defaults.", Log::DEBUG);
 			if (Game::title == Game::Type::Base)
 			{
+				if(!nameDefault.empty()) name = "Red Alert 2";
 				executable = "GAME.EXE";
+			}
+			else if (Game::title == Game::Type::Expansion)
+			{
+				if(!nameDefault.empty()) name = "Yuri's Revenge";
 			}
 		}
 		
-		Log::line("Install directory: " + installDir, Log::DEBUG);
+
+		if (nameDefault.empty())
+		{
+			Log::line("Setting up editor for: " + name + ".", Log::DEBUG);
+		}
+
+		Log::line();
+		Log::line("Showing configuration file flags below:", Log::DEBUG);
+
+
+		Log::line("Install directory is: " + installDir, Log::DEBUG);
 		Log::line("Executable name: " + executable, Log::DEBUG);
 		Log::line("Expand: " + expand, Log::DEBUG);
 		Log::line("Ecache: " + ecache, Log::DEBUG);
@@ -174,7 +198,7 @@ void Config::parse(INIFile* configINI)
 				Log::line("Section [GameExtension] could not be found! Using defaults.", Log::DEBUG);
 				hasAres = false;
 			}
-			Log::line("Ares: " + Log::toString(hasAres), Log::DEBUG);
+			Log::line("Ares: " + BoolWriter::getBoolString(hasAres, BoolWriter::BoolType::YESNO), Log::DEBUG);
 		}
 	}
 	else

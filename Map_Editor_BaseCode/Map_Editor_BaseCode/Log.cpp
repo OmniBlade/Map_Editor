@@ -270,8 +270,6 @@ std::string Log::getTimerValue()
 		else
 			std::cout << "Creating 'Logging' directory in editor root failed, are you running this as administrator?" << std::endl;
 	}
-	else
-		std::cout << "'Logging' exists in the editor root!" << std::endl;
 
 	startTime = std::chrono::system_clock::now();
 	startDateTime = getDateTimeForFile();

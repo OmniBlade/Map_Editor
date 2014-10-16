@@ -42,15 +42,15 @@ void House::writeContentToINI(INIFile& file)
 	file.SetValue(ID.c_str(), "Credits", Log::toString(Credits));
 	file.SetValue(ID.c_str(), "IQ", Log::toString(IQ));
 	file.SetValue(ID.c_str(), "Edge", Edge);
-	file.SetValue(ID.c_str(), "PlayerControl", WriterHelper::getBoolString(PlayerControl, WriterHelper::BoolType::YESNO));
+	file.SetValue(ID.c_str(), "PlayerControl", BoolWriter::getBoolString(PlayerControl, BoolWriter::BoolType::YESNO));
 	file.SetValue(ID.c_str(), "Color", Color);
 	file.SetValue(ID.c_str(), "PercentBuilt", Log::toString(PercentBuilt));
 	file.SetValue(ID.c_str(), "Allies", alliesAsString());
+	file.SetValue(ID.c_str(), "NodeCount", Log::toString(NodeCount));
 
 	std::stringstream number;
 	if (NodeCount > 0)
 	{
-		file.SetValue(ID.c_str(), "NodeCount", Log::toString(NodeCount));
 		for (int i = 0; i < NodeCount; ++i)
 		{
 			if (i < 10)
@@ -92,7 +92,7 @@ void House::loadAllies(const std::string& alliesList)
 	LineSplitter split(alliesList);
 	for (unsigned int i = 0; i < split.size(); ++i)
 	{
-		if (split.peekFromIndex_string(i) != ID)
+		//if (split.peekFromIndex_string(i) != ID)
 		{
 			Allies.push_back(split.peekFromIndex_string(i));
 		}

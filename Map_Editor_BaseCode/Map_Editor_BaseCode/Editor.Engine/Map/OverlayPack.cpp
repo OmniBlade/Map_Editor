@@ -103,6 +103,7 @@ void OverlayPack::writeContentToINI(INIFile& file, PackType* pack, const std::st
 		file.SetValue(sectionName.c_str(), Log::toString(keyNumber), value);
 		++keyNumber;
 	}
+	base64data.clear();
 }
 
 std::vector<byte> OverlayPack::prepareDataForWriting(byte defaultByte, bool useIndex)

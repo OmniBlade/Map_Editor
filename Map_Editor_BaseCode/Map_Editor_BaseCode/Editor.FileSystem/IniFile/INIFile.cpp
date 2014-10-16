@@ -208,8 +208,15 @@ void INIFile::writeToFile(const std::string& fullPath, bool alphabetic /* = true
 
 	for (auto& it : comments)
 	{
-		std::string line = "; " + it + "\n";
-		iniWriter.writeBuffer(line.c_str(), line.size());
+		if (it.empty())
+		{
+			iniWriter.writeBuffer("\n", 1);
+		}
+		else
+		{
+			std::string line = "; " + it + "\n";
+			iniWriter.writeBuffer(line.c_str(), line.size());
+		}
 	}
 
 	if (alphabetic)

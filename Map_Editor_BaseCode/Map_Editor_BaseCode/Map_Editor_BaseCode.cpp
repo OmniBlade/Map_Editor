@@ -41,6 +41,7 @@
 #include <vector>
 #include <string>
 
+//These are mainly testing includes
 #include "Editor.Engine\Lists\ListProvider.h"
 #include "Editor.Engine\Types\SpecialOverlays.h"
 #include "Editor.Objects.Westwood\OverlayTypeValidator.h"
@@ -229,6 +230,8 @@ void loadMap()
 	mapAssetLoader.load(mode, "Gamemode");
 	mapAssetLoader.setGlobalValues();
 	mapAssetLoader.load(map, "Map");
+	mapAssetLoader.setDigest(map);
+
 	opack->createOverlayFromData();
 
 	MapMods* mods = new MapMods();
@@ -267,6 +270,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	handleArguments(argc, argv);
 
 	Log::openDebug();
+	Log::line("THIS IS AN UNSTABLE BUILD OF THE MAP EDITOR, BUGS ARE TO BE EXPECTED", Log::DEBUG);
+	Log::line();
 	Log::line("Starting session at: " + Log::getFormalDateTime(), Log::DEBUG);
 
 	initiateEditor();
@@ -275,14 +280,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	validateMap();
 	
 	MapWriter writer;
-	writer.writeMap("C:\\Users\\Rik\\Desktop\\map_write_test.ini");
-	delete IsoMapPack::instance;
+	writer.writeMap("C:\\Users\\Rik\\Desktop\\map_write_test.map");
 
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;
 	Log::close();
 	system("pause");
+
+	delete mainValidator;
+	delete paramCollection;
+	delete IsoMapPack::instance;
+	delete OverlayPack::instance;
+	delete PreviewPack::instance;
 
 	return 0;
 }

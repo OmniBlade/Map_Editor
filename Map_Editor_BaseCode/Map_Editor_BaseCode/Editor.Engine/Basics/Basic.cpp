@@ -78,23 +78,23 @@ void Basic::writeToINI(INIFile& file)
 	if (isMP()) file.SetValue("Basic", "MaxPlayer", Log::toString(it->MaxPlayer));
 	if (isMP()) file.SetValue("Basic", "MinPlayer", Log::toString(it->MinPlayer));
 
-	if (isSP()) file.SetValue("Basic", "EndOfGame", WriterHelper::getBoolString(it->EndOfGame, WriterHelper::BoolType::YESNO));
-	if (isSP()) file.SetValue("Basic", "SkipScore", WriterHelper::getBoolString(it->SkipScore, WriterHelper::BoolType::YESNO));
-	if (isSP()) file.SetValue("Basic", "OneTimeOnly", WriterHelper::getBoolString(it->OneTimeOnly, WriterHelper::BoolType::YESNO));
-	if (isSP()) file.SetValue("Basic", "SkipMapSelect", WriterHelper::getBoolString(it->SkipMapSelect, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "Official", WriterHelper::getBoolString(it->Official, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "IgnoreGlobalAITriggers", WriterHelper::getBoolString(it->IgnoreGlobalAITriggers, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "TruckCrate", WriterHelper::getBoolString(it->TruckCrate, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "TrainCrate", WriterHelper::getBoolString(it->TrainCrate, WriterHelper::BoolType::YESNO));
-	if (isSP()) file.SetValue("Basic", "CivEvac", WriterHelper::getBoolString(it->CivEvac, WriterHelper::BoolType::YESNO));
-	if (isSP()) file.SetValue("Basic", "TimerInherit", WriterHelper::getBoolString(it->TimerInherit, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "FillSilos", WriterHelper::getBoolString(it->FillSilos, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "MultiplayerOnly", WriterHelper::getBoolString(it->MultiplayerOnly, WriterHelper::BoolType::BIT));
-	file.SetValue("Basic", "TiberiumGrowthEnabled", WriterHelper::getBoolString(it->TiberiumGrowthEnabled, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "VeinGrowthEnabled", WriterHelper::getBoolString(it->VeinGrowthEnabled, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "IceGrowthEnabled", WriterHelper::getBoolString(it->IceGrowthEnabled, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "TiberiumDeathToVisceroid", WriterHelper::getBoolString(it->TibDeathToVisc, WriterHelper::BoolType::YESNO));
-	file.SetValue("Basic", "FreeRadar", WriterHelper::getBoolString(it->FreeRadar, WriterHelper::BoolType::YESNO));
+	if (isSP()) file.SetValue("Basic", "EndOfGame", BoolWriter::getBoolString(it->EndOfGame, BoolWriter::BoolType::YESNO));
+	if (isSP()) file.SetValue("Basic", "SkipScore", BoolWriter::getBoolString(it->SkipScore, BoolWriter::BoolType::YESNO));
+	if (isSP()) file.SetValue("Basic", "OneTimeOnly", BoolWriter::getBoolString(it->OneTimeOnly, BoolWriter::BoolType::YESNO));
+	if (isSP()) file.SetValue("Basic", "SkipMapSelect", BoolWriter::getBoolString(it->SkipMapSelect, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "Official", BoolWriter::getBoolString(it->Official, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "IgnoreGlobalAITriggers", BoolWriter::getBoolString(it->IgnoreGlobalAITriggers, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "TruckCrate", BoolWriter::getBoolString(it->TruckCrate, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "TrainCrate", BoolWriter::getBoolString(it->TrainCrate, BoolWriter::BoolType::YESNO));
+	if (isSP()) file.SetValue("Basic", "CivEvac", BoolWriter::getBoolString(it->CivEvac, BoolWriter::BoolType::YESNO));
+	if (isSP()) file.SetValue("Basic", "TimerInherit", BoolWriter::getBoolString(it->TimerInherit, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "FillSilos", BoolWriter::getBoolString(it->FillSilos, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "MultiplayerOnly", BoolWriter::getBoolString(it->MultiplayerOnly, BoolWriter::BoolType::BIT));
+	file.SetValue("Basic", "TiberiumGrowthEnabled", BoolWriter::getBoolString(it->TiberiumGrowthEnabled, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "VeinGrowthEnabled", BoolWriter::getBoolString(it->VeinGrowthEnabled, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "IceGrowthEnabled", BoolWriter::getBoolString(it->IceGrowthEnabled, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "TiberiumDeathToVisceroid", BoolWriter::getBoolString(it->TibDeathToVisc, BoolWriter::BoolType::YESNO));
+	file.SetValue("Basic", "FreeRadar", BoolWriter::getBoolString(it->FreeRadar, BoolWriter::BoolType::YESNO));
 }
 
 void Basic::parse()

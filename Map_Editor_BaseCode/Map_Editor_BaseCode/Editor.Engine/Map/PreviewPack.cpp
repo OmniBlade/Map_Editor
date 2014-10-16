@@ -31,7 +31,7 @@ PreviewPack::PreviewPack(INIFile* map)
 
 PreviewPack::~PreviewPack()
 {
-	delete instance;
+
 }
 
 void PreviewPack::read()
@@ -89,6 +89,8 @@ void PreviewPack::writeToINI(INIFile& file)
 		file.SetValue("PreviewPack", Log::toString(keyNumber), value);
 		++keyNumber;
 	}
+
+	base64data.clear();
 }
 
 std::string PreviewPack::sizeAsString()

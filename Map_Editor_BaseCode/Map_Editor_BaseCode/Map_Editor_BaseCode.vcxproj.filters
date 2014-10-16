@@ -522,6 +522,12 @@
     <ClInclude Include="Editor.FileSystem\MapFile\MapModsHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\sha1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\DigestClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -948,6 +954,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\MapMods.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\sha1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\DigestClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

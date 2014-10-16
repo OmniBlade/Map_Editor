@@ -31,20 +31,20 @@ void SpecialFlag::writeToINI(INIFile& file)
 		return;
 	}
 
-	file.SetValue("SpecialFlags", "TiberiumGrows", WriterHelper::getBoolString(it->TiberiumGrows, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "TiberiumSpreads", WriterHelper::getBoolString(it->TiberiumSpreads, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "TiberiumExplosive", WriterHelper::getBoolString(it->TiberiumExplosive, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "DestroyableBridges", WriterHelper::getBoolString(it->DestroyableBridges, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "MCVDeploy", WriterHelper::getBoolString(it->MCVDeploy, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "InitialVeteran", WriterHelper::getBoolString(it->InitialVeteran, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "FixedAlliance", WriterHelper::getBoolString(it->FixedAlliance, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "HarvesterImmune", WriterHelper::getBoolString(it->HarvesterImmune, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "FogOfWar", WriterHelper::getBoolString(it->FogOfWar, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "Inert", WriterHelper::getBoolString(it->Inert, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "IonStorms", WriterHelper::getBoolString(it->IonStorms, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "Meteorites", WriterHelper::getBoolString(it->Meteorites, WriterHelper::BoolType::YESNO));
-	file.SetValue("SpecialFlags", "Visceroids", WriterHelper::getBoolString(it->Visceroids, WriterHelper::BoolType::YESNO));
-	if(!it->EscapeMovies) file.SetValue("SpecialFlags", "EscapeMovies", WriterHelper::getBoolString(it->EscapeMovies, WriterHelper::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "TiberiumGrows", BoolWriter::getBoolString(it->TiberiumGrows, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "TiberiumSpreads", BoolWriter::getBoolString(it->TiberiumSpreads, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "TiberiumExplosive", BoolWriter::getBoolString(it->TiberiumExplosive, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "DestroyableBridges", BoolWriter::getBoolString(it->DestroyableBridges, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "MCVDeploy", BoolWriter::getBoolString(it->MCVDeploy, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "InitialVeteran", BoolWriter::getBoolString(it->InitialVeteran, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "FixedAlliance", BoolWriter::getBoolString(it->FixedAlliance, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "HarvesterImmune", BoolWriter::getBoolString(it->HarvesterImmune, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "FogOfWar", BoolWriter::getBoolString(it->FogOfWar, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "Inert", BoolWriter::getBoolString(it->Inert, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "IonStorms", BoolWriter::getBoolString(it->IonStorms, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "Meteorites", BoolWriter::getBoolString(it->Meteorites, BoolWriter::BoolType::YESNO));
+	file.SetValue("SpecialFlags", "Visceroids", BoolWriter::getBoolString(it->Visceroids, BoolWriter::BoolType::YESNO));
+	if(!it->EscapeMovies) file.SetValue("SpecialFlags", "EscapeMovies", BoolWriter::getBoolString(it->EscapeMovies, BoolWriter::BoolType::YESNO));
 }
 
 void SpecialFlag::parse()

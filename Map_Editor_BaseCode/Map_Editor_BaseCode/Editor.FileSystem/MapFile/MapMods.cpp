@@ -97,5 +97,5 @@ void MapMods::fillMapSections()
 	mapSections.push_back("OverlayDataPack");
 	mapSections.push_back("Ranking");
 	mapSections.push_back("Digest");
-	mapSections.push_back("Header");
+	//mapSections.push_back("Header");
 }

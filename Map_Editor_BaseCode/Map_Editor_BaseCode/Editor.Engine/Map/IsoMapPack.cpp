@@ -76,4 +76,6 @@ void IsoMapPack::writeToINI(INIFile& file)
 		file.SetValue("IsoMapPack5", Log::toString(keyNumber), value);
 		++keyNumber;
 	}
+
+	base64data.clear();
 }

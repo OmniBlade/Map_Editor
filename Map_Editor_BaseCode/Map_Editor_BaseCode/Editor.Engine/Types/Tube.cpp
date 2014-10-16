@@ -66,5 +66,7 @@ std::string Tube::asString()
 		}
 	}
 
+	ret << ",-1";
+
 	return ret.str();
 }

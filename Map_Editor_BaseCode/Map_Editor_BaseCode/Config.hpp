@@ -13,10 +13,10 @@ public:
 		
 		@param file The config file to load
 	*/
-	static void parse(INIFile* file);
+	static void parse(INIFile* file, const std::string& name);
 
-	static unsigned int tileWidth;			// 
-	static unsigned int tileHeight;			//
+	static const unsigned int tileWidth;			// 
+	static const unsigned int tileHeight;			//
 	static int language;					// Language of the game / text files
 	static std::string editorRoot;			//
 	static std::string configName;
@@ -27,10 +27,11 @@ public:
 	static std::string mapName;
 
 	// [Main]
+	static std::string name;
 	static std::string installDir;			// Install directory of the game
 	static std::string executable;
 	static std::string backSlash;			// General back slash variable '\\'
-	static std::string mapModsName;
+	static const std::string mapModsName;
 	static bool inGameLighting;				// Whether to render in-game lighting over the overlay (or rather just TMPs)
 	static bool FA2Mode;					// Disable any of the fancy elements and switch to antique mode
 	static bool AIReferences;				// Whether to reference AI control file TeamTypes, TaskForces and ScriptTypes in the editor

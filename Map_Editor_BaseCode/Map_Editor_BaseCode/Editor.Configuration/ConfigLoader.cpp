@@ -4,6 +4,7 @@
 #include "../Editor.FileSystem/FileManager/Managers/EncManager.hpp"
 #include "../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../Editor.FileSystem/IniFile/INISection.hpp"
+#include "../Editor.FileSystem/MapFile/WriterHelper.h"
 #include "../Config.hpp"
 #include "../Log.hpp"
 #include "../GameDefinition.h"
@@ -46,10 +47,11 @@ void ConfigLoader::parse()
 		Config::FA2Mode = false;
 		Config::AIReferences = false;
 	}
-	Log::line("In-game lighting: " + Log::toString(Config::inGameLighting), Log::DEBUG);
-	Log::line("FA2 mode: " + Log::toString(Config::FA2Mode), Log::DEBUG);
-	Log::line("AI References: " + Log::toString(Config::AIReferences), Log::DEBUG);
-	Log::line("Obsolete settings: " + Log::toString(Config::ObsoleteSettings), Log::DEBUG);
+	Log::line("In-game lighting: " + BoolWriter::getBoolString(Config::inGameLighting, BoolWriter::BoolType::YESNO), Log::DEBUG);
+	Log::line("FA2 mode: " + BoolWriter::getBoolString(Config::FA2Mode, BoolWriter::BoolType::YESNO), Log::DEBUG);
+	Log::line("AI References: " + BoolWriter::getBoolString(Config::AIReferences, BoolWriter::BoolType::YESNO), Log::DEBUG);
+	Log::line("Obsolete settings: " + BoolWriter::getBoolString(Config::ObsoleteSettings, BoolWriter::BoolType::YESNO), Log::DEBUG);
+	Log::line("End of global configuration flags.", Log::DEBUG);
 	Log::line();
 
 	INISection* configurations = configINI->getSection("Configurations");
@@ -91,7 +93,7 @@ bool ConfigLoader::chooseConfig()
 					Game::title = configFiles[i]->usedTitle;
 					Config::installDir = configFiles[i]->InstallDir;
 					Config::configName = configFiles[i]->Path;
-					Config::parse(INIManager::instance()->getRoot(configFiles[i].get()->Path));
+					Config::parse(INIManager::instance()->getRoot(configFiles[i].get()->Path), configFiles[i]->Name);
 					break;
 				}
 			}
@@ -115,7 +117,7 @@ bool ConfigLoader::chooseConfig()
 		Game::title = configFiles[index]->usedTitle;
 		Config::installDir = configFiles[index]->InstallDir;
 		Config::configName = configFiles[index]->Path;
-		Config::parse(INIManager::instance()->getRoot(configFiles[index].get()->Path));
+		Config::parse(INIManager::instance()->getRoot(configFiles[index].get()->Path), configFiles[index]->Name);
 		return true;
 	}
 	else if (configFiles.size() > 1)
@@ -143,7 +145,7 @@ bool ConfigLoader::chooseConfig()
 		Game::title = configFiles[index].get()->usedTitle;
 		Config::configName = configFiles[index]->Path;
 		Config::installDir = configFiles[index]->InstallDir;
-		Config::parse(INIManager::instance()->getRoot(configFiles[index].get()->Path));
+		Config::parse(INIManager::instance()->getRoot(configFiles[index].get()->Path), configFiles[index]->Name);
 		return true;
 	}
 	Log::line("There are 0 configuration files listed, unable to continue!", Log::DEBUG);

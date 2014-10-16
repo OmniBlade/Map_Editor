@@ -36,5 +36,6 @@ public:
 
 	void setGlobalValues();
 
+	void setDigest(INIFile* mapFile);
 };
 
