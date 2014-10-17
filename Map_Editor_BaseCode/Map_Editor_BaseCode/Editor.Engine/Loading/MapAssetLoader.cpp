@@ -24,7 +24,7 @@
 #include "../Types/Smudge.hpp"
 #include "../Types/Waypoint.hpp"
 #include "../Types/VariableName.hpp"
-#include "../Map/DigestClass.h"
+#include "../../Editor.FileSystem/IniFile/DigestClass.h"
 #include <vector>
 
 MapAssetLoader::MapAssetLoader()

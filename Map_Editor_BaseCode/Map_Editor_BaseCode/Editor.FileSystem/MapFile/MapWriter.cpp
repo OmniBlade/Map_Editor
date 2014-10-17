@@ -30,7 +30,7 @@
 #include "../../Editor.Engine/Map/IsoMapPack.hpp"
 #include "../../Editor.Engine/Map/OverlayPack.hpp"
 #include "../../Editor.Engine/Map/PreviewPack.h"
-#include "../../Editor.Engine/Map/DigestClass.h"
+#include "../IniFile/DigestClass.h"
 #include "MapMods.h"
 
 void MapWriter::writeMap(const std::string& fullFileName)
@@ -78,9 +78,9 @@ void MapWriter::writeMap(const std::string& fullFileName)
 	Event::writeToINI(aFile);
 	Action::writeToINI(aFile);
 	Tag::writeToINI(aFile);
-	DigestClass::writeToINI(aFile);
 
-	aFile.writeToFile(fullFileName, false);
+	//With Digest, ordered non-alphabetical (like how it is done right above this line)
+	aFile.writeToFile(fullFileName, true, false);
 
 	Log::line("Map succesfully written!", Log::DEBUG);
 

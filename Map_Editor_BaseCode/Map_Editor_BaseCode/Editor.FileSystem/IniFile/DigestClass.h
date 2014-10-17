@@ -1,16 +1,25 @@
 #pragma once
 #include <string>
-#include "../../Editor.FileSystem/MapFile/Base64.hpp"
-#include "../../Editor.FileSystem/MapFile/sha1.h"
-#include "../../Editor.FileSystem/INIFile/INIFile.hpp"
+#include "../MapFile/Base64.hpp"
+#include "../MapFile/sha1.h"
+#include "../../Log.hpp"
 
 class DigestClass
 {
 public:
-	static void writeToINI(INIFile& file)
+	static std::string getRandomDigest()
 	{
-		//Random so we call it here! :D
-		file.SetValue("Digest", "1", getDigestBase64());
+		return getDigestBase64();
+	}
+
+	static std::string getDigestForBytes(byte* bytes, size_t size)
+	{
+		if (size == 0 || !bytes)
+		{
+			Log::line("Unable to create a valid Digest value for the specified bytes, they don't exist! Returning a random Digest.", Log::DEBUG);
+		}
+		
+		return getDigestBase64(bytes, size);
 	}
 
 	/*

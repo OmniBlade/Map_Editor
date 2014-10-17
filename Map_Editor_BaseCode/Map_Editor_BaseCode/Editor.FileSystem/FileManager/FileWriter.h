@@ -19,6 +19,7 @@ public:
 	void flush() { file.flush(); };
 
 private:
+	bool canWrite = true;
 	std::ofstream file;
 	std::string fullPath;
 };

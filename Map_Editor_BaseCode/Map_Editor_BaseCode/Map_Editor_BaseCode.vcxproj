@@ -86,7 +86,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Editor.Engine\Map\DigestClass.h" />
+    <ClInclude Include="Editor.FileSystem\IniFile\DigestClass.h" />
     <ClInclude Include="Editor.Engine\Lists\ScriptList.h" />
     <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\MapModsHelper.h" />
@@ -258,7 +258,7 @@
     <ClInclude Include="Editor.Engine\Types\VariableName.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Editor.Engine\Map\DigestClass.cpp" />
+    <ClCompile Include="Editor.FileSystem\IniFile\DigestClass.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\sha1.cpp" />
     <ClCompile Include="Editor.Map.Validator\Trigger\ActionValidator.cpp" />
     <ClCompile Include="Editor.Engine\Lists\ListProvider.cpp" />

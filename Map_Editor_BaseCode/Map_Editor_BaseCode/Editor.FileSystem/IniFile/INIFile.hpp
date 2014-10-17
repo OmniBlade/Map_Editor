@@ -34,7 +34,11 @@ public:
 
 	void dumpContent();
 
-	void writeToFile(const std::string& fullPath, bool alphabetic = true);
+	void writeToFile(const std::string& fullPath, bool digest = false, bool alphabetic = true);
+	void writeStartingComments(FileWriter* file);
+	void writeAlphabetic(FileWriter* file);
+	void writeVectorOrder(FileWriter* file);
+	void writeDigest(FileWriter* file);
 
 	/* Adds a comment to the start of the map file, ONLY at the start of the map file! */
 	void addCommentAtTop(const std::string& comment) { comments.push_back(comment); };
@@ -54,7 +58,6 @@ private:
 	std::vector<std::string> sections;
 	std::vector<std::string> comments;
 	std::vector<char> enc;
-	FileWriter* iniWriter;
 };
 
 #endif /* INIFILE_HPP_ */

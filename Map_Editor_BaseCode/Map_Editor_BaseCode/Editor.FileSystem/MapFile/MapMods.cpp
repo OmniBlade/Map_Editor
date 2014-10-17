@@ -57,6 +57,11 @@ bool MapMods::isAMapSection(const std::string& sectionName)
 
 void MapMods::fillMapSections()
 {
+	if (!mapSections.empty())
+	{
+		return;
+	}
+
 	mapSections.clear();
 
 	mapSections.push_back("Basic");
@@ -73,7 +78,6 @@ void MapMods::fillMapSections()
 	mapSections.push_back("Units");
 	mapSections.push_back("AITriggerTypesEnable");
 	mapSections.push_back("AITriggerTypes");
-	fillMapSection(this, AITriggerType::Array);
 	mapSections.push_back("ScriptTypes");
 	fillMapSection(this, ScriptType::Array);
 	mapSections.push_back("TaskForces");

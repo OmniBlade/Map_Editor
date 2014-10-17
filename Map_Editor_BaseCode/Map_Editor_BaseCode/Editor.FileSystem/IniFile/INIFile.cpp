@@ -15,6 +15,7 @@
 #include "../FileManager/TextReader.h"
 #include "../FileManager/Managers/INIManager.hpp"
 #include "../../Log.hpp"
+#include "DigestClass.h"
 
 INIFile::INIFile()
 {
@@ -202,60 +203,88 @@ void INIFile::deleteSection(const char* section)
 	sections.erase(it_vector);
 }
 
-void INIFile::writeToFile(const std::string& fullPath, bool alphabetic /* = true */)
+void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = false */, bool alphabeticOrder /* = true */)
 {
 	FileWriter iniWriter(fullPath);
 
+	writeStartingComments(&iniWriter);
+
+	if (alphabeticOrder)
+	{
+		writeAlphabetic(&iniWriter);
+	}
+	else
+	{
+		writeVectorOrder(&iniWriter);
+	}
+
+	if (withDigest)
+	{
+		writeDigest(&iniWriter);
+	}
+
+	iniWriter.close();
+}
+
+void INIFile::writeStartingComments(FileWriter* file)
+{
 	for (auto& it : comments)
 	{
 		if (it.empty())
 		{
-			iniWriter.writeBuffer("\n", 1);
+			file->writeBuffer("\n", 1);
 		}
 		else
 		{
 			std::string line = "; " + it + "\n";
-			iniWriter.writeBuffer(line.c_str(), line.size());
+			file->writeBuffer(line.c_str(), line.size());
 		}
 	}
+}
 
-	if (alphabetic)
+void INIFile::writeAlphabetic(FileWriter* file)
+{
+	for (const auto& it : sectionList)
 	{
-		//Write A Section
-		for (const auto& it : sectionList)
+		INISection* section = it.second.get();
+		std::string sectionName = "\n[" + section->getSectionName() + "]\n";
+		file->writeBuffer(sectionName.c_str(), sectionName.size());
+
+		//Write A Key-Value pair
+		for (unsigned int i = 0; i < section->size(); ++i)
 		{
-			INISection* section = it.second.get();
-			std::string sectionName = "\n[" + section->getSectionName() + "]\n";
-			iniWriter.writeBuffer(sectionName.c_str(), sectionName.size());
-
-			//Write A Key-Value pair
-			for (unsigned int i = 0; i < section->size(); ++i)
-			{
-				std::string keyvalue = section->getKeyValue(i);
-				iniWriter.writeBuffer(keyvalue.c_str(), keyvalue.size());
-			}
-
-			iniWriter.flush();
+			std::string keyvalue = section->getKeyValue(i);
+			file->writeBuffer(keyvalue.c_str(), keyvalue.size());
 		}
+
+		file->flush();
 	}
-	else
+}
+
+void INIFile::writeVectorOrder(FileWriter* file)
+{
+	for (const auto& it : sections)
 	{
-		//Write A Section
-		for (const auto& it : sections)
+		INISection* section = getSection(it);
+		std::string sectionName = "\n[" + section->getSectionName() + "]\n";
+		file->writeBuffer(sectionName.c_str(), sectionName.size());
+
+		//Write A Key-Value pair
+		for (unsigned int i = 0; i < section->size(); ++i)
 		{
-			INISection* section = getSection(it);
-			std::string sectionName = "\n[" + section->getSectionName() + "]\n";
-			iniWriter.writeBuffer(sectionName.c_str(), sectionName.size());
-
-			//Write A Key-Value pair
-			for (unsigned int i = 0; i < section->size(); ++i)
-			{
-				std::string keyvalue = section->getKeyValue(i);
-				iniWriter.writeBuffer(keyvalue.c_str(), keyvalue.size());
-			}
-
-			iniWriter.flush();
+			std::string keyvalue = section->getKeyValue(i);
+			file->writeBuffer(keyvalue.c_str(), keyvalue.size());
 		}
+
+		file->flush();
 	}
-	iniWriter.close();
+}
+
+void INIFile::writeDigest(FileWriter* file)
+{
+	std::string sectionName = "\n[Digest]\n";
+	std::string digestValue = "1=" + DigestClass::getRandomDigest();
+
+	file->writeBuffer(sectionName.c_str(), sectionName.size());
+	file->writeBuffer(digestValue.c_str(), digestValue.size());
 }

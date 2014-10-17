@@ -525,7 +525,7 @@
     <ClInclude Include="Editor.FileSystem\MapFile\sha1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\DigestClass.h">
+    <ClInclude Include="Editor.FileSystem\IniFile\DigestClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -959,7 +959,7 @@
     <ClCompile Include="Editor.FileSystem\MapFile\sha1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\DigestClass.cpp">
+    <ClCompile Include="Editor.FileSystem\IniFile\DigestClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
