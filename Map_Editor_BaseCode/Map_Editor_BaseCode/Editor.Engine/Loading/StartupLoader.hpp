@@ -10,6 +10,7 @@ public:
 //---- GENERIC
 	std::vector<std::string> getFilesWithExtension(const std::string& ext);
 	bool inRoot(const std::string& fileName, const std::vector<std::string>& filenames);
+	bool validateEssentialFiles();
 
 //---- MIX LOADING
 	/* Function to call when initiating MIXes, scoops through the directory for .mix files */

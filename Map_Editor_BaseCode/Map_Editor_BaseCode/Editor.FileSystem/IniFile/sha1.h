@@ -24,7 +24,7 @@ class SHA1
 		SHA1();
 		~SHA1();
 		void addBytes( const char* data, int num );
-		unsigned char* getDigest();
+		unsigned char* getDigest(byte* data = nullptr, size_t len = 0);
 		// utility methods
 		static Uint32 SHA1::lrot( Uint32 x, int bits );
 		static void SHA1::storeBigEndianUint32( unsigned char* byte, Uint32 num );

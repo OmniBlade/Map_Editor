@@ -178,7 +178,7 @@ bool MapLoader::locateGameMode(INIFile* map)
 {
 	INISection* basic = map->getSection("Basic");
 	
-	if (!basic->checkKeyExistance("GameMode") || basic->checkKeyExistance("Player"))
+	if (!basic->keyExists("GameMode") || basic->keyExists("Player"))
 	{
 		return false;
 	}

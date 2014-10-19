@@ -21,6 +21,7 @@ public:
 	void insert(const std::string& fileName, INIFile* file);
 	INIFile* insertEmpty(const std::string& fileName);
 
+
 	bool exists(const std::string& fileName) { if (iniFiles[fileName]) return true; return false; };
 
 private:

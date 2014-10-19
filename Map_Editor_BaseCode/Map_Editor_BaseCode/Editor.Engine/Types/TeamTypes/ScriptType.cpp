@@ -33,7 +33,7 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 	for (unsigned int i = 0; i < scriptActionLimit; ++i)
 	{
 
-		if (!section->checkKeyExistance(Log::toString(i)))
+		if (!section->keyExists(Log::toString(i)))
 		{
 			break; // Stop reading when an index is missing
 		}

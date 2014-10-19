@@ -85,11 +85,11 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	{
 		pTag = Tag::Array.find(tag);
 	}
-	if (section->checkKeyExistance("TaskForce"))
+	if (section->keyExists("TaskForce"))
 	{
 		pTaskForce = TaskForce::Array.find(taskForce);
 	}
-	if (section->checkKeyExistance("Script"))
+	if (section->keyExists("Script"))
 	{
 		pScriptType = ScriptType::Array.find(script);
 	}

@@ -21,7 +21,7 @@ void ParamCollection::parse()
 
 	for (int i = 0; i < paramCount; ++i)
 	{
-		if (params->checkKeyExistance(Log::toString(i)))
+		if (params->keyExists(Log::toString(i)))
 			paramList.push_back(std::make_unique<ParamType>(i, params->getValue(Log::toString(i)), paramCount));
 		else
 		{

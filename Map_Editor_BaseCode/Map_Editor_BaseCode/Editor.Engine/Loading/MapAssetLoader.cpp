@@ -24,7 +24,6 @@
 #include "../Types/Smudge.hpp"
 #include "../Types/Waypoint.hpp"
 #include "../Types/VariableName.hpp"
-#include "../../Editor.FileSystem/IniFile/DigestClass.h"
 #include <vector>
 
 MapAssetLoader::MapAssetLoader()
@@ -129,22 +128,4 @@ void MapAssetLoader::setGlobalValues()
 		it->isGlobal = true;
 	}
 
-}
-
-void MapAssetLoader::setDigest(INIFile* mapFile)
-{
-	INISection* digestSection = mapFile->getSection("Digest");
-
-	if (digestSection)
-	{
-		for (auto& it : *digestSection)
-		{
-			DigestClass::parse(digestSection->getValue(it));
-			break;
-		}
-	}
-	else
-	{
-		Log::line("DIGEST - Section doesn't exist! Is it a tampered map?", Log::DEBUG);
-	}
 }

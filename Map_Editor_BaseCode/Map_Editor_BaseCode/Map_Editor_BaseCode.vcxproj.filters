@@ -27,39 +27,6 @@
     <ClInclude Include="Utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\INIFile\CStringHelper.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\INIFile\INIFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\INIFile\INISection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\INIFile\LineSplitter.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MixFile\Blowfish.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MixFile\Ccrc.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MixFile\KeyCalculator.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MixFile\MixFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\PaletteFile\PaletteFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\TmpFile\TMPFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\TmpFile\TMPImage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Vector2D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -82,51 +49,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Map\TheaterDefinition.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\BinaryReader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\FileSystem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\RawFileSystem.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\MixManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\INIManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\TMPManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\ShpFile\ShpFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\ShpFile\ShpImage.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\SHPManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\ShpFile\Format3.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\HvaFile\HVAFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\VoxelFile\VPLFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\VoxelFile\VXLFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\PALManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\VXLManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Map\TileSet.hpp">
@@ -294,15 +216,6 @@
     <ClInclude Include="Editor.Engine\Types\Triggers\CellTag.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\CsfFile\CSFFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\CSFManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\CsfFile\CSFEntry.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Game\GameModeCollection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -342,61 +255,16 @@
     <ClInclude Include="Editor.Map.Validator\MainValidator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ActionCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\EventCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\SActionCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ParamCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ParamType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\lzoconf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\lzodefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\minilzo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Map\PackType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Map\IsoMapPack.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\EncFile\EncFile.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\Managers\EncManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\Format80.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Types\Overlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameDefinition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ActionType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\EventType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\SActionType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Lists\ListProvider.h">
@@ -453,9 +321,6 @@
     <ClInclude Include="Editor.Engine\Lists\GroupList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\TextReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Map.Validator\Trigger\ActionValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -483,9 +348,6 @@
     <ClInclude Include="Editor.Map.Validator\Object\OverlayValidator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Lists\ScriptList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -495,19 +357,7 @@
     <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\INameHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\OverlayTypeValidator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\MapWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\WriterHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\FileManager\FileWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Map\OverlayPack.hpp">
@@ -516,16 +366,166 @@
     <ClInclude Include="Editor.Engine\Map\PreviewPack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.FileSystem\CsfFile\CSFEntry.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\CsfFile\CSFFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\EncFile\EncFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\CSFManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\EncManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\INIManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\MixManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\PALManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\SHPManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\TMPManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\Managers\VXLManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\BinaryReader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\FileSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\FileWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\RawFileSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\FileManager\TextReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\HvaFile\HVAFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\INIFile\CStringHelper.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\IniFile\DigestClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\INIFile\INIFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\INIFile\INISection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\INIFile\LineSplitter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\IniFile\sha1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\ActionCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\ActionType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\EventCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\EventType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Format80.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\INameHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\lzoconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\lzodefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Editor.FileSystem\MapFile\MapMods.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.FileSystem\MapFile\MapModsHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\sha1.h">
+    <ClInclude Include="Editor.FileSystem\MapFile\MapWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\IniFile\DigestClass.h">
+    <ClInclude Include="Editor.FileSystem\MapFile\minilzo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\ParamCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\ParamType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\SActionCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\SActionType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\WriterHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MixFile\Blowfish.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MixFile\Ccrc.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MixFile\KeyCalculator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MixFile\MixFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\PaletteFile\PaletteFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\ShpFile\Format3.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\ShpFile\ShpFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\ShpFile\ShpImage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\TmpFile\TMPFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\TmpFile\TMPImage.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\VoxelFile\VPLFile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\VoxelFile\VXLFile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -537,36 +537,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\INIFile\INIFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\INIFile\INISection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\INIFile\LineSplitter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MixFile\Blowfish.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MixFile\Ccrc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MixFile\KeyCalculator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MixFile\MixFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\PaletteFile\PaletteFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\TmpFile\TMPFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\TmpFile\TMPImage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\Vector2D.cpp">
@@ -591,51 +561,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Map\TheaterDefinition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\BinaryReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\FileSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\RawFileSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\MixManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\INIManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\TMPManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\ShpFile\ShpImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\ShpFile\ShpFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\SHPManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\ShpFile\Format3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\HvaFile\HVAFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\VoxelFile\VPLFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\VoxelFile\VXLFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\PALManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\VXLManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Map\TileSet.cpp">
@@ -794,15 +719,6 @@
     <ClCompile Include="Editor.Engine\Types\Triggers\CellTag.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\CsfFile\CSFFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\CSFManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\CsfFile\CSFEntry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Game\GameMode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -839,52 +755,16 @@
     <ClCompile Include="Editor.Engine\Basics\Lighting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\EventCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\SActionCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ParamCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ParamType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Map\PackType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Map\IsoMapPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\EncFile\EncFile.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\Managers\EncManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\Format80.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Types\Overlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameDefinition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ActionType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\EventType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\SActionType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Lists\ListProvider.cpp">
@@ -900,12 +780,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\AudioVisual\Theme.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\TextReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Map.Validator\Trigger\ActionValidator.cpp">
@@ -941,25 +815,148 @@
     <ClCompile Include="Editor.Objects.Westwood\OverlayTypeValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\MapWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\FileManager\FileWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Map\OverlayPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Map\PreviewPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor.FileSystem\CsfFile\CSFEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\CsfFile\CSFFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\EncFile\EncFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\CSFManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\EncManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\INIManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\MixManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\PALManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\SHPManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\TMPManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\Managers\VXLManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\BinaryReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\FileSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\FileWriter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\RawFileSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\FileManager\TextReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\HvaFile\HVAFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\INIFile\INIFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\INIFile\INISection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\INIFile\LineSplitter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\IniFile\sha1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\ActionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\EventCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\EventType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Format80.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\MapMods.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\sha1.cpp">
+    <ClCompile Include="Editor.FileSystem\MapFile\MapWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\IniFile\DigestClass.cpp">
+    <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\ParamCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\ParamType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\SActionCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\SActionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MixFile\Blowfish.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MixFile\Ccrc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MixFile\KeyCalculator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MixFile\MixFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\PaletteFile\PaletteFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\ShpFile\Format3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\ShpFile\ShpFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\ShpFile\ShpImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\TmpFile\TMPFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\TmpFile\TMPImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\VoxelFile\VPLFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\VoxelFile\VXLFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

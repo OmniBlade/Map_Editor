@@ -111,7 +111,14 @@ void initiateEditor()
 	Log::line();
 	Log::line("Loading CSF files:", Log::DEBUG);
 	bootLoader.initiateCSF();
-	Log::line();
+
+	if (!bootLoader.validateEssentialFiles())
+	{
+		Log::line("At least one core editor file did not make it through validation, terminating now...", Log::DEBUG);
+		//Log::close();
+		//system("pause");
+		//exit(0);
+	}
 
 	std::cout << "ParamCollection: Possible leak! Move when going to the GUI!" << std::endl;
 	paramCollection = new ParamCollection();
@@ -230,7 +237,6 @@ void loadMap()
 	mapAssetLoader.load(mode, "Gamemode");
 	mapAssetLoader.setGlobalValues();
 	mapAssetLoader.load(map, "Map");
-	mapAssetLoader.setDigest(map);
 
 	opack->createOverlayFromData();
 
@@ -255,6 +261,8 @@ void validateMap()
 	mainValidator->validateAll();
 	Log::line("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
 }
+
+#include "Editor.FileSystem\IniFile\DigestClass.h"
 
 /*
 	Main function

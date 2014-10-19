@@ -67,6 +67,10 @@ public:
 	*/
 	void locateEditorRootFiles();
 
+	std::string getFullPath(const std::string& fileName);
+	std::string getFullEditorPath(const std::string& fileName);
+	
+
 private:
 	std::map<std::string, std::unique_ptr<BinaryReader>> readerList;
 	std::vector<std::string> gameRootFileNames;

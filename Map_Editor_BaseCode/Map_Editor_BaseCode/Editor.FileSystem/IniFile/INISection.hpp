@@ -18,6 +18,8 @@ public:
 
 	unsigned int size() const {	return this->keys.size(); };
 	unsigned int totalSize() const;
+	int checkSumKeys();
+	int checkSumValues();
 	const std::string& getSectionName() const { return sectionName; };
 	std::vector<std::string>::const_iterator begin() const { return keys.begin(); };
 	std::vector<std::string>::const_iterator end() const { return keys.end(); };
@@ -62,7 +64,7 @@ public:
 	*/
 	void readBoolValue(const char* key, bool& variableToFill, bool _default = false);
 
-	/* Dunno, probably obsolete by now (see checkKeyExistance) */
+	/* Dunno, probably obsolete by now (see keyExists) */
 	std::string const& getKey(int index, int default_ = 0);
 
 	/* */
@@ -72,8 +74,8 @@ public:
 	/* Gets the next item in the list, perfect for not relying on the key */
 	//std::string getNextValue(const std::string& _default = "");
 
-	bool checkKeyExistance(const std::string& _key);
-	bool checkValueExistance(const std::string& _key);
+	bool keyExists(const std::string& _key);
+	bool valueExists(const std::string& _key);
 
 	std::string getKeyValue(int index) { return keys[index] + "=" + getValue(keys[index].c_str()) + "\n"; };
 

@@ -155,7 +155,7 @@ void SHA1::addBytes( const char* data, int num )
 }
 
 // digest ************************************************************
-unsigned char* SHA1::getDigest()
+unsigned char* SHA1::getDigest(byte* data /* = nullptr */, size_t len /* = 0 */)
 {
 	// save the message size
 	Uint32 totalBitsL = size << 3;
@@ -163,11 +163,22 @@ unsigned char* SHA1::getDigest()
 	// add 0x80 to the message
 	addBytes( "\x80", 1 );
 	
-	unsigned char footer[64] = {
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	unsigned char footer[64];
+	if (!data || len < 1)
+	{
+		for (int i = 0; i < 64; ++i)
+		{
+			footer[i] = 0;
+		}
+	}
+	else
+	{
+		for (int i = 0; i < len; ++i)
+		{
+			footer[i] = data[i];
+		}
+	}
+
 	// block has no room for 8-byte filesize, so finish it
 	if( unprocessedBytes > 56 )
 		addBytes( (char*)footer, 64 - unprocessedBytes);

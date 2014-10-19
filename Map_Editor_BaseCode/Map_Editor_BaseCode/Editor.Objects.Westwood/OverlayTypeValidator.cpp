@@ -12,6 +12,11 @@ OverlayTypeValidator::OverlayTypeValidator()
 		Log::line();
 		Log::line("Validating extremely hardcoded OverlayType indexes below.", Log::DEBUG);
 
+		if (OverlayType::Array.typeList.size() > 255)
+		{
+			Log::line("More than 255 OverlayTypes exist, the game (Overlay[Data]Pack specifically) can only handle 255 (0-254)!", Log::DEBUG);
+		}
+
 		validateWalls();
 		validateBridges();
 		validateTracks();

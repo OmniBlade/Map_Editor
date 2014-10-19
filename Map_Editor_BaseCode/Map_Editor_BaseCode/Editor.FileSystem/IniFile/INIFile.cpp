@@ -24,34 +24,27 @@ INIFile::INIFile()
 
 INIFile::INIFile(const FileProperties& props)
 {
+	this->path = props.path;
 	load(this, props);
 }
 
 INIFile::INIFile(const FileProperties& props, INIFile* parentINI)
 {
+	this->path = props.path;
 	load(parentINI, props);
 }
 
-
-INIFile::INIFile(const std::vector<char>& bytes)
+INIFile::INIFile(const FileProperties& props, TextReader* reader)
 {
-	FileProperties props;
-
-	load(this, props, &bytes);
+	load(this, props, reader);
 }
 
 
-void INIFile::load(INIFile* parentINI, const FileProperties& props, const std::vector<char>* bytes /* = nullptr */)
+void INIFile::load(INIFile* parentINI, const FileProperties& props, TextReader* reader /* = nullptr */)
 {
 	TextReader* iniReader;
-	if (bytes)
-	{
-		iniReader = new TextReader(*bytes);
-	}
-	else
-	{
-		iniReader = new TextReader(props);
-	}
+
+	reader != nullptr ? iniReader = reader : iniReader = new TextReader(props);
 	
 	std::string currentSection;
 	std::string line;
@@ -78,16 +71,7 @@ void INIFile::load(INIFile* parentINI, const FileProperties& props, const std::v
 			//std::cout << "Line: " << line << std::endl;
 			if (line.front() == '[' && line.find_first_of("]") != std::string::npos)
 			{
-				//Fuck INI inheritance!
-				std::string& preLineSub = line;
-				std::size_t found = line.find_first_of("]");
-				if (found != std::string::npos)
-				{
-					preLineSub = line.substr(0, found + 1);
-				}
-
-				// section header
-				std::string lineSub = preLineSub.substr(1, preLineSub.length() - 2);
+				std::string lineSub = line.substr(1, line.length() - 2);
 				currentSection = StringHelper::trim(lineSub);
 			}
 			else
@@ -179,28 +163,66 @@ bool INIFile::getLoaded() const
 	return isLoaded;
 }
 
-std::string& INIFile::getININame()
-{
-	return iniName;
-}
-
 void INIFile::dumpContent()
 {
-	std::map<std::string, std::unique_ptr<INISection>>::iterator iter;
+	for (const auto& it : sections)
+	{
+		getSection(it.c_str())->dumpContent();
+	}
+}
 
-	//for (iter = sectionList.begin(); iter != sectionList.end(); ++iter)
-	//{
-//		iter->second->dumpContent();
-//	}
+int INIFile::generateAndGetCheckSum(int type /* = -1 */)
+{
+	/* Type */
+	// -1 - nothing
+	// 0 - keys
+	// 1 - values
+
+	int checksum = 0;
+
+	if (type == 0)
+	{
+		for (const auto& it : sections)
+		{
+			if (strcmp(it.c_str(), "Digest") != 0)
+				checksum += getSection(it)->checkSumKeys();
+		}
+	}
+	else if (type == 1)
+	{
+		for (const auto& it : sections)
+		{
+			if (strcmp(it.c_str(), "Digest") != 0)
+				checksum += getSection(it)->checkSumValues();
+		}
+	}
+	else
+	{
+		return checksum;
+	}
+	
+	return checksum;
 }
 
 void INIFile::deleteSection(const char* section)
 {
 	auto it_map = sectionList.find(section);
 	auto it_vector = std::find(sections.begin(), sections.end(), section);
-	//auto it = std::find(sectionList.begin(), sectionList.end(), section);
+	
 	sectionList.erase(it_map);
 	sections.erase(it_vector);
+}
+
+void INIFile::writeToSameFile(bool digest, bool alphabetic)
+{
+	if (!isLoaded || path.empty())
+	{
+		Log::line(L"Path for INI to write does not exist, unable to write!", Log::DEBUG);
+	}
+	else
+	{
+		writeToFile(path, digest, alphabetic);
+	}
 }
 
 void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = false */, bool alphabeticOrder /* = true */)
@@ -208,6 +230,12 @@ void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = fals
 	FileWriter iniWriter(fullPath);
 
 	writeStartingComments(&iniWriter);
+
+	if (withDigest)
+	{
+		setDigestForWriting(&iniWriter);
+	}
+
 
 	if (alphabeticOrder)
 	{
@@ -218,10 +246,8 @@ void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = fals
 		writeVectorOrder(&iniWriter);
 	}
 
-	if (withDigest)
-	{
-		writeDigest(&iniWriter);
-	}
+	std::string eof = "\n;eof";
+	iniWriter.writeBuffer(eof.c_str(), eof.size());
 
 	iniWriter.close();
 }
@@ -280,11 +306,10 @@ void INIFile::writeVectorOrder(FileWriter* file)
 	}
 }
 
-void INIFile::writeDigest(FileWriter* file)
+void INIFile::setDigestForWriting()
 {
-	std::string sectionName = "\n[Digest]\n";
-	std::string digestValue = "1=" + DigestClass::getRandomDigest();
+	std::string digestValue = DigestClass::getCustomDigestFor(this);	
+	SetValue("Digest", "1", digestValue);
 
-	file->writeBuffer(sectionName.c_str(), sectionName.size());
-	file->writeBuffer(digestValue.c_str(), digestValue.size());
+	Log::line("Generated Digest: " + digestValue, Log::DEBUG);
 }

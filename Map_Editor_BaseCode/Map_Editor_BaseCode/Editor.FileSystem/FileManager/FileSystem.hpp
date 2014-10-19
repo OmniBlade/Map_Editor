@@ -10,6 +10,7 @@ struct FileProperties
 	BinaryReader* reader = nullptr;
 	int size = 0;
 	int offset = 0;
+	std::string path;
 };
 
 class FileSystem
@@ -53,6 +54,8 @@ public:
 	std::wstring getFileVersion(const std::string& fullFileName);
 
 	bool exists(const std::string& fileName);
+	std::string getFullPath(const std::string& fileName);
+	std::string getFullEditorPath(const std::string& fileName);
 
 private:
 	static FileSystem* system;

@@ -35,7 +35,7 @@ void TaskForce::parse(INIFile* file, bool isGlobal_)
 
 	for (unsigned int i = 0; i < taskForceLimit; ++i)
 	{
-		if (!section->checkKeyExistance(Log::toString(i)))
+		if (!section->keyExists(Log::toString(i)))
 		{
 			break; // Stop looking if an index is missing
 		}

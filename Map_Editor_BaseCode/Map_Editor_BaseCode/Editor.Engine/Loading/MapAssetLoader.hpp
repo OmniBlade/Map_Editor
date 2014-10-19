@@ -35,7 +35,5 @@ public:
 	void dumpTypes();
 
 	void setGlobalValues();
-
-	void setDigest(INIFile* mapFile);
 };
 

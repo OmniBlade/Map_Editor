@@ -182,3 +182,19 @@ void RawFileSystem::locateEditorRootFiles()
 	//Log::line("==========================", Log::EXTRA);
 	FindClose(hFind);
 }
+
+std::string RawFileSystem::getFullPath(const std::string& fileName)
+{
+	if (inGameRoot(fileName))
+		return Config::installDir + Config::backSlash + fileName;
+
+	return std::string();
+}
+
+std::string RawFileSystem::getFullEditorPath(const std::string& fileName)
+{
+	if (inEditorRoot(fileName))
+		return Config::editorRoot + Config::backSlash + fileName;
+
+	return std::string();
+}

@@ -129,7 +129,7 @@ std::string const& INISection::getValue(const char* key)
 	return empty;
 }
 
-bool INISection::checkKeyExistance(const std::string& key)
+bool INISection::keyExists(const std::string& key)
 {
 	if (keyValueMap.find(key.c_str()) != keyValueMap.end())
 	{
@@ -138,7 +138,7 @@ bool INISection::checkKeyExistance(const std::string& key)
 	return false;
 }
 
-bool INISection::checkValueExistance(const std::string& key)
+bool INISection::valueExists(const std::string& key)
 {
 	auto& it = getIter(key.c_str());
 
@@ -153,10 +153,11 @@ bool INISection::checkValueExistance(const std::string& key)
 void INISection::dumpContent()
 {
 	Log::line();
+	Log::line("Dumping content for:", Log::DEBUG);
 	Log::line("[" + sectionName + "]", Log::DEBUG);
-	for (const auto& iter : keyValueMap)
+	for (const auto& it : keys)
 	{
-		//Log::line(iter.first + " = " + iter.second, Log::DEBUG);
+		Log::line(it + " = " + getValue(it), Log::DEBUG);
 	}
 	Log::line();
 }
@@ -169,4 +170,31 @@ unsigned int INISection::totalSize() const
 		totalSize += iter.second.length();
 	}
 	return totalSize;
+}
+
+int INISection::checkSumValues()
+{
+	int checksum = 0;
+	for (auto& it : keys)
+	{
+		auto value = getValue(it.c_str());
+		for (const auto& aChar : value)
+		{
+			checksum += aChar;
+		}
+	}
+	return checksum;
+}
+
+int INISection::checkSumKeys()
+{
+	int checksum = 0;
+	for (auto& it : keys)
+	{
+		for (const auto& aChar : it)
+		{
+			checksum += aChar;
+		}
+	}
+	return checksum;
 }

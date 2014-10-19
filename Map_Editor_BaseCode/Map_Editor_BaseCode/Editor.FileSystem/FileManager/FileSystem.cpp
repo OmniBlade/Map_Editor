@@ -5,6 +5,7 @@
 #include "Managers\MixManager.hpp"
 #include "../../Log.hpp"
 #include "Windows.h"
+#include "../../Config.hpp"
 
 /* static */ FileSystem* FileSystem::system;
 /* static */ FileSystem* FileSystem::getFileSystem()
@@ -34,6 +35,7 @@ FileProperties FileSystem::getFile(const std::string& fileName)
 	fileProp.reader = getReaderForFile(fileName);
 	fileProp.offset = getFileOffset(fileName);
 	fileProp.size = getFileSize(fileName);
+	fileProp.path = getFullPath(fileName);
 	
 	return fileProp;
 }
@@ -47,6 +49,7 @@ FileProperties FileSystem::getRootFile(const std::string& fileName)
 	fileProp.reader = getReaderForEditorFile(fileNameCaps);
 	fileProp.offset = getEditorFileOffset(fileNameCaps);
 	fileProp.size = getEditorFileSize(fileNameCaps);
+	fileProp.path = getFullEditorPath(fileNameCaps);
 
 	return fileProp;
 }
@@ -120,4 +123,14 @@ int FileSystem::getEditorFileOffset(const std::string& fileName)
 		return 0;
 	else
 		return MIXManager::instance()->getOffsetForFile(fileName);
+}
+
+std::string FileSystem::getFullPath(const std::string& fileName)
+{
+	return rawSystem->getFullPath(fileName);
+}
+
+std::string FileSystem::getFullEditorPath(const std::string& fileName)
+{
+	return rawSystem->getFullEditorPath(fileName);
 }
