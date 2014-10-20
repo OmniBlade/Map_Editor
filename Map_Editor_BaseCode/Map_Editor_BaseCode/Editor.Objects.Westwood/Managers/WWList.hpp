@@ -77,9 +77,18 @@ public:
 
 	bool exists(const std::string& ID)
 	{
+		for (const auto& it : typeList)
+		{
+			if (it->ID == ID)
+			{
+				return true;
+			}
+		}
+		return false;
+
 		for (unsigned int i = 0; i < typeList.size(); ++i)
 		{
-			if (typeList[i].get()->ID == ID)
+			if (typeList[i]->ID == ID)
 				return true;
 		}
 		return false;
@@ -100,6 +109,7 @@ public:
 		return ret;
 	}
 
+	int lastLoaded = 0;
 	std::vector<std::unique_ptr<T>> typeList;
 };
 

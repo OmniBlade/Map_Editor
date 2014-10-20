@@ -52,7 +52,7 @@ void EventCollection::parse(ParamCollection* paramColl)
 
 	for (int i = 0; i < count; ++i)
 	{
-		if (file->checkSectionExistance(Log::toString(i)))
+		if (file->sectionExists(Log::toString(i)))
 			eventList.push_back(std::make_unique<EventType>(file->getSection(Log::toString(i)), paramColl));
 		else
 			break;

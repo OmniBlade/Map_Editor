@@ -96,7 +96,8 @@ void initiateEditor()
 	Log::line("Loading MIX files:", Log::DEBUG);
 	bootLoader.initiateMIX();
 
-	if (MIXManager::instance()->get("RA2MD.MIX") == nullptr && MIXManager::instance()->get("RA2.MIX") == nullptr)
+	if (MIXManager::instance()->get("RA2MD.MIX") == nullptr && MIXManager::instance()->get("RA2.MIX") == nullptr 
+		&& MIXManager::instance()->get("TIBSUN.MIX") == nullptr)
 	{
 		Log::line("Invalid directory set, terminating now...", Log::DEBUG);
 		Log::close();
@@ -223,6 +224,7 @@ void loadMap()
 	mapLoader.load(mode, "Gamemode");
 	mapLoader.setGlobalCountries();
 	mapLoader.load(map, "Map");
+	mapLoader.setMapModGlobalCountries(map);
 	mapLoader.loadGlobalVariable(); // Causes crash on exit when profiled as WWType
 	mapLoader.loadAI();
 
@@ -290,6 +292,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	MapWriter writer;
 	writer.writeMap("C:\\Users\\Rik\\Desktop\\map_write_test.map");
 
+	
 	Log::line();
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;

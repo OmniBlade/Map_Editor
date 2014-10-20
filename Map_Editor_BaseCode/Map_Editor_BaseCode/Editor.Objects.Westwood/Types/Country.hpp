@@ -8,15 +8,18 @@ class Country : public AbstractType
 public:
 	static WWList<Country> Array;
 	static void writeToINI(INIFile& file);
+	static bool containsLocalCountries();
 
 	Country(const std::string& id);
 
 	void loadRules(INIFile* file) override;
 	void loadArt(INIFile* file) override;
 	void setGlobal(bool state) { isGlobal = state; };
+	void setHasMapMod(bool state) { hasMapMod = state; };
+	
 	void writeContentToINI(INIFile& file);
 
-	bool isGlobal = false;
+	bool isGlobal = false, hasMapMod = false;
 	std::string Suffix = "";
 	std::string Prefix = "";
 	std::string Color = "";
@@ -29,6 +32,8 @@ public:
 	std::string VeteranAircraft = "";
 	std::string VeteranUnits = "";
 	std::string VeteranInfantry = "";
+
+	int sideIndex = -1;
 
 	float ArmorAircraftMult = 1.0f;
 	float ArmorUnitsMult = 1.0f;

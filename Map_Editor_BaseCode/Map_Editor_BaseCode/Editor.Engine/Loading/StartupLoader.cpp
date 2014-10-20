@@ -23,7 +23,9 @@ bool StartupLoader::validateEssentialFiles()
 	Log::line();
 	Log::line("Checking authenticity of core editor files...", Log::DEBUG);
 	
-	if (!DigestClass::validateDigest(INIManager::instance()->get("PARAMS"), "PARAMS") ||
+	if (!DigestClass::validateDigest(INIManager::instance()->get("CONFIGS"), "CONFIGS") ||
+		!DigestClass::validateDigest(INIManager::instance()->get(Config::configName), Config::configName) ||
+		!DigestClass::validateDigest(INIManager::instance()->get("PARAMS"), "PARAMS") ||
 		!DigestClass::validateDigest(INIManager::instance()->get("ACTIONS_S"), "ACTIONS_S") ||
 		!DigestClass::validateDigest(INIManager::instance()->get("EVENTS"), "EVENTS") ||
 		!DigestClass::validateDigest(INIManager::instance()->get("ACTIONS"), "ACTIONS"))

@@ -24,7 +24,7 @@ public:
 	INISection* EnsureSection(const char* section);
 	INISection* getSection(const std::string &section) { return getSection(section.c_str()); };
 	INISection* getSection(const char* section);
-	bool checkSectionExistance(const std::string &section);
+	bool sectionExists(const std::string &section);
 	bool getLoaded() const;
 	std::string& getININame();
 
@@ -37,12 +37,12 @@ public:
 
 	void dumpContent();
 
-	void writeToSameFile(bool digest = false, bool alphabetic = true);
-	void writeToFile(const std::string& fullPath, bool digest = false, bool alphabetic = true);
+	void writeToSameFile(bool digest = false, bool writeLock = false, bool alphabetic = false);
+	void writeToFile(const std::string& fullPath, bool digest = false, bool writeLock = false, bool alphabetic = false);
 	void writeStartingComments(FileWriter* file);
 	void writeAlphabetic(FileWriter* file);
 	void writeVectorOrder(FileWriter* file);
-	void setDigestForWriting();
+	void setDigestForWriting(bool writeLock = false);
 
 	/* Adds a comment to the start of the map file, ONLY at the start of the file! */
 	void addCommentAtTop(const std::string& comment) { comments.push_back(comment); };

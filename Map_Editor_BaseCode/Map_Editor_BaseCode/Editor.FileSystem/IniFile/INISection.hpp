@@ -21,6 +21,7 @@ public:
 	int checkSumKeys();
 	int checkSumValues();
 	const std::string& getSectionName() const { return sectionName; };
+	const std::vector<std::string> getKeys() { return keys; };
 	std::vector<std::string>::const_iterator begin() const { return keys.begin(); };
 	std::vector<std::string>::const_iterator end() const { return keys.end(); };
 	void setValue(const std::string &key, std::string value);

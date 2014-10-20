@@ -1,7 +1,19 @@
 #include "stdafx.h"
 #include "MapMods.h"
 #include "../../Editor.Engine/Types/Managers/MapObjectList.hpp"
-#include "../../Editor.Objects.Westwood/Managers/WWList.hpp"
+#include "../../Editor.Objects.Westwood/Types/OverlayType.hpp"
+#include "../../Editor.Objects.Westwood/Types/SuperWeaponType.hpp"
+#include "../../Editor.Objects.Westwood/Types/WarheadType.hpp"
+#include "../../Editor.Objects.Westwood/Types/SmudgeType.hpp"
+#include "../../Editor.Objects.Westwood/Types/TerrainType.hpp"
+#include "../../Editor.Objects.Westwood/Types/BuildingType.hpp"
+#include "../../Editor.Objects.Westwood/Types/VehicleType.hpp"
+#include "../../Editor.Objects.Westwood/Types/InfantryType.hpp"
+#include "../../Editor.Objects.Westwood/Types/AircraftType.hpp"
+#include "../../Editor.Objects.Westwood/Types/Animation.hpp"
+#include "../../Editor.Objects.Westwood/Types/VoxelAnimType.hpp"
+#include "../../Editor.Objects.Westwood/Types/ParticleType.hpp"
+#include "../../Editor.Objects.Westwood/Types/WeaponType.hpp"
 #include "MapModsHelper.h"
 #include "../INIFile/INIFile.hpp"
 #include "../FileManager/Managers/INIManager.hpp"
@@ -13,6 +25,7 @@
 #include "../../Editor.Engine/Types/TeamTypes/TaskForce.hpp"
 #include "../FileManager/Managers/INIManager.hpp"
 #include "../../Config.hpp"
+
 
 /* static */ MapMods* MapMods::instance;
 
@@ -31,10 +44,17 @@ MapMods::~MapMods()
 
 void MapMods::writeToINI(INIFile& file)
 {
+	instance->writeGenericSections(file);
+	instance->writeFoaSections(file);
+
 	for (auto& it : instance->modsFile->getSectionList())
 	{
-		file.addSectionByCopy(instance->modsFile->getSection(it));
+		if (std::find(instance->writtenSections.begin(), instance->writtenSections.end(), it) == instance->writtenSections.end())
+			file.addSectionByCopy(instance->modsFile->getSection(it));
+
 	}
+
+	instance->writtenSections.clear();
 }
 
 void MapMods::parse(INIFile* map)
@@ -70,7 +90,8 @@ void MapMods::fillMapSections()
 	mapSections.push_back("VariableNames");
 	mapSections.push_back("Houses");
 	fillMapSection(this, House::Array);
-	mapSections.push_back("Countries");
+	/* Ehm... We're not using all data, so assume it is a map mod, when writing everything will be overwritten by the actual Countries anyhow*/
+	mapSections.push_back("Countries"); 
 	fillMapSection(this, Country::Array);
 	mapSections.push_back("Aircraft");
 	mapSections.push_back("Infantry");
@@ -102,4 +123,40 @@ void MapMods::fillMapSections()
 	mapSections.push_back("Ranking");
 	mapSections.push_back("Digest");
 	//mapSections.push_back("Header");
+}
+
+void MapMods::writeGenericSections(INIFile& file)
+{
+	auto pGeneral = modsFile->getSection("General");
+	if (pGeneral)
+	{
+		file.addSectionByCopy(pGeneral);
+		writtenSections.push_back("General");
+	}
+
+	auto pAVisual = modsFile->getSection("AudioVisual");
+	if (pAVisual)
+	{
+		file.addSectionByCopy(pAVisual);
+		writtenSections.push_back("AudioVisual");
+	}
+
+
+}
+
+void MapMods::writeFoaSections(INIFile& file)
+{
+	writeAFoaSection(OverlayType::Array, "OverlayTypes", file);
+	writeAFoaSection(SuperWeaponType::Array, "SuperWeaponTypes", file);
+	writeAFoaSection(WarheadType::Array, "Warheads", file);
+	writeAFoaSection(SmudgeType::Array, "SmudgeTypes", file);
+	writeAFoaSection(TerrainType::Array, "TerrainTypes", file);
+	writeAFoaSection(BuildingType::Array, "BuildingTypes", file);
+	writeAFoaSection(VehicleType::Array,"VehicleTypes", file);
+	writeAFoaSection(AircraftType::Array, "AircraftTypes", file);
+	writeAFoaSection(InfantryType::Array, "InfantryTypes", file);
+	writeAFoaSection(Animation::Array, "Animations", file);
+	writeAFoaSection(VoxelAnimType::Array, "VoxelAnims", file);
+	writeAFoaSection(ParticleType::Array, "Particles", file);
+	writeAFoaSection(WeaponType::Array, "DUMMY :D", file);
 }

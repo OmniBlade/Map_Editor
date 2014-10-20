@@ -54,6 +54,18 @@ public:
 		return objectList[index].get();
 	}
 
+	bool exists(const std::string& ID)
+	{
+		for (const auto& it : objectList)
+		{
+			if (it->ID == ID)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/*
 		Winner of the Ugliest Function / Hack of 2014 ©
 	*/

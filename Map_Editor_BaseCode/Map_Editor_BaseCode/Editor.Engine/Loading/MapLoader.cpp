@@ -42,7 +42,7 @@ MapLoader::MapLoader()
 	specialWeapons = new SpecialWeapon();
 	audioVisual = new AudioVisual();
 	combatDamage = new CombatDamage();
-	sides = new Side();
+	//sides = new Side();
 	iq = new IQ();
 
 	//Initiate Sound, Speech and Theme here, they have no real dependency anyhow
@@ -96,8 +96,8 @@ void MapLoader::loadAll(INIFile* file, const std::string& name)
 
 	Log::line("Loading main rules now for '" + name + "'...", Log::DEBUG);
 	//3 times for rules / gamemode mode / mapmod
+	Side::instance()->loadRules(file);
 	loadFromINI(Country::Array, *file, *art);
-	sides->loadRules(file);
 	loadFromINI(SuperWeaponType::Array, *file, *art);
 	loadFromINI(Animation::Array, *file, *art);
 	loadFromINI(BuildingType::Array, *file, *art);
@@ -301,14 +301,13 @@ void MapLoader::setGlobalCountries()
 	}
 }
 
-/*void MapLoader::loadMPCountries()
+void MapLoader::setMapModGlobalCountries(INIFile* map)
 {
-	Country::Array.findOrAllocate("<Player @ A>");
-	Country::Array.findOrAllocate("<Player @ B>");
-	Country::Array.findOrAllocate("<Player @ C>");
-	Country::Array.findOrAllocate("<Player @ D>");
-	Country::Array.findOrAllocate("<Player @ E>");
-	Country::Array.findOrAllocate("<Player @ F>");
-	Country::Array.findOrAllocate("<Player @ G>");
-	Country::Array.findOrAllocate("<Player @ H>");
-}*/
+	for (auto& it : Country::Array.typeList)
+	{
+		if (it->isGlobal && map->sectionExists(it->ID))
+		{
+			it->setHasMapMod(true);
+		}
+	}
+}

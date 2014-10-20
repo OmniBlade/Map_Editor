@@ -97,7 +97,7 @@ void TheaterCollection::parseTheaters()
 //Check whether the theater exists as a section and pass it on
 void TheaterCollection::createTheater(const std::string& _theaterName)
 {
-	if (configFile->checkSectionExistance(_theaterName))
+	if (configFile->sectionExists(_theaterName))
 	{
 		INISection* theaterSection = configFile->getSection(_theaterName);
 		theaters.insert(theaters.end(), std::make_unique<TheaterDefinition>(getDefaultValues(_theaterName), theaterSection));

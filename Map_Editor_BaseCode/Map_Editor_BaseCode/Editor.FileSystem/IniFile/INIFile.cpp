@@ -149,7 +149,7 @@ INISection* INIFile::getSection(const char* section)
 	return nullptr;
 }
 
-bool INIFile::checkSectionExistance(const std::string &section)
+bool INIFile::sectionExists(const std::string &section)
 {
 	if (getSection(section))
 	{
@@ -213,7 +213,7 @@ void INIFile::deleteSection(const char* section)
 	sections.erase(it_vector);
 }
 
-void INIFile::writeToSameFile(bool digest, bool alphabetic)
+void INIFile::writeToSameFile(bool digest, bool writeLock, bool alphabetic)
 {
 	if (!isLoaded || path.empty())
 	{
@@ -221,11 +221,11 @@ void INIFile::writeToSameFile(bool digest, bool alphabetic)
 	}
 	else
 	{
-		writeToFile(path, digest, alphabetic);
+		writeToFile(path, digest, writeLock, alphabetic);
 	}
 }
 
-void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = false */, bool alphabeticOrder /* = true */)
+void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = false */, bool writeLock, bool alphabeticOrder /* = false */)
 {
 	FileWriter iniWriter(fullPath);
 
@@ -233,7 +233,7 @@ void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = fals
 
 	if (withDigest)
 	{
-		setDigestForWriting(&iniWriter);
+		setDigestForWriting(writeLock);
 	}
 
 
@@ -306,9 +306,9 @@ void INIFile::writeVectorOrder(FileWriter* file)
 	}
 }
 
-void INIFile::setDigestForWriting()
+void INIFile::setDigestForWriting(bool writeLock /* = false */)
 {
-	std::string digestValue = DigestClass::getCustomDigestFor(this);	
+	std::string digestValue = DigestClass::getCustomDigestFor(this, writeLock);	
 	SetValue("Digest", "1", digestValue);
 
 	Log::line("Generated Digest: " + digestValue, Log::DEBUG);

@@ -120,7 +120,7 @@ std::string Trigger::asString()
 {
 	char buffer[512];
 	sprintf_s(buffer, 512, "%s,%s,%s,%d,%d,%d,%d,%d",
-		this->pOwner->ID.c_str(),
+		this->owner.c_str(),
 		this->child.c_str(),
 		this->Name.c_str(),
 		this->Disabled != 0,
