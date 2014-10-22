@@ -17,12 +17,10 @@ template<typename T>
 void loadFromINI(WWList<T>& list, INIFile& file, INIFile& art)
 {
 	//Log::line("Now in loadFromINI()", Log::DEBUG);
-	int start = list.lastLoaded;
-	for (unsigned int i = start; i < list.typeList.size(); ++i)
+	for (unsigned int i = 0; i < list.typeList.size(); ++i)
 	{
 		list.typeList[i]->loadRules(&file);
 		list.typeList[i]->loadArt(&art);
-		list.lastLoaded++;
 	}
 
 /*	for (const auto& it : list.typeList)
@@ -37,10 +35,8 @@ void loadFromINI(WWList<T>& list, INIFile& file, INIFile& art)
 template<typename T>
 void loadFromSingleINI(WWList<T>& list, INIFile& file)
 {
-	int start = list.lastLoaded;
-	for (unsigned int i = start; i < list.typeList.size(); ++i)
+	for (unsigned int i = 0; i < list.typeList.size(); ++i)
 	{
 		list.typeList[i]->load(&file);
-		list.lastLoaded++;
 	}
 }

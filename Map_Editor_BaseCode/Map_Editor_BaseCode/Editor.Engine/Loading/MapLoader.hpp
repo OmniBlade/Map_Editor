@@ -76,7 +76,6 @@ public:
 	
 	*/
 	void setGlobalCountries();
-	void setMapModGlobalCountries(INIFile* map);
 
 	//void loadMPCountries();
 

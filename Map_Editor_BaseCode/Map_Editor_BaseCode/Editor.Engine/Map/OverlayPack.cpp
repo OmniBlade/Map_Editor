@@ -5,6 +5,8 @@
 #include "../../Editor.FileSystem/MapFile/Base64.hpp"
 #include "../Types/Overlay.h"
 #include "PackType.hpp"
+#include "../../Config.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 
 /* static */ OverlayPack* OverlayPack::instance;
 
@@ -41,7 +43,8 @@ void OverlayPack::read()
 	pOverlayPack->decompress(&opSrc[0], opSrc.size());
 	pOverlayDataPack->decompress(&opdSrc[0], opdSrc.size());
 
-	//map_write_test.ini
+	INIManager::instance()->get(Config::mapName)->deleteSection("OverlayPack");
+	INIManager::instance()->get(Config::mapName)->deleteSection("OverlayDataPack");
 }
 
 void OverlayPack::write()

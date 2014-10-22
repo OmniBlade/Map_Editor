@@ -176,13 +176,17 @@ void loadMap()
 
 	MapLoader mapLoader;
 	MapAssetLoader mapAssetLoader;
-	INIFile* map = INIManager::instance()->get(Config::mapName);	//Test for overwriting previous content (GAPOWRA-F for Soviet MD 01)
-	Basic::getBasic()->parse();
+	FileProperties props = FileSystem::getFileSystem()->getFile(Config::mapName);
+	INIFile* map = new INIFile(props); //Assuming the reader in props is always valid... :D
+	map->setDeletableState(true);
+	INIFile* mapOrigin = new INIFile(*map);
+	
 	INIFile* mode = nullptr;
 	if (mapLoader.locateGameMode(map))
 	{
 		mode = INIManager::instance()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
 	}
+	Basic::getBasic()->parse();
 
 	INIFile* rules = INIManager::instance()->get(Config::rules);
 
@@ -224,7 +228,6 @@ void loadMap()
 	mapLoader.load(mode, "Gamemode");
 	mapLoader.setGlobalCountries();
 	mapLoader.load(map, "Map");
-	mapLoader.setMapModGlobalCountries(map);
 	mapLoader.loadGlobalVariable(); // Causes crash on exit when profiled as WWType
 	mapLoader.loadAI();
 
@@ -233,7 +236,7 @@ void loadMap()
 	//Log::line("Going to load all objects now!", Log::DEBUG);
 
 	MapStats::instance()->parse();
-	Basic::getBasic()->parse();
+	//Basic::getBasic()->parse();
 	SpecialFlag::instance()->parse();
 	Lighting::instance()->parse();
 	mapAssetLoader.load(mode, "Gamemode");
@@ -242,8 +245,7 @@ void loadMap()
 
 	opack->createOverlayFromData();
 
-	MapMods* mods = new MapMods();
-	mods->parse(map);
+	MapMods::instance()->parse(map);
 	
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 

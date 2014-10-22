@@ -6,6 +6,8 @@
 #include "PackType.hpp"
 #include <sstream>
 #include "../../Log.hpp"
+#include "../../Config.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 
 /* static */ IsoMapPack* IsoMapPack::instance;
 
@@ -41,6 +43,8 @@ void IsoMapPack::read()
 
 	auto pTile = reinterpret_cast<IsoMapPack5Tile*>(&rawData[0]);
 	tiles.assign(pTile, pTile + rawData.size() / sizeof(IsoMapPack5Tile));
+
+	INIManager::instance()->get(Config::mapName)->deleteSection("IsoMapPack5");
 }
 
 void IsoMapPack::write()

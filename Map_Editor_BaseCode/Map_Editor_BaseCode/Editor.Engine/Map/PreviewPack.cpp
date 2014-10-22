@@ -6,6 +6,8 @@
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
 #include "../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 #include "../../Editor.FileSystem/MapFile/Base64.hpp"
+#include "../../Config.hpp"
+#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 
 /* static */ PreviewPack* PreviewPack::instance;
 
@@ -52,6 +54,10 @@ void PreviewPack::read()
 
 	auto pColor = reinterpret_cast<ColorEntry*>(&rawData[0]);
 	imageBytes.assign(pColor, pColor + rawData.size() / sizeof(ColorEntry));
+
+	INIManager::instance()->get(Config::mapName)->deleteSection("PreviewPack");
+	INIManager::instance()->get(Config::mapName)->deleteSection("Preview");
+
 }
 
 void PreviewPack::write()

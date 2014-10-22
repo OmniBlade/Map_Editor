@@ -63,28 +63,33 @@ void Lighting::parse()
 	INIFile* map = INIManager::instance()->get(Config::mapName);
 	INISection* lighting = map->getSection("Lighting");
 
-	lighting->readFloatValue("Ambient", Ambient);
-	lighting->readFloatValue("Red", Red);
-	lighting->readFloatValue("Green", Green);
-	lighting->readFloatValue("Blue", Blue);
-	lighting->readFloatValue("Ground", Ground);
-	lighting->readFloatValue("Level", Level);
-	lighting->readFloatValue("IonAmbient", IonAmbient);
-	lighting->readFloatValue("IonRed", IonRed);
-	lighting->readFloatValue("IonGreen", IonGreen);
-	lighting->readFloatValue("IonBlue", IonBlue);
-	lighting->readFloatValue("IonGround", IonGround);
-	lighting->readFloatValue("IonLevel", IonLevel);
-	lighting->readFloatValue("NukeAmbientChangeRate", NukeChangeRate, 0.0f);
+	lighting->readDeletableFloatValue("Ambient", Ambient);
+	lighting->readDeletableFloatValue("Red", Red);
+	lighting->readDeletableFloatValue("Green", Green);
+	lighting->readDeletableFloatValue("Blue", Blue);
+	lighting->readDeletableFloatValue("Ground", Ground);
+	lighting->readDeletableFloatValue("Level", Level);
+	lighting->readDeletableFloatValue("IonAmbient", IonAmbient);
+	lighting->readDeletableFloatValue("IonRed", IonRed);
+	lighting->readDeletableFloatValue("IonGreen", IonGreen);
+	lighting->readDeletableFloatValue("IonBlue", IonBlue);
+	lighting->readDeletableFloatValue("IonGround", IonGround);
+	lighting->readDeletableFloatValue("IonLevel", IonLevel);
+	lighting->readDeletableFloatValue("NukeAmbientChangeRate", NukeChangeRate, 0.0f);
 
 	if (Game::title == Game::Type::Expansion)
 	{
-		lighting->readFloatValue("DominatorAmbient", DomAmbient);
-		lighting->readFloatValue("DominatorRed", DomRed);
-		lighting->readFloatValue("DominatorGreen", DomGreen);
-		lighting->readFloatValue("DominatorBlue", DomBlue);
-		lighting->readFloatValue("DominatorGround", DomGround);
-		lighting->readFloatValue("DominatorLevel", DomLevel);
-		lighting->readFloatValue("DominatorAmbientChangeRate", DomChangeRate);
+		lighting->readDeletableFloatValue("DominatorAmbient", DomAmbient);
+		lighting->readDeletableFloatValue("DominatorRed", DomRed);
+		lighting->readDeletableFloatValue("DominatorGreen", DomGreen);
+		lighting->readDeletableFloatValue("DominatorBlue", DomBlue);
+		lighting->readDeletableFloatValue("DominatorGround", DomGround);
+		lighting->readDeletableFloatValue("DominatorLevel", DomLevel);
+		lighting->readDeletableFloatValue("DominatorAmbientChangeRate", DomChangeRate);
+	}
+
+	if (!lighting->size())
+	{
+		map->deleteSection("Lighting");
 	}
 }

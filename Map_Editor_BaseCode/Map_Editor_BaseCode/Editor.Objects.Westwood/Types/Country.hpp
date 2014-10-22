@@ -15,11 +15,10 @@ public:
 	void loadRules(INIFile* file) override;
 	void loadArt(INIFile* file) override;
 	void setGlobal(bool state) { isGlobal = state; };
-	void setHasMapMod(bool state) { hasMapMod = state; };
 	
 	void writeContentToINI(INIFile& file);
 
-	bool isGlobal = false, hasMapMod = false;
+	bool isGlobal = false;
 	std::string Suffix = "";
 	std::string Prefix = "";
 	std::string Color = "";

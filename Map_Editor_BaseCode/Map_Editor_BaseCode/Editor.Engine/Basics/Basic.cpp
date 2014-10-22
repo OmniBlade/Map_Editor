@@ -102,51 +102,51 @@ void Basic::parse()
 	INIFile* map = INIManager::instance()->get(Config::mapName);
 	INISection* basic = map->getSection("Basic");
 
-	basic->readStringValue("Name", Name, "No name");
-	basic->readStringValue("Player", Player);
-	basic->readStringValue("Briefing", Briefing, "<none>");
-	basic->readStringValue("Theme", ThemeStr, "<none>");
-	basic->readStringValue("Intro", Intro, "<none>");
-	basic->readStringValue("Brief", Brief, "<none>");
-	basic->readStringValue("Win", Win, "<none>");
-	basic->readStringValue("Lose", Lose, "<none>");
-	basic->readStringValue("Action", Action, "<none>");
-	basic->readStringValue("PostScore", PostScore, "<none>");
-	basic->readStringValue("PreMapSelect", PreMapSelect, "<none>");
-	basic->readStringValue("NextScenario", NextScenario, "<none>");
-	basic->readStringValue("AltNextScenario", AltNextScenario, "<none>");
-	basic->readStringValue("GameMode", GameModesStr);
-	basic->readStringValue("AllowableUnits", AllowableUnitsStr);
-	basic->readStringValue("AllowableUnitsMaximums", AllowableMaxStr);
+	basic->readDeletableStringValue("Name", Name, "No name");
+	basic->readDeletableStringValue("Player", Player);
+	basic->readDeletableStringValue("Briefing", Briefing, "<none>");
+	basic->readDeletableStringValue("Theme", ThemeStr, "<none>");
+	basic->readDeletableStringValue("Intro", Intro, "<none>");
+	basic->readDeletableStringValue("Brief", Brief, "<none>");
+	basic->readDeletableStringValue("Win", Win, "<none>");
+	basic->readDeletableStringValue("Lose", Lose, "<none>");
+	basic->readDeletableStringValue("Action", Action, "<none>");
+	basic->readDeletableStringValue("PostScore", PostScore, "<none>");
+	basic->readDeletableStringValue("PreMapSelect", PreMapSelect, "<none>");
+	basic->readDeletableStringValue("NextScenario", NextScenario, "<none>");
+	basic->readDeletableStringValue("AltNextScenario", AltNextScenario, "<none>");
+	basic->readDeletableStringValue("GameMode", GameModesStr);
+	basic->readDeletableStringValue("AllowableUnits", AllowableUnitsStr);
+	basic->readDeletableStringValue("AllowableUnitsMaximums", AllowableMaxStr);
 	
-	basic->readFloatValue("CarryOverMoney", CarryOverMoney);
-	basic->readIntValue("NewINIFormat", NewINIFormat, 4);
-	basic->readIntValue("CarryOverCap", CarryOverCap, -1);
-	basic->readIntValue("Percent", Percent, -1);
-	basic->readIntValue("StartingDropShips", StartingDropShips, -1);
-	basic->readIntValue("HomeCell", HomeCell, -1);
-	basic->readIntValue("AltHomeCell", AltHomeCell, -1);
-	basic->readIntValue("InitTime", InitTime, -1);
-	basic->readIntValue("MaxPlayer", MaxPlayer, -1);
-	basic->readIntValue("MinPlayer", MinPlayer, -1);
+	basic->readDeletableFloatValue("CarryOverMoney", CarryOverMoney);
+	basic->readDeletableIntValue("NewINIFormat", NewINIFormat, 4);
+	basic->readDeletableIntValue("CarryOverCap", CarryOverCap, -1);
+	basic->readDeletableIntValue("Percent", Percent, -1);
+	basic->readDeletableIntValue("StartingDropships", StartingDropShips, -1);
+	basic->readDeletableIntValue("HomeCell", HomeCell, -1);
+	basic->readDeletableIntValue("AltHomeCell", AltHomeCell, -1);
+	basic->readDeletableIntValue("InitTime", InitTime, -1);
+	basic->readDeletableIntValue("MaxPlayer", MaxPlayer, -1);
+	basic->readDeletableIntValue("MinPlayer", MinPlayer, -1);
 
-	basic->readBoolValue("EndOfGame", EndOfGame);
-	basic->readBoolValue("SkipScore", SkipScore);
-	basic->readBoolValue("OneTimeOnly", OneTimeOnly);
-	basic->readBoolValue("SkipMapSelect", SkipMapSelect);
-	basic->readBoolValue("Official", Official);
-	basic->readBoolValue("IgnoreGlobalAITriggers", IgnoreGlobalAITriggers);
-	basic->readBoolValue("TruckCrate", TruckCrate);
-	basic->readBoolValue("TrainCrate", TrainCrate);
-	basic->readBoolValue("CivEvac", CivEvac);
-	basic->readBoolValue("TimerInherit", TimerInherit);
-	basic->readBoolValue("FillSilos", FillSilos);
-	basic->readBoolValue("MultiplayerOnly", MultiplayerOnly);
-	basic->readBoolValue("TiberiumGrowthEnabled", TiberiumGrowthEnabled);
-	basic->readBoolValue("VeinGrowthEnabled", VeinGrowthEnabled);
-	basic->readBoolValue("IceGrowthEnabled", IceGrowthEnabled);
-	basic->readBoolValue("TiberiumDeathToVisceroid", TibDeathToVisc);
-	basic->readBoolValue("FreeRadar", FreeRadar);
+	basic->readDeletableBoolValue("EndOfGame", EndOfGame);
+	basic->readDeletableBoolValue("SkipScore", SkipScore);
+	basic->readDeletableBoolValue("OneTimeOnly", OneTimeOnly);
+	basic->readDeletableBoolValue("SkipMapSelect", SkipMapSelect);
+	basic->readDeletableBoolValue("Official", Official);
+	basic->readDeletableBoolValue("IgnoreGlobalAITriggers", IgnoreGlobalAITriggers);
+	basic->readDeletableBoolValue("TruckCrate", TruckCrate);
+	basic->readDeletableBoolValue("TrainCrate", TrainCrate);
+	basic->readDeletableBoolValue("CivEvac", CivEvac);
+	basic->readDeletableBoolValue("TimerInherit", TimerInherit);
+	basic->readDeletableBoolValue("FillSilos", FillSilos);
+	basic->readDeletableBoolValue("MultiplayerOnly", MultiplayerOnly);
+	basic->readDeletableBoolValue("TiberiumGrowthEnabled", TiberiumGrowthEnabled);
+	basic->readDeletableBoolValue("VeinGrowthEnabled", VeinGrowthEnabled);
+	basic->readDeletableBoolValue("IceGrowthEnabled", IceGrowthEnabled);
+	basic->readDeletableBoolValue("TiberiumDeathToVisceroid", TibDeathToVisc);
+	basic->readDeletableBoolValue("FreeRadar", FreeRadar);
 
 	LineSplitter gmsplit(GameModesStr);
 	for (unsigned int i = 0; i < gmsplit.size(); ++i)
@@ -168,6 +168,11 @@ void Basic::parse()
 	for (unsigned int i = 0; i < aumSplit.size(); ++i)
 	{
 		AllowableUnitsMaximums.push_back(aumSplit.peekFromIndex_int(i));
+	}
+
+	if (!basic->size())
+	{
+		map->deleteSection("Basic");
 	}
 }
 

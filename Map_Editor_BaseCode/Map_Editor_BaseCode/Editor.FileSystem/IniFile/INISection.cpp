@@ -25,6 +25,15 @@ INISection::INISection(const std::string &id)
 
 }
 
+INISection::INISection(const INISection &other)
+	: sectionName(other.sectionName), keys(other.keys), canDeleteFrom(other.canDeleteFrom)
+{
+	for (const auto& item : other.keyValueMap)
+	{
+		this->setValue(item.first.get(), item.second);
+	}
+}
+
 void INISection::setValue(const std::string &key, std::string value)
 {
 	if (value.length())
@@ -33,7 +42,7 @@ void INISection::setValue(const std::string &key, std::string value)
 		if (it == keyValueMap.end())
 		{
 			keys.push_back(key);
-			keyValueMap[_strdup(keys.back().c_str())] = std::move(value);
+			keyValueMap[ItemKey(keys.back(), true)] = std::move(value);
 		}
 		else
 		{
@@ -45,11 +54,19 @@ void INISection::setValue(const std::string &key, std::string value)
 		auto it = getIter(key.c_str());
 		if (it != this->keyValueMap.end())
 		{
-			free(const_cast<char*>(it->first.Value));
+			//free(const_cast<char*>(it->first.Value));
 			keyValueMap.erase(it);
 			keys.erase(std::find(keys.begin(), keys.end(), key));
 		}
 	}
+}
+
+void INISection::readDeletableStringValue(const char* key, std::string& variableToFill, const char* default_, bool uppercase)
+{
+	readStringValue(key, variableToFill, default_, uppercase);
+	
+	if (canDeleteFrom)
+		deleteKeyValue(key);
 }
 
 void INISection::readStringValue(const char* key, std::string& varToFill, const char* default_ /*= ""*/, bool upperCase /* = false */)
@@ -64,6 +81,14 @@ void INISection::readStringValue(const char* key, std::string& varToFill, const 
 		varToFill = default_;
 }
 
+void INISection::readDeletableIntValue(const char* key, int& varToFill, int default_ /* -1 */)
+{
+	readIntValue(key, varToFill, default_);
+	
+	if (canDeleteFrom)
+		deleteKeyValue(key);
+}
+
 void INISection::readIntValue(const char* key, int& varToFill, int default_ /* = -1 */)
 {
 	const std::string& returnValue = getValue(key);
@@ -74,6 +99,14 @@ void INISection::readIntValue(const char* key, int& varToFill, int default_ /* =
 		varToFill = default_;
 }
 
+void INISection::readDeletableFloatValue(const char* key, float& varToFill, float default_ /* 1.0f */)
+{
+	readFloatValue(key, varToFill, default_);
+
+	if (canDeleteFrom)
+		deleteKeyValue(key);
+}
+
 void INISection::readFloatValue(const char* key, float& varToFill, float default_ /* = 1.0f */)
 {
 	const std::string& returnValue = getValue(key);
@@ -82,6 +115,14 @@ void INISection::readFloatValue(const char* key, float& varToFill, float default
 		varToFill = (float) atof(returnValue.c_str());
 	else
 		varToFill = default_;
+}
+
+void INISection::readDeletableBoolValue(const char* key, bool& varToFill, bool default_ /* = false */)
+{
+	readBoolValue(key, varToFill, default_);
+	
+	if (canDeleteFrom)
+		deleteKeyValue(key);
 }
 
 void INISection::readBoolValue(const char* key, bool& varToFill, bool default_ /* = false */)
@@ -114,6 +155,16 @@ std::string const& INISection::getKey(int index, int default_ /*= 0*/)
 		index = default_;
 	}
 	return keys[index];
+}
+
+std::string const INISection::getDeletableValue(const std::string& key)
+{
+	std::string ret = getValue(key.c_str());
+
+	if (canDeleteFrom)
+		deleteKeyValue(key.c_str());
+
+	return ret;
 }
 
 std::string const& INISection::getValue(const char* key)
@@ -197,4 +248,27 @@ int INISection::checkSumKeys()
 		}
 	}
 	return checksum;
+}
+
+void INISection::clearAll(bool confirmation)
+{
+	if (confirmation)
+	{
+		keyValueMap.clear();
+	}
+}
+
+void INISection::deleteKeyValue(const char* key)
+{
+	auto it = std::find(keys.begin(), keys.end(), key);
+	if (it != keys.end())
+	{
+		keys.erase(it);
+	}
+
+	auto map_it = getIter(key);
+	if (map_it != keyValueMap.end())
+	{
+		keyValueMap.erase(map_it);
+	}
 }

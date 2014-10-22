@@ -23,7 +23,7 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 	}
 	
 	isGlobal = isGlobal_;
-	section->readStringValue("Name", Name);
+	section->readDeletableStringValue("Name", Name);
 
 	//If anyone ever resizes the limit for this...
 	unsigned int scriptActionLimit = 50;
@@ -39,7 +39,7 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 		}
 		else
 		{
-			LineSplitter parts(section->getValue(Log::toString(i)));
+			LineSplitter parts(section->getDeletableValue(Log::toString(i)));
 			if (auto sub = ScriptAction::parse(parts))
 			{
 				actionList.push_back(sub);
@@ -49,6 +49,11 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 				Log::line("Unable to parse Script Action with ID '" + ID + "'.", Log::DEBUG);
 			}
 		}
+	}
+
+	if (!section->size())
+	{
+		file->deleteSection(ID.c_str());
 	}
 }
 

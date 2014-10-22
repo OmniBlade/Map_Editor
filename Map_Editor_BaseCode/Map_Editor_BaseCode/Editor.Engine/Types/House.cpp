@@ -70,21 +70,26 @@ void House::parse(INIFile* file, bool redundant)
 	if (!houseSection) return;
 
 	Name = ID;
-	houseSection->readStringValue("Country", Country);
-	houseSection->readIntValue("TechLevel", TechLevel);
-	houseSection->readIntValue("Credits", Credits);
-	houseSection->readIntValue("IQ", IQ);
-	houseSection->readStringValue("Edge", Edge);
-	houseSection->readBoolValue("PlayerControl", PlayerControl);
-	houseSection->readStringValue("Color", Color);
-	houseSection->readIntValue("PercentBuilt", PercentBuilt);
-	houseSection->readIntValue("NodeCount", NodeCount);
+	houseSection->readDeletableStringValue("Country", Country);
+	houseSection->readDeletableIntValue("TechLevel", TechLevel);
+	houseSection->readDeletableIntValue("Credits", Credits);
+	houseSection->readDeletableIntValue("IQ", IQ);
+	houseSection->readDeletableStringValue("Edge", Edge);
+	houseSection->readDeletableBoolValue("PlayerControl", PlayerControl);
+	houseSection->readDeletableStringValue("Color", Color);
+	houseSection->readDeletableIntValue("PercentBuilt", PercentBuilt);
+	houseSection->readDeletableIntValue("NodeCount", NodeCount);
 
 	std::string allies_List;
-	houseSection->readStringValue("Allies", allies_List);
+	houseSection->readDeletableStringValue("Allies", allies_List);
 
 	loadAllies(allies_List);
 	loadNodes(houseSection);
+
+	if (!houseSection->size())
+	{
+		file->deleteSection(ID.c_str());
+	}
 }
 
 void House::loadAllies(const std::string& alliesList)
@@ -111,7 +116,7 @@ void House::loadNodes(INISection* section)
 			number << '0';
 		number << i;
 
-		section->readStringValue(number.str(), node);
+		section->readDeletableStringValue(number.str().c_str(), node);
 		if (!node.empty())
 		{
 			LineSplitter split(node);

@@ -30,34 +30,40 @@ void Country::loadRules(INIFile* file)
 	rulesSection->readStringValue("Side", Side);
 	sideIndex = Side::instance()->getSideIndexByName(Side);
 	rulesSection->readBoolValue("SmartAI", SmartAI);
-	rulesSection->readStringValue("VeteranAircraft", VeteranAircraft);
-	rulesSection->readStringValue("VeteranUnits", VeteranUnits);
-	rulesSection->readStringValue("VeteranInfantry", VeteranInfantry);
+
+	/*
+	rulesSection->readDeletableStringValue("VeteranAircraft", VeteranAircraft);
+	rulesSection->readDeletableStringValue("VeteranUnits", VeteranUnits);
+	rulesSection->readDeletableStringValue("VeteranInfantry", VeteranInfantry);
 	
-	rulesSection->readFloatValue("ArmorAircraftMult", ArmorAircraftMult);
-	rulesSection->readFloatValue("ArmorUnitsMult", ArmorUnitsMult);
-	rulesSection->readFloatValue("ArmorInfantryMult", ArmorInfantryMult);
-	rulesSection->readFloatValue("ArmorBuildingsMult", ArmorBuildingsMult);
-	rulesSection->readFloatValue("ArmorDefensesMult", ArmorDefensesMult);
-	rulesSection->readFloatValue("CostAircraftMult", CostAircraftMult);
-	rulesSection->readFloatValue("CostUnitsMult", CostUnitsMult);
-	rulesSection->readFloatValue("CostInfantryMult", CostInfantryMult);
-	rulesSection->readFloatValue("CostBuildingsMult", CostBuildingsMult);
-	rulesSection->readFloatValue("CostDefensesMult", CostDefensesMult);
-	rulesSection->readFloatValue("SpeedAircraftMult", SpeedAircraftMult);
-	rulesSection->readFloatValue("SpeedUnitsMult", SpeedUnitsMult);
-	rulesSection->readFloatValue("SpeedInfantryMult", SpeedInfantryMult);
+	rulesSection->readDeletableFloatValue("ArmorAircraftMult", ArmorAircraftMult);
+	rulesSection->readDeletableFloatValue("ArmorUnitsMult", ArmorUnitsMult);
+	rulesSection->readDeletableFloatValue("ArmorInfantryMult", ArmorInfantryMult);
+	rulesSection->readDeletableFloatValue("ArmorBuildingsMult", ArmorBuildingsMult);
+	rulesSection->readDeletableFloatValue("ArmorDefensesMult", ArmorDefensesMult);
+	rulesSection->readDeletableFloatValue("CostAircraftMult", CostAircraftMult);
+	rulesSection->readDeletableFloatValue("CostUnitsMult", CostUnitsMult);
+	rulesSection->readDeletableFloatValue("CostInfantryMult", CostInfantryMult);
+	rulesSection->readDeletableFloatValue("CostBuildingsMult", CostBuildingsMult);
+	rulesSection->readDeletableFloatValue("CostDefensesMult", CostDefensesMult);
+	rulesSection->readDeletableFloatValue("SpeedAircraftMult", SpeedAircraftMult);
+	rulesSection->readDeletableFloatValue("SpeedUnitsMult", SpeedUnitsMult);
+	rulesSection->readDeletableFloatValue("SpeedInfantryMult", SpeedInfantryMult);
 
-	rulesSection->readFloatValue("BuildTimeAircraftMult", BuildTimeAircraftMult);
-	rulesSection->readFloatValue("BuildTimeUnitsMult", BuildTimeUnitsMult);
-	rulesSection->readFloatValue("BuildTimeInfantryMult", BuildTimeInfantryMult);
-	rulesSection->readFloatValue("BuildTimeBuildingsMult", BuildTimeBuildingsMult);
-	rulesSection->readFloatValue("BuildTimeDefensesMult", BuildTimeDefensesMult);
+	rulesSection->readDeletableFloatValue("BuildTimeAircraftMult", BuildTimeAircraftMult);
+	rulesSection->readDeletableFloatValue("BuildTimeUnitsMult", BuildTimeUnitsMult);
+	rulesSection->readDeletableFloatValue("BuildTimeInfantryMult", BuildTimeInfantryMult);
+	rulesSection->readDeletableFloatValue("BuildTimeBuildingsMult", BuildTimeBuildingsMult);
+	rulesSection->readDeletableFloatValue("BuildTimeDefensesMult", BuildTimeDefensesMult);
 
-	rulesSection->readFloatValue("IncomeMult", IncomeMult);
-	rulesSection->readFloatValue("Firepower", Firepower);
-	rulesSection->readFloatValue("ROF", ROF);
-
+	rulesSection->readDeletableFloatValue("IncomeMult", IncomeMult);
+	rulesSection->readDeletableFloatValue("Firepower", Firepower);
+	rulesSection->readDeletableFloatValue("ROF", ROF);
+	*/
+	//if (!rulesSection->size())
+	//{
+	//	file->deleteSection(ID.c_str());
+	//}
 }
 
 void Country::loadArt(INIFile* art)
@@ -83,26 +89,8 @@ void Country::writeToINI(INIFile& file)
 				file.SetValue("Countries", number.str(), it->ID);
 				++i;
 				number.str(std::string());
+				it->writeContentToINI(file);
 			}
-		}
-	}
-
-	for (const auto& it : Array.typeList)
-	{
-		if (!it->isGlobal)
-		{
-			it->writeContentToINI(file);
-		}
-		/*
-			Countries cannot exist as a local House
-			WW used it in their missions (Houses with the same name as the country)
-
-			Will fix when people use Houses that inherit from their Country with the same ID
-			The game accepts it!
-		*/
-		else if (it->isGlobal && it->hasMapMod && !House::Array.exists(it->ID))
-		{
-			it->writeContentToINI(file);
 		}
 	}
 }
@@ -130,6 +118,8 @@ void Country::writeContentToINI(INIFile& file)
 	if (MultiplayPassive) file.SetValue(ID.c_str(), "MultiplayPassive", BoolWriter::getBoolString(MultiplayPassive, BoolWriter::BoolType::TRUEFALSE));
 	file.SetValue(ID.c_str(), "SmartAI", BoolWriter::getBoolString(SmartAI, BoolWriter::BoolType::YESNO));
 	file.SetValue(ID.c_str(), "Side", Side);
+
+	return;
 
 	//Yawn...
 	//Apparently it's needed otherwise Country objects are recognized as map mods when writing, and thus end up in wrong places

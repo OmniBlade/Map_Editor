@@ -22,6 +22,17 @@ INIFile::INIFile()
 
 }
 
+INIFile::INIFile(const INIFile& other)
+	:isLoaded(other.isLoaded), canDeleteFrom(other.canDeleteFrom), path(other.path), 
+	digest(other.digest), includeINIs(other.includeINIs), sections(other.sections),
+	comments(other.comments)
+{
+	for (const auto& it : other.sectionList)
+	{
+		sectionList[ItemKey(it.first.get(), true)] = std::make_unique<INISection>(*it.second);
+	}
+}
+
 INIFile::INIFile(const FileProperties& props)
 {
 	this->path = props.path;
@@ -115,27 +126,41 @@ void INIFile::load(INIFile* parentINI, const FileProperties& props, TextReader* 
 	isLoaded = true;
 	
 	delete iniReader;
+
+	setupDigest();
 }
 
-void INIFile::SetValue(const char* section, std::string key, const std::string value)
+void INIFile::SetValue(const char* section, std::string key, const std::string value, bool insertAtFront /* = false */)
 {
-	if (EnsureSection(section))
+	if (EnsureSection(section, insertAtFront))
 	{
 		getSection(section)->setValue(key, value);
 	}
 }
 
-INISection* INIFile::EnsureSection(const char* section)
+INISection* INIFile::EnsureSection(const char* section, bool insertAtFront /* = false */)
 {
 	if (auto pSection = getSection(section))
 	{
 		return pSection;
 	}
 
-	auto &ret = sectionList[_strdup(section)];
+	auto &ret = sectionList[ItemKey(section, true)];
 
 	ret = std::make_unique<INISection>(section);
-	sections.push_back(section);
+
+	if (std::find(sections.begin(), sections.end(), section) == sections.end())
+	{
+		if (insertAtFront)
+		{
+			sections.insert(sections.begin(), section);
+		}
+		else
+		{
+			sections.push_back(section);
+		}
+	}
+
 	return ret.get();
 }
 
@@ -204,6 +229,57 @@ int INIFile::generateAndGetCheckSum(int type /* = -1 */)
 	return checksum;
 }
 
+void INIFile::copyINITo(INIFile* file)
+{
+	if (!file) return;
+
+	for (const auto& it : sections)
+	{
+		auto section = getSection(it);
+		file->addSectionByCopy(section);
+	}
+}
+
+void INIFile::copyFromINI(INIFile* file)
+{
+	if (!file) return;
+
+	for (const auto& it : file->getSectionList())
+	{
+		addSectionByCopy(file->getSection(it));
+	}
+}
+
+void INIFile::addSectionByCopyAfter(const std::string& name, INISection* section)
+{
+	if (name.empty())
+	{
+		return;
+	}
+
+	auto iter_name = std::find(sections.begin(), sections.end(), name);
+	if (iter_name != sections.end())
+	{
+		if (std::find(sections.begin(), sections.end(), section->getSectionName()) == sections.end())
+			sections.insert((iter_name + 1), section->getSectionName());
+	}
+	else
+	{
+		if (std::find(sections.begin(), sections.end(), section->getSectionName()) == sections.end())
+			sections.insert(sections.begin(), section->getSectionName());
+	}
+	addSectionByCopy(section);
+}
+
+void INIFile::clearAll(bool confirmation)
+{
+	if (confirmation)
+	{
+		sections.clear();
+		sectionList.clear();
+	}
+}
+
 void INIFile::deleteSection(const char* section)
 {
 	auto it_map = sectionList.find(section);
@@ -228,6 +304,11 @@ void INIFile::writeToSameFile(bool digest, bool writeLock, bool alphabetic)
 void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = false */, bool writeLock, bool alphabeticOrder /* = false */)
 {
 	FileWriter iniWriter(fullPath);
+
+	if (path.empty())
+	{
+		path = std::move(fullPath);
+	}
 
 	writeStartingComments(&iniWriter);
 
@@ -312,4 +393,14 @@ void INIFile::setDigestForWriting(bool writeLock /* = false */)
 	SetValue("Digest", "1", digestValue);
 
 	Log::line("Generated Digest: " + digestValue, Log::DEBUG);
+}
+
+void INIFile::setupDigest()
+{
+	INISection* pSection = getSection("Digest");
+	if (pSection)
+	{
+		setDigest(pSection->getDeletableValue(pSection->getKey(0)));
+		deleteSection("Digest");
+	}
 }

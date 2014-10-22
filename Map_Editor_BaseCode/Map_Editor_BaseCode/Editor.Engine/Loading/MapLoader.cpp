@@ -300,14 +300,3 @@ void MapLoader::setGlobalCountries()
 		it->setGlobal(true);
 	}
 }
-
-void MapLoader::setMapModGlobalCountries(INIFile* map)
-{
-	for (auto& it : Country::Array.typeList)
-	{
-		if (it->isGlobal && map->sectionExists(it->ID))
-		{
-			it->setHasMapMod(true);
-		}
-	}
-}

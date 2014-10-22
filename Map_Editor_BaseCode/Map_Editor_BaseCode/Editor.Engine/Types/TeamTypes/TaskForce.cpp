@@ -22,8 +22,8 @@ void TaskForce::parse(INIFile* file, bool isGlobal_)
 	}
 
 	isGlobal = isGlobal_;
-	section->readStringValue("Name", Name);
-	section->readIntValue("Group", Group);
+	section->readDeletableStringValue("Name", Name);
+	section->readDeletableIntValue("Group", Group);
 
 	/*
 		If someone ever changes this limit...
@@ -41,8 +41,13 @@ void TaskForce::parse(INIFile* file, bool isGlobal_)
 		}
 		else
 		{
-			unitList.push_back(std::make_unique<TFEntry>(section->getValue(Log::toString(i))));
+			unitList.push_back(std::make_unique<TFEntry>(section->getDeletableValue(Log::toString(i))));
 		}
+	}
+
+	if (!section->size())
+	{
+		file->deleteSection(ID.c_str());
 	}
 }
 

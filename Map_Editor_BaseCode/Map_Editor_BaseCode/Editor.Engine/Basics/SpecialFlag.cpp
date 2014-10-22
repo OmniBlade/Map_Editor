@@ -52,37 +52,25 @@ void SpecialFlag::parse()
 	INIFile* file = INIManager::instance()->get(Config::mapName);
 	INISection* flags = file->getSection("SpecialFlags");
 
-	flags->readBoolValue("TiberiumGrows", TiberiumGrows);
-	flags->readBoolValue("TiberiumSpreads", TiberiumSpreads);
-	flags->readBoolValue("TiberiumExplosive", TiberiumExplosive);
-	flags->readBoolValue("DestroyableBridges", DestroyableBridges);
-	flags->readBoolValue("MCVDeploy", MCVDeploy);
-	flags->readBoolValue("InitialVeteran", InitialVeteran);
-	flags->readBoolValue("FixedAlliance", FixedAlliance);
-	flags->readBoolValue("HarvesterImmune", HarvesterImmune);
-	flags->readBoolValue("FogOfWar", FogOfWar);
-	flags->readBoolValue("Inert", Inert);
-	flags->readBoolValue("IonStorms", IonStorms);
-	flags->readBoolValue("Meteorites", Meteorites);
-	flags->readBoolValue("Visceroids", Visceroids);
-	flags->readBoolValue("EscapeMovies", EscapeMovies, true);
+	flags->readDeletableBoolValue("TiberiumGrows", TiberiumGrows);
+	flags->readDeletableBoolValue("TiberiumSpreads", TiberiumSpreads);
+	flags->readDeletableBoolValue("TiberiumExplosive", TiberiumExplosive);
+	flags->readDeletableBoolValue("DestroyableBridges", DestroyableBridges);
+	flags->readDeletableBoolValue("MCVDeploy", MCVDeploy);
+	flags->readDeletableBoolValue("InitialVeteran", InitialVeteran);
+	flags->readDeletableBoolValue("FixedAlliance", FixedAlliance);
+	flags->readDeletableBoolValue("HarvesterImmune", HarvesterImmune);
+	flags->readDeletableBoolValue("FogOfWar", FogOfWar);
+	flags->readDeletableBoolValue("Inert", Inert);
+	flags->readDeletableBoolValue("IonStorms", IonStorms);
+	flags->readDeletableBoolValue("Meteorites", Meteorites);
+	flags->readDeletableBoolValue("Visceroids", Visceroids);
+	flags->readDeletableBoolValue("EscapeMovies", EscapeMovies, true);
 
-		/*
-		TiberiumGrows=yes
-	TiberiumSpreads=yes
-	TiberiumExplosive=no
-	DestroyableBridges=yes
-	MCVDeploy=no
-	InitialVeteran=no
-	FixedAlliance=no
-	HarvesterImmune=no
-	FogOfWar=no
-	Inert=no
-	IonStorms=no
-	Meteorites=no
-	Visceroids=no
-	EscapeMovies=yes --> default!
-		*/
+	if (!flags->size())
+	{
+		file->deleteSection("SpecialFlags");
+	}
 
 }
 

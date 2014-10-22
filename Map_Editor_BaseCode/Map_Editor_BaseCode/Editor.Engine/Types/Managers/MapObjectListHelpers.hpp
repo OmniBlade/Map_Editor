@@ -12,15 +12,19 @@ void allocateAll(MapObjectList<T>& list, INIFile* iniFile, const std::string& se
 
 	findOrAllocateAll(list, *section);
 
+	if (!iniFile->getSection(sectionName)->size())
+	{
+		iniFile->deleteSection(sectionName.c_str());
+	}
 }
 
 template<typename T>
 void findOrAllocateAll(MapObjectList<T>& list, INISection& section)
 {
 	//Log::line("Now in findOrAllocateAll()", Log::DEBUG);
-	for (const auto& it : section)
+	for (const auto& it : section.getKeys())
 	{
-		list.findOrAllocate(section.getValue(it.c_str()));
+		list.findOrAllocate(section.getDeletableValue(it.c_str()));
 	}
 }
 
@@ -41,12 +45,15 @@ void loadFromINI(MapObjectList<T>& list, INIFile& file, const std::string& secti
 	INISection* pSection = file.getSection(section);
 	if (!pSection) return;
 
-	INISection& uglySection = *pSection;
-
-	for (const auto& it : uglySection)
+	for (const auto& it : pSection->getKeys())
 	{
 		list.make();
-		list.objectList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
+		list.objectList[list.count() - 1].get()->parse(it, pSection->getDeletableValue(it.c_str()));
+	}
+
+	if (!file.getSection(section)->size())
+	{
+		file.deleteSection(section.c_str());
 	}
 }
 
@@ -56,11 +63,9 @@ void loadAIFromINI(MapObjectList<T>& list, INIFile& file, const std::string& sec
 	INISection* pSection = file.getSection(section);
 	if (!pSection) return;
 
-	INISection& uglySection = *pSection;
-
-	for (const auto& it : uglySection)
+	for (const auto& it : pSection->getKeys())
 	{
 		list.make();
-		list.objectList[list.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()), isGlobal);
+		list.objectList[list.count() - 1].get()->parse(it, pSection->getDeletableValue(it.c_str()), isGlobal);
 	}
 }

@@ -14,8 +14,8 @@ void AbstractType::loadRules(INIFile* rules)
 {
 	INISection* rulesSection = rules->getSection(ID);
 
-	rulesSection->readStringValue("Name", Name, Name.c_str());
-	rulesSection->readStringValue("UIName", UIName, UIName.c_str());
+	rulesSection->readDeletableStringValue("Name", Name, Name.c_str());
+	rulesSection->readDeletableStringValue("UIName", UIName, UIName.c_str());
 
 	if (!UIName.empty())
 	{

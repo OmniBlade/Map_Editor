@@ -48,7 +48,7 @@ std::string Smudge::asString()
 {
 	char buffer[512];
 	sprintf_s(buffer, 512, "%s,%d,%d,%d",
-		this->pSmudgeType->ID.c_str(),
+		this->pSmudgeType == nullptr ? this->smudge.c_str() : this->pSmudgeType->ID.c_str(),
 		this->loc.x,
 		this->loc.y,
 		0

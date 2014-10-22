@@ -31,7 +31,6 @@ public:
 	static std::string installDir;			// Install directory of the game
 	static std::string executable;
 	static std::string backSlash;			// General back slash variable '\\'
-	static const std::string mapModsName;
 	static bool inGameLighting;				// Whether to render in-game lighting over the overlay (or rather just TMPs)
 	static bool FA2Mode;					// Disable any of the fancy elements and switch to antique mode
 	static bool AIReferences;				// Whether to reference AI control file TeamTypes, TaskForces and ScriptTypes in the editor

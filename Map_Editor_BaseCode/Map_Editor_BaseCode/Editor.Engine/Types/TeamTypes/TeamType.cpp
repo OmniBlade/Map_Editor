@@ -29,46 +29,46 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	}
 
 	isGlobal = isGlobal_;
-	section->readStringValue("Name", Name);
-	section->readStringValue("Tag", tag);
-	section->readStringValue("House", owner);
-	section->readStringValue("Script", script);
-	section->readStringValue("TaskForce", taskForce);
-	section->readStringValue("Waypoint", waypoint);
-	section->readStringValue("TransportWaypoint", transWaypoint);
+	section->readDeletableStringValue("Name", Name);
+	section->readDeletableStringValue("Tag", tag);
+	section->readDeletableStringValue("House", owner);
+	section->readDeletableStringValue("Script", script);
+	section->readDeletableStringValue("TaskForce", taskForce);
+	section->readDeletableStringValue("Waypoint", waypoint);
+	section->readDeletableStringValue("TransportWaypoint", transWaypoint);
 
-	section->readIntValue("VeteranLevel", VeteranLevel);
+	section->readDeletableIntValue("VeteranLevel", VeteranLevel);
 	
 	if (Game::title == Game::Type::Expansion)
-		section->readIntValue("MindControlDecision", MindControlDecision);
+		section->readDeletableIntValue("MindControlDecision", MindControlDecision);
 	
-	section->readIntValue("Priority", Priority);
-	section->readIntValue("Max", Max);
-	section->readIntValue("TechLevel", TechLevel);
-	section->readIntValue("Group", Group);
+	section->readDeletableIntValue("Priority", Priority);
+	section->readDeletableIntValue("Max", Max);
+	section->readDeletableIntValue("TechLevel", TechLevel);
+	section->readDeletableIntValue("Group", Group);
 
-	section->readBoolValue("Loadable", Loadable);
-	section->readBoolValue("Full", Full);
-	section->readBoolValue("Annoyance", Annoyance);
-	section->readBoolValue("GuardSlower", GuardSlower);
-	section->readBoolValue("Recruiter", Recruiter);
-	section->readBoolValue("Autocreate", Autocreate);
-	section->readBoolValue("Prebuild", Prebuild);
-	section->readBoolValue("Reinforce", Reinforce);
-	section->readBoolValue("Droppod", Droppod);
-	section->readBoolValue("UseTransportOrigin", UseTransportOrigin);
-	section->readBoolValue("Whiner", Whiner);
-	section->readBoolValue("LooseRecruit", LooseRecruit);
-	section->readBoolValue("Agressive", Agressive);
-	section->readBoolValue("Suicide", Suicide);
-	section->readBoolValue("Loadable", Loadable);
-	section->readBoolValue("OnTransOnly", OnTransOnly);
-	section->readBoolValue("AvoidThreats", AvoidThreats);
-	section->readBoolValue("IonImmune", IonImmune);
-	section->readBoolValue("TransportsReturnOnUnload", TransportsReturnOnUnload);
-	section->readBoolValue("AreTeamMembersRecruitable", AreTeamMembersRecruitable);
-	section->readBoolValue("IsBaseDefense", IsBaseDefense);
-	section->readBoolValue("OnlyTargetHouseEnemy", OnlyTargetHouseEnemy);
+	section->readDeletableBoolValue("Loadable", Loadable);
+	section->readDeletableBoolValue("Full", Full);
+	section->readDeletableBoolValue("Annoyance", Annoyance);
+	section->readDeletableBoolValue("GuardSlower", GuardSlower);
+	section->readDeletableBoolValue("Recruiter", Recruiter);
+	section->readDeletableBoolValue("Autocreate", Autocreate);
+	section->readDeletableBoolValue("Prebuild", Prebuild);
+	section->readDeletableBoolValue("Reinforce", Reinforce);
+	section->readDeletableBoolValue("Droppod", Droppod);
+	section->readDeletableBoolValue("UseTransportOrigin", UseTransportOrigin);
+	section->readDeletableBoolValue("Whiner", Whiner);
+	section->readDeletableBoolValue("LooseRecruit", LooseRecruit);
+	section->readDeletableBoolValue("Aggressive", Agressive);
+	section->readDeletableBoolValue("Suicide", Suicide);
+	section->readDeletableBoolValue("Loadable", Loadable);
+	section->readDeletableBoolValue("OnTransOnly", OnTransOnly);
+	section->readDeletableBoolValue("AvoidThreats", AvoidThreats);
+	section->readDeletableBoolValue("IonImmune", IonImmune);
+	section->readDeletableBoolValue("TransportsReturnOnUnload", TransportsReturnOnUnload);
+	section->readDeletableBoolValue("AreTeamMembersRecruitable", AreTeamMembersRecruitable);
+	section->readDeletableBoolValue("IsBaseDefense", IsBaseDefense);
+	section->readDeletableBoolValue("OnlyTargetHouseEnemy", OnlyTargetHouseEnemy);
 
 	/*
 		Easy does it
@@ -100,6 +100,11 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	if (!transWaypoint.empty())
 	{
 		pTransportWaypoint = Waypoint::Array.find(transWaypoint);
+	}
+
+	if (!section->size())
+	{
+		file->deleteSection(ID.c_str());
 	}
 }
 
@@ -153,14 +158,14 @@ void TeamType::writeContentToINI(INIFile& file)
 	file.SetValue(ID.c_str(), "OnlyTargetHouseEnemy", BoolWriter::getBoolString(OnlyTargetHouseEnemy, BoolWriter::BoolType::YESNO));
 	
 	if (!tag.empty())
-		file.SetValue(ID.c_str(), "Tag", pTag->ID);
+		file.SetValue(ID.c_str(), "Tag", pTag == nullptr ? tag : pTag->ID);
 	if (!waypoint.empty())
-		file.SetValue(ID.c_str(), "Waypoint", pWaypoint->getLetterIndex());
+		file.SetValue(ID.c_str(), "Waypoint", pWaypoint == nullptr ? waypoint : pWaypoint->getLetterIndex());
 	if (!transWaypoint.empty())
-		file.SetValue(ID.c_str(), "TransportWaypoint", pTransportWaypoint->getLetterIndex());
+		file.SetValue(ID.c_str(), "TransportWaypoint", pTransportWaypoint == nullptr ? transWaypoint : pTransportWaypoint->getLetterIndex());
 	if (!script.empty())
-		file.SetValue(ID.c_str(), "Script", pScriptType->ID);
+		file.SetValue(ID.c_str(), "Script", pScriptType == nullptr ? script : pScriptType->ID);
 	if (!taskForce.empty())
-		file.SetValue(ID.c_str(), "TaskForce", pTaskForce->ID);
+		file.SetValue(ID.c_str(), "TaskForce", pTaskForce == nullptr ? taskForce : pTaskForce->ID);
 
 }

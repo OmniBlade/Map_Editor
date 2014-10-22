@@ -43,11 +43,10 @@ void MapWriter::writeMap(const std::string& fullFileName)
 
 	aFile.addCommentAtTop("Map Editor 2014 - Red Alert 2 & Yuri's Revenge build");
 	aFile.addCommentAtTop("All hail the Mapping God RP!");
-	aFile.addCommentAtTop("You've viewed all map modifications when Basic section starts.");
+	aFile.addCommentAtTop("You've viewed all map modifications when SpecialFlags or Header section starts.");
 	aFile.addCommentAtTop("");
 	aFile.addCommentAtTop("THIS IS A MAP CREATED BY AN UNSTABLE BUILD OF THE EDITOR - BUGS ARE TO BE EXPECTED");
 
-	MapMods::writeToINI(aFile);
 	Country::writeToINI(aFile);
 	//Header
 	SpecialFlag::writeToINI(aFile);
@@ -78,6 +77,8 @@ void MapWriter::writeMap(const std::string& fullFileName)
 	Event::writeToINI(aFile);
 	Action::writeToINI(aFile);
 	Tag::writeToINI(aFile);
+	MapMods::writeToINI(aFile);
+	//MapMods::writeCountriesToINI(aFile); // Country::writeToINI(aFile);
 
 	//With Digest, ordered non-alphabetical (like how it is done right above this line)
 	aFile.writeToFile(fullFileName, true, false);
@@ -122,5 +123,5 @@ void MapWriter::writeMap(const std::string& fullFileName)
 		V[IsoMapPack5]
 		V[OverlayPack]
 		V[OverlayDataPack]
-		[Digest]
+		V[Digest]
 	*/

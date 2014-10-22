@@ -37,10 +37,10 @@ void MapStats::parse()
 	INIFile* map = INIManager::instance()->get(Config::mapName);
 	INISection* section = map->getSection("Map");
 
-	section->readStringValue("Theater", TheaterStr);
-	section->readStringValue("Fill", Fill);
-	section->readStringValue("Size", SizeStr);
-	section->readStringValue("LocalSize", LocalSizeStr);
+	section->readDeletableStringValue("Theater", TheaterStr);
+	section->readDeletableStringValue("Fill", Fill);
+	section->readDeletableStringValue("Size", SizeStr);
+	section->readDeletableStringValue("LocalSize", LocalSizeStr);
 
 	LineSplitter sizeSplit(SizeStr);
 	sizeSplit.pop(Size.Left);
@@ -56,6 +56,11 @@ void MapStats::parse()
 
 	pTheaterDef = TheaterCollection::getInstance()->getByININame(TheaterStr);
 	pTheater = std::make_unique<Theater>(pTheaterDef->INIFile);
+
+	if (!section->size())
+	{
+		map->deleteSection("Map");
+	}
 }
 
 std::string MapStats::sizeAsString(SizeStruct it)

@@ -40,7 +40,7 @@ void Terrain::writeToINI(INIFile& file)
 
 std::string Terrain::asString()
 {
-	std::string ret;
+	std::string ret = terrainType;
 
 	if (pTerrainType)
 	{

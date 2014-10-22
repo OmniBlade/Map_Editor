@@ -20,13 +20,13 @@ public:
 
 	static bool isLocked(INIFile* file)
 	{
-		auto section = file->getSection("Digest");
-		if (section)
+		auto digest = file->getDigest();
+
+		if (!digest.empty())
 		{
 			std::string toCompare = std::move(getCustomDigestFor(file, true));
-			std::string original = std::move(section->getValue(section->getKey(0)));
 
-			if (toCompare == original)
+			if (toCompare == digest)
 			{
 				return true;
 			}
@@ -47,15 +47,15 @@ public:
 		std::string toCompare = std::move(getCustomDigestFor(file));
 		std::string lockCompare = std::move(getCustomDigestFor(file, true));
 		
-		auto section = file->getSection("Digest");
-		if (!section)
+		auto digest = file->getDigest();
+		if (digest.empty())
 		{
 			Log::line("File with name '" + name + "' is supposed to have a valid Digest, but it doesn't exist. File is not authentic!", Log::DEBUG);
 			return false;
 		}
 		else
 		{
-			std::string original = std::move(section->getValue(section->getKey(0)));
+			std::string original = std::move(digest);
 			if (original == toCompare)
 			{
 				Log::line("Digest is correct and matches file with name '" + name + "'. File is authentic!", Log::DEBUG);
