@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "MapAssetLoader.hpp"
-#include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Config.hpp"
 #include "../Types/Managers/MapObjectListHelpers.hpp"
 #include "../Types/AI/AITriggerEnable.hpp"
@@ -19,11 +18,11 @@
 #include "../Types/Triggers/Trigger.hpp"
 #include "../Types/Triggers/Action.hpp"
 #include "../Types/Triggers/Event.hpp"
-#include "../Types/Overlay.h"
 #include "../Types/Tube.hpp"
 #include "../Types/Smudge.hpp"
 #include "../Types/Waypoint.hpp"
 #include "../Types/VariableName.hpp"
+#include "../../Editor.FileSystem/IniFile/DigestClass.h"
 #include <vector>
 
 MapAssetLoader::MapAssetLoader()
@@ -108,6 +107,36 @@ void MapAssetLoader::dumpTypes()
 
 void MapAssetLoader::setGlobalValues()
 {
+	for (auto& it : VariableName::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
+	for (auto& it : Trigger::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
+	for (auto& it : Tag::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
+	for (auto& it : Event::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
+	for (auto& it : Action::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
+	for (auto& it : AITriggerType::Array.objectList)
+	{
+		it->isGlobal = true;
+	}
+
 	for (auto& it : House::Array.objectList)
 	{
 		it->isGlobal = true;
@@ -127,5 +156,4 @@ void MapAssetLoader::setGlobalValues()
 	{
 		it->isGlobal = true;
 	}
-
 }

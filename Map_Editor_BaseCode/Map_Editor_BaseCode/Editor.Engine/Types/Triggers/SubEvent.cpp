@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "SubEvent.hpp"
-#include "../../../Editor.FileSystem/MapFile/EventCollection.hpp"
-#include "../../../Editor.FileSystem/MapFile/EventType.hpp"
-#include "../../../Log.hpp"
+#include "../../../Editor.FileSystem/MapFile/Triggers/EventCollection.hpp"
+#include "../../../Editor.FileSystem/MapFile/Triggers/EventType.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
+#include "../../../Log.hpp"
 
 SubEvent::SubEvent()
 : eventType(-1), parseType(-1)

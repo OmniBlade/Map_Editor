@@ -22,7 +22,7 @@ void VariableName::parse(const std::string& id, const std::string& list)
 	}
 }
 
-void VariableName::writeToINI(INIFile& file)
+void VariableName::writeToINI(INIFile& file, bool flushNames /* = false */)
 {
 	if (Array.objectList.size() == 0)
 	{
@@ -36,20 +36,23 @@ void VariableName::writeToINI(INIFile& file)
 		int i = 0;
 		for (auto& it : Array.objectList)
 		{
-			number << i;
-			file.SetValue("VariableNames", number.str(), it->asString());
-			++i;
-			number.str(std::string());
+			if (!it->isGlobal)
+			{
+				number << i;
+				file.SetValue("VariableNames", number.str(), it->asString(flushNames));
+				++i;
+				number.str(std::string());
+			}
 		}
 	}
 }
 
-std::string VariableName::asString()
+std::string VariableName::asString(bool voidName /* = false */)
 {
 	char buffer[512];
 
 	sprintf_s(buffer, 512, "%s,%d",
-		this->Name.c_str(),
+		voidName ? "flush!" : this->Name.c_str(),
 		this->state != 0,
 		0
 		);

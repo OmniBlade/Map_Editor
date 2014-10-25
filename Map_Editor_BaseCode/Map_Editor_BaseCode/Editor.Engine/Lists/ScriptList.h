@@ -3,7 +3,7 @@
 #include "IList.h"
 #include "../Types/TeamTypes/ScriptType.hpp"
 #include "../Types/TeamTypes/ScriptAction.hpp"
-#include "../../Editor.FileSystem/MapFile/SActionType.hpp"
+#include "../../Editor.FileSystem/MapFile/Triggers/SActionType.hpp"
 
 class ScriptList : public IList
 {

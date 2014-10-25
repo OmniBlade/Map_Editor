@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 #include <vector>
-#include "../../../Editor.FileSystem/MapFile/ParamContent.h"
+#include "../../../Editor.FileSystem/MapFile/Triggers/ParamContent.h"
 
 class ActionType;
 class LineSplitter;

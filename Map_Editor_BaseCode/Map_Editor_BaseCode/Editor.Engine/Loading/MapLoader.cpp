@@ -34,6 +34,7 @@
 #include "../Types/TeamTypes/TaskForce.hpp"
 #include "../Types/TeamTypes/TeamType.hpp"
 #include "../Types/AI/AITriggerType.hpp"
+#include "../Basics/Basic.hpp"
 
 MapLoader::MapLoader()
 {
@@ -176,14 +177,14 @@ void MapLoader::loadGlobalVariable()
 
 bool MapLoader::locateGameMode(INIFile* map)
 {
-	INISection* basic = map->getSection("Basic");
-	
-	if (!basic->keyExists("GameMode") || basic->keyExists("Player"))
+	auto basic = Basic::getBasic();
+
+	if (basic->GameModesStr.empty() || !basic->Player.empty())
 	{
 		return false;
 	}
 
-	LineSplitter split(basic->getValue("GameMode"));
+	LineSplitter split(basic->GameModesStr);
 	if (split.size() > 1 && (split.size() == 2 && !split.exists("standard")))
 	{
 		Log::line("Multiple game modes are found, none are loaded to maintain proper lists!", Log::DEBUG);

@@ -11,6 +11,7 @@ const unsigned int Config::tileWidth = 60;
 const unsigned int Config::tileHeight = 30;
 int Config::language = -1;
 std::string Config::configName = "";
+std::string Config::namesName = "_NAMES.INI";
 bool Config::enableDebug = false;
 bool Config::dumpTypes = false;
 bool Config::explicitOverlayTypeValidation = false;

@@ -8,7 +8,7 @@
 #include "Editor.FileSystem/FileManager/Managers/CSFManager.hpp"	
 #include "Editor.FileSystem/FileManager/FileSystem.hpp"
 #include "Editor.Engine/Loading/StartupLoader.hpp"		
-#include "Editor.Engine/Map/TheaterCollection.hpp"
+#include "Editor.Engine/Map/Theater/TheaterCollection.hpp"
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
 #include "Editor.FileSystem/IniFile/INISection.hpp"
 #include "Editor.Engine/Loading/MapLoader.hpp"
@@ -17,17 +17,21 @@
 #include "Editor.Engine\Game\GameModeCollection.hpp"
 #include "Editor.Map.Validator\MainValidator.hpp"
 #include "Editor.Engine\Basics\Basic.hpp"
+#include "Editor.Engine\Basics\Ranking.h"
 #include "Editor.Engine\Basics\Lighting.hpp"
 #include "Editor.Engine\Basics\SpecialFlag.hpp"
 #include "Editor.Engine\Basics\MapStats.hpp"
-#include "Editor.FileSystem\MapFile\MapMods.h"
-#include "Editor.FileSystem\MapFile\ParamCollection.hpp"
-#include "Editor.FileSystem\MapFile\SActionCollection.hpp"
-#include "Editor.FileSystem\MapFile\ActionCollection.hpp"
-#include "Editor.FileSystem\MapFile\EventCollection.hpp"
-#include "Editor.Engine\Map\IsoMapPack.hpp"
-#include "Editor.Engine\Map\OverlayPack.hpp"
-#include "Editor.Engine\Map\PreviewPack.h"
+#include "Editor.FileSystem\IniFile\DigestClass.h"
+#include "Editor.FileSystem\MapFile\Flushing\NameFlusherClass.h"
+#include "Editor.FileSystem\MapFile\Modifications\MapMods.h"
+#include "Editor.FileSystem\MapFile\Triggers\ParamCollection.hpp"
+#include "Editor.FileSystem\MapFile\Triggers\SActionCollection.hpp"
+#include "Editor.FileSystem\MapFile\Triggers\ActionCollection.hpp"
+#include "Editor.FileSystem\MapFile\Triggers\EventCollection.hpp"
+#include "Editor.Engine\Map\Map.hpp"
+#include "Editor.Engine\Map\Packs\IsoMapPack.hpp"
+#include "Editor.Engine\Map\Packs\OverlayPack.hpp"
+#include "Editor.Engine\Map\Packs\PreviewPack.h"
 #include "Editor.FileSystem\FileManager\Managers\EncManager.hpp"
 #include "Editor.FileSystem\EncFile\EncFile.hpp"
 #include "Config.hpp"
@@ -49,6 +53,9 @@
 
 ParamCollection* paramCollection;
 MainValidator* mainValidator;
+INIFile* map;
+
+std::string mapName = "TEST.MAP";
 
 void initiateEditor()
 {
@@ -121,7 +128,6 @@ void initiateEditor()
 		//exit(0);
 	}
 
-	std::cout << "ParamCollection: Possible leak! Move when going to the GUI!" << std::endl;
 	paramCollection = new ParamCollection();
 	ActionCollection::getInstance()->parse(paramCollection);
 	EventCollection::getInstance()->parse(paramCollection);
@@ -177,16 +183,22 @@ void loadMap()
 	MapLoader mapLoader;
 	MapAssetLoader mapAssetLoader;
 	FileProperties props = FileSystem::getFileSystem()->getFile(Config::mapName);
-	INIFile* map = new INIFile(props); //Assuming the reader in props is always valid... :D
+	map = new INIFile(props); //Assuming the reader in props is always valid... :D
 	map->setDeletableState(true);
 	INIFile* mapOrigin = new INIFile(*map);
-	
+
+	Log::line();
+	Log::line("Parsing Basic section and Digest to set up the map...", Log::DEBUG);
+	Basic::getBasic()->parse(map);
+	if (Basic::getBasic()->NamesFlushed) Log::line("This map has its names flushed according to Digest.", Log::DEBUG);
+	Log::line();
+
 	INIFile* mode = nullptr;
 	if (mapLoader.locateGameMode(map))
 	{
 		mode = INIManager::instance()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
 	}
-	Basic::getBasic()->parse();
+	
 
 	INIFile* rules = INIManager::instance()->get(Config::rules);
 
@@ -207,14 +219,14 @@ void loadMap()
 	Log::validatorLine();
 
 	INISection* pack = map->getSection("IsoMapPack5");
-	IsoMapPack* isoPack = new IsoMapPack(pack);
-	isoPack->read();
+ 	IsoMapPack* isoPack = new IsoMapPack(pack);
+	isoPack->read(map);
 
 	OverlayPack* opack = new OverlayPack(map);
-	opack->read();
+	opack->read(map);
 
 	PreviewPack* pPack = new PreviewPack(map);
-	pPack->read();
+	pPack->read(map);
 
 	/*
 		Little side information:
@@ -223,33 +235,45 @@ void loadMap()
 		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
 		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
 	*/
-	//Log::timerStart();
 	mapLoader.load(rules, "Rules");
 	mapLoader.load(mode, "Gamemode");
 	mapLoader.setGlobalCountries();
 	mapLoader.load(map, "Map");
-	mapLoader.loadGlobalVariable(); // Causes crash on exit when profiled as WWType
+	mapLoader.loadGlobalVariable();
 	mapLoader.loadAI();
 
 	OverlayTypeValidator otv;
 
-	//Log::line("Going to load all objects now!", Log::DEBUG);
-
-	MapStats::instance()->parse();
-	//Basic::getBasic()->parse();
-	SpecialFlag::instance()->parse();
-	Lighting::instance()->parse();
+	Ranking::instance()->parse(map);
+	MapStats::instance()->parse(map);
+	SpecialFlag::instance()->parse(map);
+	Lighting::instance()->parse(map);
 	mapAssetLoader.load(mode, "Gamemode");
 	mapAssetLoader.setGlobalValues();
 	mapAssetLoader.load(map, "Map");
 
 	opack->createOverlayFromData();
 
-	MapMods::instance()->parse(map);
-	
+
+	Map::instance()->setupCells();
+
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 
 	Log::line("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
+
+	auto namesFileProps = FileSystem::getFileSystem()->getFile(Config::mapName + Config::namesName);
+	if (namesFileProps.reader && Basic::getBasic()->NamesFlushed)
+	{
+		Log::line("Restoring names to types...", Log::DEBUG);
+		INIFile readNamesFile(namesFileProps);
+		DigestClass::validateDigest(&readNamesFile, Config::mapName + Config::namesName);
+		NameFlusherClass::readAndRestoreFrom(readNamesFile);
+	}
+	else if (!namesFileProps.reader && Basic::getBasic()->NamesFlushed)
+	{
+		Log::line("Digest indicates that the map has names flushed.", Log::DEBUG);
+		Log::line("Unable to do so! Does '" + Config::mapName + Config::namesName + "' exist?", Log::DEBUG);
+	}
 
 	mapLoader.dumpLists();
 	mapAssetLoader.dumpTypes();
@@ -265,8 +289,6 @@ void validateMap()
 	mainValidator->validateAll();
 	Log::line("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
 }
-
-#include "Editor.FileSystem\IniFile\DigestClass.h"
 
 /*
 	Main function
@@ -290,17 +312,21 @@ int _tmain(int argc, _TCHAR* argv[])
 	initiateAMap();
 	loadMap();
 	validateMap();
-	
+
 	MapWriter writer;
-	writer.writeMap("C:\\Users\\Rik\\Desktop\\map_write_test.map");
+	writer.setNamesFileName(mapName);
+	writer.writeAll(Config::installDir + Config::backSlash + mapName);
 
 	
 	Log::line();
+
+
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;
 	Log::close();
 	system("pause");
 
+	delete map;
 	delete mainValidator;
 	delete paramCollection;
 	delete IsoMapPack::instance;

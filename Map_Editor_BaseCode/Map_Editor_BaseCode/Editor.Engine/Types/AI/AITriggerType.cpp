@@ -82,23 +82,23 @@ void AITriggerType::parse(const std::string& id, const std::string& list, bool i
 	}
 }
 
-void AITriggerType::writeToINI(INIFile& file)
+void AITriggerType::writeToINI(INIFile& file, bool flushNames /* = false */)
 {
 	for (auto& it : Array.objectList)
 	{
 		if (!it->isGlobal) // AIMD.INI should NOT go into the map file
 		{
-			file.SetValue("AITriggerTypes", it->ID, it->asString());
+			file.SetValue("AITriggerTypes", it->ID, it->asString(flushNames));
 		}
 	}
 }
 
-std::string AITriggerType::asString()
+std::string AITriggerType::asString(bool voidNames /* = false */)
 {
 	char buffer[512];
 	//Don't need to include the ID, so no "%s = "
 	sprintf_s(buffer, 512, "%s,%s,%s,%d,%d,%s,%s,%lf,%lf,%lf,%d,%d,%d,%d,%s,%d,%d,%d",
-		this->Name.c_str(),
+		voidNames ? "flush!" : this->Name.c_str(),
 		teamTypeAsString(teamtype1).c_str(),
 		this->owner.c_str(),
 		this->techlevel,

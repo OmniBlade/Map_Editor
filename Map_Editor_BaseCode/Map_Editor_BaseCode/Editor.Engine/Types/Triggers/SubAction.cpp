@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "SubAction.hpp"
-#include "../../../Editor.FileSystem/MapFile/ActionCollection.hpp"
-#include "../../../Editor.FileSystem/MapFile/ActionType.hpp"
+#include "../../../Editor.FileSystem/MapFile/Triggers/ActionCollection.hpp"
+#include "../../../Editor.FileSystem/MapFile/Triggers/ActionType.hpp"
 #include "../../../Log.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
 

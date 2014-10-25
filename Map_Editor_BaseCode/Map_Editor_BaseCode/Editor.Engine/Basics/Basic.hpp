@@ -13,7 +13,7 @@ public:
 	
 	static Basic* getBasic();
 	void assignPointers();
-	void parse();
+	void parse(INIFile* map);
 	static void writeToINI(INIFile& file);
 	static bool isSP();
 	static bool isMP();
@@ -30,6 +30,7 @@ public:
 	int NewINIFormat, CarryOverCap, Percent, StartingDropShips, HomeCell, AltHomeCell, InitTime, MaxPlayer, MinPlayer;
 	bool EndOfGame, SkipScore, OneTimeOnly, SkipMapSelect, Official, IgnoreGlobalAITriggers, TruckCrate, TrainCrate, CivEvac;
 	bool TimerInherit, FillSilos, MultiplayerOnly, TiberiumGrowthEnabled, VeinGrowthEnabled, IceGrowthEnabled, TibDeathToVisc, FreeRadar;
+	bool NamesFlushed;
 
 	std::vector<std::string> GameModes;
 	std::vector<std::string> AllowableUnits;

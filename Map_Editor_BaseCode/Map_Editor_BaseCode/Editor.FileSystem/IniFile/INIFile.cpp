@@ -8,6 +8,7 @@
 
 #include "stdafx.h"
 #include "CStringHelper.hpp"
+#include "DigestClass.h"
 #include "../../Config.hpp"
 #include "../FileManager/FileWriter.h"
 #include "../FileManager/FileSystem.hpp"
@@ -15,7 +16,6 @@
 #include "../FileManager/TextReader.h"
 #include "../FileManager/Managers/INIManager.hpp"
 #include "../../Log.hpp"
-#include "DigestClass.h"
 
 INIFile::INIFile()
 {
@@ -285,11 +285,13 @@ void INIFile::deleteSection(const char* section)
 	auto it_map = sectionList.find(section);
 	auto it_vector = std::find(sections.begin(), sections.end(), section);
 	
-	sectionList.erase(it_map);
-	sections.erase(it_vector);
+	if (it_map != sectionList.end())
+		sectionList.erase(it_map);
+	if (it_vector != sections.end())
+		sections.erase(it_vector);
 }
 
-void INIFile::writeToSameFile(bool digest, bool writeLock, bool alphabetic)
+void INIFile::writeToSameFile(bool alphabetic)
 {
 	if (!isLoaded || path.empty())
 	{
@@ -297,36 +299,24 @@ void INIFile::writeToSameFile(bool digest, bool writeLock, bool alphabetic)
 	}
 	else
 	{
-		writeToFile(path, digest, writeLock, alphabetic);
+		writeToFile(path, alphabetic);
 	}
 }
 
-void INIFile::writeToFile(const std::string& fullPath, bool withDigest /* = false */, bool writeLock, bool alphabeticOrder /* = false */)
+void INIFile::writeToFile(const std::string& fullPath, bool alphabeticOrder /* = false */)
 {
 	FileWriter iniWriter(fullPath);
 
 	if (path.empty())
-	{
 		path = std::move(fullPath);
-	}
 
 	writeStartingComments(&iniWriter);
 
-	if (withDigest)
-	{
-		setDigestForWriting(writeLock);
-	}
-
-
-	if (alphabeticOrder)
-	{
-		writeAlphabetic(&iniWriter);
-	}
-	else
-	{
-		writeVectorOrder(&iniWriter);
-	}
-
+	if (generatesOwnDigest)
+		setDigestForWriting(cannotWriteTo);
+	
+	alphabeticOrder ? writeAlphabetic(&iniWriter) : writeVectorOrder(&iniWriter);
+	
 	std::string eof = "\n;eof";
 	iniWriter.writeBuffer(eof.c_str(), eof.size());
 
@@ -389,10 +379,11 @@ void INIFile::writeVectorOrder(FileWriter* file)
 
 void INIFile::setDigestForWriting(bool writeLock /* = false */)
 {
-	std::string digestValue = DigestClass::getCustomDigestFor(this, writeLock);	
-	SetValue("Digest", "1", digestValue);
+	DigestClass::clearChecksumIntegers();
+	digest = DigestClass::getCustomDigestFor(this, writeLock);
+	SetValue("Digest", "1", digest);
 
-	Log::line("Generated Digest: " + digestValue, Log::DEBUG);
+	Log::line("Generated Digest: " + digest + " | Write lock: " + Log::toString(writeLock), Log::DEBUG);
 }
 
 void INIFile::setupDigest()
@@ -400,7 +391,7 @@ void INIFile::setupDigest()
 	INISection* pSection = getSection("Digest");
 	if (pSection)
 	{
-		setDigest(pSection->getDeletableValue(pSection->getKey(0)));
-		deleteSection("Digest");
+		setDigest(pSection->getValue(pSection->getKey(0)));
+		//deleteSection("Digest");
 	}
 }

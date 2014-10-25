@@ -20,6 +20,7 @@ public:
 	static int language;					// Language of the game / text files
 	static std::string editorRoot;			//
 	static std::string configName;
+	static std::string namesName;
 	static bool enableDebug;				// Can we please get a debug file?
 	static bool dumpTypes;
 	static bool explicitOverlayTypeValidation;

@@ -58,9 +58,8 @@ void Lighting::writeToINI(INIFile& file)
 	if(it->NukeChangeRate > 0.0f) file.SetValue("Lighting", "NukeAmbientChangeRate", Log::toString(it->NukeChangeRate));
 }
 
-void Lighting::parse()
+void Lighting::parse(INIFile* map)
 {
-	INIFile* map = INIManager::instance()->get(Config::mapName);
 	INISection* lighting = map->getSection("Lighting");
 
 	lighting->readDeletableFloatValue("Ambient", Ambient);

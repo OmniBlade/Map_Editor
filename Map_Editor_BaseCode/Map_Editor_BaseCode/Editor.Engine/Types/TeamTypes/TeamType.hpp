@@ -15,11 +15,11 @@ class TeamType
 {
 public:
 	static MapObjectList<TeamType> Array;
-	static void writeToINI(INIFile& file);
+	static void writeToINI(INIFile& file, bool flushNames = false);
 
 	TeamType(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);
-	void writeContentToINI(INIFile& file);
+	void writeContentToINI(INIFile& file, bool voidNames = false);
 
 	std::string ID, Name, tag, owner, taskForce, script, waypoint, transWaypoint;
 	
@@ -59,6 +59,6 @@ public:
 	bool AreTeamMembersRecruitable;
 	bool IsBaseDefense;
 	bool OnlyTargetHouseEnemy;
-	bool isGlobal;
+	bool isGlobal = false;
 };
 

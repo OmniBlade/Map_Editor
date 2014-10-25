@@ -49,7 +49,10 @@ void Event::writeToINI(INIFile& file)
 
 	for (auto& it : Array.objectList)
 	{
-		file.SetValue("Events", it->ID, it->asString());
+		if (!it->isGlobal)
+		{
+			file.SetValue("Events", it->ID, it->asString());
+		}
 	}
 }
 

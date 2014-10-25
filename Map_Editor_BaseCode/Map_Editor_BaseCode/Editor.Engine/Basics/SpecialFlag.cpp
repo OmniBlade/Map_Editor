@@ -47,10 +47,9 @@ void SpecialFlag::writeToINI(INIFile& file)
 	if(!it->EscapeMovies) file.SetValue("SpecialFlags", "EscapeMovies", BoolWriter::getBoolString(it->EscapeMovies, BoolWriter::BoolType::YESNO));
 }
 
-void SpecialFlag::parse()
+void SpecialFlag::parse(INIFile* map)
 {
-	INIFile* file = INIManager::instance()->get(Config::mapName);
-	INISection* flags = file->getSection("SpecialFlags");
+	INISection* flags = map->getSection("SpecialFlags");
 
 	flags->readDeletableBoolValue("TiberiumGrows", TiberiumGrows);
 	flags->readDeletableBoolValue("TiberiumSpreads", TiberiumSpreads);
@@ -69,7 +68,7 @@ void SpecialFlag::parse()
 
 	if (!flags->size())
 	{
-		file->deleteSection("SpecialFlags");
+		map->deleteSection("SpecialFlags");
 	}
 
 }

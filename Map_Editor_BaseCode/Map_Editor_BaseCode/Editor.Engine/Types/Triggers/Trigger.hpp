@@ -13,7 +13,7 @@ class Trigger
 {
 public:
 	static MapObjectList<Trigger> Array;
-	static void writeToINI(INIFile& file);
+	static void writeToINI(INIFile& file, bool flushNames = false);
 
 	Trigger();
 	void parse(const std::string& id, const std::string& list);
@@ -21,8 +21,9 @@ public:
 	void assignTag();
 	std::string getUpperParentID();
 	std::string getParentID();
-	std::string asString();
+	std::string asString(bool voidNames = false);
 
+	bool isGlobal = false;
 	std::string ID, Name, owner, child;
 	bool Disabled;
 	bool EasyEnabled;

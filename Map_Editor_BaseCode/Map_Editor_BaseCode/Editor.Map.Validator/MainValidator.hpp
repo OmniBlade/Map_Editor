@@ -6,7 +6,7 @@
 #include "AI/AIValidator.hpp"
 #include "Basic/MiscValidator.hpp"
 #include "Trigger/TriggerValidator.hpp"
-#include "../Editor.FileSystem/MapFile/ParamCollection.hpp"
+#include "../Editor.FileSystem/MapFile/Triggers/ParamCollection.hpp"
 #include "../Log.hpp"
 #include "../Config.hpp"
 

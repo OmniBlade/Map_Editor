@@ -8,7 +8,7 @@ public:
 	static SpecialFlag* instance();
 	static void writeToINI(INIFile& file);
 
-	void parse();
+	void parse(INIFile* map);
 
 	bool TiberiumGrows, TiberiumSpreads, TiberiumExplosive, DestroyableBridges, MCVDeploy, InitialVeteran, FixedAlliance;
 	bool HarvesterImmune, FogOfWar, Inert, IonStorms, Meteorites, Visceroids, EscapeMovies;

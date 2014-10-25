@@ -108,7 +108,7 @@ void TeamType::parse(INIFile* file, bool isGlobal_)
 	}
 }
 
-void TeamType::writeToINI(INIFile& file)
+void TeamType::writeToINI(INIFile& file, bool flushNames /* = false */)
 {
 	std::stringstream number;
 	int i = 0;
@@ -120,14 +120,14 @@ void TeamType::writeToINI(INIFile& file)
 			file.SetValue("TeamTypes", number.str(), it->ID);
 			++i;
 			number.str(std::string());
-			it->writeContentToINI(file);
+			it->writeContentToINI(file, flushNames);
 		}
 	}
 }
 
-void TeamType::writeContentToINI(INIFile& file)
+void TeamType::writeContentToINI(INIFile& file, bool voidNames /* = false */)
 {
-	file.SetValue(ID.c_str(), "Name", Name);
+	file.SetValue(ID.c_str(), "Name", voidNames ? "flush!" : Name);
 	file.SetValue(ID.c_str(), "VeteranLevel", Log::toString(VeteranLevel));
 	if(Game::title == Game::Type::Expansion) file.SetValue(ID.c_str(), "MindControlDecision", Log::toString(MindControlDecision));
 	file.SetValue(ID.c_str(), "Loadable", BoolWriter::getBoolString(Loadable, BoolWriter::BoolType::YESNO));

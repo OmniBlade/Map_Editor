@@ -27,7 +27,7 @@ void Tag::parse(const std::string& id, const std::string& list)
 	}
 }
 
-void Tag::writeToINI(INIFile& file)
+void Tag::writeToINI(INIFile& file, bool flushNames /* = false */)
 {
 	if (Array.objectList.size() == 0)
 	{
@@ -37,16 +37,19 @@ void Tag::writeToINI(INIFile& file)
 
 	for (auto& it : Array.objectList)
 	{
-		file.SetValue("Tags", it->ID, it->asString());
+		if (!it->isGlobal)
+		{
+			file.SetValue("Tags", it->ID, it->asString(flushNames));
+		}
 	}
 }
 
-std::string Tag::asString()
+std::string Tag::asString(bool voidNames /* = false */)
 {
 	char buffer[512];
 	sprintf_s(buffer, 512, "%d,%s,%s",
 		this->Repeating,
-		this->Name.c_str(),
+		voidNames ? "flush!" : this->Name.c_str(),
 		this->pTrigger->ID.c_str()
 		);
 

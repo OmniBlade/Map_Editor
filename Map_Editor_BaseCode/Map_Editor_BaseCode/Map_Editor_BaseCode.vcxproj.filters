@@ -45,15 +45,6 @@
     <ClInclude Include="Editor.Engine\Map\Map.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\TheaterCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\TheaterDefinition.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\TileSet.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Types\AbstractType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -139,9 +130,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Types\Country.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Game\Theater.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Engine\Types\House.hpp">
@@ -255,12 +243,6 @@
     <ClInclude Include="Editor.Map.Validator\MainValidator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\PackType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\IsoMapPack.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Types\Overlay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -360,12 +342,6 @@
     <ClInclude Include="Editor.Objects.Westwood\OverlayTypeValidator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\OverlayPack.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Map\PreviewPack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.FileSystem\CsfFile\CSFEntry.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -435,58 +411,7 @@
     <ClInclude Include="Editor.FileSystem\IniFile\sha1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ActionCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ActionType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\Base64.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\EventCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\EventType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\Format80.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\INameHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\lzoconf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\lzodefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\MapMods.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\MapModsHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.FileSystem\MapFile\MapWriter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\minilzo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ParamCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ParamContent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\ParamType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\SActionCollection.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.FileSystem\MapFile\SActionType.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.FileSystem\MapFile\WriterHelper.h">
@@ -528,6 +453,102 @@
     <ClInclude Include="Editor.FileSystem\VoxelFile\VXLFile.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.Engine\Loading\MapNamesLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Compression\Format80.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Compression\lzodefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Compression\lzoconf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Compression\minilzo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\ActionCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\ActionType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\EventCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\EventType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\ParamContent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\ParamCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\SActionType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\SActionCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\ParamType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Compression\Base64.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Triggers\INameHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Modifications\MapModsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Modifications\MapMods.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.FileSystem\MapFile\Flushing\NameFlusherClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Basics\Ranking.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Packs\IsoMapPack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Packs\OverlayPack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Packs\PackType.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Packs\PreviewPack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Theater\TheaterCollection.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Theater\TheaterDefinition.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Theater\TileSet.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Cells\CellClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Cells\CoordsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Cells\CellStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Cells\CoordsStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Map\Theater\Theater.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -555,15 +576,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Map\Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\TheaterCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\TheaterDefinition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\TileSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\Types\AbstractType.cpp">
@@ -645,9 +657,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\Types\Country.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Game\Theater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Types\House.cpp">
@@ -755,12 +764,6 @@
     <ClCompile Include="Editor.Engine\Basics\Lighting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\PackType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\IsoMapPack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.Engine\Types\Overlay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -813,12 +816,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\OverlayTypeValidator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\OverlayPack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Map\PreviewPack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\CsfFile\CSFEntry.cpp">
@@ -884,43 +881,7 @@
     <ClCompile Include="Editor.FileSystem\IniFile\sha1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ActionCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ActionType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\Base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\EventCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\EventType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\Format80.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\MapMods.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Editor.FileSystem\MapFile\MapWriter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\minilzo.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ParamCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\ParamType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\SActionCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.FileSystem\MapFile\SActionType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\MixFile\Blowfish.cpp">
@@ -957,6 +918,81 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.FileSystem\VoxelFile\VXLFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\IniFile\DigestClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Loading\MapNamesLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Compression\Format80.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Compression\minilzo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\ActionCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\ActionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\EventCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\EventType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\ParamCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\ParamType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\SActionCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Triggers\SActionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Compression\Base64.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Modifications\MapMods.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.FileSystem\MapFile\Flushing\NameFlusherClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Basics\Ranking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Packs\IsoMapPack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Packs\OverlayPack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Packs\PackType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Packs\PreviewPack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Theater\TheaterCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Theater\TheaterDefinition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Theater\TileSet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Cells\CellClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Map\Theater\Theater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

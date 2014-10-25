@@ -57,7 +57,7 @@ void ScriptType::parse(INIFile* file, bool isGlobal_)
 	}
 }
 
-void ScriptType::writeToINI(INIFile& file)
+void ScriptType::writeToINI(INIFile& file, bool flushNames /* = false */)
 {
 	std::stringstream number;
 	int i = 0;
@@ -69,14 +69,14 @@ void ScriptType::writeToINI(INIFile& file)
 			file.SetValue("ScriptTypes", number.str(), it->ID);
 			++i;
 			number.str(std::string());
-			it->writeContentToINI(file);
+			it->writeContentToINI(file, flushNames);
 		}
 	}
 }
 
-void ScriptType::writeContentToINI(INIFile& file)
+void ScriptType::writeContentToINI(INIFile& file, bool voidNames /* = false */)
 {
-	file.SetValue(ID.c_str(), "Name", Name);
+	file.SetValue(ID.c_str(), "Name", voidNames ? "flush!" : Name);
 	std::stringstream number;
 	int i = 0;
 	for (auto& it : this->actionList)

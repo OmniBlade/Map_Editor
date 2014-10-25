@@ -15,11 +15,11 @@ class AITriggerType
 {
 public:
 	static MapObjectList<AITriggerType> Array;
-	static void writeToINI(INIFile& file);
+	static void writeToINI(INIFile& file, bool flushNames = false);
 
 	AITriggerType();
 	void parse(const std::string& id, const std::string& list, bool isGlobal_ = false);
-	std::string asString();
+	std::string asString(bool voidNames = false);
 	std::string createParameters();
 	std::string paramToString(int param);
 	std::string teamTypeAsString(TeamType* pTeamType);

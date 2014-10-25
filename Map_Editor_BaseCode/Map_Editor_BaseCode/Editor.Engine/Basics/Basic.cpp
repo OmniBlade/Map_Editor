@@ -78,6 +78,7 @@ void Basic::writeToINI(INIFile& file)
 	if (isMP()) file.SetValue("Basic", "MaxPlayer", Log::toString(it->MaxPlayer));
 	if (isMP()) file.SetValue("Basic", "MinPlayer", Log::toString(it->MinPlayer));
 
+	if (it->NamesFlushed) file.SetValue("Basic", "NamesFlushed", BoolWriter::getBoolString(it->NamesFlushed, BoolWriter::BoolType::YESNO));
 	if (isSP()) file.SetValue("Basic", "EndOfGame", BoolWriter::getBoolString(it->EndOfGame, BoolWriter::BoolType::YESNO));
 	if (isSP()) file.SetValue("Basic", "SkipScore", BoolWriter::getBoolString(it->SkipScore, BoolWriter::BoolType::YESNO));
 	if (isSP()) file.SetValue("Basic", "OneTimeOnly", BoolWriter::getBoolString(it->OneTimeOnly, BoolWriter::BoolType::YESNO));
@@ -97,12 +98,11 @@ void Basic::writeToINI(INIFile& file)
 	file.SetValue("Basic", "FreeRadar", BoolWriter::getBoolString(it->FreeRadar, BoolWriter::BoolType::YESNO));
 }
 
-void Basic::parse()
+void Basic::parse(INIFile* map)
 {
-	INIFile* map = INIManager::instance()->get(Config::mapName);
 	INISection* basic = map->getSection("Basic");
 
-	basic->readDeletableStringValue("Name", Name, "No name");
+	basic->readDeletableStringValue("Name", Name);
 	basic->readDeletableStringValue("Player", Player);
 	basic->readDeletableStringValue("Briefing", Briefing, "<none>");
 	basic->readDeletableStringValue("Theme", ThemeStr, "<none>");
@@ -130,6 +130,7 @@ void Basic::parse()
 	basic->readDeletableIntValue("MaxPlayer", MaxPlayer, -1);
 	basic->readDeletableIntValue("MinPlayer", MinPlayer, -1);
 
+	basic->readDeletableBoolValue("NamesFlushed", NamesFlushed);
 	basic->readDeletableBoolValue("EndOfGame", EndOfGame);
 	basic->readDeletableBoolValue("SkipScore", SkipScore);
 	basic->readDeletableBoolValue("OneTimeOnly", OneTimeOnly);

@@ -10,7 +10,7 @@ class Tag
 {
 public:
 	static MapObjectList<Tag> Array;
-	static void writeToINI(INIFile& file);
+	static void writeToINI(INIFile& file, bool flushNames = false);
 
 	/*
 		Called when a Tag from a map file is added (pre-existing)
@@ -19,8 +19,9 @@ public:
 	*/
 	Tag();
 	void parse(const std::string& id, const std::string& list);
-	std::string asString();
+	std::string asString(bool voidNames = false);
 
+	bool isGlobal = false;
 	std::string ID, Name, trigger;
 	int Repeating;
 	Trigger* pTrigger;

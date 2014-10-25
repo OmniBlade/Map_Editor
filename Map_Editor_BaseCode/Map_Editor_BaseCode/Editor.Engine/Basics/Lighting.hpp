@@ -8,7 +8,7 @@ public:
 	static Lighting* instance();
 	static void writeToINI(INIFile& file);
 
-	void parse();
+	void parse(INIFile* map);
 
 
 	//Normal lighting

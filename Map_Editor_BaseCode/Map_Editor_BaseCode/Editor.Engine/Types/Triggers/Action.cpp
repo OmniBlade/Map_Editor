@@ -48,7 +48,10 @@ void Action::writeToINI(INIFile& file)
 
 	for (auto& it : Array.objectList)
 	{
-		file.SetValue("Actions", it->ID, it->asString());
+		if (!it->isGlobal)
+		{
+			file.SetValue("Actions", it->ID, it->asString());
+		}
 	}
 }
 

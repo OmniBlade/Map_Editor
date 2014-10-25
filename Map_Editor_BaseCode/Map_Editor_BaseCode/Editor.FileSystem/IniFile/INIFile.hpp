@@ -1,13 +1,11 @@
-#ifndef INIFILE_HPP_
-#define INIFILE_HPP_
-
+#pragma once
 #include <map>
 #include <vector>
 #include <memory>
 #include <string>
-#include "INISection.hpp"
-#include "INIFile.hpp"
 #include "../FileManager/FileWriter.h"
+#include "INISection.hpp"
+
 
 struct FileProperties;
 class TextReader;
@@ -32,6 +30,7 @@ public:
 
 	std::vector<std::string> getSectionList() { return sections; };
 	int getSectionCount() { return sections.size(); };
+	int getSectionCountWithoutDigest() { return sectionExists("Digest") ? sections.size() - 1 : sections.size(); };
 	int generateAndGetCheckSum(int type = -1);
 
 	void copyINITo(INIFile* file);
@@ -44,12 +43,11 @@ public:
 
 	void dumpContent();
 
-	void writeToSameFile(bool digest = false, bool writeLock = false, bool alphabetic = false);
-	void writeToFile(const std::string& fullPath, bool digest = false, bool writeLock = false, bool alphabetic = false);
+	void writeToSameFile(bool alphabetic = false);
+	void writeToFile(const std::string& fullPath, bool alphabetic = false);
 	void writeStartingComments(FileWriter* file);
 	void writeAlphabetic(FileWriter* file);
 	void writeVectorOrder(FileWriter* file);
-	void setDigestForWriting(bool writeLock = false);
 
 	/* Adds a comment to the start of the map file, ONLY at the start of the file! */
 	void addCommentAtTop(const std::string& comment) { comments.push_back(comment); };
@@ -59,7 +57,11 @@ public:
 
 	void setupDigest();
 	void setDigest(const std::string& digest) { this->digest = digest; };
+	void setDigestForWriting(bool writeLock = false);
+	//void setDigestForWritingManually(bool lock = false, bool flushed = false);
 	std::string getDigest() { return digest; };
+	void setDigestGenerationState(bool state) { generatesOwnDigest = state; };
+	void setWritableState(bool state) { cannotWriteTo = state; };
 
 private:
 	struct ItemKey
@@ -106,7 +108,7 @@ private:
 		bool Allocated;
 	};
 
-	bool isLoaded = false, canDeleteFrom = false;
+	bool isLoaded = false, canDeleteFrom = false, generatesOwnDigest = true, cannotWriteTo = false;
 	std::string path, digest;
 	std::map<ItemKey, std::unique_ptr<INISection>> sectionList;
 	std::vector<std::string> includeINIs;
@@ -114,4 +116,3 @@ private:
 	std::vector<std::string> comments;
 };
 
-#endif /* INIFILE_HPP_ */

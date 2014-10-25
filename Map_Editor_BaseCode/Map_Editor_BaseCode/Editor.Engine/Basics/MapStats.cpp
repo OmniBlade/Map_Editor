@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "MapStats.hpp"
-#include "../Map/TheaterCollection.hpp"
-#include  "../Map/TheaterDefinition.hpp"
-#include "../Game/Theater.hpp"
+#include "../Map/Theater/TheaterCollection.hpp"
+#include "../Map/Theater/TheaterDefinition.hpp"
+#include "../Map/Theater/Theater.hpp"
 #include "../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 #include "../../Editor.FileSystem/IniFile/INISection.hpp"
@@ -32,9 +32,8 @@ void MapStats::writeToINI(INIFile& file)
 	if(!it->Fill.empty()) file.SetValue("Map", "Fill", it->Fill);
 }
 
-void MapStats::parse()
+void MapStats::parse(INIFile* map)
 {
-	INIFile* map = INIManager::instance()->get(Config::mapName);
 	INISection* section = map->getSection("Map");
 
 	section->readDeletableStringValue("Theater", TheaterStr);

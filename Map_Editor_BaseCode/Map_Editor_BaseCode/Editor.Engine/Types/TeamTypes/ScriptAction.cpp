@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ScriptAction.hpp"
 #include "../../../Editor.FileSystem/IniFile/LineSplitter.hpp"
-#include "../../../Editor.FileSystem/MapFile/SActionType.hpp"
-#include "../../../Editor.FileSystem/MapFile/SActionCollection.hpp"
+#include "../../../Editor.FileSystem/MapFile/Triggers/SActionType.hpp"
+#include "../../../Editor.FileSystem/MapFile/Triggers/SActionCollection.hpp"
 #include "../../../Log.hpp"
 
 ScriptAction::ScriptAction()

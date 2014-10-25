@@ -19,6 +19,7 @@ public:
 	void parseEvents();
 	std::string asString();
 
+	bool isGlobal = false;
 	std::string ID, List;
 	unsigned int count;
 	std::vector<std::shared_ptr<SubEvent>> eventList;

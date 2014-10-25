@@ -12,14 +12,14 @@ class ScriptType
 {
 public:
 	static MapObjectList<ScriptType> Array;
-	static void writeToINI(INIFile& file);
+	static void writeToINI(INIFile& file, bool flushNames = false);
 
 	ScriptType(const std::string& id);
 	void parse(INIFile* file, bool isGlobal = false);
-	void writeContentToINI(INIFile& file);
+	void writeContentToINI(INIFile& file, bool voidNames = false);
 	
 	std::string Name, ID;
-	bool isGlobal;
+	bool isGlobal = false;
 	std::vector<std::shared_ptr<ScriptAction>> actionList;
 
 };

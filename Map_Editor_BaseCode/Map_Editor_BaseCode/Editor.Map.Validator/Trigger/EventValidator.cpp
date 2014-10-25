@@ -3,11 +3,11 @@
 #include "../../Log.hpp"
 #include "../../Editor.Engine/Types/Triggers/Event.hpp"
 #include "../../Editor.Engine/Types/Triggers/SubEvent.hpp"
-#include "../../Editor.FileSystem/MapFile/EventType.hpp"
-#include "../../Editor.FileSystem/MapFile/ParamType.hpp"
 #include "../../Editor.Engine/Types/Triggers/CellTag.hpp"
 #include "../../Editor.Engine/Types/Triggers/Tag.hpp"
-#include "../../Editor.FileSystem/MapFile/ParamContent.h"
+#include "../../Editor.FileSystem/MapFile/Triggers/EventType.hpp"
+#include "../../Editor.FileSystem/MapFile/Triggers/ParamType.hpp"
+#include "../../Editor.FileSystem/MapFile/Triggers/ParamContent.h"
 #include "../../Editor.Engine/Lists/ListProvider.h"
 
 #include <iostream>

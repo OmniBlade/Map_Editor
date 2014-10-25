@@ -20,7 +20,7 @@ public:
 	static MapStats* instance();
 	static void writeToINI(INIFile& file);
 
-	void parse(); 
+	void parse(INIFile* map); 
 	std::string sizeAsString(SizeStruct it);
 
 	const std::string WATER = "Water", CLEAR = "Clear";

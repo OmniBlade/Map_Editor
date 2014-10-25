@@ -102,7 +102,7 @@ std::string Trigger::getParentID()
 	return std::string();
 }
 
-void Trigger::writeToINI(INIFile& file)
+void Trigger::writeToINI(INIFile& file, bool flushNames /* = false */)
 {
 	if (Array.objectList.size() == 0)
 	{
@@ -112,17 +112,20 @@ void Trigger::writeToINI(INIFile& file)
 
 	for (auto& it : Array.objectList)
 	{
-		file.SetValue("Triggers", it->ID, it->asString());
+		if (!it->isGlobal)
+		{
+			file.SetValue("Triggers", it->ID, it->asString(flushNames));
+		}
 	}
 }
 
-std::string Trigger::asString()
+std::string Trigger::asString(bool voidNames /* = false */)
 {
 	char buffer[512];
 	sprintf_s(buffer, 512, "%s,%s,%s,%d,%d,%d,%d,%d",
 		this->owner.c_str(),
 		this->child.c_str(),
-		this->Name.c_str(),
+		voidNames ? "flush!" : this->Name.c_str(),
 		this->Disabled != 0,
 		this->EasyEnabled != 0,
 		this->MedEnabled != 0,
