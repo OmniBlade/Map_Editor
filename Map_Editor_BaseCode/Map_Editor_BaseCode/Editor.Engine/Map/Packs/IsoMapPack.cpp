@@ -9,33 +9,36 @@
 #include "../../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 #include <sstream>
 
-/* static */ IsoMapPack* IsoMapPack::instance;
-
-IsoMapPack::IsoMapPack(INISection* isoPack)
-	:isoPack(isoPack)
+/* static */ IsoMapPack* IsoMapPack::pInstance;
+/* static */ IsoMapPack* IsoMapPack::instance()
 {
-	instance = this;
-
-	if (isoPack)
+	if (!pInstance)
 	{
-		hasIsoData = true;
+		pInstance = new IsoMapPack();
 	}
 	else
 	{
-		Log::line("IsoMapPack5 isn't available, cannot read its data!", Log::DEBUG);
+		return pInstance;
 	}
-
-	pack = new PackType(PackType::LZO);
+	return pInstance;
 }
 
-IsoMapPack::~IsoMapPack()
+IsoMapPack::IsoMapPack()
 {
-	delete pack;
 }
 
 void IsoMapPack::read(INIFile* map)
 {
-	if (!hasIsoData) return;
+	auto isoPack = map->getSection("IsoMapPack5");
+	
+	if (!isoPack)
+	{
+		Log::line("IsoMapPack5 does not exist!", Log::DEBUG);
+		hasIsoData = false;
+		return;
+	}
+
+	pack = std::make_unique<PackType>(PackType::LZO);
 
 	auto impSrc = base64_decodeSection(isoPack);
 	pack->decompress(&impSrc[0], impSrc.size());
@@ -62,14 +65,16 @@ void IsoMapPack::write()
 
 void IsoMapPack::writeToINI(INIFile& file)
 {
-	if (!instance->hasIsoData)
+	auto it = instance();
+
+	if (!it->hasIsoData)
 	{
 		Log::line("SECTION - IsoMapPack5 does not exist, will not write to map.", Log::DEBUG);
 		return;
 	}
 
-	instance->write();
-	PackType* pack = instance->getPack();
+	it->write();
+	PackType* pack = it->getPack();
 	std::string base64data = base64_encodeBytes(pack->getWriteDest());
 	pack->clearWriteDest();
 	

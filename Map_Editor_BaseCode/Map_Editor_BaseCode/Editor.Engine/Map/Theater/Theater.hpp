@@ -1,7 +1,9 @@
 #pragma once
-#include "TileSet.hpp"
+#include <string>
 #include <vector>
 #include <memory>
+
+#include "TileSet.hpp"
 
 class INIFile;
 
@@ -85,5 +87,6 @@ public:
 private:
 	INIFile* controlFile;
 	std::vector<std::unique_ptr<TileSet>> tileSets;
+	std::vector<TileStruct> isoPackTileList;
 };
 

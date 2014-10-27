@@ -218,15 +218,12 @@ void loadMap()
 	}
 	Log::validatorLine();
 
-	INISection* pack = map->getSection("IsoMapPack5");
- 	IsoMapPack* isoPack = new IsoMapPack(pack);
-	isoPack->read(map);
-
-	OverlayPack* opack = new OverlayPack(map);
-	opack->read(map);
-
-	PreviewPack* pPack = new PreviewPack(map);
-	pPack->read(map);
+	Log::line("Reading Packs...", Log::DEBUG);
+	IsoMapPack::instance()->read(map);
+	OverlayPack::instance()->read(map);
+	PreviewPack::instance()->read(map);
+	Log::line("All Packs read!", Log::DEBUG);
+	Log::line();
 
 	/*
 		Little side information:
@@ -252,11 +249,11 @@ void loadMap()
 	mapAssetLoader.setGlobalValues();
 	mapAssetLoader.load(map, "Map");
 
-	opack->createOverlayFromData();
-
-
+	/* Everything is loaded, do your activities */
+	
+	MapMods::instance()->parse(map);
+	OverlayPack::instance()->createOverlayFromData();
 	Map::instance()->setupCells();
-
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 
 	Log::line("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
@@ -329,9 +326,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	delete map;
 	delete mainValidator;
 	delete paramCollection;
-	delete IsoMapPack::instance;
-	delete OverlayPack::instance;
-	delete PreviewPack::instance;
 
 	return 0;
 }

@@ -14,11 +14,12 @@ Terrain::Terrain()
 void Terrain::parse(const std::string& index, const std::string& list)
 {
 	Location = index;
-	loc.x = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
-	loc.y = atoi(Location.substr(0, Location.length() - 3).c_str());
+	int x = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
+	int y = atoi(Location.substr(0, Location.length() - 3).c_str());
 
+	Object(x, y);
 	terrainType = list;
-	pTerrainType = TerrainType::Array.find(terrainType);
+	setObjectType(TerrainType::Array.find(terrainType));
 }
 
 void Terrain::writeToINI(INIFile& file)
@@ -31,21 +32,14 @@ void Terrain::writeToINI(INIFile& file)
 
 	for (auto& it : Array.objectList)
 	{
-		if (it->pTerrainType)
+		if (!it->terrainType.empty())
 		{
-			file.SetValue("Terrain", it->loc.asString(), it->asString());
+			file.SetValue("Terrain", it->MapCoords.asString(), it->asString());
 		}
 	}
 }
 
 std::string Terrain::asString()
 {
-	std::string ret = terrainType;
-
-	if (pTerrainType)
-	{
-		ret = pTerrainType->ID;
-	}
-	
-	return ret;
+	return terrainType;
 }

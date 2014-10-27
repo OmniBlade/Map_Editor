@@ -79,22 +79,22 @@ void MapAssetLoader::loadAll(INIFile* mapFile, const std::string& name)
 }
 
 /*
-Fucking ape-shit...
-After all the triggers are parsed, you can assign the child triggers
-Why? Because Trigger at index 2 can refer to a Trigger at index 8 (which is obviously not loaded yet)
+	Fucking ape-shit...
+	After all the triggers are parsed, you can assign the child triggers
+	Why? Because Trigger at index 2 can refer to a Trigger at index 8 (which is obviously not loaded yet)
 */
 void MapAssetLoader::updateTriggerChilds()
 {
 	for (const auto& it : Trigger::Array.objectList)
 	{
-		it.get()->assignChild();
+		it->assignChild();
 	}
 }
 
 void MapAssetLoader::dumpTypes()
 {
 	Log::line();
-	Log::line("Dumping the count of map types!");
+	Log::line("Dumping the count of map types!",Log::DEBUG);
 	Log::line("Tags: " + Log::toString(Tag::Array.objectList.size()), Log::DEBUG);
 	Log::line("Triggers: " + Log::toString(Trigger::Array.objectList.size()), Log::DEBUG);
 	Log::line("Events: " + Log::toString(Event::Array.objectList.size()), Log::DEBUG);
@@ -102,7 +102,6 @@ void MapAssetLoader::dumpTypes()
 	Log::line("TeamTypes: " + Log::toString(TeamType::Array.objectList.size()), Log::DEBUG);
 	Log::line("ScriptType: " + Log::toString(ScriptType::Array.objectList.size()), Log::DEBUG);
 	Log::line("TaskForces: " + Log::toString(TaskForce::Array.objectList.size()), Log::DEBUG);
-	Log::line();
 }
 
 void MapAssetLoader::setGlobalValues()

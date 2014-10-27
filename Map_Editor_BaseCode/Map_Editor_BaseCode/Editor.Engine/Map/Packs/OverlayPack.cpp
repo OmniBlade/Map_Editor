@@ -7,24 +7,29 @@
 #include "../../Types/Overlay.h"
 #include "PackType.hpp"
 
-/* static */ OverlayPack* OverlayPack::instance;
-
-OverlayPack::OverlayPack(INIFile* file)
-	:file(file)
+/* static */ OverlayPack* OverlayPack::pInstance;
+/* static */ OverlayPack* OverlayPack::instance()
 {
-	instance = this;
+	if (!pInstance)
+	{
+		pInstance = new OverlayPack();
+	}
+	else
+	{
+		return pInstance;
+	}
+	return pInstance;
 }
 
-OverlayPack::~OverlayPack()
+OverlayPack::OverlayPack()
 {
-	delete pOverlayPack; 
-	delete pOverlayDataPack;
+
 }
 
 void OverlayPack::read(INIFile* map)
 {
-	INISection* dataPack = file->getSection("OverlayDataPack");
-	INISection* pack = file->getSection("OverlayPack");
+	INISection* dataPack = map->getSection("OverlayDataPack");
+	INISection* pack = map->getSection("OverlayPack");
 
 	if (!pack || !dataPack)
 	{
@@ -33,8 +38,8 @@ void OverlayPack::read(INIFile* map)
 		return;
 	}
 
-	pOverlayDataPack = new PackType(PackType::F80);
-	pOverlayPack = new PackType(PackType::F80);
+	pOverlayDataPack = std::make_unique<PackType>(PackType::F80);
+	pOverlayPack = std::make_unique<PackType>(PackType::F80);
 
 	std::vector<byte> opSrc = base64_decodeSection(pack);
 	std::vector<byte> opdSrc = base64_decodeSection(dataPack);
@@ -82,15 +87,16 @@ void OverlayPack::createOverlayFromData()
 
 void OverlayPack::writeToINI(INIFile& file)
 {
-	if (!instance->useOverlay)
+	auto it = instance();
+	if (!it->useOverlay)
 	{
 		Log::line("SECTION - OverlayData and OverlayDataPack don't exist, will not write to map.", Log::DEBUG);
 		return;
 	}
-	instance->write();
+	it->write();
 	//OverlayPack, then OverlayDataPack
-	instance->writeContentToINI(file, instance->pOverlayPack, "OverlayPack");
-	instance->writeContentToINI(file, instance->pOverlayDataPack, "OverlayDataPack");
+	it->writeContentToINI(file, it->pOverlayPack.get(), "OverlayPack");
+	it->writeContentToINI(file, it->pOverlayDataPack.get(), "OverlayDataPack");
 }
 
 void OverlayPack::writeContentToINI(INIFile& file, PackType* pack, const std::string& sectionName)

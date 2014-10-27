@@ -2,7 +2,7 @@
 
 #include "../Managers/MapObjectList.hpp"
 #include <string>
-#include "../../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "Object.h"
 
 class InfantryType;
 class Tag;
@@ -10,7 +10,7 @@ class House;
 class Country;
 class INIFile;
 
-class Infantry
+class Infantry : public Object
 {
 public:
 	static MapObjectList<Infantry> Array;
@@ -25,18 +25,11 @@ public:
 	*/
 	std::string asString() const;
 
-	/*
-
-	*/
-	void setInfantryType();
-
 	std::string owner = "";
 	Country* pCountry;
 	House* pHouse;
 	std::string infantryType = "";
-	InfantryType* pInfantry = nullptr;
 	unsigned int health = 256;
-	Vector2D loc;
 	unsigned int subCell = 0;
 	std::string mission = "Guard";
 	unsigned int direction = 64;

@@ -9,7 +9,7 @@ class PackType;
 class IsoMapPack
 {
 public:
-	static IsoMapPack* instance;
+	static IsoMapPack* instance();
 	static void writeToINI(INIFile& file);
 
 	//Trailing issues...
@@ -38,12 +38,14 @@ public:
 	*/
 	void write();
 
-	PackType* getPack() { return this->pack; };
+	PackType* getPack() { return this->pack.get(); };
 
 private:
-	bool hasIsoData = false;
-	INISection* isoPack;
-	PackType* pack;
+	static IsoMapPack* pInstance;
+	IsoMapPack();
+
+	bool hasIsoData = true;
+	std::unique_ptr<PackType> pack;
 	std::vector<IsoMapPack5Tile> tiles;
 };
 

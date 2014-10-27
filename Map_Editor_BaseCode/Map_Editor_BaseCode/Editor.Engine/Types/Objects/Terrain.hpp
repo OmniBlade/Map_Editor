@@ -2,12 +2,12 @@
 
 #include "../Managers/MapObjectList.hpp"
 #include <string>
-#include "../../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "Object.h"
 
 class TerrainType;
 class INIFile;
 
-class Terrain
+class Terrain : public Object
 {
 public:
 	static MapObjectList<Terrain> Array;
@@ -19,8 +19,5 @@ public:
 
 
 	std::string Location, terrainType;
-
-	Vector2D loc;
-	TerrainType* pTerrainType;
 };
 

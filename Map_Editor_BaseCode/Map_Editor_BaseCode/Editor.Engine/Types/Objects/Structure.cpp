@@ -17,15 +17,15 @@ Structure::Structure()
 
 void Structure::parse(const std::string& index, const std::string& list)
 {
+	int x, y;
 	LineSplitter split(list);
-	if (split.pop(owner) && split.pop(buildingType) && split.pop(health) && split.pop(loc.x) && split.pop(loc.y)
+	if (split.pop(owner) && split.pop(buildingType) && split.pop(health) && split.pop(x) && split.pop(y)
 		&& split.pop(direction) && split.pop(tag) && split.pop(sellable) && split.pop(aiRepair) && split.pop(powered) 
 		&& split.pop(powerupCount) && split.pop(spotlight) && split.pop(powerupOne) && split.pop(powerupTwo)
 		&& split.pop(powerupThree) && split.pop(rebuild) && split.pop(showName))
 	{
-		//9=Pacific House     ,GAPOWR,256,117,191,64,None,1,0,1,1,       0,GAPOWRUP,None,None,1,0
-		//0=UnitedStates House,GAPOWR,256,67,71,64  ,None,1,0,1,UPGRADES,0,GAPOWRUP,None,None,0,0
-		pBuilding = BuildingType::Array.find(buildingType);
+		Object(x, y);
+		setObjectType(BuildingType::Array.find(buildingType));
 		pTag = Tag::Array.find(tag);
 		pCountry = Country::Array.find(owner);
 		pHouse = House::Array.find(owner);
@@ -63,8 +63,8 @@ std::string Structure::asString() const
 		this->owner.c_str(),
 		this->buildingType.c_str(),
 		this->health,
-		this->loc.x,
-		this->loc.y,
+		this->MapCoords.X,
+		this->MapCoords.Y,
 		this->direction,
 		this->tag.c_str(),
 		this->sellable != 0,
@@ -80,9 +80,4 @@ std::string Structure::asString() const
 		);
 
 	return buffer;
-}
-
-void Structure::setBuildingType()
-{
-	pBuilding = BuildingType::Array.find(buildingType);
 }

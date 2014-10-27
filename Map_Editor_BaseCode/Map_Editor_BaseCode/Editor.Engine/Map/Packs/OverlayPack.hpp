@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <memory>
 
 class INIFile;
 class PackType;
@@ -8,11 +9,8 @@ class PackType;
 class OverlayPack
 {
 public:
-	OverlayPack(INIFile* file);
-	~OverlayPack();
-
+	static OverlayPack* instance();
 	static void writeToINI(INIFile& file);
-	static OverlayPack* instance;
 
 	void read(INIFile* map);
 	void write();
@@ -22,10 +20,12 @@ public:
 	std::vector<byte> prepareDataForWriting(byte defaultByte, bool useIndex);
 
 private:
+	static OverlayPack* pInstance;
+	OverlayPack();
+
 	bool useOverlay = true;
-	PackType* pOverlayPack;
-	PackType* pOverlayDataPack;
-	INIFile* file;
+	std::unique_ptr<PackType> pOverlayPack;
+	std::unique_ptr<PackType> pOverlayDataPack;
 	const static int F80_MAX = 262144;
 };
 

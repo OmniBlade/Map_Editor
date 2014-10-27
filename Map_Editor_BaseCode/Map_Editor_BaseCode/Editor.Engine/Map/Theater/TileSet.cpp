@@ -3,7 +3,8 @@
 #include <iostream>
 #include <sstream>
 #include "../../../Log.hpp"
-#include "../../../Editor.FileSystem/FileManager/Managers/TMPManager.hpp"
+#include "../../../Editor.FileSystem/IniFile/INISection.hpp"
+#include "../../../Editor.FileSystem/TmpFile/TMPFile.hpp"
 #include "../../Basics/MapStats.hpp"
 #include "TheaterCollection.hpp"
 
@@ -11,11 +12,10 @@
 	NOTE: Not sure where to place this yet, it's just working ahead really...
 */
 
-TileSet::TileSet(int _ID, INISection* _section)
-:ID(_ID), section(_section)
+TileSet::TileSet(int ID, INISection* pSection)
+:ID(ID)
 {
-	parse();
-	collectTiles();
+	parse(pSection);
 }
 
 
@@ -23,7 +23,7 @@ TileSet::~TileSet()
 {
 }
 
-void TileSet::parse()
+void TileSet::parse(INISection* section)
 {
 	if (section)
 	{
@@ -47,12 +47,13 @@ void TileSet::parse()
 }
 
 
-void TileSet::collectTiles()
+void TileSet::collectTiles(std::vector<TileStruct>& tiles)
 {
 	std::string extension = MapStats::instance()->pTheaterDef->TileExtension;
+	const static std::string TEM = "TEM";
 	std::stringstream number;
 	
-	for (int i = 1; i <= TilesInSet; ++i)
+	for (int i = 1; i < TilesInSet+1; ++i)
 	{
 		if (i < 10)
 			number << '0';
@@ -62,30 +63,52 @@ void TileSet::collectTiles()
 			break;
 		}
 		number << i;
+		std::string currentName = FileName + number.str();
 
-		if (TMPManager::instance()->exists(FileName + number.str() + '.' + extension))
+		if (TMPManager::instance()->exists(currentName + '.' + extension))
 		{
-			//tiles.push_back(TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension));
-		
-			//Search for a-b-c-d-e-f-g
-			for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
-			{
-				if (!TMPManager::instance()->exists(FileName + number.str() + (char)i + '.' + extension))
-					break;
-				else
-				{
-					//tiles.push_back(TMPManager::instance()->get(FileName + number.str() + (char)i + '.' + extension));
-				}
-				//else
-					//std::cout << "Now parsing: " << FileName << number.str() << (char)i << '.' << TheaterCollection::getInstance()->getCurrent()->TileExtension << std::endl;
-			}
+			TileStruct newTile;
+			newTile.Name = currentName;
+			newTile.Ext = extension;
+			tiles.push_back(newTile);
+
+			collectSubTiles(currentName, extension, tiles);
+		}
+		else if (TMPManager::instance()->exists(currentName + '.' + TEM)) //Fallback the game uses
+		{
+			TileStruct newTile;
+			newTile.Name = currentName;
+			newTile.Ext = TEM;
+			tiles.push_back(newTile);
+
+			collectSubTiles(currentName, TEM, tiles);
 		}
 		else
+		{
 			break;
-
+		}
 		number.str(std::string());
 	}
-	//std::cout << "Tiles collected for set: " << SetName << " (" << FileName << ")" << std::endl;
+}
+
+void TileSet::collectSubTiles(const std::string& name, const std::string& ext, std::vector<TileStruct>& tiles)
+{
+	//Search for a-b-c-d-e-f-g
+	for (unsigned int i = 65; i < 72; ++i) // ASCII 65 -> A, 72 -> H (loop until 71, G)
+	{
+		std::string tileName = name + static_cast<char>(i);
+		if (TMPManager::instance()->exists(tileName + '.' + ext))
+		{
+			TileStruct newTile;
+			newTile.Name = std::move(tileName);
+			newTile.Ext = std::move(ext);
+			tiles.push_back(newTile);
+		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 /*

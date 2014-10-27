@@ -15,8 +15,8 @@ void CellTag::parse(const std::string& location, const std::string& tag)
 {
 	Location = location;
 	pTag = Tag::Array.find(tag);
-	loc.x = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
-	loc.y = atoi(Location.substr(0, Location.length() - 3).c_str());
+	MapCoords.X = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
+	MapCoords.Y = atoi(Location.substr(0, Location.length() - 3).c_str());
 }
 
 void CellTag::writeToINI(INIFile& file)
@@ -31,7 +31,7 @@ void CellTag::writeToINI(INIFile& file)
 	{
 		if (it->pTag)
 		{
-			file.SetValue("CellTags", it->loc.asString(), it->pTag->ID);
+			file.SetValue("CellTags", it->MapCoords.asString(), it->pTag->ID);
 		}
 	}
 }

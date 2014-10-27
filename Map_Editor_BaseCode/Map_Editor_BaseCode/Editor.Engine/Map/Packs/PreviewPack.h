@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 class INISection;
 class INIFile;
@@ -8,7 +9,7 @@ class PackType;
 class PreviewPack
 {
 public:
-	static PreviewPack* instance;
+	static PreviewPack* instance();
 	static void writeToINI(INIFile& file);
 
 	struct ColorEntry
@@ -26,22 +27,19 @@ public:
 		int Height;
 	} size;
 
-	PreviewPack(INIFile* map);
-	~PreviewPack();
-
 	void read(INIFile* map);
 	void write();
 	std::string sizeAsString();
-	PackType* getPack() { return pack; };
+	PackType* getPack() { return pack.get(); };
 	int Width, Height;
 	
 
 private:
-	bool hasPreview = false;
-	INISection* pPreviewPack;
-	INISection* pPreview;
+	static PreviewPack* pInstance;
+	PreviewPack();
 
-	PackType* pack;
+	bool hasPreview = true;
+	std::unique_ptr<PackType> pack;
 	std::vector<ColorEntry> imageBytes;
 };
 

@@ -220,9 +220,9 @@
     <ClInclude Include="Editor.Objects.Westwood\OverlayTypeValidator.h" />
     <ClInclude Include="Editor.Engine\Map\Packs\PreviewPack.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\Modifications\MapMods.h" />
-    <ClInclude Include="Editor.Engine\Loading\MapNamesLoader.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\Flushing\NameFlusherClass.h" />
     <ClInclude Include="Editor.Engine\Basics\Ranking.h" />
+    <ClInclude Include="Editor.Engine\Types\Objects\Object.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -339,7 +339,6 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Modifications\MapMods.cpp" />
-    <ClCompile Include="Editor.Engine\Loading\MapNamesLoader.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\OverlayType.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\BinaryReader.cpp" />
@@ -377,6 +376,7 @@
     <ClCompile Include="Editor.Engine\Map\Packs\PreviewPack.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Flushing\NameFlusherClass.cpp" />
     <ClCompile Include="Editor.Engine\Basics\Ranking.cpp" />
+    <ClCompile Include="Editor.Engine\Types\Objects\Object.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

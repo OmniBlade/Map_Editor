@@ -1,10 +1,30 @@
 #pragma once
 
-#include "../../../Editor.FileSystem/IniFile/INISection.hpp"
-#include "../../../Editor.FileSystem/TmpFile/TMPFile.hpp"
 #include <string>
 #include <vector>
 #include <memory>
+#include "../../../Editor.FileSystem/FileManager/Managers/TMPManager.hpp"
+
+class INISection;
+class TMPFile;
+
+struct TileStruct
+{
+	TileStruct::TileStruct() {};
+	TileStruct::TileStruct(const TileStruct& it)
+		:Name(it.Name), Ext(it.Ext)
+	{
+
+	}
+
+	std::string Name;
+	std::string Ext;
+
+	TMPFile* get()
+	{
+		return TMPManager::instance()->get(Name + Ext);
+	}
+};
 
 class TileSet
 {
@@ -15,12 +35,13 @@ public:
 	/*
 		Parses the INI section for the tileset and reads its values
 	*/
-	void parse();
+	void parse(INISection* section);
 	
 	/*
 		Collects the tiles for the tileset instance and pushes them into a vector
 	*/
-	void collectTiles();
+	void collectTiles(std::vector<TileStruct>& tiles);
+	void collectSubTiles(const std::string& name, const std::string& extension, std::vector<TileStruct>& tiles);
 
 	/*
 		Because there's little documentation on Theater control files, lots of comments are to be expected here
@@ -45,9 +66,5 @@ public:
 	bool ShadowCaster;			// Whether the tileset (CLIFF specifically) casts a shadow. Only works if in [General]->CliffSet is set to its ID
 	bool AllowToPlace = true;			// Defines whether the tiles in this tileset can be placed (in editor)
 	bool AllowTiberium;			// Whether tiberium can be placed on this (Tiberium on ramps causes Internal ERRORSs :D)
-
-private:
-	INISection* section;
-	std::vector<std::unique_ptr<TMPFile>> tiles;
 };
 

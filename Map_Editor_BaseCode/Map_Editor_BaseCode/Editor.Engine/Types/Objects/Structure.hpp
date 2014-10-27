@@ -2,7 +2,7 @@
 
 #include "../Managers/MapObjectList.hpp"
 #include <string>
-#include "../../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "Object.h"
 
 class BuildingType;
 class Tag;
@@ -10,7 +10,7 @@ class Country;
 class House;
 class INIFile;
 
-class Structure
+class Structure : public Object
 {
 public:
 	static MapObjectList<Structure> Array;
@@ -26,18 +26,11 @@ public:
 	*/
 	std::string asString() const;
 
-	/*
-
-	*/
-	void setBuildingType();
-
 	std::string owner = "";
 	Country* pCountry;
 	House* pHouse;
 	std::string buildingType = "";
-	BuildingType* pBuilding = nullptr;
 	unsigned int health = 256;
-	Vector2D loc;
 	unsigned int direction = 0;
 	std::string tag = "None";
 	Tag* pTag;

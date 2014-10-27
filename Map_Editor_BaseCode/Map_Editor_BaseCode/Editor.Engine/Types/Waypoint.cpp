@@ -18,10 +18,10 @@ void Waypoint::parse(const std::string& id, const std::string& list)
 	ID = letterIndex;
 
 	int coords = atoi(list.c_str());
-	loc.x = coords % 1000;
-	loc.y = coords / 1000;
+	MapCoords.X = coords % 1000;
+	MapCoords.Y = coords / 1000;
 
-	Name = Log::toString(loc.x) + " / " + Log::toString(loc.y);
+	Name = Log::toString(MapCoords.X) + " / " + Log::toString(MapCoords.Y);
 }
 
 void Waypoint::writeToINI(INIFile& file)
@@ -36,7 +36,7 @@ void Waypoint::writeToINI(INIFile& file)
 	for (auto& it : Array.objectList)
 	{
 		number << it->index;
-		file.SetValue("Waypoints", number.str(), it->loc.asString());
+		file.SetValue("Waypoints", number.str(), it->MapCoords.asString());
 		number.str(std::string());
 	}
 }

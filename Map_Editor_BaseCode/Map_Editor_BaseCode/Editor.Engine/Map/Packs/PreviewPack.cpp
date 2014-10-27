@@ -9,37 +9,38 @@
 #include "../../../Config.hpp"
 #include "../../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
 
-/* static */ PreviewPack* PreviewPack::instance;
-
-PreviewPack::PreviewPack(INIFile* map)
+/* static */ PreviewPack* PreviewPack::pInstance;
+/* static */ PreviewPack* PreviewPack::instance()
 {
-	pPreviewPack = map->getSection("PreviewPack");
-	pPreview = map->getSection("Preview");
-	instance = this;
-
-	if (pPreviewPack && pPreview)
+	if (!pInstance)
 	{
-		hasPreview = true;
+		pInstance = new PreviewPack();
 	}
 	else
 	{
-		Log::line("PreviewPack and Preview aren't available, cannot read its data!", Log::DEBUG);
-		return;
+		return pInstance;
 	}
-
-	pack = new PackType(PackType::LZO);
+	return pInstance;
 }
 
-
-PreviewPack::~PreviewPack()
+PreviewPack::PreviewPack()
 {
-
+	
 }
 
 void PreviewPack::read(INIFile* map)
 {
-	if (!hasPreview) return;
+	auto pPreviewPack = map->getSection("PreviewPack");
+	auto pPreview = map->getSection("Preview");
+	
+	if (!pPreview || !pPreviewPack)
+	{
+		Log::line("PreviewPack or Preview does not exist!", Log::DEBUG);
+		hasPreview = false;
+		return;
+	}
 
+	pack = std::make_unique<PackType>(PackType::LZO);
 	std::string sizeStr = pPreview->getValue("Size");
 	LineSplitter split(sizeStr);
 
@@ -75,16 +76,18 @@ void PreviewPack::write()
 
 void PreviewPack::writeToINI(INIFile& file)
 {
-	if (!instance->hasPreview)
+	auto it = instance();
+
+	if (!it->hasPreview)
 	{
 		Log::line("SECTION - PreviewPack does not exist, will not write to map.", Log::DEBUG);
 		return;
 	};
 
-	file.SetValue("Preview", "Size", instance->sizeAsString());
+	file.SetValue("Preview", "Size", it->sizeAsString());
 
-	instance->write();
-	PackType* pack = instance->getPack();
+	it->write();
+	PackType* pack = it->getPack();
 	std::string base64data = base64_encodeBytes(pack->getWriteDest());
 	pack->getWriteDest();
 

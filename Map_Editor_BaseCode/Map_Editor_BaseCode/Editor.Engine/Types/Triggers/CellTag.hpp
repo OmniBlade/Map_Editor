@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Managers/MapObjectList.hpp"
-#include "../../../Editor.Objects.Westwood/Vector2D.hpp"
+#include "../../Map/Cells/CellStruct.h"
 #include <string>
 
 class Tag;
@@ -17,7 +17,7 @@ public:
 	void parse(const std::string& location, const std::string& tag);
 	
 	std::string Location;// , attachedTag;
-	Vector2D loc;
+	CellStruct MapCoords;
 	Tag* pTag;
 
 

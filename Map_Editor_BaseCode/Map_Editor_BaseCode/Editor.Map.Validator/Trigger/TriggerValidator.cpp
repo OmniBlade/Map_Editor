@@ -46,9 +46,9 @@ void TriggerValidator::validateCellTags()
 	Log::validatorLine("Validating [CellTags] now...", Log::INFO);
 	for (const auto& it : CellTag::Array.objectList)
 	{
-		if (it->loc.x < 0)
+		if (it->MapCoords.X < 0)
 			Log::validatorLine("CellTag with ID / coords '" + it->Location + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
-		if (it->loc.y < 0)
+		if (it->MapCoords.Y < 0)
 			Log::validatorLine("CellTag with ID / coords '" + it->Location + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 		if (!it->pTag)
 			Log::validatorLine("CellTag with ID / coords '" + it->Location + "' has an invalid Tag set.", Log::ERROR_BUFFER);

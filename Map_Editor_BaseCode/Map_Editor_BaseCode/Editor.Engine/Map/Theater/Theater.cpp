@@ -101,9 +101,6 @@ void Theater::readTileSets()
 	std::stringstream setNumber;
 	for (unsigned int i = 0; i < 9999; ++i)
 	{
-		//if (i == 19)
-//			std::cout << "";
-
 		if (i < 10)
 			setNumber << "0";
 		if (i < 100)
@@ -113,7 +110,10 @@ void Theater::readTileSets()
 		setNumber << i;
 
 		if (INISection* ret = controlFile->getSection(tileset + setNumber.str()))
+		{
 			tileSets.push_back(std::make_unique<TileSet>(i, ret));
+			tileSets.back()->collectTiles(isoPackTileList);
+		}
 		else
 		{
 			break; //Loop until done
@@ -124,3 +124,4 @@ void Theater::readTileSets()
 
 	Log::line("Parsing Theater Control File took: " + Log::getTimerValue(), Log::DEBUG);
 }
+

@@ -16,12 +16,14 @@ Infantry::Infantry()
 
 void Infantry::parse(const std::string& index, const std::string& list)
 {
+	int x, y;
 	LineSplitter split(list);
-	if (split.pop(owner) && split.pop(infantryType) && split.pop(health) && split.pop(loc.x) && split.pop(loc.y)
+	if (split.pop(owner) && split.pop(infantryType) && split.pop(health) && split.pop(x) && split.pop(y)
 		&& split.pop(subCell) && split.pop(mission) && split.pop(direction) && split.pop(tag) && split.pop(veterancy) && split.pop(group)
 		&& split.pop(onBridge) && split.pop(recruitable) && split.pop(aiRecruitable))
 	{
-		pInfantry = InfantryType::Array.find(infantryType);
+		Object(x, y);
+		setObjectType(InfantryType::Array.find(infantryType));
 		pTag = Tag::Array.find(tag);
 		pCountry = Country::Array.find(owner);
 		pHouse = House::Array.find(owner);
@@ -60,8 +62,8 @@ std::string Infantry::asString() const
 		this->owner.c_str(),
 		this->infantryType.c_str(),
 		this->health,
-		this->loc.x,
-		this->loc.y,
+		this->MapCoords.X,
+		this->MapCoords.Y,
 		this->subCell,
 		this->mission.c_str(),
 		this->direction,
@@ -74,9 +76,4 @@ std::string Infantry::asString() const
 		);
 
 	return buffer;
-}
-
-void ::Infantry::setInfantryType()
-{
-	pInfantry = InfantryType::Array.find(infantryType);
 }

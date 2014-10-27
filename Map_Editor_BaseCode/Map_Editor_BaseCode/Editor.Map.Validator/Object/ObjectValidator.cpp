@@ -49,16 +49,16 @@ void ObjectValidator::validateAircraft()
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
 			Log::validatorLine("Aircraft at index '" + Log::toString(index) + "' has no valid Country as owner.", Log::ERROR_BUFFER);
 		//AircraftType
-		if (!it->pAircraft)
+		if (!it->pObjectType)
 			Log::validatorLine("Aircraft at index '" + Log::toString(index) + "' has no valid AircraftType set.", Log::ERROR_BUFFER);
 		//Health
 		if (it->health < 0)// || it->health > 255)
 			Log::validatorLine("Aircraft at index '" + Log::toString(index) + "' has an invalid amount of health.", Log::ERROR_BUFFER);
 		//LocX
-		if (it->loc.x < 0)
+		if (it->MapCoords.X < 0)
 			Log::validatorLine("Aircraft at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
 		//LocY
-		if (it->loc.y < 0)
+		if (it->MapCoords.Y < 0)
 			Log::validatorLine("Aircraft at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 		//direction
 		if (it->direction < 0 || it->direction > 255)
@@ -88,16 +88,16 @@ void ObjectValidator::validateInfantry()
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
 				Log::validatorLine("Infantry at index '" + Log::toString(index) + "' has no valid Owner set.", Log::ERROR_BUFFER);
 		//InfantryType
-		if (!it->pInfantry)
+		if (!it->pObjectType)
 			Log::validatorLine("Infantry at index '" + Log::toString(index) + "' has no valid InfantryType set.", Log::ERROR_BUFFER);
 		//Health
 		if (it->health < 0)// || it->health > 255)
 			Log::validatorLine("Infantry at index '" + Log::toString(index) + "' has an invalid amount of health.", Log::ERROR_BUFFER);
 		//LocX
-		if (it->loc.x < 0)
+		if (it->MapCoords.X < 0)
 			Log::validatorLine("Infantry at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
 		//LocY
-		if (it->loc.y < 0)
+		if (it->MapCoords.Y < 0)
 			Log::validatorLine("Infantry at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 		//subCell
 		if (it->subCell < 0 || it->subCell > 3)
@@ -130,16 +130,16 @@ void ObjectValidator::validateUnit()
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
 			Log::validatorLine("Unit at index '" + Log::toString(index) + "' has no valid Owner set.", Log::ERROR_BUFFER);
 		//VehicleType
-		if (!it->pVehicle)
+		if (!it->pObjectType)
 			Log::validatorLine("Unit at index '" + Log::toString(index) + "' has no valid VehicleType set.", Log::ERROR_BUFFER);
 		//Health
 		if (it->health < 0)// || it->health > 255)
 			Log::validatorLine("Unit at index '" + Log::toString(index) + "' has an invalid amount of health.", Log::ERROR_BUFFER);
 		//LocX
-		if (it->loc.x < 0)
+		if (it->MapCoords.X < 0)
 			Log::validatorLine("Unit at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
 		//LocY
-		if (it->loc.y < 0)
+		if (it->MapCoords.Y < 0)
 			Log::validatorLine("Unit at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 		//direction
 		if (it->direction < 0 || it->direction > 255)
@@ -166,13 +166,13 @@ void ObjectValidator::validateTerrain()
 	for (const auto& it : Terrain::Array.objectList)
 	{
 		//TerrainType
-		if (!it->pTerrainType)
+		if (!it->pObjectType)
 			Log::validatorLine("Terrain at index '" + Log::toString(index) + "' has no valid TerrainType set.", Log::ERROR_BUFFER);
 		//LocX
-		if (it->loc.x < 0)
+		if (it->MapCoords.X < 0)
 			Log::validatorLine("Unit at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
 		//LocY
-		if (it->loc.y < 0)
+		if (it->MapCoords.Y < 0)
 			Log::validatorLine("Unit at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 		index++;
 	}
@@ -189,16 +189,16 @@ void ObjectValidator::validateStructure()
 		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
 			Log::validatorLine("Structure at index '" + Log::toString(index) + "' has no valid Owner set.", Log::ERROR_BUFFER);
 		//Building
-		if (!it->pBuilding)
+		if (!it->pObjectType)
 			Log::validatorLine("Structure at index '" + Log::toString(index) + "' has no valid BuildingType set.", Log::ERROR_BUFFER);
 		//Health
 		if (it->health < 0)// || it->health > 255)
 			Log::validatorLine("Structure at index '" + Log::toString(index) + "' has an invalid amount of health.", Log::ERROR_BUFFER);
 		//LocX
-		if (it->loc.x < 0)
+		if (it->MapCoords.X < 0)
 			Log::validatorLine("Structure at index '" + Log::toString(index) + "' has an invalid X-coordinate set.", Log::ERROR_BUFFER);
 		//LocY
-		if (it->loc.y < 0)
+		if (it->MapCoords.Y < 0)
 			Log::validatorLine("Structure at index '" + Log::toString(index) + "' has an invalid Y-coordinate set.", Log::ERROR_BUFFER);
 		//direction
 		if (it->direction < 0 || it->direction > 255)
