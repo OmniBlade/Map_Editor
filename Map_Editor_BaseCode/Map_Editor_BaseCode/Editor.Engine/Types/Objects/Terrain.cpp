@@ -17,7 +17,8 @@ void Terrain::parse(const std::string& index, const std::string& list)
 	int x = atoi(Location.substr(Location.length() - 3, Location.length()).c_str());
 	int y = atoi(Location.substr(0, Location.length() - 3).c_str());
 
-	Object(x, y);
+	MapCoords.X = x;
+	MapCoords.Y = y;
 	terrainType = list;
 	setObjectType(TerrainType::Array.find(terrainType));
 }

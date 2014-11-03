@@ -68,7 +68,7 @@ std::vector<byte> base64_decodeSection(INISection* section)
 		pack.append(section->getValue(it));
 	}
 
-	std::vector<byte> const& decodedPack = base64_decode(pack);
+	std::vector<byte> const decodedPack = base64_decode(pack);
 
 	return decodedPack;
 }

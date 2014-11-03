@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "VXLFile.hpp"
+#include "Section.h"
 #include "../FileManager/FileSystem.hpp"
 #include "../FileManager/BinaryReader.hpp"
-#include "VPLFile.hpp"
 
 VXLFile::VXLFile(const FileProperties& props)
 :vxlReader(props.reader)
@@ -14,4 +14,9 @@ VXLFile::VXLFile(const FileProperties& props)
 
 VXLFile::~VXLFile()
 {
+}
+
+void VXLFile::read()
+{
+
 }

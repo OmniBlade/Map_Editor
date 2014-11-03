@@ -12,6 +12,12 @@ public:
 	static OverlayPack* instance();
 	static void writeToINI(INIFile& file);
 
+	void clear()
+	{
+		pOverlayDataPack.release();
+		pOverlayPack.release();
+	}
+
 	void read(INIFile* map);
 	void write();
 	void createOverlayFromData();

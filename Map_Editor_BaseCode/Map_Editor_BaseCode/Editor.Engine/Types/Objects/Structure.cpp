@@ -24,7 +24,8 @@ void Structure::parse(const std::string& index, const std::string& list)
 		&& split.pop(powerupCount) && split.pop(spotlight) && split.pop(powerupOne) && split.pop(powerupTwo)
 		&& split.pop(powerupThree) && split.pop(rebuild) && split.pop(showName))
 	{
-		Object(x, y);
+		MapCoords.X = x;
+		MapCoords.Y = y;
 		setObjectType(BuildingType::Array.find(buildingType));
 		pTag = Tag::Array.find(tag);
 		pCountry = Country::Array.find(owner);

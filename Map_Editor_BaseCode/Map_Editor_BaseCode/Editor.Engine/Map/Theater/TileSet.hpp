@@ -13,16 +13,20 @@ struct TileStruct
 	TileStruct::TileStruct() {};
 	TileStruct::TileStruct(const TileStruct& it)
 		:Name(it.Name), Ext(it.Ext)
-	{
-
-	}
+	{	};
 
 	std::string Name;
 	std::string Ext;
+	const static char DOT = '.';
+	const std::string TEM = "TEM";
 
 	TMPFile* get()
 	{
-		return TMPManager::instance()->get(Name + Ext);
+		auto it = TMPManager::instance();
+		if (it->exists(Name + DOT + Ext))
+			return it->get(Name + DOT + Ext);
+		else
+			return it->get(Name + DOT + TEM);
 	}
 };
 

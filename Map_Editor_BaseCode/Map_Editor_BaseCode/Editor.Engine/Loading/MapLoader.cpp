@@ -38,16 +38,36 @@
 
 MapLoader::MapLoader()
 {
-	general = new General("General");
-	ai = new AI();
-	specialWeapons = new SpecialWeapon();
-	audioVisual = new AudioVisual();
-	combatDamage = new CombatDamage();
-	//sides = new Side();
-	iq = new IQ();
 
-	//Initiate Sound, Speech and Theme here, they have no real dependency anyhow
-	loadAudio();
+}
+
+void MapLoader::loadMainRulesSections()
+{
+	general = std::make_unique<General>("General");
+	ai = std::make_unique<AI>();
+	specialWeapons = std::make_unique<SpecialWeapon>();
+	audioVisual = std::make_unique<AudioVisual>();
+	combatDamage = std::make_unique<CombatDamage>();
+	iq = std::make_unique<IQ>();
+}
+
+void MapLoader::clearAll()
+{
+	clearList(Country::Array);
+	clearList(OverlayType::Array);
+	clearList(SuperWeaponType::Array);
+	clearList(WarheadType::Array);
+	clearList(SmudgeType::Array);
+	clearList(TerrainType::Array);
+	clearList(BuildingType::Array);
+	clearList(VehicleType::Array);
+	clearList(AircraftType::Array);
+	clearList(InfantryType::Array);
+	clearList(Animation::Array);
+	clearList(VoxelAnimType::Array);
+	clearList(ParticleType::Array);
+	clearList(Tiberium::Array);
+	clearList(WeaponType::Array);
 }
 
 void MapLoader::load(INIFile* file, const std::string& name)
@@ -121,30 +141,6 @@ void MapLoader::loadAll(INIFile* file, const std::string& name)
 	specialWeapons->loadRules(file);
 	loadFromINI(Tiberium::Array, *file, *art);
 	loadFromINI(WeaponType::Array, *file, *art); //Again
-}
-
-void MapLoader::loadAudio()
-{
-	INIFile* speech = INIManager::instance()->get(Config::eva);
-	INIFile* sound = INIManager::instance()->get(Config::sound);
-	INIFile* theme = INIManager::instance()->get(Config::theme);
-	INIFile* art = INIManager::instance()->get(Config::art);
-	
-	allocateAll(Speech::Array, speech, "DialogList");
-	allocateAll(Sound::Array, sound, "SoundList");
-	allocateAll(Theme::Array, theme, "Themes");
-	loadFromSingleINI(Speech::Array, *speech);
-	loadFromSingleINI(Sound::Array, *sound);
-	loadFromSingleINI(Theme::Array, *theme);
-
-	INISection* movielist = art->getSection("Movies");
-	INISection& uglySection = *movielist;
-
-	for (const auto& it : uglySection)
-	{
-		Movie::Array.make();
-		Movie::Array.typeList[Movie::Array.count() - 1].get()->parse(it, uglySection.getValue(it.c_str()));
-	}
 }
 
 void MapLoader::loadAI()

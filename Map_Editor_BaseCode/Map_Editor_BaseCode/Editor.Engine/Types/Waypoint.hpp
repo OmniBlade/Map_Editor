@@ -20,6 +20,5 @@ public:
 
 	int getIndex();
 	std::string getLetterIndex();
-
 };
 

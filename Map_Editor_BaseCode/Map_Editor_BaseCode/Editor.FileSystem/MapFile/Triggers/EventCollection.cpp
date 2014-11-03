@@ -28,7 +28,7 @@ EventCollection::EventCollection()
 void EventCollection::parse(ParamCollection* paramColl)
 {
 	paramColl = paramColl;
-	INIFile* file = INIManager::instance()->getRoot("EVENTS");
+	INIFile* file = INIManager::instance()->getRoot("TEVENTS");
 	INISection* actions = file->getSection("Events");
 
 	actions->readIntValue("RA2", rBaseCount);

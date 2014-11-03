@@ -5,6 +5,7 @@
 
 #include "TileSet.hpp"
 
+struct CustomLat;
 class INIFile;
 
 class Theater
@@ -16,13 +17,15 @@ public:
 	/*
 		Reads the [General] section of the theater control file
 	*/
-	void readGeneral();
+	void readGeneral(INIFile* controlFile);
 	
 	/* 
 		Reads the tilesets defined in the control file, range is from 0000 to 9999
 		Creates a TileSet object for each found TileSet
 	*/
-	void readTileSets();
+	void readTileSets(INIFile* controlFile);
+
+	void parseCustomLats();
 
 	int RampBase= -1;
 	int RampSmooth= -1;
@@ -85,7 +88,7 @@ public:
 	int WaterBridge= -1;
 
 private:
-	INIFile* controlFile;
+	std::vector<std::unique_ptr<CustomLat>> customLatList;
 	std::vector<std::unique_ptr<TileSet>> tileSets;
 	std::vector<TileStruct> isoPackTileList;
 };

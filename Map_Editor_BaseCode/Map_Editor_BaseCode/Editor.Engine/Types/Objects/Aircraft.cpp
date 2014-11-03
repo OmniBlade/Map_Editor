@@ -28,7 +28,8 @@ void Aircraft::parse(const std::string& index, const std::string& list)
 		&& split.pop(direction) && split.pop(mission) && split.pop(tag) && split.pop(veterancy) && split.pop(group)
 		&& split.pop(recruitable) && split.pop(aiRecruitable))
 	{
-		Object(x, y);
+		MapCoords.X = x;
+		MapCoords.Y = y;
 		setObjectType(AircraftType::Array.find(aircraftType));
 		pTag = Tag::Array.find(tag);
 		pCountry = Country::Array.find(owner);

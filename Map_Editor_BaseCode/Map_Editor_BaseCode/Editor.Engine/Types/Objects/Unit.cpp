@@ -22,7 +22,8 @@ void Unit::parse(const std::string& index, const std::string& list)
 		&& split.pop(direction) && split.pop(mission) && split.pop(tag) && split.pop(veterancy) && split.pop(group)
 		&& split.pop(onBridge) && split.pop(followsID) && split.pop(recruitable) && split.pop(aiRecruitable))
 	{
-		Object(x, y);
+		MapCoords.X = x;
+		MapCoords.Y = y;
 		setObjectType(VehicleType::Array.find(vehicleType));
 		pTag = Tag::Array.find(tag);
 		pCountry = Country::Array.find(owner);

@@ -27,6 +27,12 @@ public:
 		int Height;
 	} size;
 
+	void clear()
+	{
+		imageBytes.clear();
+		pack.release();
+	}
+
 	void read(INIFile* map);
 	void write();
 	std::string sizeAsString();

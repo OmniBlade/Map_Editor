@@ -28,7 +28,7 @@ ActionCollection::ActionCollection()
 void ActionCollection::parse(ParamCollection* paramColl)
 {
 	paramColl = paramColl;
-	INIFile* file = INIManager::instance()->getRoot("ACTIONS");
+	INIFile* file = INIManager::instance()->getRoot("TACTIONS");
 	INISection* actions = file->getSection("Actions");
 
 	actions->readIntValue("RA2", rBaseCount);

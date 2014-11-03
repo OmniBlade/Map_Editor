@@ -13,6 +13,7 @@
 #include "Editor.FileSystem/IniFile/INISection.hpp"
 #include "Editor.Engine/Loading/MapLoader.hpp"
 #include "Editor.Engine/Loading/MapAssetLoader.hpp"
+#include "Editor.Engine\Loading\GenericLoader.h"
 #include "Editor.Configuration/ConfigLoader.hpp"
 #include "Editor.Engine\Game\GameModeCollection.hpp"
 #include "Editor.Map.Validator\MainValidator.hpp"
@@ -54,6 +55,7 @@
 ParamCollection* paramCollection;
 MainValidator* mainValidator;
 INIFile* map;
+INIFile* mapOrigin;
 
 std::string mapName = "TEST.MAP";
 
@@ -157,6 +159,23 @@ void initiateAMap()
 	}
 }
 
+void restoreMapNames()
+{
+	auto namesFileProps = FileSystem::getFileSystem()->getFile(Config::mapName + Config::namesName);
+	if (namesFileProps.reader && Basic::getBasic()->NamesFlushed)
+	{
+		Log::line("Restoring names to types...", Log::DEBUG);
+		INIFile readNamesFile(namesFileProps);
+		DigestClass::validateDigest(&readNamesFile, Config::mapName + Config::namesName);
+		NameFlusherClass::readAndRestoreFrom(readNamesFile);
+	}
+	else if (!namesFileProps.reader && Basic::getBasic()->NamesFlushed)
+	{
+		Log::line("Digest indicates that the map has names flushed.", Log::DEBUG);
+		Log::line("Unable to do so! Does '" + Config::mapName + Config::namesName + "' exist?", Log::DEBUG);
+	}
+}
+
 void loadMap()
 {
 	Log::timerStart();
@@ -180,12 +199,14 @@ void loadMap()
 		}
 	}
 
+	GenericLoader genLoader;
+	genLoader.loadAudioVisual();
 	MapLoader mapLoader;
 	MapAssetLoader mapAssetLoader;
 	FileProperties props = FileSystem::getFileSystem()->getFile(Config::mapName);
 	map = new INIFile(props); //Assuming the reader in props is always valid... :D
 	map->setDeletableState(true);
-	INIFile* mapOrigin = new INIFile(*map);
+	mapOrigin = new INIFile(*map);
 
 	Log::line();
 	Log::line("Parsing Basic section and Digest to set up the map...", Log::DEBUG);
@@ -218,13 +239,6 @@ void loadMap()
 	}
 	Log::validatorLine();
 
-	Log::line("Reading Packs...", Log::DEBUG);
-	IsoMapPack::instance()->read(map);
-	OverlayPack::instance()->read(map);
-	PreviewPack::instance()->read(map);
-	Log::line("All Packs read!", Log::DEBUG);
-	Log::line();
-
 	/*
 		Little side information:
 		Tiberian Sun's Firestorm Expansion pack will load exactly like below
@@ -232,6 +246,7 @@ void loadMap()
 		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
 		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
 	*/
+	mapLoader.loadMainRulesSections();
 	mapLoader.load(rules, "Rules");
 	mapLoader.load(mode, "Gamemode");
 	mapLoader.setGlobalCountries();
@@ -241,39 +256,81 @@ void loadMap()
 
 	OverlayTypeValidator otv;
 
-	Ranking::instance()->parse(map);
-	MapStats::instance()->parse(map);
-	SpecialFlag::instance()->parse(map);
-	Lighting::instance()->parse(map);
 	mapAssetLoader.load(mode, "Gamemode");
 	mapAssetLoader.setGlobalValues();
 	mapAssetLoader.load(map, "Map");
 
 	/* Everything is loaded, do your activities */
 	
-	MapMods::instance()->parse(map);
+	IsoMapPack::instance()->read(map);
+	OverlayPack::instance()->read(map);
 	OverlayPack::instance()->createOverlayFromData();
+	PreviewPack::instance()->read(map);
+	Ranking::instance()->parse(map);
+	MapStats::instance()->parse(map);
+	SpecialFlag::instance()->parse(map);
+	Lighting::instance()->parse(map);
+	MapMods::instance()->parse(map);
 	Map::instance()->setupCells();
 	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
 
 	Log::line("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
 
-	auto namesFileProps = FileSystem::getFileSystem()->getFile(Config::mapName + Config::namesName);
-	if (namesFileProps.reader && Basic::getBasic()->NamesFlushed)
-	{
-		Log::line("Restoring names to types...", Log::DEBUG);
-		INIFile readNamesFile(namesFileProps);
-		DigestClass::validateDigest(&readNamesFile, Config::mapName + Config::namesName);
-		NameFlusherClass::readAndRestoreFrom(readNamesFile);
-	}
-	else if (!namesFileProps.reader && Basic::getBasic()->NamesFlushed)
-	{
-		Log::line("Digest indicates that the map has names flushed.", Log::DEBUG);
-		Log::line("Unable to do so! Does '" + Config::mapName + Config::namesName + "' exist?", Log::DEBUG);
-	}
+	restoreMapNames();
 
 	mapLoader.dumpLists();
 	mapAssetLoader.dumpTypes();
+}
+
+void reloadMap()
+{
+	MapLoader mapLoader;
+	MapAssetLoader mapAssetLoader;
+
+	delete map;
+	map = new INIFile(*mapOrigin);
+	map->setDeletableState(true);
+	INIFile* rules = INIManager::instance()->get(Config::rules);
+	INIFile* mode = nullptr;
+	if (mapLoader.locateGameMode(map))
+	{
+		mode = INIManager::instance()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
+	}
+
+	/* Clear this shit */
+	mapLoader.clearAll();
+	mapAssetLoader.clearAll();
+
+	mapLoader.loadMainRulesSections();
+	mapLoader.load(rules, "Rules");
+	mapLoader.load(mode, "GameMode");
+	mapLoader.setGlobalCountries();
+	mapLoader.load(map, "Map");
+	mapLoader.loadGlobalVariable();
+	mapLoader.loadAI();
+
+	mapAssetLoader.load(mode, "Gamemode");
+	mapAssetLoader.setGlobalValues();
+	mapAssetLoader.load(map, "Map");
+
+
+	/* Everything is loaded */
+	Basic::getBasic()->parse(map);
+	IsoMapPack::instance()->clear();
+	IsoMapPack::instance()->read(map);
+	OverlayPack::instance()->clear();
+	OverlayPack::instance()->read(map);
+	OverlayPack::instance()->createOverlayFromData();
+	PreviewPack::instance()->clear();
+	PreviewPack::instance()->read(map);
+	Ranking::instance()->parse(map);
+	MapStats::instance()->parse(map);
+	SpecialFlag::instance()->parse(map);
+	Lighting::instance()->parse(map);
+	MapMods::instance()->parse(map);
+	Map::instance()->setupCells();
+	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
+
 }
 
 void validateMap()
@@ -287,17 +344,21 @@ void validateMap()
 	Log::line("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
 }
 
+void setEditorRoot(const std::wstring& path)
+{
+	std::string pathS(path.begin(), path.end());
+	//Remove the executable from the location-string (this is not FA2 lol)
+	pathS.erase(pathS.find_last_of('\\'), pathS.length());
+	Config::editorRoot = std::move(pathS);
+}
+
 /*
 	Main function
 	Config variables will be read from a settings file.
 */
 int _tmain(int argc, _TCHAR* argv[])
 {
-	std::wstring pathW = argv[0];
-	std::string pathS(pathW.begin(), pathW.end());
-	//Remove the executable from the location-string (this is not FA2 lol)
-	pathS.erase(pathS.find_last_of('\\'), pathS.length());
-	Config::editorRoot = std::move(pathS);
+	setEditorRoot(argv[0]);
 	handleArguments(argc, argv);
 
 	Log::openDebug();
@@ -314,9 +375,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	writer.setNamesFileName(mapName);
 	writer.writeAll(Config::installDir + Config::backSlash + mapName);
 
-	
-	Log::line();
+	reloadMap();
+	MapWriter reloadWriter;
+	reloadWriter.setNamesFileName("TEST2.MAP");
+	reloadWriter.writeAll(Config::installDir + Config::backSlash + "TEST2.MAP");
 
+	Log::line();
 
 	Log::line("Ending a succesful session, duration: " + Log::getSessionTime(), Log::DEBUG);
 	std::cout << "\n------------------------------------------------------------" << std::endl;

@@ -19,7 +19,7 @@ public:
 	std::string Location;// , attachedTag;
 	CellStruct MapCoords;
 	Tag* pTag;
-
+	bool isGlobal = false;
 
 };
 

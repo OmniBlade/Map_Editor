@@ -23,10 +23,35 @@
 #include "../Types/Waypoint.hpp"
 #include "../Types/VariableName.hpp"
 #include "../../Editor.FileSystem/IniFile/DigestClass.h"
+#include "MapAssetHelper.h"
 #include <vector>
 
 MapAssetLoader::MapAssetLoader()
 {
+}
+
+void MapAssetLoader::clearAll()
+{
+	clearList(Waypoint::Array);
+	clearList(VariableName::Array);
+	clearList(House::Array);
+	clearList(Action::Array);
+	clearList(Event::Array);
+	clearList(Trigger::Array);
+	clearList(Tag::Array);
+	clearList(CellTag::Array);
+	clearList(TeamType::Array);
+	clearList(ScriptType::Array);
+	clearList(TaskForce::Array);
+	clearList(AITriggerType::Array);
+	clearList(AITriggerEnable::Array);
+	clearList(Aircraft::Array);
+	clearList(Infantry::Array);
+	clearList(Unit::Array);
+	clearList(Structure::Array);
+	clearList(Terrain::Array);
+	clearList(Tube::Array);
+	clearList(Smudge::Array);
 }
 
 void MapAssetLoader::load(INIFile* mapFile, const std::string& name)

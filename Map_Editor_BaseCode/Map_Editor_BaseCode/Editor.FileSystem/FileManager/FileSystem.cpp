@@ -73,7 +73,7 @@ std::wstring FileSystem::getFileVersion(const std::string& fullFileName)
 
 bool FileSystem::exists(const std::string& fileName)
 {
-	return !getReaderForFile(fileName) ? true : false;
+	return getReaderForFile(fileName) ? true : false;
 }
 
 BinaryReader* FileSystem::getReaderForFile(const std::string& fileName)

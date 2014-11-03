@@ -74,6 +74,12 @@ public:
 		objectList.push_back(std::make_unique<T>());
 	}
 
+	void clear()
+	{
+		objectList.clear();
+		lastParsedItem = objectList.size();
+	}
+
 	void createOverlay(int x, int y, int index, int frame)
 	{
 		objectList.push_back(std::make_unique<T>(x, y, index, frame));

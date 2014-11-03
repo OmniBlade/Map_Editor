@@ -98,6 +98,12 @@ public:
 	{
 		typeList.push_back(std::make_unique<T>());
 	}
+	
+	void clear()
+	{
+		typeList.clear();
+		lastLoaded = typeList.size();
+	}
 
 	std::vector<std::string> getIDOfLocalObjects()
 	{

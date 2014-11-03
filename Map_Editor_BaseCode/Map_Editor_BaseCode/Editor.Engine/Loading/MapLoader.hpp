@@ -13,6 +13,11 @@ class MapLoader
 {
 public:
 	MapLoader();
+	
+	void clearAll();
+
+	void loadMainRulesSections();
+
 	void load(INIFile* file, const std::string& name = "");
 	/*
 		Allocates the main rules data as presented by DCoder (used to create proper lists)
@@ -26,11 +31,6 @@ public:
 		@param art The artmd.ini file (always the same!)
 	*/
 	void loadAll(INIFile* file, const std::string& name = "");
-
-	/*
-		Loads the audio stuff from the game, this includes EVA speeches (Eva, Sofia), themes (music) and sound effects
-	*/
-	void loadAudio();
 	
 	/*
 		Loads the global AI data from the game
@@ -80,12 +80,11 @@ public:
 	//void loadMPCountries();
 
 private:
-	General* general;
-	AI* ai;
-	SpecialWeapon* specialWeapons;
-	AudioVisual* audioVisual;
-	CombatDamage* combatDamage;
-	Side* sides;
-	IQ* iq;
+	std::unique_ptr<General> general;
+	std::unique_ptr<AI> ai;
+	std::unique_ptr<SpecialWeapon> specialWeapons;
+	std::unique_ptr<AudioVisual> audioVisual;
+	std::unique_ptr<CombatDamage> combatDamage;
+	std::unique_ptr<IQ> iq;
 };
 

@@ -5,19 +5,22 @@
 #include "../../../Editor.FileSystem/INIFile/INIFile.hpp"
 #include "../../../Editor.FileSystem/INIFile/INISection.hpp"
 #include "../../../Editor.FileSystem/FileManager/Managers/INIManager.hpp"
+#include "../../../Config.hpp"
 #include "../../../Log.hpp"
+#include "CustomLatParser.h"
 
 Theater::Theater(const std::string& file)
 {
-	controlFile = INIManager::instance()->get(file);
+	auto controlFile = INIManager::instance()->get(file);
 	if (!controlFile)
 	{
 		Log::line("THEATER - Unable to get control file with name: " + file, Log::DEBUG);
 		return;
 	}
 	
-	readGeneral();
-	readTileSets();
+	readGeneral(controlFile);
+	readTileSets(controlFile);
+	parseCustomLats();
 }
 
 
@@ -25,7 +28,7 @@ Theater::~Theater()
 {
 }
 
-void Theater::readGeneral()
+void Theater::readGeneral(INIFile* controlFile)
 {
 	INISection* general = controlFile->getSection("General");
 	if (general)
@@ -94,7 +97,7 @@ void Theater::readGeneral()
 		std::cout << "[General] does not exist in the file!" << std::endl;
 }
 
-void Theater::readTileSets()
+void Theater::readTileSets(INIFile* controlFile)
 {
 	Log::timerStart();
 	std::string tileset = "TileSet";
@@ -108,6 +111,11 @@ void Theater::readTileSets()
 		if (i < 1000)
 			setNumber << "0";
 		setNumber << i;
+
+		if (i == 77)
+		{
+			Log::line();
+		}
 
 		if (INISection* ret = controlFile->getSection(tileset + setNumber.str()))
 		{
@@ -125,3 +133,22 @@ void Theater::readTileSets()
 	Log::line("Parsing Theater Control File took: " + Log::getTimerValue(), Log::DEBUG);
 }
 
+void Theater::parseCustomLats()
+{
+	auto config = INIManager::instance()->get(Config::configName);
+	auto pCLat = config->getSection("CustomLAT");
+
+	if (pCLat)
+	{
+		for (const auto& it : pCLat->getKeys())
+		{
+			auto customLat = config->getSection(pCLat->getValue(it));
+			if (customLat)
+				customLatList.push_back(std::make_unique<CustomLat>(CustomLatClass::parseAndGet(customLat)));
+		}
+	}
+	else
+	{
+		Log::line("No custom LAT definitions found!", Log::DEBUG);
+	}
+}

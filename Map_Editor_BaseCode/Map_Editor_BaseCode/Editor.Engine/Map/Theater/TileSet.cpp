@@ -65,28 +65,11 @@ void TileSet::collectTiles(std::vector<TileStruct>& tiles)
 		number << i;
 		std::string currentName = FileName + number.str();
 
-		if (TMPManager::instance()->exists(currentName + '.' + extension))
-		{
-			TileStruct newTile;
-			newTile.Name = currentName;
-			newTile.Ext = extension;
-			tiles.push_back(newTile);
+		TileStruct newTile;
+		newTile.Name = currentName;
+		newTile.Ext = extension;
+		tiles.push_back(newTile);
 
-			collectSubTiles(currentName, extension, tiles);
-		}
-		else if (TMPManager::instance()->exists(currentName + '.' + TEM)) //Fallback the game uses
-		{
-			TileStruct newTile;
-			newTile.Name = currentName;
-			newTile.Ext = TEM;
-			tiles.push_back(newTile);
-
-			collectSubTiles(currentName, TEM, tiles);
-		}
-		else
-		{
-			break;
-		}
 		number.str(std::string());
 	}
 }

@@ -7,6 +7,8 @@ class MapAssetLoader
 public:
 	MapAssetLoader();
 
+	void clearAll();
+
 	void load(INIFile* mapFile, const std::string& name = "");
 
 	/*

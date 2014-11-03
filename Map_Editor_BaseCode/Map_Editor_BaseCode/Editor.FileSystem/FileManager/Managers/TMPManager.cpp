@@ -43,5 +43,5 @@ TMPFile* TMPManager::cache(const std::string& fileName)
 
 bool TMPManager::exists(const std::string& fileName)
 {
-	return !FileSystem::getFileSystem()->exists(fileName) ? true : false;
+	return FileSystem::getFileSystem()->exists(fileName);
 }

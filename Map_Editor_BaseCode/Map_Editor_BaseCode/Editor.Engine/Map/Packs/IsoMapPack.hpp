@@ -27,6 +27,12 @@ public:
 	IsoMapPack(INISection* section);
 	~IsoMapPack();
 
+	void clear()
+	{
+		tiles.clear();
+		pack.release();
+	}
+
 	/*
 		Reads the encoded IsoMapPack section and decodes it
 		Afterwards it puts the bytes in a unique tile

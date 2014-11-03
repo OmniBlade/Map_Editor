@@ -86,10 +86,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Editor.Engine\Loading\MapAssetHelper.h" />
     <ClInclude Include="Editor.Engine\Map\Cells\CellClass.h" />
     <ClInclude Include="Editor.Engine\Map\Cells\CellStruct.h" />
     <ClInclude Include="Editor.Engine\Map\Cells\CoordsHelper.h" />
     <ClInclude Include="Editor.Engine\Map\Cells\CoordsStruct.h" />
+    <ClInclude Include="Editor.Engine\Map\Theater\CustomLAT.h" />
+    <ClInclude Include="Editor.Engine\Map\Theater\CustomLatParser.h" />
     <ClInclude Include="Editor.FileSystem\IniFile\DigestClass.h" />
     <ClInclude Include="Editor.Engine\Lists\ScriptList.h" />
     <ClInclude Include="Editor.Engine\Types\SpecialOverlays.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Editor.FileSystem\MapFile\Compression\Format80.h" />
     <ClInclude Include="Editor.Engine\Lists\ListProvider.h" />
     <ClInclude Include="Editor.FileSystem\MapFile\MapWriter.h" />
+    <ClInclude Include="Editor.Engine\Loading\GenericLoader.h" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ParticleType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp" />
@@ -223,6 +227,7 @@
     <ClInclude Include="Editor.FileSystem\MapFile\Flushing\NameFlusherClass.h" />
     <ClInclude Include="Editor.Engine\Basics\Ranking.h" />
     <ClInclude Include="Editor.Engine\Types\Objects\Object.h" />
+    <ClInclude Include="Editor.FileSystem\VoxelFile\Section.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -336,6 +341,7 @@
     <ClCompile Include="Editor.FileSystem\FileManager\FileWriter.cpp" />
     <ClCompile Include="GameDefinition.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\MapWriter.cpp" />
+    <ClCompile Include="Editor.Engine\Loading\GenericLoader.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Modifications\MapMods.cpp" />
@@ -377,6 +383,7 @@
     <ClCompile Include="Editor.FileSystem\MapFile\Flushing\NameFlusherClass.cpp" />
     <ClCompile Include="Editor.Engine\Basics\Ranking.cpp" />
     <ClCompile Include="Editor.Engine\Types\Objects\Object.cpp" />
+    <ClCompile Include="Editor.FileSystem\VoxelFile\Section.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

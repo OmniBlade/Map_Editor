@@ -26,9 +26,9 @@ bool StartupLoader::validateEssentialFiles()
 	DigestClass::validateDigest(INIManager::instance()->get("CONFIGS"), "CONFIGS");
 	DigestClass::validateDigest(INIManager::instance()->get(Config::configName), Config::configName);
 	DigestClass::validateDigest(INIManager::instance()->get("PARAMS"), "PARAMS");
-	DigestClass::validateDigest(INIManager::instance()->get("ACTIONS_S"), "ACTIONS_S");
-	DigestClass::validateDigest(INIManager::instance()->get("EVENTS"), "EVENTS");
-	DigestClass::validateDigest(INIManager::instance()->get("ACTIONS"), "ACTIONS");
+	DigestClass::validateDigest(INIManager::instance()->get("SACTIONS"), "SACTIONS");
+	DigestClass::validateDigest(INIManager::instance()->get("TEVENTS"), "TEVENTS");
+	DigestClass::validateDigest(INIManager::instance()->get("TACTIONS"), "TACTIONS");
 
 	Log::line();
 	return true;
@@ -86,9 +86,9 @@ void StartupLoader::initiateINI()
 	}
 
 	iniManager->cacheRoot("PARAMS");
-	iniManager->cacheRoot("ACTIONS");
-	iniManager->cacheRoot("EVENTS");
-	iniManager->cacheRoot("ACTIONS_S");
+	iniManager->cacheRoot("TACTIONS");
+	iniManager->cacheRoot("TEVENTS");
+	iniManager->cacheRoot("SACTIONS");
 }
 
 void StartupLoader::initiateCSF()

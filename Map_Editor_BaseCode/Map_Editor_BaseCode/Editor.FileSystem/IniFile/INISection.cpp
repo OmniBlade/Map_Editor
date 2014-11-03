@@ -7,17 +7,10 @@
  */
 
 #include "stdafx.h"
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <map>
-#include <memory>
+#include "INISection.hpp"
 #include <iostream>
 #include <algorithm>
 #include "../../Log.hpp"
-
-#include "INISection.hpp"
 
 INISection::INISection(const std::string &id)
 :sectionName(id) 
@@ -25,16 +18,17 @@ INISection::INISection(const std::string &id)
 
 }
 
-INISection::INISection(const INISection &other)
-	: sectionName(other.sectionName), keys(other.keys), canDeleteFrom(other.canDeleteFrom)
+INISection::INISection(INISection& other)
+:sectionName(other.sectionName), canDeleteFrom(other.canDeleteFrom)
 {
-	for (const auto& item : other.keyValueMap)
+	for (const auto& it : other.keys)
 	{
-		this->setValue(item.first.get(), item.second);
+		const auto& value = other.getValue(it);
+		this->setValue(it, value);
 	}
 }
 
-void INISection::setValue(const std::string &key, std::string value)
+void INISection::setValue(const std::string &key, const std::string value)
 {
 	if (value.length())
 	{
@@ -90,6 +84,16 @@ void INISection::readDeletableIntValue(const char* key, int& varToFill, int defa
 }
 
 void INISection::readIntValue(const char* key, int& varToFill, int default_ /* = -1 */)
+{
+	const std::string& returnValue = getValue(key);
+
+	if (!returnValue.empty())
+		varToFill = atoi(returnValue.c_str());
+	else
+		varToFill = default_;
+}
+
+void INISection::readShortValue(const char* key, short& varToFill, short default_ /* = -1 */)
 {
 	const std::string& returnValue = getValue(key);
 

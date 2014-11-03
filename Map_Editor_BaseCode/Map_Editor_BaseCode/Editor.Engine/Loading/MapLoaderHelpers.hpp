@@ -19,3 +19,9 @@ void allocateAll(WWList<T>& list, INIFile* iniFile, const std::string& sectionNa
 	findOrAllocateAll(list, *section);
 
 }
+
+template<typename T>
+void clearList(WWList<T>& list)
+{
+	list.clear();
+}

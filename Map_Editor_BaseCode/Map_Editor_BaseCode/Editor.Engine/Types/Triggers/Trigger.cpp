@@ -47,7 +47,7 @@ void Trigger::parse(const std::string& id, const std::string& list)
 void Trigger::assignChild()
 {
 
-	if (child != "<None>")
+	if (child != "<none>")
 	{
 		pChild = Trigger::Array.find(child);
 	}

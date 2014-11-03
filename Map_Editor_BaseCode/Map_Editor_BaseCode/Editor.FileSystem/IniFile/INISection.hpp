@@ -9,13 +9,14 @@
 #ifndef INISECTION_HPP_
 #define INISECTION_HPP_
 
+#include <string>
 #include <vector>
 #include <map>
 
 class INISection {
 public:
 	INISection(const std::string &id);
-	INISection(const INISection &other);
+	INISection(INISection &other);
 	~INISection() { };
 
 	unsigned int size() const {	return this->keys.size(); };
@@ -56,6 +57,7 @@ public:
 		@param key The key to return an int from
 		@param _default The default value to return if the read value is incorrect
 	*/
+	void readShortValue(const char* key, short& variableToFill, short default_ = -1);
 	void readIntValue(const char* key, int& variableToFill, int _default = -1);
 	void readDeletableIntValue(const char* key, int& variableToFill, int default_ = -1);
 	/*
@@ -138,7 +140,7 @@ private:
 		const char* Value;
 		bool Allocated;
 	};
-	
+
 	bool canDeleteFrom = false;
 	std::string sectionName;
 	std::map<ItemKey, std::string> keyValueMap;
