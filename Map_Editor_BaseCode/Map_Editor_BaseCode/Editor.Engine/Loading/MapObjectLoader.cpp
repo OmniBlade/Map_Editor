@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "MapAssetLoader.hpp"
+#include "MapObjectLoader.hpp"
 #include "../../Config.hpp"
 #include "../Types/Managers/MapObjectListHelpers.hpp"
 #include "../Types/AI/AITriggerEnable.hpp"
@@ -23,14 +23,14 @@
 #include "../Types/Waypoint.hpp"
 #include "../Types/VariableName.hpp"
 #include "../../Editor.FileSystem/IniFile/DigestClass.h"
-#include "MapAssetHelper.h"
+#include "MapObjectHelper.h"
 #include <vector>
 
-MapAssetLoader::MapAssetLoader()
+MapObjectLoader::MapObjectLoader()
 {
 }
 
-void MapAssetLoader::clearAll()
+void MapObjectLoader::clearAll()
 {
 	clearList(Waypoint::Array);
 	clearList(VariableName::Array);
@@ -54,7 +54,7 @@ void MapAssetLoader::clearAll()
 	clearList(Smudge::Array);
 }
 
-void MapAssetLoader::load(INIFile* mapFile, const std::string& name)
+void MapObjectLoader::load(INIFile* mapFile, const std::string& name)
 {
 	if (!mapFile)
 	{
@@ -66,7 +66,7 @@ void MapAssetLoader::load(INIFile* mapFile, const std::string& name)
 	loadAll(mapFile, name);
 }
 
-void MapAssetLoader::allocateMainData(INIFile* mapFile, const std::string& name)
+void MapObjectLoader::allocateMainData(INIFile* mapFile, const std::string& name)
 {
 	Log::line("Allocating map objects now for '" + name + "'...", Log::DEBUG);
 
@@ -76,7 +76,7 @@ void MapAssetLoader::allocateMainData(INIFile* mapFile, const std::string& name)
 	allocateAll(ScriptType::Array, mapFile, "ScriptTypes");
 }
 
-void MapAssetLoader::loadAll(INIFile* mapFile, const std::string& name)
+void MapObjectLoader::loadAll(INIFile* mapFile, const std::string& name)
 {
 	Log::line("Loading map objects now for '" + name + "'...", Log::DEBUG);
 
@@ -108,7 +108,7 @@ void MapAssetLoader::loadAll(INIFile* mapFile, const std::string& name)
 	After all the triggers are parsed, you can assign the child triggers
 	Why? Because Trigger at index 2 can refer to a Trigger at index 8 (which is obviously not loaded yet)
 */
-void MapAssetLoader::updateTriggerChilds()
+void MapObjectLoader::updateTriggerChilds()
 {
 	for (const auto& it : Trigger::Array.objectList)
 	{
@@ -116,7 +116,7 @@ void MapAssetLoader::updateTriggerChilds()
 	}
 }
 
-void MapAssetLoader::dumpTypes()
+void MapObjectLoader::dumpTypes()
 {
 	Log::line();
 	Log::line("Dumping the count of map types!",Log::DEBUG);
@@ -129,7 +129,7 @@ void MapAssetLoader::dumpTypes()
 	Log::line("TaskForces: " + Log::toString(TaskForce::Array.objectList.size()), Log::DEBUG);
 }
 
-void MapAssetLoader::setGlobalValues()
+void MapObjectLoader::setGlobalValues()
 {
 	for (auto& it : VariableName::Array.objectList)
 	{

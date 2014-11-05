@@ -8,6 +8,7 @@
 #include "../../../Editor.Objects.Westwood/Types/BuildingType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/VehicleType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/InfantryType.hpp"
+#include "../../../Editor.Objects.Westwood/Types/Tiberium.hpp"
 #include "../../../Editor.Objects.Westwood/Types/AircraftType.hpp"
 #include "../../../Editor.Objects.Westwood/Types/Animation.hpp"
 #include "../../../Editor.Objects.Westwood/Types/VoxelAnimType.hpp"
@@ -126,6 +127,7 @@ void MapMods::writeFoaSections(INIFile& file)
 	writeAFoaSection(VoxelAnimType::Array, "VoxelAnims", file);
 	writeAFoaSection(Animation::Array, "Animations", file);
 	writeAFoaSection(InfantryType::Array, "InfantryTypes", file);
+	writeAFoaSection(Tiberium::Array, "Tiberiums", file);
 	writeAFoaSection(AircraftType::Array, "AircraftTypes", file);
 	writeAFoaSection(VehicleType::Array, "VehicleTypes", file);
 	writeAFoaSection(BuildingType::Array, "BuildingTypes", file);

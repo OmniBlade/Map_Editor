@@ -21,17 +21,16 @@ void Country::loadRules(INIFile* file)
 
 	AbstractType::loadRules(file);
 
-	rulesSection->readStringValue("ParentCountry", ParentCountry);
-	rulesSection->readStringValue("Suffix", Suffix);
-	rulesSection->readStringValue("Prefix", Prefix);
-	rulesSection->readStringValue("Color", Color);
-	rulesSection->readBoolValue("Multiplay", Multiplay);
-	rulesSection->readBoolValue("MultiplayPassive", MultiplayPassive);
-	rulesSection->readStringValue("Side", Side);
+	rulesSection->readDeletableStringValue("ParentCountry", ParentCountry);
+	rulesSection->readDeletableStringValue("Suffix", Suffix);
+	rulesSection->readDeletableStringValue("Prefix", Prefix);
+	rulesSection->readDeletableStringValue("Color", Color);
+	rulesSection->readDeletableBoolValue("Multiplay", Multiplay);
+	rulesSection->readDeletableBoolValue("MultiplayPassive", MultiplayPassive);
+	rulesSection->readDeletableStringValue("Side", Side);
 	sideIndex = Side::instance()->getSideIndexByName(Side);
-	rulesSection->readBoolValue("SmartAI", SmartAI);
+	rulesSection->readDeletableBoolValue("SmartAI", SmartAI);
 
-	/*
 	rulesSection->readDeletableStringValue("VeteranAircraft", VeteranAircraft);
 	rulesSection->readDeletableStringValue("VeteranUnits", VeteranUnits);
 	rulesSection->readDeletableStringValue("VeteranInfantry", VeteranInfantry);
@@ -59,11 +58,11 @@ void Country::loadRules(INIFile* file)
 	rulesSection->readDeletableFloatValue("IncomeMult", IncomeMult);
 	rulesSection->readDeletableFloatValue("Firepower", Firepower);
 	rulesSection->readDeletableFloatValue("ROF", ROF);
-	*/
-	//if (!rulesSection->size())
-	//{
-	//	file->deleteSection(ID.c_str());
-	//}
+
+	if (!rulesSection->size())
+	{
+		file->deleteSection(ID.c_str());
+	}
 }
 
 void Country::loadArt(INIFile* art)
@@ -87,10 +86,10 @@ void Country::writeToINI(INIFile& file)
 			{
 				number << i;
 				file.SetValue("Countries", number.str(), it->ID);
-				++i;
 				number.str(std::string());
 				it->writeContentToINI(file);
 			}
+			++i;
 		}
 	}
 }
@@ -118,8 +117,6 @@ void Country::writeContentToINI(INIFile& file)
 	if (MultiplayPassive) file.SetValue(ID.c_str(), "MultiplayPassive", BoolWriter::getBoolString(MultiplayPassive, BoolWriter::BoolType::TRUEFALSE));
 	file.SetValue(ID.c_str(), "SmartAI", BoolWriter::getBoolString(SmartAI, BoolWriter::BoolType::YESNO));
 	file.SetValue(ID.c_str(), "Side", Side);
-
-	return;
 
 	//Yawn...
 	//Apparently it's needed otherwise Country objects are recognized as map mods when writing, and thus end up in wrong places

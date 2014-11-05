@@ -27,6 +27,9 @@ public:
 	*/
 	void setCurrent(const std::string& name);
 
+	bool isStandardDefault(const std::string& name);
+	std::string standardDefault;
+
 private:
 	static GameModeCollection* instance;
 	GameModeCollection();

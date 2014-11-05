@@ -16,7 +16,7 @@
 class INISection {
 public:
 	INISection(const std::string &id);
-	INISection(INISection &other);
+	INISection(const INISection &other);
 	~INISection() { };
 
 	unsigned int size() const {	return this->keys.size(); };
@@ -37,7 +37,7 @@ public:
 		@param key The key to return a string from
 		@param _default The default value to return if the read value is incorrect
 	*/
-	void readDeletableStringValue(const char* key, std::string& variableToFill, const char* default_ = "", bool uppercase = false);\
+	void readDeletableStringValue(const char* key, std::string& variableToFill, const char* default_ = "", bool uppercase = false);
 	void readStringValue(const char* key, std::string& variableToFill, const char* default_ = "", bool upperCase = false);
 	void readStringValue(const char* key, std::string& variableToFill, const std::string& default_, bool upperCase = false)
 	{
@@ -81,8 +81,8 @@ public:
 
 	/* */
 	std::string const getDeletableValue(const std::string& key);
-	std::string const& getValue(const std::string& key) { return getValue(key.c_str()); }
-	std::string const& getValue(const char* key);
+	std::string const& getValue(const std::string& key) const { return getValue(key.c_str()); }
+	std::string const& getValue(const char* key) const;
 
 	/* Gets the next item in the list, perfect for not relying on the key */
 	//std::string getNextValue(const std::string& _default = "");
@@ -147,6 +147,7 @@ private:
 	std::vector<std::string> keys;
 
 	std::map<ItemKey, std::string>::iterator getIter(const char* key) { return keyValueMap.find(key); };
+	std::map<ItemKey, std::string>::const_iterator getIter(const char* key) const { return keyValueMap.find(key); };
 };
 
 #endif /* INISECTION_HPP_ */

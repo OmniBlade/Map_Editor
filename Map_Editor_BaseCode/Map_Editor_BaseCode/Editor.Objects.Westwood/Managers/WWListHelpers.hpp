@@ -7,7 +7,7 @@ template<typename T>
 void findOrAllocateAll(WWList<T>& list, INISection& section)
 {
 	//Log::line("Now in findOrAllocateAll()", Log::DEBUG);
-	for (const auto& it : section)
+	for (const auto& it : section.getKeys())
 	{
 		list.findOrAllocate(section.getValue(it));
 	}

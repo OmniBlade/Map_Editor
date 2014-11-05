@@ -27,12 +27,12 @@ Basic::Basic()
 
 bool Basic::isMP()
 {
-	return getBasic()->pPlayer ? false : true;
+	return getBasic()->pPlayer || !getBasic()->Player.empty() ? false : true;
 }
 
 bool Basic::isSP()
 {
-	return getBasic()->pPlayer ? true : false;
+	return getBasic()->pPlayer || !getBasic()->Player.empty() ? true : false;
 }
 
 bool Basic::isCoop()

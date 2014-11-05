@@ -18,7 +18,7 @@ INISection::INISection(const std::string &id)
 
 }
 
-INISection::INISection(INISection& other)
+INISection::INISection(const INISection& other)
 :sectionName(other.sectionName), canDeleteFrom(other.canDeleteFrom)
 {
 	for (const auto& it : other.keys)
@@ -171,7 +171,7 @@ std::string const INISection::getDeletableValue(const std::string& key)
 	return ret;
 }
 
-std::string const& INISection::getValue(const char* key)
+std::string const& INISection::getValue(const char* key) const
 {
 	auto& it = getIter(key);
 

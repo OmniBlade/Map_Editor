@@ -46,6 +46,9 @@ void GameModeCollection::parse()
 		}
 	}
 
+	standardDefault = modes.front()->iniName;
+
+
 	//Load [Cooperative]
 	//Eh... does this only load 1 entry because Cooperative mode is special?
 	INISection* coop = file->getSection("Cooperative");
@@ -87,6 +90,8 @@ void GameModeCollection::parse()
 		}
 	}
 
+
+
 	/*
 		Load [Siege]
 		Removed until UI does or does not support game type.
@@ -114,4 +119,14 @@ void GameModeCollection::setCurrent(const std::string& name)
 			break;
 		}
 	}
+}
+
+bool GameModeCollection::isStandardDefault(const std::string& name)
+{
+	if (name == standardDefault)
+	{
+		return true;
+	}
+
+	return false;
 }

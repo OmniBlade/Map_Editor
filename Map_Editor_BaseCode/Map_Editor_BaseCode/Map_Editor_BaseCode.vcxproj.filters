@@ -33,12 +33,6 @@
     <ClInclude Include="Editor.Objects.Westwood\Vector3D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Loading\MapAssetLoader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Loading\MapLoader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Editor.Engine\Loading\StartupLoader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -100,9 +94,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Types\WeaponType.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Editor.Engine\Loading\MapLoaderHelpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Editor.Objects.Westwood\Types\ProjectileType.hpp">
@@ -561,7 +552,19 @@
     <ClInclude Include="Editor.Engine\Loading\GenericLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.Engine\Loading\MapAssetHelper.h">
+    <ClInclude Include="Editor.Engine\Loading\WWLoader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Loading\WWLoaderHelpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Loading\MapObjectHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Loading\MapObjectLoader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.Engine\Loading\MapLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -579,12 +582,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Objects.Westwood\Vector3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Loading\MapAssetLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.Engine\Loading\MapLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Loading\StartupLoader.cpp">
@@ -1014,6 +1011,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor.Engine\Loading\GenericLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Loading\WWLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Loading\MapObjectLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.Engine\Loading\MapLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,7 +8,7 @@
 #include "../../Editor.Objects.Westwood/AudioVisual/Sound.hpp"
 #include "../../Editor.Objects.Westwood/AudioVisual/Speech.hpp"
 #include "../../Config.hpp"
-#include "MapLoaderHelpers.hpp"
+#include "WWLoaderHelpers.hpp"
 
 GenericLoader::GenericLoader()
 {

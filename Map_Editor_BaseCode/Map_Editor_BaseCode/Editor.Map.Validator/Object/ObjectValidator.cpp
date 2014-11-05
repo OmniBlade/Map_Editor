@@ -85,7 +85,7 @@ void ObjectValidator::validateInfantry()
 	for (const auto& it : Infantry::Array.objectList)
 	{
 		//Owner
-		if (!it->pCountry && !it->pHouse && (!Config::isSP && !it->pCountry->MultiplayPassive))
+		if (!it->pCountry && !it->pHouse)
 				Log::validatorLine("Infantry at index '" + Log::toString(index) + "' has no valid Owner set.", Log::ERROR_BUFFER);
 		//InfantryType
 		if (!it->pObjectType)

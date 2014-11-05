@@ -2,10 +2,10 @@
 
 #include "../../Editor.FileSystem/IniFile/INIFile.hpp"
 
-class MapAssetLoader
+class MapObjectLoader
 {
 public:
-	MapAssetLoader();
+	MapObjectLoader();
 
 	void clearAll();
 

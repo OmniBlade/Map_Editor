@@ -285,6 +285,11 @@ std::string Log::getTimerValue()
 
 /* static */ void Log::openOutput()
 {	
+	if (logFile.is_open() && logTimeFile.is_open())
+	{
+		closeOutput();
+	}
+
 	std::string outputName = Config::editorRoot + Config::backSlash + "Logging" + Config::backSlash + "output.log";
 	std::string outputNameNew = Config::editorRoot + Config::backSlash + "Logging" + Config::backSlash + "output." + startDateTime + '.' + Config::mapName + ".log";
 

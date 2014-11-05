@@ -11,28 +11,18 @@
 #include "Editor.Engine/Map/Theater/TheaterCollection.hpp"
 #include "Editor.FileSystem/INIFile/INIFile.hpp"
 #include "Editor.FileSystem/IniFile/INISection.hpp"
-#include "Editor.Engine/Loading/MapLoader.hpp"
-#include "Editor.Engine/Loading/MapAssetLoader.hpp"
+#include "Editor.Engine/Loading/MapLoader.h"
 #include "Editor.Engine\Loading\GenericLoader.h"
 #include "Editor.Configuration/ConfigLoader.hpp"
 #include "Editor.Engine\Game\GameModeCollection.hpp"
 #include "Editor.Map.Validator\MainValidator.hpp"
-#include "Editor.Engine\Basics\Basic.hpp"
-#include "Editor.Engine\Basics\Ranking.h"
-#include "Editor.Engine\Basics\Lighting.hpp"
-#include "Editor.Engine\Basics\SpecialFlag.hpp"
-#include "Editor.Engine\Basics\MapStats.hpp"
+
 #include "Editor.FileSystem\IniFile\DigestClass.h"
-#include "Editor.FileSystem\MapFile\Flushing\NameFlusherClass.h"
-#include "Editor.FileSystem\MapFile\Modifications\MapMods.h"
 #include "Editor.FileSystem\MapFile\Triggers\ParamCollection.hpp"
 #include "Editor.FileSystem\MapFile\Triggers\SActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\Triggers\ActionCollection.hpp"
 #include "Editor.FileSystem\MapFile\Triggers\EventCollection.hpp"
-#include "Editor.Engine\Map\Map.hpp"
-#include "Editor.Engine\Map\Packs\IsoMapPack.hpp"
-#include "Editor.Engine\Map\Packs\OverlayPack.hpp"
-#include "Editor.Engine\Map\Packs\PreviewPack.h"
+
 #include "Editor.FileSystem\FileManager\Managers\EncManager.hpp"
 #include "Editor.FileSystem\EncFile\EncFile.hpp"
 #include "Config.hpp"
@@ -52,19 +42,20 @@
 #include "Editor.Objects.Westwood\OverlayTypeValidator.h"
 #include "Editor.FileSystem\MapFile\MapWriter.h"
 
-ParamCollection* paramCollection;
-MainValidator* mainValidator;
-INIFile* map;
-INIFile* mapOrigin;
+std::unique_ptr<ParamCollection> paramCollection;
+std::unique_ptr<MainValidator> mainValidator;
+std::unique_ptr<INIFile> map;
+std::unique_ptr<INIFile> mapOrigin;
+std::unique_ptr<RawFileSystem> rawSystem;
 
 std::string mapName = "TEST.MAP";
 
 void initiateEditor()
 {
 	//TODO: Rename ambiguous functions
-	RawFileSystem* rawSystem = new RawFileSystem();;
-	MIXManager::instance()->assign(rawSystem);
-	FileSystem::getFileSystem()->assign(rawSystem);
+	rawSystem = std::make_unique<RawFileSystem>();
+	MIXManager::instance()->assign(rawSystem.get());
+	FileSystem::getFileSystem()->assign(rawSystem.get());
 
 	ConfigLoader configLoader;
 
@@ -130,10 +121,10 @@ void initiateEditor()
 		//exit(0);
 	}
 
-	paramCollection = new ParamCollection();
-	ActionCollection::getInstance()->parse(paramCollection);
-	EventCollection::getInstance()->parse(paramCollection);
-	SActionCollection::getInstance()->parse(paramCollection);
+	paramCollection = std::make_unique<ParamCollection>();
+	ActionCollection::getInstance()->parse(paramCollection.get());
+	EventCollection::getInstance()->parse(paramCollection.get());
+	SActionCollection::getInstance()->parse(paramCollection.get());
 
 	GameModeCollection::getInstance()->parse();
 	TheaterCollection::getInstance()->initiate(INIManager::instance()->get(Config::configName));
@@ -157,189 +148,41 @@ void initiateAMap()
 		system("pause");
 		exit(0);
 	}
+
+	Log::openOutput(); // Can't move, requires map INI name in file's name!	
 }
 
-void restoreMapNames()
+void loadGenericData()
 {
-	auto namesFileProps = FileSystem::getFileSystem()->getFile(Config::mapName + Config::namesName);
-	if (namesFileProps.reader && Basic::getBasic()->NamesFlushed)
-	{
-		Log::line("Restoring names to types...", Log::DEBUG);
-		INIFile readNamesFile(namesFileProps);
-		DigestClass::validateDigest(&readNamesFile, Config::mapName + Config::namesName);
-		NameFlusherClass::readAndRestoreFrom(readNamesFile);
-	}
-	else if (!namesFileProps.reader && Basic::getBasic()->NamesFlushed)
-	{
-		Log::line("Digest indicates that the map has names flushed.", Log::DEBUG);
-		Log::line("Unable to do so! Does '" + Config::mapName + Config::namesName + "' exist?", Log::DEBUG);
-	}
+	GenericLoader genLoader;
+	genLoader.loadAudioVisual();
 }
 
 void loadMap()
 {
-	Log::timerStart();
-	Log::openOutput(); // Can't move, requires map INI name in file's name!	
-	std::wstring info = L"Game: " + CSFManager::instance()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
-	size_t found = info.find_first_of(L"\n");
-	if (found != std::wstring::npos)
-		info.erase(found, found + 1);
-	Log::validatorLine("--- Game information ---", Log::INFO);
-	Log::validatorLine(info, Log::EXTRAS);
-
-	if (Config::hasAres)
-	{
-		INIFile* uimd = INIManager::instance()->get(Config::UI);
-		INISection* info = uimd->getSection("VersionInfo");
-		if (info)
-		{
-			Log::validatorLine("--- Additional Ares Debug information ---", Log::INFO);
-			Log::validatorLine("Name: " + info->getValue("Name"), Log::EXTRAS);
-			Log::validatorLine("Version: " + info->getValue("Version"), Log::EXTRAS);
-		}
-	}
-
-	GenericLoader genLoader;
-	genLoader.loadAudioVisual();
-	MapLoader mapLoader;
-	MapAssetLoader mapAssetLoader;
-	FileProperties props = FileSystem::getFileSystem()->getFile(Config::mapName);
-	map = new INIFile(props); //Assuming the reader in props is always valid... :D
-	map->setDeletableState(true);
-	mapOrigin = new INIFile(*map);
-
 	Log::line();
-	Log::line("Parsing Basic section and Digest to set up the map...", Log::DEBUG);
-	Basic::getBasic()->parse(map);
-	if (Basic::getBasic()->NamesFlushed) Log::line("This map has its names flushed according to Digest.", Log::DEBUG);
 	Log::line();
-
-	INIFile* mode = nullptr;
-	if (mapLoader.locateGameMode(map))
-	{
-		mode = INIManager::instance()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
-	}
-	
-
-	INIFile* rules = INIManager::instance()->get(Config::rules);
-
-	Log::validatorLine("---- Map information ----", Log::INFO);
-	Log::validatorLine("Scenario name: " + Config::mapName, Log::EXTRAS);
-	Log::validatorLine("Map name: " + Basic::getBasic()->Name, Log::EXTRAS);
-	if (!Basic::getBasic()->Player.empty())
-	{
-		Log::validatorLine("This is a singleplayer map.", Log::EXTRAS);
-		Config::isSP = true;
-	}
-	else
-	{
-		Log::validatorLine("This is a multiplayer map.", Log::EXTRAS);
-		if (GameModeCollection::getInstance()->getCurrent())
-			Log::validatorLine(L"Gamemode: " + GameModeCollection::getInstance()->getCurrent()->WGUIName, Log::EXTRAS);
-	}
-	Log::validatorLine();
-
-	/*
-		Little side information:
-		Tiberian Sun's Firestorm Expansion pack will load exactly like below
-		Basically firestrm.ini is an INI file that is loaded between rules.ini and <some_map>.map,
-		you can compare it with RA2's game mode INI files, they overwrite previous content and can also add new content
-		Between the call with 'map' and 'rules' as argument, the INI file from Firestorm would be loaded
-	*/
-	mapLoader.loadMainRulesSections();
-	mapLoader.load(rules, "Rules");
-	mapLoader.load(mode, "Gamemode");
-	mapLoader.setGlobalCountries();
-	mapLoader.load(map, "Map");
-	mapLoader.loadGlobalVariable();
-	mapLoader.loadAI();
-
-	OverlayTypeValidator otv;
-
-	mapAssetLoader.load(mode, "Gamemode");
-	mapAssetLoader.setGlobalValues();
-	mapAssetLoader.load(map, "Map");
-
-	/* Everything is loaded, do your activities */
-	
-	IsoMapPack::instance()->read(map);
-	OverlayPack::instance()->read(map);
-	OverlayPack::instance()->createOverlayFromData();
-	PreviewPack::instance()->read(map);
-	Ranking::instance()->parse(map);
-	MapStats::instance()->parse(map);
-	SpecialFlag::instance()->parse(map);
-	Lighting::instance()->parse(map);
-	MapMods::instance()->parse(map);
-	Map::instance()->setupCells();
-	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
-
-	Log::line("Loading all objects from the map took: " + Log::getTimerValue(), Log::DEBUG);
-
-	restoreMapNames();
-
-	mapLoader.dumpLists();
-	mapAssetLoader.dumpTypes();
+	Log::line("SESSION - Loading map: " + Config::mapName, Log::DEBUG);
+	map = std::make_unique<INIFile>(FileSystem::getFileSystem()->getFile(Config::mapName)); //Assuming the reader in props is always valid... :D
+	MapLoader mapLoader(map.get(), true);
+	mapLoader.load();
 }
 
 void reloadMap()
 {
-	MapLoader mapLoader;
-	MapAssetLoader mapAssetLoader;
-
-	delete map;
-	map = new INIFile(*mapOrigin);
-	map->setDeletableState(true);
-	INIFile* rules = INIManager::instance()->get(Config::rules);
-	INIFile* mode = nullptr;
-	if (mapLoader.locateGameMode(map))
-	{
-		mode = INIManager::instance()->get(GameModeCollection::getInstance()->getCurrent()->fileName);
-	}
-
-	/* Clear this shit */
-	mapLoader.clearAll();
-	mapAssetLoader.clearAll();
-
-	mapLoader.loadMainRulesSections();
-	mapLoader.load(rules, "Rules");
-	mapLoader.load(mode, "GameMode");
-	mapLoader.setGlobalCountries();
-	mapLoader.load(map, "Map");
-	mapLoader.loadGlobalVariable();
-	mapLoader.loadAI();
-
-	mapAssetLoader.load(mode, "Gamemode");
-	mapAssetLoader.setGlobalValues();
-	mapAssetLoader.load(map, "Map");
-
-
-	/* Everything is loaded */
-	Basic::getBasic()->parse(map);
-	IsoMapPack::instance()->clear();
-	IsoMapPack::instance()->read(map);
-	OverlayPack::instance()->clear();
-	OverlayPack::instance()->read(map);
-	OverlayPack::instance()->createOverlayFromData();
-	PreviewPack::instance()->clear();
-	PreviewPack::instance()->read(map);
-	Ranking::instance()->parse(map);
-	MapStats::instance()->parse(map);
-	SpecialFlag::instance()->parse(map);
-	Lighting::instance()->parse(map);
-	MapMods::instance()->parse(map);
-	Map::instance()->setupCells();
-	Basic::getBasic()->assignPointers(); //This is vital! Waypoints, Houses etc aren't known before mapAssetLoader
-
+	Log::line();
+	Log::line();
+	Log::line("SESSION - Reloading map: " + Config::mapName, Log::DEBUG);
+	MapLoader loader;
+	loader.reload();
 }
 
 void validateMap()
 {
-
 	Log::line();
 	Log::line("Going to validate the map now!", Log::DEBUG);
 	Log::timerStart();
-	mainValidator = new MainValidator(paramCollection);
+	mainValidator = std::make_unique<MainValidator>(paramCollection.get());
 	mainValidator->validateAll();
 	Log::line("Validating map objects took: " + Log::getTimerValue(), Log::DEBUG);
 }
@@ -369,16 +212,19 @@ int _tmain(int argc, _TCHAR* argv[])
 	initiateEditor();
 	initiateAMap();
 	loadMap();
-	validateMap();
+	//validateMap();
 
 	MapWriter writer;
 	writer.setNamesFileName(mapName);
 	writer.writeAll(Config::installDir + Config::backSlash + mapName);
 
-	reloadMap();
-	MapWriter reloadWriter;
-	reloadWriter.setNamesFileName("TEST2.MAP");
-	reloadWriter.writeAll(Config::installDir + Config::backSlash + "TEST2.MAP");
+	Config::mapName = "";
+
+	initiateAMap();
+	loadMap();
+	MapWriter secondWriter;
+	secondWriter.setNamesFileName("TEST3.MAP");
+	secondWriter.writeAll(Config::installDir + Config::backSlash + "TEST3.MAP");
 
 	Log::line();
 
@@ -387,9 +233,42 @@ int _tmain(int argc, _TCHAR* argv[])
 	Log::close();
 	system("pause");
 
-	delete map;
-	delete mainValidator;
-	delete paramCollection;
-
 	return 0;
 }
+
+/*std::wstring info = L"Game: " + CSFManager::instance()->getValue("GUI:Version") + L" : " + FileSystem::getFileSystem()->getFileVersion(Config::executable);
+size_t found = info.find_first_of(L"\n");
+if (found != std::wstring::npos)
+info.erase(found, found + 1);
+Log::validatorLine("--- Game information ---", Log::INFO);
+Log::validatorLine(info, Log::EXTRAS);
+
+if (Config::hasAres)
+{
+INIFile* uimd = INIManager::instance()->get(Config::UI);
+INISection* info = uimd->getSection("VersionInfo");
+if (info)
+{
+Log::validatorLine("--- Additional Ares Debug information ---", Log::INFO);
+Log::validatorLine("Name: " + info->getValue("Name"), Log::EXTRAS);
+Log::validatorLine("Version: " + info->getValue("Version"), Log::EXTRAS);
+}
+}*/
+
+/*
+Log::validatorLine("---- Map information ----", Log::INFO);
+Log::validatorLine("Scenario name: " + Config::mapName, Log::EXTRAS);
+Log::validatorLine("Map name: " + Basic::getBasic()->Name, Log::EXTRAS);
+if (!Basic::getBasic()->Player.empty())
+{
+Log::validatorLine("This is a singleplayer map.", Log::EXTRAS);
+Config::isSP = true;
+}
+else
+{
+Log::validatorLine("This is a multiplayer map.", Log::EXTRAS);
+if (GameModeCollection::getInstance()->getCurrent())
+Log::validatorLine(L"Gamemode: " + GameModeCollection::getInstance()->getCurrent()->WGUIName, Log::EXTRAS);
+}
+Log::validatorLine();
+*/

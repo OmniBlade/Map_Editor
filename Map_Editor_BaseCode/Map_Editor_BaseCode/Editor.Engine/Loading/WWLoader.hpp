@@ -9,10 +9,10 @@
 #include "../../Editor.Objects.Westwood/General/Side.hpp"
 #include "../../Editor.Objects.Westwood/General/IQ.hpp"
 
-class MapLoader
+class WWLoader
 {
 public:
-	MapLoader();
+	WWLoader();
 	
 	void clearAll();
 
@@ -51,7 +51,7 @@ public:
 		NOTE: This is probably temporary code,
 		as there might come a prompt where the user selects the gamemode he wants to edit the map in
 	*/
-	bool locateGameMode(INIFile* map);
+	bool locateAndSetGameMode(INIFile* map);
 
 	/*
 		Extremely debug, if you want to call this function and poop something out,

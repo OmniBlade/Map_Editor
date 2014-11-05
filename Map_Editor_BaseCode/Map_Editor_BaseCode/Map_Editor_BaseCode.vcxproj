@@ -86,7 +86,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Editor.Engine\Loading\MapAssetHelper.h" />
+    <ClInclude Include="Editor.Engine\Loading\MapObjectHelper.h" />
     <ClInclude Include="Editor.Engine\Map\Cells\CellClass.h" />
     <ClInclude Include="Editor.Engine\Map\Cells\CellStruct.h" />
     <ClInclude Include="Editor.Engine\Map\Cells\CoordsHelper.h" />
@@ -142,7 +142,7 @@
     <ClInclude Include="Editor.Objects.Westwood\General\CombatDamage.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\AudioVisual.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\AI.hpp" />
-    <ClInclude Include="Editor.Engine\Loading\MapLoaderHelpers.hpp" />
+    <ClInclude Include="Editor.Engine\Loading\WWLoaderHelpers.hpp" />
     <ClInclude Include="Editor.Engine\Map\Map.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\General\EntryHelper.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Managers\WWListHelpers.hpp" />
@@ -152,8 +152,8 @@
     <ClInclude Include="Editor.Objects.Westwood\Types\Foundation.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\AbstractType.hpp" />
     <ClInclude Include="Editor.FileSystem\PaletteFile\PaletteFile.hpp" />
-    <ClInclude Include="Editor.Engine\Loading\MapAssetLoader.hpp" />
-    <ClInclude Include="Editor.Engine\Loading\MapLoader.hpp" />
+    <ClInclude Include="Editor.Engine\Loading\MapObjectLoader.hpp" />
+    <ClInclude Include="Editor.Engine\Loading\WWLoader.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\ObjectType.hpp" />
     <ClInclude Include="Editor.Objects.Westwood\Types\BuildingType.hpp" />
     <ClInclude Include="Editor.FileSystem\MixFile\Blowfish.hpp" />
@@ -228,6 +228,7 @@
     <ClInclude Include="Editor.Engine\Basics\Ranking.h" />
     <ClInclude Include="Editor.Engine\Types\Objects\Object.h" />
     <ClInclude Include="Editor.FileSystem\VoxelFile\Section.h" />
+    <ClInclude Include="Editor.Engine\Loading\MapLoader.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Editor.Objects.Westwood\Types\SuperWeaponType.hpp" />
     <ClInclude Include="Editor.Engine\Types\Objects\Structure.hpp" />
@@ -307,8 +308,8 @@
     <ClCompile Include="Editor.Objects.Westwood\Types\Foundation.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\AbstractType.cpp" />
     <ClCompile Include="Editor.FileSystem\PaletteFile\PaletteFile.cpp" />
-    <ClCompile Include="Editor.Engine\Loading\MapAssetLoader.cpp" />
-    <ClCompile Include="Editor.Engine\Loading\MapLoader.cpp" />
+    <ClCompile Include="Editor.Engine\Loading\MapObjectLoader.cpp" />
+    <ClCompile Include="Editor.Engine\Loading\WWLoader.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\ObjectType.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\BuildingType.cpp" />
     <ClCompile Include="Editor.FileSystem\MixFile\Blowfish.cpp" />
@@ -345,6 +346,7 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Editor.Engine\Basics\MapStats.cpp" />
     <ClCompile Include="Editor.FileSystem\MapFile\Modifications\MapMods.cpp" />
+    <ClCompile Include="Editor.Engine\Loading\MapLoader.cpp" />
     <ClCompile Include="Map_Editor_BaseCode.cpp" />
     <ClCompile Include="Editor.Objects.Westwood\Types\OverlayType.cpp" />
     <ClCompile Include="Editor.FileSystem\FileManager\BinaryReader.cpp" />
