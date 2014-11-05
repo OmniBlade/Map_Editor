@@ -214,3 +214,15 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 Map_Editor_BaseCode/Map_Editor_BaseCode/Editor.FileSystem/IniFile/IniFile.zip
+
+#CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CPackConfig.cmake
+CPackSourceConfig.cmake
+*.pc*
+*.spec
