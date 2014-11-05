@@ -116,6 +116,6 @@ public:
 	}
 
 	int lastLoaded = 0;
-	std::vector<std::unique_ptr<T>> typeList;
+	std::vector< std::unique_ptr<T> > typeList;
 };
 

@@ -5,6 +5,11 @@
 #include <algorithm>
 #include "../../../Log.hpp"
 
+#ifndef _MSC_VER
+#include <string.h>
+#endif
+
+
 template <typename T> class MapObjectList
 {
 public:
@@ -67,7 +72,7 @@ public:
 	}
 
 	/*
-		Winner of the Ugliest Function / Hack of 2014 ©
+		Winner of the Ugliest Function / Hack of 2014 ï¿½
 	*/
 	void make()
 	{
@@ -96,6 +101,6 @@ public:
 		return ret;
 	}
 
-	std::vector<std::unique_ptr<T>> objectList;
+	std::vector< std::unique_ptr<T> > objectList;
 	int lastParsedItem = 0;
 };

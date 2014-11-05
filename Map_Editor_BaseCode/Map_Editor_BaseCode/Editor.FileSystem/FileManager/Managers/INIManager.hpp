@@ -3,7 +3,7 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include "../../INIFile/INIFile.hpp"
+#include "../../IniFile/INIFile.hpp"
 
 struct FileProperties;
 
@@ -27,6 +27,6 @@ public:
 private:
 	static INIManager* manager;
 	INIManager();
-	std::map<std::string, std::unique_ptr<INIFile>> iniFiles;
+	std::map< std::string, std::unique_ptr<INIFile> > iniFiles;
 };
 

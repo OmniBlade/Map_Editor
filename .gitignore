@@ -226,3 +226,5 @@ CPackConfig.cmake
 CPackSourceConfig.cmake
 *.pc*
 *.spec
+
+nbproject

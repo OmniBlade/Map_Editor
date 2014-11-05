@@ -7,7 +7,7 @@
 #include <sstream> // stringstream
 #include <iomanip> // put_time
 #include <string>  // string
-#include <Windows.h>
+#include "Windows.h"
 
 #pragma warning(disable : 4996) // Disable time ERRORS
 

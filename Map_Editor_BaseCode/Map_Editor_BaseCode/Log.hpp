@@ -8,7 +8,7 @@
 class Log
 {
 public:
-	static enum LogType
+	enum LogType
 	{
 		INFO = 0,		// Information line, prefix "INFO - "
 		WARNING = 1,	// Warning line, prefix "WARNING - "
@@ -20,9 +20,10 @@ public:
 		ERROR_BUFFER = 7,
 		WARNING_BUFFER = 8,
 	};
+        
 	Log::LogType outputTypes;
 
-	static enum DebugType
+	enum DebugType
 	{
 		DEBUG = 0,		// Information for debug, prefix "[HH:MM:SS] - "
 		EXTRA = 1,		// New line without the prefix but with spacing to match up

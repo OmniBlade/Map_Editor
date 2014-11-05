@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Editor.FileSystem\IniFile\INIFile.hpp"
+#include "Editor.FileSystem/IniFile/INIFile.hpp"
 #include <string>
 
 class Config
